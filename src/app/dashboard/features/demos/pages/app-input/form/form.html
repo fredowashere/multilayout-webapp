@@ -1,0 +1,83 @@
+<div class="d-grid gap-5 pt-4">
+        
+    <div class="card">
+        <div class="card-body">
+            <div class="flexgrid flexgrid--3">
+
+                <app-input
+                    name="firstName"
+                    label="First name"
+                    [ngControl]="firstName"
+                    [disabled]="true"
+                ></app-input>
+    
+                <app-input
+                    name="lastName"
+                    label="Last name"
+                    [ngControl]="lastName"
+                    [disabled]="true"
+                ></app-input>
+    
+                <app-input
+                    name="email"
+                    label="Email address"
+                    [ngControl]="email"
+                ></app-input>
+            </div>
+            <div class="flexgrid flexgrid--3">
+    
+                <app-input name="city" label="City" [ngControl]="city" placeholder="Enter a city"></app-input>
+
+                <app-input
+                    type="autocomplete"
+                    name="state"
+                    label="State"
+                    placeholder="Enter a state"
+                    [options]="states"
+                    [formatter]="statesFormatter"
+                    [template]="rt"
+                    [filter]="statesFilter"
+                    [ngControl]="state"
+                ></app-input>
+                <ng-template #rt let-r="result" let-t="term">
+                    <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" />
+                    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+                </ng-template>
+    
+                <app-input type="number" name="zip" label="ZIP" [ngControl]="zip" placeholder="Enter a ZIP code"></app-input>
+            </div>
+    
+            <div class="py-3">
+                <app-input
+                    type="tagger"
+                    name="flavors"
+                    label="Ice-cream flavors"
+                    placeholder="Choose your favourite flavors of ice-cream"
+                    [options]="flavorList"
+                    [formatter]="flavorsFormatter"
+                    [filter]="flavorsFilter"
+                    [ngControl]="flavors"
+                ></app-input>
+            </div>
+    
+            <div class="flexgrid">
+                <app-input
+                    type="checkbox"
+                    name="agree"
+                    label="Agree to terms and conditions"
+                    [ngControl]="agree"
+                ></app-input>
+            </div>
+    
+            <div class="text-center">
+                <button class="btn btn-primary" [disabled]="form.invalid" (click)="submit()">Submit</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {{ form.value | json }}
+        </div>
+    </div>
+</div>

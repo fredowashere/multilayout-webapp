@@ -1,0 +1,10 @@
+<div class="sb-layout">
+
+    <app-dashboard-navbar class="sb-layout__nav"></app-dashboard-navbar>
+
+    <app-dashboard-sidebar class="sb-layout__side" [class.is-open]="sidebarService.isOpen"></app-dashboard-sidebar>
+
+    <main class="sb-layout__main">
+        <router-outlet></router-outlet>
+    </main>
+</div>

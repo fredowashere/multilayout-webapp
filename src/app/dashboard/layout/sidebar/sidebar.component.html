@@ -1,0 +1,62 @@
+<div class="sb-brand">
+    
+        <a routerLink="/home" class="app-brand">
+            <img class="pic" src="/assets/logos/brand.png">
+            <div>Brand</div>
+        </a>
+        
+        <label class="menu-toggle" (click)="sidebarService.toggle()">✕</label>
+</div>
+
+<div class="sb-user">
+    <img class="pic" src="/assets/images/unknown-user.png">
+    <div>{{ username$ | async }}</div>
+</div>
+
+<div class="sb-links">
+
+    <ng-container *ngFor="let item of sidebarItems">
+
+        <div
+            *ngIf="item.children"
+            routerLinkActive
+            #rla="routerLinkActive"
+        >
+            <div
+                class="sb-link clickable"
+                (click)="item.isActive = !item.isActive"
+            >
+
+                <i [ngClass]="item.icon" class="pe-3 bi"></i> 
+
+                <span class="me-auto">{{ item.title }}</span>
+
+                <i *ngIf="!item.isActive" class="bi bi-caret-up-fill"></i>
+                <i *ngIf="item.isActive" class="bi bi-caret-down-fill"></i>
+            </div>
+
+            <div #collapse="ngbCollapse" [(ngbCollapse)]="!item.isActive" class="sb-sublinks">
+                <a
+                    *ngFor="let subitem of item.children"
+                    routerLinkActive="is-active"
+                    [routerLink]="subitem.path"
+                    class="sb-link text-reset text-decoration-none"
+                >
+                    <i *ngIf="subitem.icon" [ngClass]="subitem.icon" class="pe-3 bi"></i> 
+                    {{ subitem.title }}
+                </a>
+            </div>
+        </div>
+
+        <a
+            *ngIf="!item.children"
+            routerLinkActive="is-active"
+            #rla="routerLinkActive"
+            [routerLink]="item.path"
+            class="sb-link text-reset text-decoration-none"
+        >
+            <i [ngClass]="item.icon" class="pe-3 bi"></i> 
+            {{ item.title }}
+        </a>
+    </ng-container>
+</div>

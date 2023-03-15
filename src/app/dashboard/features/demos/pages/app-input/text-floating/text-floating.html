@@ -1,0 +1,98 @@
+<div class="d-grid gap-5 pt-4">
+
+    <div>
+
+        <div class="flexgrid flexgrid--3 mb-3">
+
+            <app-input
+                name="text"
+                label="Text"
+                maxlength="6"
+                helper="Maximum 6 characters"
+                [ngControl]="text"
+                [floatingLabel]="true"
+            ></app-input>
+    
+            <app-input
+                type="number"
+                name="number"
+                label="Number"
+                min="3"
+                max="6"
+                helper="Minimum 3, maximum 6"
+                [ngControl]="number"
+                [floatingLabel]="true"
+            ></app-input>
+    
+            <app-input
+                type="password"
+                name="password"
+                label="Password"
+                [ngControl]="password"
+                [floatingLabel]="true"
+            ></app-input>
+        </div>
+
+        <app-input
+            type="textarea"
+            name="textarea"
+            label="Textarea"
+            [ngControl]="textarea"
+            [floatingLabel]="true"
+        ></app-input>
+    </div>
+
+    <div>
+        <h5 class="mb-3">Disabled</h5>
+
+        <div class="flexgrid flexgrid--3 mb-3">
+
+            <app-input
+                name="text"
+                label="Text"
+                [ngControl]="text"
+                [floatingLabel]="true"
+                [disabled]="true"
+            ></app-input>
+    
+            <app-input
+                type="number"
+                name="number"
+                label="Number"
+                [ngControl]="number"
+                [floatingLabel]="true"
+                [disabled]="true"
+            ></app-input>
+    
+            <app-input
+                type="password"
+                name="password"
+                label="Password"
+                [ngControl]="password"
+                [floatingLabel]="true"
+                [disabled]="true"
+            ></app-input>
+        </div>
+    
+        <app-input
+            type="textarea"
+            name="textarea"
+            label="Textarea"
+            [ngControl]="textarea"
+            [floatingLabel]="true"
+            [disabled]="true"
+        ></app-input>
+    </div>
+
+    <div>
+        <h5 class="mb-3">Validation</h5>
+
+        <app-input
+            name="text"
+            label="Text input with validation"
+            helper="Type to see validation in action"
+            [ngControl]="textValidation"
+            [floatingLabel]="true"
+        ></app-input>
+    </div>
+</div>

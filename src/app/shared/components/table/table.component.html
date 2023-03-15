@@ -1,0 +1,129 @@
+<div
+	*ngIf="searchable || paginated"
+	class="d-flex justify-content-center justify-content-lg-between flex-wrap gap-2 p-2"
+>
+
+	<div>
+		<app-input
+			*ngIf="searchable"
+			style="max-width: 250px"
+			[ngControl]="searchInput"
+			name="search"
+			placeholder="Search ⌕"
+		></app-input>
+	</div>
+
+	<div class="d-flex gap-2" *ngIf="paginated">
+
+		<ngb-pagination
+			[collectionSize]="collectionSize"
+			[(page)]="page"
+			[pageSize]="pageSize"
+			(pageChange)="paginate()"
+		></ngb-pagination>
+	
+		<select
+			class="form-select"
+			style="width: auto"
+			[(ngModel)]="pageSize"
+			(ngModelChange)="paginate()"
+		>
+			<option [ngValue]="5">5</option>
+			<option [ngValue]="10">10</option>
+			<option [ngValue]="20">20</option>
+			<option [ngValue]="50">50</option>
+		</select>
+	</div>
+</div>
+<div class="table-responsive">
+	<table class="table table-striped">
+	
+		<thead>
+			<tr>
+	
+				<th *ngIf="selectable" style="width: 60px">
+					<div class="form-check">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							(change)="
+								$any($event.currentTarget).checked
+									? onEveryRowSelect()
+									: onEveryRowDeselect()
+							"
+						>
+					</div>
+				</th>
+
+				<th *ngIf="rowExpand" style="width: 60px"></th>
+	
+				<ng-container *ngTemplateOutlet="thead"></ng-container>
+			</tr>
+		</thead>
+	
+		<tbody>
+			<ng-container *ngFor="
+				let item of paginatedItems$ | async;
+				let i = index;
+				trackBy: trackByFn
+			">
+
+				<tr>
+		
+					<td *ngIf="selectable">
+						<div class="form-check">
+							<input
+								class="form-check-input"
+								type="checkbox"
+								[(ngModel)]="item._selected"
+								(change)="
+									$any($event.currentTarget).checked
+										? onRowSelect(item)
+										: onRowDeselect(item)
+								"
+							>
+						</div>
+					</td>
+
+					<td *ngIf="rowExpand">
+						<a
+							class="btn collapse-toggle"
+							data-bs-toggle="collapse"
+							[href]="'#' + _guid + '-' + i"
+						></a>
+					</td>
+		
+					<ng-container *ngTemplateOutlet="
+						tbody;
+						context: {
+							$implicit: item,
+							term$: searchInput.valueChanges
+						}
+					"></ng-container>
+				</tr>
+
+				<tr *ngIf="rowExpand">
+					<td class="row-expand" colspan="99">
+						<div class="collapse" [id]="_guid + '-' + i">
+							<ng-container *ngTemplateOutlet="
+								rowExpand;
+								context: {
+									$implicit: item,
+									term$: searchInput.valueChanges
+								}
+							"></ng-container>
+						</div>
+					</td>
+				</tr>
+
+				<tr *ngIf="rowExpand" class="hidden"></tr>
+			</ng-container>
+		</tbody>
+
+		<tfoot *ngIf="tfoot">
+			<tr>
+				<ng-container *ngTemplateOutlet="tfoot"></ng-container>
+			</tr>
+		</tfoot>
+	</table>
+</div>
