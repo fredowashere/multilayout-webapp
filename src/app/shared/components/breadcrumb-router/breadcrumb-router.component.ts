@@ -1,3 +1,4 @@
+import { LocationStrategy } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
@@ -9,15 +10,23 @@ export class BreadcrumbRouterComponent {
 
   incrementalSegments!: { label: string, path: string }[];
 
-  constructor() {
+  constructor(
+    private locationStrategy: LocationStrategy
+  ) {
 
-    const labels = location.pathname.split('/').slice(1);
+    // Remove baseHref to work with GitHub pages
+    const baseHref = this.locationStrategy.getBaseHref();
+    let pathname = location.pathname;
+    if (baseHref !== '/')
+      pathname = '/' + location.pathname.replaceAll(baseHref, '');
+    
+    const labels = pathname.split('/').slice(1);
 
     this.incrementalSegments = [];
 
     for (let i = 0; i < labels.length; i++) {
 
-      const label = labels[i][0].toUpperCase() + labels[i].slice(1).toLocaleLowerCase();
+      const label = labels[i];
       const path = '/' + labels.slice(0, i + 1).join('/');
 
       this.incrementalSegments.push({ label, path });

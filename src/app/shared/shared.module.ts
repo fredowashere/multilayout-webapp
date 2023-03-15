@@ -15,6 +15,7 @@ import { TextMaskModule } from './directives/text2mask';
 import { TableComponent } from './components/table/table.component';
 import { AppSortableHeader } from './directives/sortable-header';
 import { RbacAllowDirective } from './directives/role-based-access-allow';
+import { LetDirective } from './directives/ng-let';
 
 
 
@@ -27,7 +28,8 @@ import { RbacAllowDirective } from './directives/role-based-access-allow';
     HighlightPipe,
     InputComponent,
     SearchRouterComponent,
-    TableComponent
+    TableComponent,
+    LetDirective
   ],
   imports: [
     CommonModule,
@@ -56,7 +58,8 @@ import { RbacAllowDirective } from './directives/role-based-access-allow';
     TextMaskModule,
     TableComponent,
     AppSortableHeader,
-    RbacAllowDirective
+    RbacAllowDirective,
+    LetDirective
   ]
 })
 export class SharedModule { }

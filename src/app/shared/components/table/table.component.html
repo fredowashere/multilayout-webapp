@@ -62,61 +62,69 @@
 		</thead>
 	
 		<tbody>
-			<ng-container *ngFor="
-				let item of paginatedItems$ | async;
-				let i = index;
-				trackBy: trackByFn
-			">
-
-				<tr>
-		
-					<td *ngIf="selectable">
-						<div class="form-check">
-							<input
-								class="form-check-input"
-								type="checkbox"
-								[(ngModel)]="item._selected"
-								(change)="
-									$any($event.currentTarget).checked
-										? onRowSelect(item)
-										: onRowDeselect(item)
-								"
-							>
-						</div>
-					</td>
-
-					<td *ngIf="rowExpand">
-						<a
-							class="btn collapse-toggle"
-							data-bs-toggle="collapse"
-							[href]="'#' + _guid + '-' + i"
-						></a>
-					</td>
-		
-					<ng-container *ngTemplateOutlet="
-						tbody;
-						context: {
-							$implicit: item,
-							term$: searchInput.valueChanges
-						}
-					"></ng-container>
-				</tr>
-
-				<tr *ngIf="rowExpand">
-					<td class="row-expand" colspan="99">
-						<div class="collapse" [id]="_guid + '-' + i">
-							<ng-container *ngTemplateOutlet="
-								rowExpand;
-								context: {
-									$implicit: item,
-									term$: searchInput.valueChanges
-								}
-							"></ng-container>
-						</div>
-					</td>
-				</tr>
-
-				<tr *ngIf="rowExpand" class="hidden"></tr>
+			<ng-container
+				*ngFor="
+					let item of paginatedItems$ | async;
+					let i = index;
+					trackBy: trackByFn
+				"
+			>
+				<ng-container *ngLet="{ collapsed: true } as _row">
+					
+					<tr>
+			
+						<td *ngIf="selectable">
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									[(ngModel)]="item._selected"
+									(change)="
+										$any($event.currentTarget).checked
+											? onRowSelect(item)
+											: onRowDeselect(item)
+									"
+								>
+							</div>
+						</td>
+	
+						<td *ngIf="rowExpand">
+							<button
+								type="button"
+								class="btn collapse-toggle"
+								(click)="_row.collapsed = !_row.collapsed"
+								[attr.aria-expanded]="!_row.collapsed"
+								aria-controls="collapseExample"
+							></button>
+						</td>
+			
+						<ng-container *ngTemplateOutlet="
+							tbody;
+							context: {
+								$implicit: item,
+								term$: searchInput.valueChanges
+							}
+						"></ng-container>
+					</tr>
+	
+					<tr *ngIf="rowExpand">
+						<td class="row-expand" colspan="99">
+							<div #collapse="ngbCollapse" [(ngbCollapse)]="_row.collapsed">
+								<ng-container
+									*ngTemplateOutlet="
+										rowExpand;
+										context: {
+											$implicit: item,
+											term$: searchInput.valueChanges
+										}
+									"
+								></ng-container>
+							</div>
+						</td>
+					</tr>
+	
+					<tr *ngIf="rowExpand" class="hidden"></tr>
+				</ng-container>
 			</ng-container>
 		</tbody>
 
