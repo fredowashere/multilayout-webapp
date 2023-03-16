@@ -35,8 +35,8 @@ const demos = {
 	},
 	textMasking: {
 		title: 'Text masking',
-		code: require('!raw-loader!./date/date').default,
-		markup: require('!raw-loader!./date/date.html').default,
+		code: require('!raw-loader!./text-masking/text-masking').default,
+		markup: require('!raw-loader!./text-masking/text-masking.html').default,
 		type: AppdTextMasking,
 	},
 	date: {
