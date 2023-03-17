@@ -37,7 +37,7 @@ export class TableComponent {
   lastDirection: SortDirection = '';
   sortedItems: any[] = [];
 
-  @Input("searchable") searchable: string[] = [];
+  @Input("searchable") searchable: string[] | boolean = false;
   searchInput = new FormControl('', { nonNullable: true });
   lastTerm = '';
   filteredItems: any[] = [];
@@ -110,7 +110,7 @@ export class TableComponent {
 
       const term = this.lastTerm.toLocaleLowerCase();
 
-      if (this.searchable.length)
+      if (this.searchable && Array.isArray(this.searchable) && this.searchable.length)
         return this.searchable.some(path =>
           (resolve(path, item) || '').toLocaleLowerCase().includes(term)
         );
