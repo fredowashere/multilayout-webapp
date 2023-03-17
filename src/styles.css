@@ -6,6 +6,51 @@
   --app-sidebar-gradient: linear-gradient(135deg, rgba(var(--app-blue_100), 1), rgba(var(--app-blue_500), 1));
   --flexgrid-col-min-width: 20ch;
   --flexgrid-gap: 1rem;
+
+  --app-blue-scai_100: 0, 102, 187;
+  --app-blue-scai_200: 0, 84, 153;
+  --app-blue-scai_300: 0, 65, 119;
+  --app-blue-scai_400: 0, 47, 85;
+  --app-blue-scai_500: 0, 28, 51;
+  --app-blue-scai_600: 0, 9, 17;
+  --app-blue_100: var(--app-blue-scai_100);
+  --app-blue_200: var(--app-blue-scai_200);
+  --app-blue_400: var(--app-blue-scai_300);
+  --app-blue_500: var(--app-blue-scai_400);
+  --app-blue_600: var(--app-blue-scai_500);
+  --app-blue_700: var(--app-blue-scai_600);
+  --app-blue_800: var(--app-blue-scai_600);
+
+  --app-red_100: 245, 198, 175;
+  --app-red_200: 240, 169, 151;
+  --app-red_500: 216, 49, 56;
+  --app-red_600: 184, 32, 40;
+  --app-red_700: 114, 28, 31;
+  --app-red_800: 73, 18, 20;
+  --app-pink_100: var(--app-red_100);
+  --app-pink_200: var(--app-red_200);
+  --app-pink_500: var(--app-red_500);
+  --app-pink_600: var(--app-red_600);
+  --app-pink_700: var(--app-red_700);
+  --app-pink_800: var(--app-red_800);
+
+  --app-yellow_100: 255, 249, 229;
+  --app-yellow_200: 255, 236, 179;
+  --app-yellow_300: 255, 223, 128;
+  --app-yellow_400: 255, 210, 77;
+  --app-yellow_500: 255, 198, 26;
+  --app-yellow_600: 230, 172, 0;
+  --app-yellow_700: 179, 134, 0;
+  --app-yellow_800: 128, 96, 0;
+  --app-warning_100: var(--app-yellow_100);
+  --app-warning_200: var(--app-yellow_200);
+  --app-warning_500: var(--app-yellow_400);
+  --app-warning_600: var(--app-yellow_600);
+  --app-warning_700: var(--app-yellow_700);
+  --app-warning_800: var(--app-yellow_800);
+
+  --app-gray_500: 138, 138, 138;
+  --bs-light: rgba(var(--app-gray_100), 1);
 }
 
 /* Scrollbar */
