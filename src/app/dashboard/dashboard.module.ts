@@ -11,19 +11,14 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     children: [
-      { path: '', redirectTo: 'kitchen-sink', pathMatch: 'full' },
+      { path: '', redirectTo: 'stato-avanzamento', pathMatch: 'full' },
       {
-        path: 'kitchen-sink',
+        path: 'stato-avanzamento',
         loadChildren: () =>
-          import('./features/kitchen-sink/kitchen-sink.module').then(m => m.KitchenSinkModule)
-      },
-      {
-        path: 'demos',
-        loadChildren: () =>
-          import('./features/demos/demos.module').then(m => m.DemosModule)
+          import('./features/stato-avanzamento/stato-avanzamento.module').then(m => m.StatoAvanzamentoModule)
       },
     ]
-  },
+  }
 ];
 
 @NgModule({

@@ -9,7 +9,12 @@
 </div>
 
 <div class="sb-user">
-    <img class="pic" src="assets/images/unknown-user.png">
+    <ng-container *ngIf="(username$ | async) === 'Super Mario'; else unknownUser">
+        <img class="pic" src="assets/images/super-mario.png">
+    </ng-container>
+    <ng-template #unknownUser>
+        <img class="pic" src="assets/images/unknown-user.png">
+    </ng-template>
     <div>{{ username$ | async }}</div>
 </div>
 
@@ -27,7 +32,7 @@
                 (click)="item.isActive = !item.isActive"
             >
 
-                <i [ngClass]="item.icon" class="pe-3 bi"></i> 
+                <i [ngClass]="item.icon" class="pe-3"></i> 
 
                 <span class="me-auto">{{ item.title }}</span>
 
@@ -55,7 +60,7 @@
             [routerLink]="item.path"
             class="sb-link text-reset text-decoration-none"
         >
-            <i [ngClass]="item.icon" class="pe-3 bi"></i> 
+            <i [ngClass]="item.icon" class="pe-3"></i> 
             {{ item.title }}
         </a>
     </ng-container>

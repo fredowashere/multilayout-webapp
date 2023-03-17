@@ -1,6 +1,6 @@
 <div
 	*ngIf="searchable || paginated"
-	class="d-flex justify-content-center justify-content-lg-between flex-wrap gap-2 p-2"
+	class="d-flex justify-content-center justify-content-lg-between flex-wrap gap-2 p-3 mb-2"
 >
 
 	<div>
@@ -20,6 +20,9 @@
 			[(page)]="page"
 			[pageSize]="pageSize"
 			(pageChange)="paginate()"
+			[maxSize]="5"
+			[rotate]="true"
+			[boundaryLinks]="true"
 		></ngb-pagination>
 	
 		<select

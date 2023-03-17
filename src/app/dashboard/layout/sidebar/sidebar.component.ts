@@ -32,101 +32,21 @@ export class DashboardSidebarComponent {
   sidebarItems: SidebarItem[] = [
     {
       isActive: false,
-      title: 'Kitchen Sink',
-      icon: 'bi-list-columns',
-      path: '/dashboard/kitchen-sink',
+      title: 'Stato Avanzamento',
+      icon: 'fa fa-tasks',
+      path: '/stato-avanzamento',
     },
-    {
-      isActive: false,
-      title: 'App input',
-      icon: 'bi-ui-radios',
-      path: '/dashboard/demos/app-input',
-    },
-    {
-      isActive: false,
-      title: 'App table',
-      icon: 'bi-table',
-      path: '/dashboard/demos/app-table',
-    },
-    {
-      isActive: false,
-      title: 'Demos',
-      icon: 'bi-grid',
-      children: [
-        {
-          path: '/dashboard/demos/accordion',
-          title: 'Accordion'
-        },
-        {
-          path: '/dashboard/demos/alert',
-          title: 'Alert'
-        },
-        {
-          path: '/dashboard/demos/carousel',
-          title: 'Carousel'
-        },
-        {
-          path: '/dashboard/demos/collapse',
-          title: 'Collapse'
-        },
-        {
-          path: '/dashboard/demos/datepicker',
-          title: 'Datepicker'
-        },
-        {
-          path: '/dashboard/demos/dropdown',
-          title: 'Dropdown'
-        },
-        {
-          path: '/dashboard/demos/modal',
-          title: 'Modal'
-        },
-        {
-          path: '/dashboard/demos/nav',
-          title: 'Nav'
-        },
-        {
-          path: '/dashboard/demos/offcanvas',
-          title: 'Offcanvas'
-        },
-        {
-          path: '/dashboard/demos/pagination',
-          title: 'Pagination'
-        },
-        {
-          path: '/dashboard/demos/popover',
-          title: 'Popover'
-        },
-        {
-          path: '/dashboard/demos/progressbar',
-          title: 'Progress Bar'
-        },
-        {
-          path: '/dashboard/demos/rating',
-          title: 'Rating'
-        },
-        {
-          path: '/dashboard/demos/table',
-          title: 'Table'
-        },
-        {
-          path: '/dashboard/demos/timepicker',
-          title: 'Timepicker'
-        },
-        {
-          path: '/dashboard/demos/toast',
-          title: 'Toast'
-        },
-        {
-          path: '/dashboard/demos/tooltip',
-          title: 'Tooltip'
-        },
-        {
-          path: '/dashboard/demos/typeahead',
-          title: 'Typeahead'
-        },
-      ]
-    },
+    // {
+    //   isActive: false,
+    //   title: 'Demos',
+    //   icon: 'bi bi-grid',
+    //   children: [
+    //     {
+    //       path: '/dashboard/demos/accordion',
+    //       title: 'Accordion'
+    //     },
+    //   ]
+    // },
   ];
 
   username$: Observable<string | undefined>; 
@@ -136,7 +56,7 @@ export class DashboardSidebarComponent {
     public authService: AuthService
   ) {
 
-    this.username$ = this.authService.user$.pipe(map(user => user.username))
+    this.username$ = this.authService.user$.pipe(map(user => user.cognome + ' ' + user.nome))
   }
 
   ngAfterViewInit(): void {

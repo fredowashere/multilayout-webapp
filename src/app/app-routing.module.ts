@@ -5,7 +5,8 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./site/site.module').then(m => m.SiteModule)
+      import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+    canActivate: ["loggedInOnlyGuard"]
   },
   {
     path: 'login',
@@ -13,10 +14,9 @@ const routes: Routes = [
       import('./pages/login/login.module').then(m => m.LoginModule)
   },
   {
-    path: 'dashboard',
+    path: 'splash',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: ["adminsOnlyGuard"]
+      import('./pages/splash/splash.module').then(m => m.SplashModule)
   },
 ];
 

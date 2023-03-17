@@ -3,15 +3,15 @@
 /* Variables */
 :root {
   --app-body-background: var(--app-gray_100);
-  --app-sidebar-gradient: linear-gradient(135deg, rgba(var(--app-blue_400), 1), rgba(var(--app-indigo_400), 1));
+  --app-sidebar-gradient: linear-gradient(135deg, rgba(var(--app-blue_100), 1), rgba(var(--app-blue_500), 1));
   --flexgrid-col-min-width: 20ch;
   --flexgrid-gap: 1rem;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -19,7 +19,8 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(var(--app-primary_500), 1);
+  background-image: linear-gradient(180deg, rgba(var(--app-primary_200), 1), rgba(var(--app-primary_500), 1));
+  border-radius: 8px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -30,6 +31,10 @@
 body {
   background: rgba(var(--app-body-background), 1);
   font-family: "Roboto", var(--bs-font-sans-serif);
+}
+
+.fa {
+  line-height: inherit;
 }
 
 .app-navbar {
@@ -98,6 +103,11 @@ th[sortable].desc::before {
   margin-bottom: 0 !important;
 }
 
+.container-xxxl {
+  margin: 0 auto;
+  max-width: 1600px;
+}
+
 /* Round button */
 .app-round-btn {
   box-shadow: 0 4px 8px 0 #0005;
@@ -118,6 +128,10 @@ th[sortable].desc::before {
 /* Utilities */
 .lh-0 {
   line-height: 0 !important;
+}
+
+.no-text-break {
+  white-space: nowrap;
 }
 
 .clickable {

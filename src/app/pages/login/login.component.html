@@ -9,17 +9,17 @@
             <h2>Login</h2>
 
             <app-input
-                name="username"
-                label="Username"
-                [ngControl]="username"
+                type="textarea"
+                name="token"
+                label="Token"
+                [ngControl]="tokenCtrl"
                 [floatingLabel]="true"
             ></app-input>
 
             <app-input
-                type="password"
-                name="password" 
-                label="Password"
-                [ngControl]="password"
+                name="idAzienda"
+                label="Id azienda"
+                [ngControl]="idAziendaCtrl"
                 [floatingLabel]="true"
             ></app-input>
 
@@ -28,31 +28,33 @@
 
         <div class="sign-up-container">
 
-            <h2>Sign Up</h2>
+            <h2>Fake Login</h2>
 
             <app-input
-                name="email"
-                label="Email"
-                [ngControl]="email"
+                name="idUtente"
+                label="Id utente"
+                [ngControl]="idUtenteCtrl"
                 [floatingLabel]="true"
             ></app-input>
 
             <app-input
-                name="username"
-                label="Username"
-                [ngControl]="username"
+                name="idAzienda2" 
+                label="Id azienda"
+                [ngControl]="idAzienda2Ctrl"
                 [floatingLabel]="true"
             ></app-input>
 
             <app-input
-                type="password"
-                name="password" 
-                label="Password"
-                [ngControl]="password"
-                [floatingLabel]="true"
+                type="tagger"
+                name="ruoli"
+                placeholder="Scegli i ruoli"
+                [options]="roles"
+                [formatter]="rolesFormatter"
+                [filter]="rolesFilter"
+                [ngControl]="rolesCtrl"
             ></app-input>
             
-            <button class="btn btn-primary">Sign Up</button>
+            <button class="btn btn-primary" (click)="fakeLogin()">Login</button>
         </div>
 
     </div>

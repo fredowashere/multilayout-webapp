@@ -1,6 +1,5 @@
 import { Directive, EventEmitter, Input, Output } from "@angular/core";
 
-export type SortColumn = keyof any | '';
 export type SortDirection = 'asc' | 'desc' | '';
 const rotate: { [key: string]: SortDirection } = { asc: 'desc', desc: '', '': 'asc' };
 
@@ -9,7 +8,7 @@ export function compare(v1: string | number, v2: string | number) {
 }
 
 export interface SortEvent {
-	column: SortColumn;
+	column: string;
 	direction: SortDirection;
 }
 
@@ -24,7 +23,7 @@ export interface SortEvent {
 })
 export class AppSortableHeader {
 
-	@Input() sortable: SortColumn = '';
+	@Input() sortable = '';
 	@Input() direction: SortDirection = '';
 	@Output() sort = new EventEmitter<SortEvent>();
 

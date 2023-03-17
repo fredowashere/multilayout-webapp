@@ -3,26 +3,28 @@
     display: grid;
     height: 100vh;
     place-items: center;
+    --container-width: 400px;
+    --container-height: 500px;
 }
 
 .subscription-wrapper {
   position: relative;
-  width: clamp(250px, 500px, 100vw);
+  width: clamp(250px, 630px, 100vw);
   height: 300px;
   color: #fff;
-  background-color: #345;
+  background-color: #777;
   box-shadow: 0 5px 10px #0004;
   border-radius: 5px;
 }
 
 .subscription-container {
   position: absolute;
-  top: -50px;
+  top: -90px;
   left: 40px;
   right: 0;
   z-index: 1;
-  width: 250px;
-  height: 400px;
+  width: calc(var(--container-width) - 1rem);
+  height: var(--container-height);
   color: rgba(var(--app-gray_1000), 1);
   background-color: rgba(var(--app-gray_0), 1);
   background-size: 200% 200%;
@@ -68,11 +70,11 @@
 }
 
 .sign-up-container {
-  right: -250px;
+  right: calc(-1 * var(--container-width));
 }
 
 .subscription-switch:checked ~ .subscription-container .login-container {
-  left: -250px;
+  left: calc(-1 * var(--container-width));
 }
 
 .subscription-switch:checked ~ .subscription-container .sign-up-container {
