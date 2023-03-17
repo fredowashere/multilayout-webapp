@@ -1,8 +1,9 @@
 import { Component, ContentChildren, EventEmitter, Input, Output, QueryList, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, startWith, Subject, takeUntil, tap } from 'rxjs';
+import { resolve } from 'src/app/utils/object';
 import { guid } from 'src/app/utils/uuid';
-import { AppSortableHeader, compare, SortColumn, SortDirection, SortEvent } from '../../directives/sortable-header';
+import { AppSortableHeader, compare, SortDirection, SortEvent } from '../../directives/sortable-header';
 
 @Component({
   selector: 'app-table',
@@ -32,11 +33,11 @@ export class TableComponent {
 
   @ContentChildren(AppSortableHeader)
   private headers!: QueryList<AppSortableHeader>;
-  lastColumn: SortColumn = '';
+  lastColumn = '';
   lastDirection: SortDirection = '';
   sortedItems: any[] = [];
 
-  @Input("searchable") searchable = false;
+  @Input("searchable") searchable: string[] = [];
   searchInput = new FormControl('', { nonNullable: true });
   lastTerm = '';
   filteredItems: any[] = [];
@@ -107,10 +108,16 @@ export class TableComponent {
 
     this.filteredItems = this.items.filter(item => {
 
-      const a = JSON.stringify(item).toLocaleLowerCase();
-      const b = this.lastTerm.toLocaleLowerCase();
+      const term = this.lastTerm.toLocaleLowerCase();
 
-      return a.includes(b);
+      if (this.searchable.length)
+        return this.searchable.some(path =>
+          (resolve(path, item) || '').toLocaleLowerCase().includes(term)
+        );
+
+      // Global hacky search
+      const serialized = JSON.stringify(item).toLocaleLowerCase();
+      return serialized.includes(term);
     });
 
     this.collectionSize = this.filteredItems.length;
@@ -134,7 +141,10 @@ export class TableComponent {
     else
 			this.sortedItems = [ ...this.filteredItems ]
         .sort((a, b) => {
-          const res = compare(a[column], b[column]);
+          const res = compare(
+            resolve(column, a),
+            resolve(column, b)
+          );
           return direction === 'asc' ? res : -res;
         });
 
