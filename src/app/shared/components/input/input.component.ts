@@ -92,6 +92,23 @@ export class InputComponent {
 
   handleErrors() {
 
+    const supportedTypes = [
+      "text",
+      "textarea",
+      "password",
+      "number",
+      "date",
+      "time",
+      "datetime",
+      "select",
+      "checkbox",
+      "radio",
+      "autocomplete",
+      "tagger"
+    ];
+    if (!supportedTypes.includes(this.type))
+      throw Error('Type ' + this.type + ' is not supported.');
+
     if (!this.ngControl)
       throw Error('app-input needs a ngControl');
 
@@ -201,8 +218,8 @@ export class InputComponent {
       this._autocompleteChoice = null
     , 0);
 
-    if (this.ngControl.value !== value)
-      this.ngControl.setValue(value);
+    if (this.ngControl.value !== this.tags)
+      this.ngControl.setValue(this.tags);
   }
 
   removeTag(item: any) {
