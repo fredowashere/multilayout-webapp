@@ -56,17 +56,21 @@ export class AuthService {
       );
   }
 
-  fakeLogin(idUtente: number, idAzienda: number, roles: string[]) {
+  fakeLogin(
+    utente: { idUtente: number, nome: string, cognome: string},
+    idAzienda: number,
+    roles: string[]
+  ) {
 
     localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRG9ua2V5IEtvbmcifQ.QeBhkODg6wc3TYXhmn7swjqUh2USVxI86bdRl57eAUA');
     localStorage.setItem('id_azienda', JSON.stringify(idAzienda));
     localStorage.setItem("expires_at", JSON.stringify(10000000000000));
 
     const user = {
-      idUtente,
+      idUtente: utente.idUtente,
+      nome: utente.nome,
+      cognome: utente.cognome,
       idAzienda,
-      nome: 'Mario',
-      cognome: 'Super',
       roles: [
         UTENTE_BASE,
         ...roles

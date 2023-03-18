@@ -1,6 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 import { ROLES } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -16,9 +18,16 @@ export class LoginComponent {
 
   loginForm!: FormGroup;
 
-  idUtenteCtrl!: FormControl;
+  utenteCtrl!: FormControl;
   idAzienda2Ctrl!: FormControl;
   rolesCtrl!: FormControl;
+
+  aziende: { text: string, value: string }[] = [];
+  idAziendaUtenti: { [key: string]: { idUtente: number, nome: string, cognome: string }[] } = {};
+  utenti: { idUtente: number, nome: string, cognome: string }[] = [];
+  utentiFormatter = (user: any) => user.cognome + ' ' + user.nome;
+  utentiFilter = (term: string, utente: any) =>
+    (utente.cognome + ' ' + utente.nome).toLowerCase().includes(term.toLowerCase());
 
   rolesFormatter = (role: any) => role.name?.split('-').pop().trim();
   rolesFilter = (term: string, role: any) => role.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
@@ -28,7 +37,8 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
@@ -41,12 +51,29 @@ export class LoginComponent {
       idAzienda: this.idAziendaCtrl
     });
 
-    this.idUtenteCtrl = new FormControl(5022);
-    this.idAzienda2Ctrl = new FormControl(15);
+    this.utenteCtrl = new FormControl();
+    this.idAzienda2Ctrl = new FormControl();
     this.rolesCtrl = new FormControl();
 
+    this.idAzienda2Ctrl.valueChanges
+      .pipe(
+        tap((idAzienda: string) => {
+          this.utenteCtrl.setValue(null);
+          if (this.idAziendaUtenti[idAzienda])
+            this.utenti = this.idAziendaUtenti[idAzienda];
+        })
+      )
+      .subscribe();
+
+    this.http.get('assets/json/users.json')
+      .subscribe((res: any) => {
+        this.idAziendaUtenti = res;
+        this.aziende = Object.keys(res).map(value => ({ text: value, value }))
+        this.idAzienda2Ctrl.setValue(15);
+      });
+
     this.fakeLoginForm = new FormGroup({
-      idUtente: this.idUtenteCtrl,
+      utente: this.utenteCtrl,
       idAzienda: this.idAzienda2Ctrl,
       roles: this.rolesCtrl
     });
@@ -69,11 +96,11 @@ export class LoginComponent {
 
     const val = this.fakeLoginForm.value;
 
-    if (!val.idUtente || !val.idAzienda)
+    if (!val.utente || !val.idAzienda)
       return;
 
     this.authService.fakeLogin(
-      +val.idUtente,
+      val.utente,
       +val.idAzienda,
       val.roles ? val.roles.map((role: any) => role.name) : []
     );

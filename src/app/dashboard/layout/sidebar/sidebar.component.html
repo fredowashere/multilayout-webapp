@@ -9,12 +9,7 @@
 </div>
 
 <div class="sb-user">
-    <ng-container *ngIf="(username$ | async) === 'Super Mario'; else unknownUser">
-        <img class="pic" src="assets/images/super-mario.png">
-    </ng-container>
-    <ng-template #unknownUser>
-        <img class="pic" src="assets/images/unknown-user.png">
-    </ng-template>
+    <img class="pic" src="assets/images/unknown-user.png">
     <div>{{ username$ | async }}</div>
 </div>
 

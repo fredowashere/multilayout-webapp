@@ -31,18 +31,30 @@
             <h2>Fake Login</h2>
 
             <app-input
-                name="idUtente"
-                label="Id utente"
-                [ngControl]="idUtenteCtrl"
+                type="select"
+                name="idAzienda2" 
+                label="Id azienda"
+                [options]="aziende"
+                [ngControl]="idAzienda2Ctrl"
                 [floatingLabel]="true"
             ></app-input>
 
             <app-input
-                name="idAzienda2" 
-                label="Id azienda"
-                [ngControl]="idAzienda2Ctrl"
+                type="autocomplete"
+                name="idUtente"
+                label="Id utente"
+                placeholder="Cerca un utente"
+                [options]="utenti"
+                [formatter]="utentiFormatter"
+                [filter]="utentiFilter"
+                [template]="rt"
+                [ngControl]="utenteCtrl"
                 [floatingLabel]="true"
             ></app-input>
+            <ng-template #rt let-r="result" let-t="term">
+                <div class="small">{{ r.idUtente }}</div>
+                <ngb-highlight [result]="r.cognome + ' ' + r.nome" [term]="t"></ngb-highlight>
+            </ng-template>
 
             <app-input
                 type="tagger"

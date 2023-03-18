@@ -87,7 +87,7 @@
                     <th sortable="sottoCommessa.descrizione" (sort)="dt.sort($any($event))">Descr. Sottocomm.</th>
                     <th sortable="dataInizio" (sort)="dt.sort($any($event))">Inizio</th>
                     <th sortable="dataFine" (sort)="dt.sort($any($event))">Fine</th>
-                    <th class="text-end" sortable="item.percentualeRimanente" (sort)="dt.sort($any($event))">Totale %</th>
+                    <th class="text-end" sortable="percentualeRimanente" (sort)="dt.sort($any($event))">Totale %</th>
                 </ng-template>
 
                 <ng-template #tbody let-avanzamento>
