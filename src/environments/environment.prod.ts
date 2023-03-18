@@ -1,4 +1,6 @@
+import { ENV_PROD } from "./envs";
+
 export const environment = {
-    name: "prod",
+    name: ENV_PROD,
     statoAvanzamentoUrl: ""
 };

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { EnumStatiChiusura, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { SottoCommessaAvanzamento, SottoCommessaAvanzamentoDettaglio } from 'src/app/models/stato-avanzamento';
-import { StatoAvanzamentoService } from 'src/app/services/stato-avanzamento.service';
+import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-avanzamento/services/stato-avanzamento-wrap.service';
 
 @Component({
   selector: 'app-stato-avanzamento',
@@ -34,12 +34,12 @@ export class StatoAvanzamentoComponent {
   sottoCommesseAvanzamento: SottoCommessaAvanzamento[] = [];
 
   constructor(
-    private statoAvanzamentoService: StatoAvanzamentoService
-  ) { }
+    private statoAvanzamentoWrap: StatoAvanzamentoWrapService
+  ) {}
 
   ngOnInit() {
 
-    this.pm = this.statoAvanzamentoService.getPm();
+    this.pm = this.statoAvanzamentoWrap.getPm();
 
     this.pmCtrl = new FormControl();
     this.commessaCtrl = new FormControl();
@@ -51,11 +51,11 @@ export class StatoAvanzamentoComponent {
       stato: this.statoCtrl
     });
 
-    this.sottoCommesseAvanzamento = this.statoAvanzamentoService.getSottoCommesseAvanzamento();
+    this.sottoCommesseAvanzamento = this.statoAvanzamentoWrap.getSottoCommesseAvanzamento();
   }
 
   salvaDettaglio() {
-    this.sottoCommesseAvanzamento = this.statoAvanzamentoService.getSottoCommesseAvanzamentoAggiornate();
+    this.sottoCommesseAvanzamento = this.statoAvanzamentoWrap.getSottoCommesseAvanzamentoAggiornate();
   }
 
   trackByIdCommessa(index: number, item: SottoCommessaAvanzamento) {

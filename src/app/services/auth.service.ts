@@ -20,6 +20,12 @@ export class AuthService {
 
   private _user$ = new BehaviorSubject<User>(ANONYMOUS_USER);
   user$: Observable<User> = this._user$.asObservable();
+  private set user(u: User) {
+    this._user$.next(u);
+  }
+  get user() {
+    return this._user$.getValue();
+  }
 
   constructor(
     private utentiService: UtentiService
@@ -51,7 +57,7 @@ export class AuthService {
 
           localStorage.setItem('user_data', JSON.stringify(user));
 
-          this._user$.next(user);
+          this.user = user;
         })
       );
   }
@@ -79,7 +85,7 @@ export class AuthService {
 
     localStorage.setItem('user_data', JSON.stringify(user));
 
-    this._user$.next(user);
+    this.user = user;
   }
 
   autoLogin() {
@@ -89,7 +95,7 @@ export class AuthService {
     const userData = localStorage.getItem('user_data');
     
     if (token && idAzienda && userData) // && this.isLoggedIn())
-      this._user$.next(JSON.parse(userData));
+      this.user = JSON.parse(userData);
     
     return this.user$;
   }
@@ -99,7 +105,7 @@ export class AuthService {
     localStorage.removeItem("id_azienda");
     localStorage.removeItem("user_data");
     localStorage.removeItem("expires_at");
-    this._user$.next(ANONYMOUS_USER);
+    this.user = ANONYMOUS_USER;
   }
 
   isLoggedIn() {

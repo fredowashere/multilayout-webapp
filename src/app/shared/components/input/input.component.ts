@@ -217,9 +217,7 @@ export class InputComponent {
     setTimeout(() =>
       this._autocompleteChoice = null
     , 0);
-
-    if (this.ngControl.value !== this.tags)
-      this.ngControl.setValue(this.tags);
+    this.ngControl.setValue(this.tags);
   }
 
   removeTag(item: any) {

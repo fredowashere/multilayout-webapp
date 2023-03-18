@@ -1,4 +1,6 @@
+import { ENV_COLL } from "./envs";
+
 export const environment = {
-    name: "coll",
+    name: ENV_COLL,
     statoAvanzamentoUrl: ""
 };
