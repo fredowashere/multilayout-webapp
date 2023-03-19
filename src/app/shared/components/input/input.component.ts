@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, takeUntil, tap } from 'rxjs';
 import { guid } from 'src/app/utils/uuid';
 
@@ -16,6 +16,8 @@ export class InputComponent {
 
   destroy$ = new Subject<void>();
 
+  _name!: string;
+
   @Input("floatingLabel") floatingLabel = false;
   @Input("feedback") feedback = true;
   @Input("disabled") disabled = false;
@@ -26,13 +28,24 @@ export class InputComponent {
   @Input("min") min?: any;
   @Input("max") max?: any;
   @Input("maxlength") maxLength?: any;
+
+  @Input("name") name!: string;
+  @Input("label") label?: string;
+  @Input("helper") helper!: string;
+  @Input("mask") mask?: Array<string | RegExp>;
+  @Input("ngControl") ngControl!: FormControl;
   
   // Autocomplete and tagger properties
+  @Input("formatter") formatter = defaultFormatter;
+  @Input("filter") filter = defaultFilter;
+  @Input("search") search!: OperatorFunction<string, readonly any[]>;
+  @Input("template") template!: any;
+  @Output("selectItem") selectItemEmitter = new EventEmitter<NgbTypeaheadSelectItemEvent>();
+
   instance!: NgbTypeahead;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
 
-  autocompleteSearch!: OperatorFunction<string, readonly any[]>;
   _autocompleteChoice!: any;
   set autocompleteChoice(value: any) {
     this._autocompleteChoice = value;
@@ -41,10 +54,6 @@ export class InputComponent {
   get autocompleteChoice() {
     return this._autocompleteChoice;
   }
-
-  @Input("formatter") formatter = defaultFormatter;
-  @Input("filter") filter = defaultFilter;
-  @Input("template") template!: any;
   
   options$ = new BehaviorSubject<any[]>([]);
   @Input("options")
@@ -57,14 +66,6 @@ export class InputComponent {
 
   tags: any[] = [];
 
-  // General properties
-  _name!: string;
-  @Input("ngControl") ngControl!: FormControl;
-  @Input("helper") helper!: string;
-  @Input("name") name!: string;
-  @Input("mask") mask?: Array<string | RegExp>;
-  @Input("label") label?: string;
-
   ngOnInit() {
 
     this.handleErrors();
@@ -74,14 +75,16 @@ export class InputComponent {
     this.addOptionIds();
 
     if (this.type === 'autocomplete') {
-      this.setAutocompleteDefault();
-      this.setupAutocompleteSearch();
+      this.setAutocompleteDefaultValue();
+      if (!this.search)
+        this.setAutocompleteDefaultSearch();
       this.setupAutocompleteReactivity();
     }
 
     if (this.type === 'tagger') {
       this.setTaggerDefault();
-      this.setupAutocompleteSearch();
+      if (!this.search)
+        this.setAutocompleteDefaultSearch();
       this.setupAutocompleteReactivity();
     }
   }
@@ -143,19 +146,14 @@ export class InputComponent {
       .subscribe();
   }
 
-  setAutocompleteDefault() {
-    if (this.ngControl.value)
-      this.autocompleteChoice = this.ngControl.value;
-  }
+  setAutocompleteDefaultSearch() {
 
-  setupAutocompleteSearch() {
-
-    this.autocompleteSearch = (text$: Observable<string>) => {
+    this.search = (text$: Observable<string>) => {
 
       const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
       const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
       const inputFocus$ = this.focus$;
-
+    
       return merge(
         debouncedText$,
         inputFocus$,
@@ -172,6 +170,11 @@ export class InputComponent {
         }),
       );
     };
+  };
+
+  setAutocompleteDefaultValue() {
+    if (this.ngControl.value)
+      this.autocompleteChoice = this.ngControl.value;
   }
 
   setupAutocompleteReactivity() {
@@ -195,6 +198,10 @@ export class InputComponent {
 
     if (this.type !== "tagger" && this.ngControl.value !== value)
       this.ngControl.setValue(value);
+  }
+
+  selectItem(selectEvent: NgbTypeaheadSelectItemEvent) {
+    this.selectItemEmitter.emit(selectEvent);
   }
 
   setTaggerDefault() {
