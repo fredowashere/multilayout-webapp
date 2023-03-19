@@ -38,11 +38,11 @@ export class InputComponent {
   // Autocomplete and tagger properties
   @Input("formatter") formatter = defaultFormatter;
   @Input("filter") filter = defaultFilter;
-  @Input("search") search!: OperatorFunction<string, readonly any[]>;
   @Input("template") template!: any;
   @Output("selectItem") selectItemEmitter = new EventEmitter<NgbTypeaheadSelectItemEvent>();
 
   instance!: NgbTypeahead;
+  search!: OperatorFunction<string, readonly any[]>;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
 
@@ -76,15 +76,13 @@ export class InputComponent {
 
     if (this.type === 'autocomplete') {
       this.setAutocompleteDefaultValue();
-      if (!this.search)
-        this.setAutocompleteDefaultSearch();
+      this.setAutocompleteDefaultSearch();
       this.setupAutocompleteReactivity();
     }
 
     if (this.type === 'tagger') {
       this.setTaggerDefault();
-      if (!this.search)
-        this.setAutocompleteDefaultSearch();
+      this.setAutocompleteDefaultSearch();
       this.setupAutocompleteReactivity();
     }
   }
