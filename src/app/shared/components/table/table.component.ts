@@ -22,7 +22,7 @@ export class TableComponent {
   @Input("tfoot") tfoot!: TemplateRef<any>;
   @Input("items") items!: any[];
   @Input("trackByFn") trackByFn = (index: number, item: any): any => item;
-
+  @Input("emptyMessage") emptyMessage: string | boolean = "No results to display";
 
   @Input("paginated") paginated = false;
   @Input("pageSize") pageSize!: number;
