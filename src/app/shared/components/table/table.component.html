@@ -140,6 +140,6 @@
 	</table>
 </div>
 
-<div class="p-3 text-center" *ngIf="emptyMessage">
+<div class="p-3 text-center" *ngIf="emptyMessage && !items.length">
 	{{ emptyMessage }}
 </div>
