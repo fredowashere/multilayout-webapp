@@ -423,9 +423,9 @@
             [value]="opt.value"
             type="radio"
             [name]="name"
-            [id]="opt.id"
+            [id]="opt._id"
         >
-        <label class="form-check-label" [for]="disabled ? 'nowhere' : opt.id">
+        <label class="form-check-label" [for]="disabled ? 'nowhere' : opt._id">
           {{ opt.text }}
         </label>
     </div>

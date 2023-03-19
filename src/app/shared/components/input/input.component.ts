@@ -5,7 +5,7 @@ import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge
 import { guid } from 'src/app/utils/uuid';
 
 const defaultFormatter = (item: any) => item; 
-const defaultFilter = (value: any, index?: number, array?: any[]) => true;
+const defaultFilter = (term: string, item: any) => true;
 
 @Component({
   selector: 'app-input',
@@ -136,7 +136,7 @@ export class InputComponent {
 
           if (options && Array.isArray(options))
             options.forEach(opt =>
-              opt.id = this.name + '-' + guid()
+              opt._id = this.name + '-' + guid()
             );
         })
       )
