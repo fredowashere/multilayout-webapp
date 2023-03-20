@@ -39,10 +39,10 @@
 	</div>
 </div>
 
-<div class="table-responsive">
+<div class="table-responsive" [ngStyle]="{ 'max-height': maxHeight }">
 	<table class="table table-striped">
 	
-		<thead>
+		<thead [class.sticky-head]="stickyHead">
 			<tr>
 	
 				<th *ngIf="selectable" style="width: 60px">

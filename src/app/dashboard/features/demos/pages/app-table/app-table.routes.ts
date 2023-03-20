@@ -10,6 +10,7 @@ import { AppdTableRowExpand } from './row-expand/table-row-expand';
 import { AppdTableSearchable } from './searchable/table-searchable';
 import { AppdTableSelectable } from './selectable/table-selectable';
 import { AppdTableSorted } from './sorted/table-sorted';
+import { AppdTableStickyHead } from './sticky-head/table-sticky-head';
 
 declare var require: any;
 
@@ -25,6 +26,12 @@ const demos = {
 		code: require('!raw-loader!./basic/table-basic').default,
 		markup: require('!raw-loader!./basic/table-basic.html').default,
 		type: AppdTableBasic,
+	},
+	stickyHead: {
+		title: 'Sticky head',
+		code: require('!raw-loader!./sticky-head/table-sticky-head').default,
+		markup: require('!raw-loader!./sticky-head/table-sticky-head.html').default,
+		type: AppdTableStickyHead,
 	},
 	searchable: {
 		title: 'Searchable',

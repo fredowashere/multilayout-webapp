@@ -23,6 +23,8 @@ export class TableComponent {
   @Input("items") items!: any[];
   @Input("trackByFn") trackByFn = (index: number, item: any): any => item;
   @Input("emptyMessage") emptyMessage: string | boolean = "No results to display";
+  @Input("stickyHead") stickyHead = false;
+  @Input("maxHeight") maxHeight: string | boolean = false; 
 
   @Input("paginated") paginated = false;
   @Input("pageSize") pageSize!: number;
