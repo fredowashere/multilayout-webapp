@@ -38,6 +38,7 @@
 		</select>
 	</div>
 </div>
+
 <div class="table-responsive">
 	<table class="table table-striped">
 	
@@ -137,4 +138,8 @@
 			</tr>
 		</tfoot>
 	</table>
+</div>
+
+<div class="p-3 text-center" *ngIf="emptyMessage && !items.length">
+	{{ emptyMessage }}
 </div>

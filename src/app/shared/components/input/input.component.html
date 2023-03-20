@@ -180,7 +180,7 @@
             [id]="_name"
             [class.is-invalid]="isInvalid()" 
             [placeholder]="placeholder" 
-            [ngbTypeahead]="autocompleteSearch"
+            [ngbTypeahead]="search"
             [inputFormatter]="formatter"
             [resultFormatter]="formatter"
             [resultTemplate]="template"
@@ -192,6 +192,7 @@
             (click)="onAutocompleteClick(instance, $event)"
             (change)="markAsTouched()"
             (blur)="markAsTouched()"
+            (selectItem)="selectItem($event)"
         />
         <label [for]="_name">{{ label }}</label>
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
@@ -381,7 +382,7 @@
             [id]="_name"
             [class.is-invalid]="isInvalid()"
             [placeholder]="placeholder"
-            [ngbTypeahead]="autocompleteSearch"
+            [ngbTypeahead]="search"
             [inputFormatter]="formatter"
             [resultFormatter]="formatter"
             [resultTemplate]="template"
@@ -393,6 +394,7 @@
             (click)="onAutocompleteClick(instance, $event)"
             (change)="markAsTouched()"
             (blur)="markAsTouched()"
+            (selectItem)="selectItem($event)"
         />
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
@@ -423,9 +425,9 @@
             [value]="opt.value"
             type="radio"
             [name]="name"
-            [id]="opt.id"
+            [id]="opt._id"
         >
-        <label class="form-check-label" [for]="disabled ? 'nowhere' : opt.id">
+        <label class="form-check-label" [for]="disabled ? 'nowhere' : opt._id">
           {{ opt.text }}
         </label>
     </div>
@@ -451,7 +453,7 @@
         [id]="_name"
         [class.is-invalid]="isInvalid()"
         [placeholder]="placeholder"
-        [ngbTypeahead]="autocompleteSearch"
+        [ngbTypeahead]="search"
         [inputFormatter]="formatter"
         [resultFormatter]="formatter"
         [resultTemplate]="template"

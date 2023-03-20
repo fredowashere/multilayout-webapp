@@ -1,8 +1,16 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { EnumStatiChiusura, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
-import { SottoCommessaAvanzamento, SottoCommessaAvanzamentoDettaglio } from 'src/app/models/stato-avanzamento';
+import { FormControl } from '@angular/forms';
+import { startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { Dettaglio, EnumStatiChiusura, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-avanzamento/services/stato-avanzamento-wrap.service';
+import { SottocommessaAvanzamento } from 'src/app/models/stato-avanzamento';
+import { guid } from 'src/app/utils/uuid';
+
+interface Tab {
+  id: string;
+  title: string;
+  avanzamento: SottocommessaAvanzamento[];
+}
 
 @Component({
   selector: 'app-stato-avanzamento',
@@ -11,14 +19,33 @@ import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-av
 })
 export class StatoAvanzamentoComponent {
 
+  destroy$ = new Subject<void>();
+  searchClick$ = new Subject<void>();
+
+  activeTabId!: string;
+  tabs: Tab[] = [];
+
   EnumStatiChiusura = EnumStatiChiusura;
 
-  pmCtrl!: FormControl;
-  commessaCtrl!: FormControl;
-  statoCtrl!: FormControl;
+  pmCtrl = new FormControl<UtentiAnagrafica | null>(null);
+  get idPm() {
+    return this.pmCtrl.value?.idUtente;
+  }
+  pmList: UtentiAnagrafica[] = [];
+  pmFormatter = (pm: UtentiAnagrafica) => pm.cognome + ' ' + pm.nome;
+  pmFilter = (term: string, pm: UtentiAnagrafica) =>
+    (pm.cognome + ' ' + pm.nome).toLowerCase().includes(term.toLowerCase());
 
-  form!: FormGroup;
+  clienteCtrl = new FormControl<Dettaglio | null>(null);
+  get idCliente() {
+    return this.clienteCtrl.value?.id;
+  }
+  clienti: Dettaglio[] = [];
+  clienteFormatter = (c: Dettaglio) => c.descrizione;
+  clienteFilter = (term: string, c: Dettaglio) =>
+    (c.descrizione as string).toLowerCase().includes(term.toLowerCase());
 
+  statoCtrl = new FormControl<number>(0);
   stati = [
     { text: 'Tutti', value: 0 },
     { text: 'Aperto', value: 1 },
@@ -26,39 +53,95 @@ export class StatoAvanzamentoComponent {
     { text: 'Vistato', value: 3 },
   ];
 
-  pmFormatter = (pm: any) => pm.cognome + ' ' + pm.nome;
-  pmFilter = (term: string, pm: any) =>
-    (pm.cognome + ' ' + pm.nome).toLowerCase().indexOf(term.toLowerCase()) > -1;
-  pm: UtentiAnagrafica[] = [];
-
-  sottoCommesseAvanzamento: SottoCommessaAvanzamento[] = [];
+  sottocommesseAvanzamento: SottocommessaAvanzamento[] = [];
 
   constructor(
     private statoAvanzamentoWrap: StatoAvanzamentoWrapService
-  ) {}
-
+  ) { }
+  
   ngOnInit() {
 
-    this.pm = this.statoAvanzamentoWrap.getPm();
+    this.pmCtrl.valueChanges
+      .pipe(
+        startWith(null),
+        switchMap(pm =>
+          this.statoAvanzamentoWrap
+            .getClienti$(pm?.idUtente)
+        ),
+        tap(clienti => this.clienti = clienti)
+      )
+      .subscribe();
+    
+    this.clienteCtrl.valueChanges
+      .pipe(
+        startWith(null),
+        switchMap(cliente =>
+          this.statoAvanzamentoWrap
+            .getUtenti$(true, false, undefined, cliente?.id)
+        ),
+        tap(pmList => this.pmList = pmList)
+      )
+      .subscribe();
 
-    this.pmCtrl = new FormControl();
-    this.commessaCtrl = new FormControl();
-    this.statoCtrl = new FormControl();
+    this.searchClick$
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(() =>
+          this.statoAvanzamentoWrap
+            .getAvanzamento$(
+              this.idPm as number,
+              undefined,
+              this.idCliente,
+              this.statoCtrl.value as number
+            )
+        ),
+        tap(avanzamento => {
+          this.addTab(
+            this.pmCtrl.value?.cognome as string,
+            avanzamento
+          );
+          this.sottocommesseAvanzamento = avanzamento  
+        })
+      )
+      .subscribe();
+  }
 
-    this.form = new FormGroup({
-      pm: this.pmCtrl,
-      commessa: this.commessaCtrl,
-      stato: this.statoCtrl
+  ngOnDestroy() {
+    this.destroy$.next();
+  }
+
+  resetControls() {
+    this.pmCtrl.setValue(null);
+    this.clienteCtrl.setValue(null);
+    this.statoCtrl.setValue(0);
+  }
+
+  addTab(title: string, avanzamento: SottocommessaAvanzamento[]) {
+    const id = guid();
+    this.activeTabId = id;
+    this.tabs.push({
+      id,
+      title,
+      avanzamento
     });
-
-    this.sottoCommesseAvanzamento = this.statoAvanzamentoWrap.getSottoCommesseAvanzamento();
   }
 
-  salvaDettaglio() {
-    this.sottoCommesseAvanzamento = this.statoAvanzamentoWrap.getSottoCommesseAvanzamentoAggiornate();
-  }
+  closeTab(event: MouseEvent, toRemove: string) {
 
-  trackByIdCommessa(index: number, item: SottoCommessaAvanzamento) {
+    // Open the tab to the left
+    const tabToRemoveIndex = this.tabs
+      .findIndex(tab => tab.id === toRemove);
+    this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.id;
+
+    // Remove tab from the array
+		this.tabs = this.tabs.filter((tab) => tab.id !== toRemove);
+		event.preventDefault();
+		event.stopImmediatePropagation();
+	}
+
+  salvaDettaglio() {}
+
+  trackByIdCommessa(index: number, item: SottocommessaAvanzamento) {
     return item.commessa.codice;
   }
 }

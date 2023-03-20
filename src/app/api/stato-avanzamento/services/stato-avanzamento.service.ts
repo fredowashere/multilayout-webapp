@@ -10,9 +10,9 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { AvanzamentiMensili } from '../models/avanzamenti-mensili';
-import { GetCommessePerReferenteResponse } from '../models/get-commesse-per-referente-response';
-import { GetCommesseResponse } from '../models/get-commesse-response';
+import { Dettaglio } from '../models/dettaglio';
 import { GetSottoCommesseAvanzamentoResponse } from '../models/get-sotto-commesse-avanzamento-response';
+import { GetSottoCommessePerReferenteResponse } from '../models/get-sotto-commesse-per-referente-response';
 
 @Injectable({
   providedIn: 'root',
@@ -26,33 +26,39 @@ export class StatoAvanzamentoService extends BaseService {
   }
 
   /**
-   * Path part for operation getCommessePerReferente
+   * Path part for operation getSottoCommessePerReferente
    */
-  static readonly GetCommessePerReferentePath = '/stato-avanzamento/azienda/{idAzienda}/commesse-per-referente';
+  static readonly GetSottoCommessePerReferentePath = '/stato-avanzamento/azienda/{idAzienda}/commesse-per-referente';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getCommessePerReferente()` instead.
+   * To access only the response body, use `getSottoCommessePerReferente()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getCommessePerReferente$Response(params: {
+  getSottoCommessePerReferente$Response(params: {
     idAzienda: number;
     idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
     idCommessa?: number;
+    idSottoCommessa?: number;
     anno?: number;
     mese?: number;
     avanzamento?: number;
   },
   context?: HttpContext
 
-): Observable<StrictHttpResponse<Array<GetCommessePerReferenteResponse>>> {
+): Observable<StrictHttpResponse<Array<GetSottoCommessePerReferenteResponse>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, StatoAvanzamentoService.GetCommessePerReferentePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, StatoAvanzamentoService.GetSottoCommessePerReferentePath, 'get');
     if (params) {
       rb.path('idAzienda', params.idAzienda, {});
       rb.query('idReferente', params.idReferente, {});
+      rb.query('idBusinessManager', params.idBusinessManager, {});
+      rb.query('idCliente', params.idCliente, {});
       rb.query('idCommessa', params.idCommessa, {});
+      rb.query('idSottoCommessa', params.idSottoCommessa, {});
       rb.query('anno', params.anno, {});
       rb.query('mese', params.mese, {});
       rb.query('avanzamento', params.avanzamento, {});
@@ -65,31 +71,34 @@ export class StatoAvanzamentoService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<GetCommessePerReferenteResponse>>;
+        return r as StrictHttpResponse<Array<GetSottoCommessePerReferenteResponse>>;
       })
     );
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getCommessePerReferente$Response()` instead.
+   * To access the full response (for headers, for example), `getSottoCommessePerReferente$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getCommessePerReferente(params: {
+  getSottoCommessePerReferente(params: {
     idAzienda: number;
     idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
     idCommessa?: number;
+    idSottoCommessa?: number;
     anno?: number;
     mese?: number;
     avanzamento?: number;
   },
   context?: HttpContext
 
-): Observable<Array<GetCommessePerReferenteResponse>> {
+): Observable<Array<GetSottoCommessePerReferenteResponse>> {
 
-    return this.getCommessePerReferente$Response(params,context).pipe(
-      map((r: StrictHttpResponse<Array<GetCommessePerReferenteResponse>>) => r.body as Array<GetCommessePerReferenteResponse>)
+    return this.getSottoCommessePerReferente$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Array<GetSottoCommessePerReferenteResponse>>) => r.body as Array<GetSottoCommessePerReferenteResponse>)
     );
   }
 
@@ -107,8 +116,13 @@ export class StatoAvanzamentoService extends BaseService {
   getSottoCommesseAvanzamento$Response(params: {
     idAzienda: number;
     idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
+    idCommessa?: number;
+    idSottoCommessa?: number;
     anno?: number;
     mese?: number;
+    stato?: number;
   },
   context?: HttpContext
 
@@ -118,8 +132,13 @@ export class StatoAvanzamentoService extends BaseService {
     if (params) {
       rb.path('idAzienda', params.idAzienda, {});
       rb.query('idReferente', params.idReferente, {});
+      rb.query('idBusinessManager', params.idBusinessManager, {});
+      rb.query('idCliente', params.idCliente, {});
+      rb.query('idCommessa', params.idCommessa, {});
+      rb.query('idSottoCommessa', params.idSottoCommessa, {});
       rb.query('anno', params.anno, {});
       rb.query('mese', params.mese, {});
+      rb.query('stato', params.stato, {});
     }
 
     return this.http.request(rb.build({
@@ -143,8 +162,13 @@ export class StatoAvanzamentoService extends BaseService {
   getSottoCommesseAvanzamento(params: {
     idAzienda: number;
     idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
+    idCommessa?: number;
+    idSottoCommessa?: number;
     anno?: number;
     mese?: number;
+    stato?: number;
   },
   context?: HttpContext
 
@@ -156,17 +180,17 @@ export class StatoAvanzamentoService extends BaseService {
   }
 
   /**
-   * Path part for operation popstCommesseAvanzamento
+   * Path part for operation postCommesseAvanzamento
    */
-  static readonly PopstCommesseAvanzamentoPath = '/stato-avanzamento/azienda/{idAzienda}/{IdAvanzamento}';
+  static readonly PostCommesseAvanzamentoPath = '/stato-avanzamento/azienda/{idAzienda}/{IdAvanzamento}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `popstCommesseAvanzamento()` instead.
+   * To access only the response body, use `postCommesseAvanzamento()` instead.
    *
    * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  popstCommesseAvanzamento$Response(params: {
+  postCommesseAvanzamento$Response(params: {
     idAzienda: number;
     IdAvanzamento: number;
     body?: AvanzamentiMensili
@@ -175,7 +199,7 @@ export class StatoAvanzamentoService extends BaseService {
 
 ): Observable<StrictHttpResponse<number>> {
 
-    const rb = new RequestBuilder(this.rootUrl, StatoAvanzamentoService.PopstCommesseAvanzamentoPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, StatoAvanzamentoService.PostCommesseAvanzamentoPath, 'post');
     if (params) {
       rb.path('idAzienda', params.idAzienda, {});
       rb.path('IdAvanzamento', params.IdAvanzamento, {});
@@ -196,11 +220,11 @@ export class StatoAvanzamentoService extends BaseService {
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `popstCommesseAvanzamento$Response()` instead.
+   * To access the full response (for headers, for example), `postCommesseAvanzamento$Response()` instead.
    *
    * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  popstCommesseAvanzamento(params: {
+  postCommesseAvanzamento(params: {
     idAzienda: number;
     IdAvanzamento: number;
     body?: AvanzamentiMensili
@@ -209,34 +233,42 @@ export class StatoAvanzamentoService extends BaseService {
 
 ): Observable<number> {
 
-    return this.popstCommesseAvanzamento$Response(params,context).pipe(
+    return this.postCommesseAvanzamento$Response(params,context).pipe(
       map((r: StrictHttpResponse<number>) => r.body as number)
     );
   }
 
   /**
-   * Path part for operation getCommesse
+   * Path part for operation getSottoCommesse
    */
-  static readonly GetCommessePath = '/stato-avanzamento/azienda/{idAzienda}/commesse';
+  static readonly GetSottoCommessePath = '/stato-avanzamento/azienda/{idAzienda}/sotto-commesse';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getCommesse()` instead.
+   * To access only the response body, use `getSottoCommesse()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getCommesse$Response(params: {
+  getSottoCommesse$Response(params: {
     idAzienda: number;
-    nomeCommessa?: string;
+    idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
+    idCommessa?: number;
+    idSottoCommessa?: number;
   },
   context?: HttpContext
 
-): Observable<StrictHttpResponse<Array<GetCommesseResponse>>> {
+): Observable<StrictHttpResponse<Array<GetSottoCommessePerReferenteResponse>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, StatoAvanzamentoService.GetCommessePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, StatoAvanzamentoService.GetSottoCommessePath, 'get');
     if (params) {
       rb.path('idAzienda', params.idAzienda, {});
-      rb.query('nomeCommessa', params.nomeCommessa, {});
+      rb.query('idReferente', params.idReferente, {});
+      rb.query('idBusinessManager', params.idBusinessManager, {});
+      rb.query('idCliente', params.idCliente, {});
+      rb.query('idCommessa', params.idCommessa, {});
+      rb.query('idSottoCommessa', params.idSottoCommessa, {});
     }
 
     return this.http.request(rb.build({
@@ -246,27 +278,99 @@ export class StatoAvanzamentoService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<GetCommesseResponse>>;
+        return r as StrictHttpResponse<Array<GetSottoCommessePerReferenteResponse>>;
       })
     );
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getCommesse$Response()` instead.
+   * To access the full response (for headers, for example), `getSottoCommesse$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getCommesse(params: {
+  getSottoCommesse(params: {
     idAzienda: number;
-    nomeCommessa?: string;
+    idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
+    idCommessa?: number;
+    idSottoCommessa?: number;
   },
   context?: HttpContext
 
-): Observable<Array<GetCommesseResponse>> {
+): Observable<Array<GetSottoCommessePerReferenteResponse>> {
 
-    return this.getCommesse$Response(params,context).pipe(
-      map((r: StrictHttpResponse<Array<GetCommesseResponse>>) => r.body as Array<GetCommesseResponse>)
+    return this.getSottoCommesse$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Array<GetSottoCommessePerReferenteResponse>>) => r.body as Array<GetSottoCommessePerReferenteResponse>)
+    );
+  }
+
+  /**
+   * Path part for operation getClienti
+   */
+  static readonly GetClientiPath = '/stato-avanzamento/azienda/{idAzienda}/clienti';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getClienti()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getClienti$Response(params: {
+    idAzienda: number;
+    idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
+    idCommessa?: number;
+    idSottoCommessa?: number;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Array<Dettaglio>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, StatoAvanzamentoService.GetClientiPath, 'get');
+    if (params) {
+      rb.path('idAzienda', params.idAzienda, {});
+      rb.query('idReferente', params.idReferente, {});
+      rb.query('idBusinessManager', params.idBusinessManager, {});
+      rb.query('idCliente', params.idCliente, {});
+      rb.query('idCommessa', params.idCommessa, {});
+      rb.query('idSottoCommessa', params.idSottoCommessa, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<Dettaglio>>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getClienti$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getClienti(params: {
+    idAzienda: number;
+    idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
+    idCommessa?: number;
+    idSottoCommessa?: number;
+  },
+  context?: HttpContext
+
+): Observable<Array<Dettaglio>> {
+
+    return this.getClienti$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Array<Dettaglio>>) => r.body as Array<Dettaglio>)
     );
   }
 

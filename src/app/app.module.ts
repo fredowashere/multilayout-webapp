@@ -26,7 +26,7 @@ import { ToastsContainer } from './shared/components/toasts-container.component'
     {
       provide: 'loggedInOnlyGuard',
       useFactory: (authService: AuthService, router: Router) =>
-        new AuthGuard([UTENTE_BASE], authService, router),
+        new AuthGuard([ UTENTE_BASE ], authService, router),
       deps: [ AuthService, Router ]
     },
   ],

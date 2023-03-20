@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
+import { GetAttoreResponseUtente } from './get-attore-response-utente';
 import { ProfiloDto } from './profilo-dto';
-import { UtentiAnagrafica } from './utenti-anagrafica';
 export interface GetAttoreResponse {
   codiceLogin?: null | string;
   email?: null | string;
@@ -18,5 +18,5 @@ export interface GetAttoreResponse {
   isUtenteBaseOnly?: boolean;
   master?: boolean;
   profili?: null | Array<ProfiloDto>;
-  utente?: UtentiAnagrafica;
+  utente?: GetAttoreResponseUtente;
 }

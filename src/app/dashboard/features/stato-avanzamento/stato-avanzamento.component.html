@@ -5,20 +5,22 @@
             <h5 class="mb-4">Ricerca</h5>
 
             <div class="col-md-8 mx-auto">
-                <div class="flexgrid flexgrid--3">
+                <div class="flexgrid flexgrid--2">
 
                     <app-input
+                        #pmAutocomplete
                         type="autocomplete"
                         name="projectManager"
-                        label="Project Manager"
+                        label="Project manager *"
                         placeholder="Cerca project manager"
-                        [options]="pm"
+                        [options]="pmList"
                         [formatter]="pmFormatter"
-                        [template]="rt"
+                        [template]="pmTmpl"
                         [filter]="pmFilter"
                         [ngControl]="pmCtrl"
+                        [floatingLabel]="true"
                     ></app-input>
-                    <ng-template #rt let-r="result" let-t="term">
+                    <ng-template #pmTmpl let-r="result" let-t="term">
                         <div class="my-1">
                             <div class="small">{{ r.idUtente }}</div>
                             <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
@@ -26,10 +28,20 @@
                     </ng-template>
 
                     <app-input
-                        name="commessa"
-                        label="Commessa"
-                        [ngControl]="commessaCtrl"
+                        #pmAutocomplete
+                        type="autocomplete"
+                        name="cliente"
+                        label="Cliente"
+                        placeholder="Cerca cliente"
+                        [options]="clienti"
+                        [formatter]="clienteFormatter"
+                        [filter]="clienteFilter"
+                        [ngControl]="clienteCtrl"
+                        [floatingLabel]="true"
                     ></app-input>
+                </div>
+
+                <div class="flexgrid flexgrid--2">
 
                     <app-input
                         type="select"
@@ -37,162 +49,204 @@
                         label="Stato"
                         [ngControl]="statoCtrl"
                         [options]="stati"
+                        [floatingLabel]="true"
                     ></app-input>
                 </div>
 
                 <div class="text-center my-3">
-                    <div class="btn btn-primary">
-                        <i class="bi bi-search pe-2"></i>
-                        Cerca
+                    <div class="btn-group">
+
+                        <button
+                            class="btn btn-outline-primary"
+                            (click)="resetControls()"
+                        >
+                            <i class="bi bi-x-lg pe-2"></i>
+                            Reset
+                        </button>
+    
+                        <button
+                            class="btn btn-primary"
+                            [disabled]="!idPm"
+                            (click)="searchClick$.next()"
+                        >
+                            Cerca
+                            <i class="bi bi-search ps-2"></i>
+                        </button>
                     </div>
                 </div>
-           </div>
-
-            <div class="d-flex gap-3 p-3">
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                >
-                    <i class="bi bi-save pe-2"></i>
-                    Salva selezionate
-                </button>
-                <button
-                    class="btn btn-danger"
-                    [disabled]="dt.selectedRows.length === 0"
-                >
-                    <i class="bi bi-trash3 pe-2"></i>
-                    Chiudi selezionate
-                </button>
             </div>
 
-            <app-table
-                class="avanzamento-table"
-                #dt
-                [thead]="thead"
-                [tbody]="tbody"
-                [rowExpand]="rowExpand"
-                [items]="sottoCommesseAvanzamento"
-                [searchable]="['commessa.descrizione', 'clienteFinale.descrizione', 'commessa.codice']"
-                [paginated]="true"
-                [pageSize]="10"
-                [trackByFn]="trackByIdCommessa"
-            >
+            <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs" [destroyOnHide]="false">
+                <li *ngFor="let tab of tabs" [ngbNavItem]="tab.id">
+                    <a ngbNavLink>
+                        {{ tab.title }}
+                        <span class="btn-close ms-2 fw-light" (click)="closeTab($event, tab.id)"></span>
+                    </a>
+                    <ng-template ngbNavContent>
 
-                <ng-template #thead>
-                    <th sortable="dettaglio.length" (sort)="dt.sort($any($event))"></th>
-                    <th sortable="commessa.descrizione" (sort)="dt.sort($any($event))">Descr. Commessa</th>
-                    <th sortable="clienteFinale.descrizione" (sort)="dt.sort($any($event))">Cliente Finale</th>
-                    <th sortable="commessa.codice" (sort)="dt.sort($any($event))">Cod. Commessa</th>
-                    <th sortable="sottoCommessa.codice" (sort)="dt.sort($any($event))">Cod. Sottocomm.</th>
-                    <th sortable="sottoCommessa.descrizione" (sort)="dt.sort($any($event))">Descr. Sottocomm.</th>
-                    <th sortable="dataInizio" (sort)="dt.sort($any($event))">Inizio</th>
-                    <th sortable="dataFine" (sort)="dt.sort($any($event))">Fine</th>
-                    <th class="text-end" sortable="percentualeRimanente" (sort)="dt.sort($any($event))">Totale %</th>
-                </ng-template>
+                        <div class="d-flex gap-3 p-3">
 
-                <ng-template #tbody let-avanzamento>
-                    <td class="text-muted">({{ avanzamento.dettaglio.length }})</td>
-                    <td>{{ avanzamento.commessa.descrizione }}</td>
-                    <td>{{ avanzamento.clienteFinale.descrizione }}</td>
-                    <td>{{ avanzamento.commessa.codice }}</td>
-                    <td>{{ avanzamento.sottoCommessa.codice }}</td>
-                    <td>{{ avanzamento.sottoCommessa.descrizione }}</td>
-                    <td class="no-text-break">{{ avanzamento.dataInizio }}</td>
-                    <td class="no-text-break">{{ avanzamento.dataFine }}</td>
-                    <td class="text-end">{{ 1 - avanzamento.percentualeRimanente | percent }}</td>
-                </ng-template>
-
-                <ng-template #rowExpand let-avanzamento>
-                    <div class="bg-white p-3">
-                        <ng-container *ngIf="avanzamento.dettaglio.length; else noItems">
-                            <app-table
-                                #dt2
-                                class="shadow"
-                                [thead]="thead2"
-                                [tbody]="tbody2"
-                                [items]="avanzamento.dettaglio"
-                                [selectable]="true"
+                            <button
+                                type="button"
+                                class="btn btn-primary"
                             >
-    
-                                <ng-template #thead2>
-                                    <th sortable="meseValidazione" (sort)="dt2.sort($any($event))">Mese</th>
-                                    <th class="text-end" sortable="avanzamentoTotale" (sort)="dt2.sort($any($event))">Mese %</th>
-                                    <th class="text-end" sortable="avanzamentoSommatorio" (sort)="dt2.sort($any($event))">Totale %</th>
-                                    <th class="text-end" sortable="ricavoCompetenza" (sort)="dt2.sort($any($event))">Ricavo Competenza</th>
-                                    <th class="text-center" sortable="statoValidazione.id" (sort)="dt2.sort($any($event))">Stato</th>
-                                    <th class="text-center"></th>
-                                </ng-template>
-    
-                                <ng-template #tbody2 let-dettaglio>
-                                    <td>{{ dettaglio.meseValidazione }}</td>
-                                    <td>
-                                        <div class="d-flex align-items-center justify-content-end gap-2">
-                                            <input
-                                                style="max-width: 5rem"
-                                                type="number"
-                                                class="form-control"
-                                                min="0"
-                                                step="0.01"
-                                                [max]="(avanzamento.percentualeRimanente <= 0) ? dettaglio.avanzamentoTotale : 1"
-                                                [(ngModel)]="dettaglio.avanzamentoTotale"
-                                                (input)="avanzamento.aggiorna(); dettaglio.dirty = true"
-                                                [readonly]="dettaglio.statoValidazione.id !== EnumStatiChiusura.Aperto"
-                                            >
-                                            <div style="text-align: right; width: 2.5rem">
-                                                {{ dettaglio.avanzamentoTotale | percent }}
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">{{ dettaglio.avanzamentoSommatorio | percent }}</td>
-                                    <td class="text-end">{{ dettaglio.ricavoCompetenza | currency:"EUR":"symbol" }}</td>
-                                    <td class="text-center">
-                                        <div class="btn-group">
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                                    {{ dettaglio.statoValidazione.id }}
+                                <i class="bi bi-save pe-2"></i>
+                                Salva selezionate
+                            </button>
+
+                            <button
+                                class="btn btn-danger"
+                                [disabled]="dt.selectedRows.length === 0"
+                            >
+                                <i class="bi bi-trash3 pe-2"></i>
+                                Chiudi selezionate
+                            </button>
+                        </div>
+
+                        <app-table
+                            class="avanzamento-table"
+                            #dt
+                            [thead]="thead"
+                            [tbody]="tbody"
+                            [rowExpand]="rowExpand"
+                            [items]="tab.avanzamento"
+                            [searchable]="[
+                                'commessa.descrizione',
+                                'commessa.codice',
+                                'cliente.descrizione',
+                                'clienteFinale.descrizione'
+                            ]"
+                            [paginated]="true"
+                            [pageSize]="10"
+                            [trackByFn]="trackByIdCommessa"
+                            emptyMessage="Nessun risultato, effettua una ricerca"
+                        >
+
+                            <ng-template #thead>
+                                <th sortable="dettaglio.length" (sort)="dt.sort($any($event))"></th>
+                                <th class="col-4" sortable="commessa.codice" (sort)="dt.sort($any($event))">Commessa</th>
+                                <th class="col-4" sortable="sottoCommessa.codice" (sort)="dt.sort($any($event))">Sottocomm.</th>
+                                <th class="col-4" sortable="cliente.descrizione" (sort)="dt.sort($any($event))">Cliente</th>
+                                <th sortable="dataInizio" (sort)="dt.sort($any($event))">Inizio</th>
+                                <th sortable="dataFine" (sort)="dt.sort($any($event))">Fine</th>
+                                <th class="text-end" sortable="percentualeRimanente" (sort)="dt.sort($any($event))">Totale %</th>
+                            </ng-template>
+
+                            <ng-template #tbody let-avanzamento>
+                                <td class="text-muted">({{ avanzamento.dettaglio.length }})</td>
+                                <td>
+                                    <div class="small fw-bold">{{ avanzamento.commessa.codice }}</div>
+                                    {{ avanzamento.commessa.descrizione }}
+                                </td>
+                                <td>
+                                    <div class="small fw-bold">{{ avanzamento.sottoCommessa.codice }}</div>
+                                    {{ avanzamento.sottoCommessa.descrizione }}
+                                </td>
+                                <td>
+                                    <div class="small fw-bold">{{ avanzamento.clienteFinale.descrizione }}</div>
+                                    {{ avanzamento.cliente.descrizione }}
+                                </td>
+                                <td class="no-text-break">{{ avanzamento.dataInizio }}</td>
+                                <td class="no-text-break">{{ avanzamento.dataFine }}</td>
+                                <td class="text-end">{{ 1 - avanzamento.percentualeRimanente | percent }}</td>
+                            </ng-template>
+
+                            <ng-template #rowExpand let-avanzamento>
+                                <div class="bg-white p-3">
+                                    <app-table
+                                        style="max-height: 65vh; overflow: auto;"
+                                        #dt2
+                                        class="shadow"
+                                        [thead]="thead2"
+                                        [tbody]="tbody2"
+                                        [items]="avanzamento.dettaglio"
+                                        [selectable]="true"
+                                    >
+
+                                        <ng-template #thead2>
+                                            <th sortable="meseValidazione" (sort)="dt2.sort($any($event))">Mese</th>
+                                            <th class="text-end" sortable="avanzamentoTotale" (sort)="dt2.sort($any($event))">Mese %</th>
+                                            <th class="text-end" sortable="avanzamentoSommatorio" (sort)="dt2.sort($any($event))">Totale %</th>
+                                            <th class="text-end" sortable="ricavoCompetenza" (sort)="dt2.sort($any($event))">Ricavo Competenza</th>
+                                            <th class="text-center" sortable="statoValidazione.id" (sort)="dt2.sort($any($event))">Stato</th>
+                                            <th class="text-center"></th>
+                                        </ng-template>
+
+                                        <ng-template #tbody2 let-dettaglio>
+                                            <td>{{ dettaglio.meseValidazione }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
+                                                    <input
+                                                        style="max-width: 5rem"
+                                                        type="number"
+                                                        class="form-control"
+                                                        min="0"
+                                                        step="0.01"
+                                                        [max]="(avanzamento.percentualeRimanente <= 0) ? dettaglio.avanzamentoTotale : 1"
+                                                        [(ngModel)]="dettaglio.avanzamentoTotale"
+                                                        (input)="avanzamento.aggiorna(); dettaglio.dirty = true"
+                                                        [readonly]="dettaglio.statoValidazione.id !== EnumStatiChiusura.Aperto"
+                                                    >
+                                                    <div style="text-align: right; width: 2.5rem">
+                                                        {{ dettaglio.avanzamentoTotale | percent }}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-end">{{ dettaglio.avanzamentoSommatorio | percent }}</td>
+                                            <td class="text-end">{{ dettaglio.ricavoCompetenza | currency:"EUR":"symbol" }}</td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <div class="btn-group" role="group">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                                            {{ dettaglio.statoValidazione.id }}
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <button
+                                                                    class="dropdown-item"
+                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Aperto"
+                                                                >Aperto</button>
+                                                            </li>
+                                                            <li>
+                                                                <button
+                                                                    class="dropdown-item"
+                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Chiuso"
+                                                                >Chiuso</button>
+                                                            </li>
+                                                            <li>
+                                                                <button
+                                                                    class="dropdown-item"
+                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Vistato"
+                                                                >Vistato</button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <button
+                                                    class="btn btn-outline-primary"
+                                                    [class.pulse]="dettaglio.dirty"
+                                                    (click)="salvaDettaglio()"
+                                                >
+                                                    <i class="bi bi-save pe-2"></i>
+                                                    Save
                                                 </button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <button
-                                                            class="dropdown-item"
-                                                            (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Aperto"
-                                                        >Aperto</button>
-                                                    </li>
-                                                    <li>
-                                                        <button
-                                                            class="dropdown-item"
-                                                            (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Chiuso"
-                                                        >Chiuso</button>
-                                                    </li>
-                                                    <li>
-                                                        <button
-                                                            class="dropdown-item"
-                                                            (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Vistato"
-                                                        >Vistato</button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <button
-                                            class="btn btn-outline-primary"
-                                            [class.pulse]="dettaglio.dirty"
-                                            (click)="salvaDettaglio()"
-                                        >
-                                            <i class="bi bi-save pe-2"></i>
-                                            Save
-                                        </button>
-                                    </td>
-                                </ng-template>
-                            </app-table>
-                        </ng-container>
-                        <ng-template #noItems>
-                            Non ci sono righe
-                        </ng-template>
-                    </div>
-                </ng-template>
-            </app-table>
+                                            </td>
+                                        </ng-template>
+                                    </app-table>
+                                </div>
+                            </ng-template>
+                        </app-table>
+                    </ng-template>
+                </li>
+            </ul>
+            
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+            <div class="p-3 text-center text-muted" *ngIf="this.tabs.length === 0">
+                Cerca per aggiungere schede
+            </div>
         </div>
     </div>
 </div>

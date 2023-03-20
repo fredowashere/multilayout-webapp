@@ -39,9 +39,13 @@ export class UtentiService extends BaseService {
     IdUtente?: number;
     Cognome?: string;
     Nome?: string;
-    Profilo?: string;
     IsPm?: boolean;
     IsBm?: boolean;
+    idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
+    idCommessa?: number;
+    idSottoCommessa?: number;
   },
   context?: HttpContext
 
@@ -53,9 +57,13 @@ export class UtentiService extends BaseService {
       rb.query('IdUtente', params.IdUtente, {});
       rb.query('Cognome', params.Cognome, {});
       rb.query('Nome', params.Nome, {});
-      rb.query('Profilo', params.Profilo, {});
       rb.query('IsPm', params.IsPm, {});
       rb.query('IsBm', params.IsBm, {});
+      rb.query('idReferente', params.idReferente, {});
+      rb.query('idBusinessManager', params.idBusinessManager, {});
+      rb.query('idCliente', params.idCliente, {});
+      rb.query('idCommessa', params.idCommessa, {});
+      rb.query('idSottoCommessa', params.idSottoCommessa, {});
     }
 
     return this.http.request(rb.build({
@@ -81,9 +89,13 @@ export class UtentiService extends BaseService {
     IdUtente?: number;
     Cognome?: string;
     Nome?: string;
-    Profilo?: string;
     IsPm?: boolean;
     IsBm?: boolean;
+    idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
+    idCommessa?: number;
+    idSottoCommessa?: number;
   },
   context?: HttpContext
 
@@ -163,9 +175,13 @@ export class UtentiService extends BaseService {
     IdUtente?: number;
     Cognome?: string;
     Nome?: string;
-    Profilo?: string;
     IsPm?: boolean;
     IsBm?: boolean;
+    idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
+    idCommessa?: number;
+    idSottoCommessa?: number;
   },
   context?: HttpContext
 
@@ -177,9 +193,13 @@ export class UtentiService extends BaseService {
       rb.query('IdUtente', params.IdUtente, {});
       rb.query('Cognome', params.Cognome, {});
       rb.query('Nome', params.Nome, {});
-      rb.query('Profilo', params.Profilo, {});
       rb.query('IsPm', params.IsPm, {});
       rb.query('IsBm', params.IsBm, {});
+      rb.query('idReferente', params.idReferente, {});
+      rb.query('idBusinessManager', params.idBusinessManager, {});
+      rb.query('idCliente', params.idCliente, {});
+      rb.query('idCommessa', params.idCommessa, {});
+      rb.query('idSottoCommessa', params.idSottoCommessa, {});
     }
 
     return this.http.request(rb.build({
@@ -205,9 +225,13 @@ export class UtentiService extends BaseService {
     IdUtente?: number;
     Cognome?: string;
     Nome?: string;
-    Profilo?: string;
     IsPm?: boolean;
     IsBm?: boolean;
+    idReferente?: number;
+    idBusinessManager?: number;
+    idCliente?: number;
+    idCommessa?: number;
+    idSottoCommessa?: number;
   },
   context?: HttpContext
 

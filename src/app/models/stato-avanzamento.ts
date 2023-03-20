@@ -1,6 +1,6 @@
 import { Chiusura, Commessa, Dettaglio, GetSottoCommesseAvanzamentoResponse, GetSottoCommesseAvanzamentoResponseDettaglio, UtentiAnagrafica } from "../api/stato-avanzamento/models";
 
-export class SottoCommessaAvanzamentoDettaglio {
+export class SottocommessaAvanzamentoDettaglio {
 
     dirty = false;
     avanzamentoSommatorio: number;
@@ -43,7 +43,7 @@ export class SottoCommessaAvanzamentoDettaglio {
     }
 }
 
-export class SottoCommessaAvanzamento {
+export class SottocommessaAvanzamento {
 
     percentualeRimanente!: number;
 
@@ -55,7 +55,7 @@ export class SottoCommessaAvanzamento {
     referente: UtentiAnagrafica;
     sottoCommessa: Commessa;
     stato: number;
-    dettaglio: Array<SottoCommessaAvanzamentoDettaglio>;
+    dettaglio: Array<SottocommessaAvanzamentoDettaglio>;
 
     constructor(raw: GetSottoCommesseAvanzamentoResponse) {
 
@@ -67,7 +67,7 @@ export class SottoCommessaAvanzamento {
         this.referente = raw.referente!;
         this.sottoCommessa = raw.sottoCommessa!;
         this.stato = raw.stato!;
-        this.dettaglio = raw.dettaglio?.map(d => new SottoCommessaAvanzamentoDettaglio(d))!;
+        this.dettaglio = raw.dettaglio?.map(d => new SottocommessaAvanzamentoDettaglio(d))!;
 
         this.aggiorna();
     }
