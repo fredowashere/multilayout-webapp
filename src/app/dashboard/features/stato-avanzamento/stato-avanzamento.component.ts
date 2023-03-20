@@ -1,14 +1,19 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { catchError, startWith, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
 import { Dettaglio, EnumStatiChiusura, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-avanzamento/services/stato-avanzamento-wrap.service';
-import { SottocommessaAvanzamento } from 'src/app/models/stato-avanzamento';
+import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/models/stato-avanzamento';
+import { ToastService } from 'src/app/services/toast.service';
+import { enforceMinMax } from 'src/app/utils/input';
 import { guid } from 'src/app/utils/uuid';
 
 interface Tab {
   id: string;
   title: string;
+  pm: UtentiAnagrafica;
+  cliente: Dettaglio | null;
+  stato: number;
   avanzamento: SottocommessaAvanzamento[];
 }
 
@@ -19,13 +24,14 @@ interface Tab {
 })
 export class StatoAvanzamentoComponent {
 
+  enforceMinMax = enforceMinMax;
+  EnumStatiChiusura = EnumStatiChiusura;
+
   destroy$ = new Subject<void>();
   searchClick$ = new Subject<void>();
 
   activeTabId!: string;
   tabs: Tab[] = [];
-
-  EnumStatiChiusura = EnumStatiChiusura;
 
   pmCtrl = new FormControl<UtentiAnagrafica | null>(null);
   get idPm() {
@@ -56,7 +62,8 @@ export class StatoAvanzamentoComponent {
   sottocommesseAvanzamento: SottocommessaAvanzamento[] = [];
 
   constructor(
-    private statoAvanzamentoWrap: StatoAvanzamentoWrapService
+    private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
+    private toastService: ToastService
   ) { }
   
   ngOnInit() {
@@ -117,20 +124,24 @@ export class StatoAvanzamentoComponent {
   }
 
   addTab(title: string, avanzamento: SottocommessaAvanzamento[]) {
+
     const id = guid();
     this.activeTabId = id;
+
     this.tabs.push({
       id,
       title,
-      avanzamento
+      avanzamento,
+      pm: this.pmCtrl.value as UtentiAnagrafica,
+      cliente: this.clienteCtrl.value,
+      stato: this.statoCtrl.value as number,
     });
   }
 
   closeTab(event: MouseEvent, toRemove: string) {
 
     // Open the tab to the left
-    const tabToRemoveIndex = this.tabs
-      .findIndex(tab => tab.id === toRemove);
+    const tabToRemoveIndex = this.tabs.findIndex(tab => tab.id === toRemove);
     this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.id;
 
     // Remove tab from the array
@@ -139,7 +150,43 @@ export class StatoAvanzamentoComponent {
 		event.stopImmediatePropagation();
 	}
 
-  salvaDettaglio() {}
+  salvaDettagliSelezionati(dettagli: SottocommessaAvanzamentoDettaglio[]) {
+    console.log(dettagli);
+    this.toastService.show("Non implementato", { classname: 'bg-info fw-bold' });
+  }
+
+  chiudiDettagliSelezionati(dettagli: SottocommessaAvanzamentoDettaglio[]) {
+    console.log(dettagli);
+    this.toastService.show("Non implementato", { classname: 'bg-info fw-bold' });
+  }
+
+  salvaDettaglio(dettaglio: SottocommessaAvanzamentoDettaglio) {
+    this.statoAvanzamentoWrap
+      .postAvanzamento$(dettaglio)
+      .pipe(
+        catchError(err => {
+          this.toastService.show(err.error, { classname: 'bg-danger text-light', delay: 10000 });
+          return throwError(err);
+        }),
+        tap(() => {
+
+          const activeTabIndex = this.tabs.findIndex(t => t.id === this.activeTabId);
+
+          const { pm, cliente, stato } = this.tabs[activeTabIndex];
+
+          // Call the backend with the original filter and update tab avanzamento
+          this.statoAvanzamentoWrap
+            .getAvanzamento$(
+              pm.idUtente as number,
+              undefined,
+              cliente?.id,
+              stato
+            )
+            .subscribe(avanzamento => this.tabs[activeTabIndex].avanzamento = avanzamento);
+        })
+      )
+      .subscribe();
+  }
 
   trackByIdCommessa(index: number, item: SottocommessaAvanzamento) {
     return item.commessa.codice;

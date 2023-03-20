@@ -1,4 +1,5 @@
-import { Chiusura, Commessa, Dettaglio, GetSottoCommesseAvanzamentoResponse, GetSottoCommesseAvanzamentoResponseDettaglio, UtentiAnagrafica } from "../api/stato-avanzamento/models";
+import { format } from "date-fns";
+import { Chiusura, Commessa, Dettaglio, EnumStatiChiusura, GetSottoCommesseAvanzamentoResponse, GetSottoCommesseAvanzamentoResponseDettaglio, UtentiAnagrafica } from "../api/stato-avanzamento/models";
 
 export class SottocommessaAvanzamentoDettaglio {
 
@@ -69,21 +70,55 @@ export class SottocommessaAvanzamento {
         this.stato = raw.stato!;
         this.dettaglio = raw.dettaglio?.map(d => new SottocommessaAvanzamentoDettaglio(d))!;
 
-        this.aggiorna();
+        this.aggiungiRigaImplicita();
+
+        this.aggiornaAvanzamento();
     }
 
-    aggiorna() {
+    aggiungiRigaImplicita() {
+
+        const contieneMeseCorrente = this.dettaglio
+            .some(d => 
+                new Date(d.meseValidazione).getFullYear() === new Date().getFullYear()
+                && new Date(d.meseValidazione).getMonth() === new Date().getMonth()
+            );
+
+        const oggi = format(new Date(), 'yyyy-MM-dd');
+
+        if (!contieneMeseCorrente)
+            this.dettaglio.push(
+                new SottocommessaAvanzamentoDettaglio({
+                    avanzamentoTotale: 0,
+                    dataAggiornamento: oggi,
+                    dataInserimento: oggi,
+                    descrizione: 'Riga autogenerata',
+                    idAzienda: 0,
+                    idCommessa: this.commessa.id,
+                    idProjectManager: this.referente.idUtente,
+                    idUtenteAggiornamento: 0,
+                    idUtenteInserimento: 0,
+                    idcommessaAvanzamentiMensili: 0,
+                    meseValidazione: oggi,
+                    ricavoCompetenza: 0,
+                    sottoCommessa: this.sottoCommessa,
+                    statoValidazione: {
+                        id: EnumStatiChiusura.Aperto,
+                        descrizione: 'Aperto'
+                    },
+                    valido: 1,
+                })
+            );
+    }
+
+    aggiornaAvanzamento() {
 
         this.dettaglio.forEach((d, i, a) => {
-
             const prev = a[i - 1];
             const curr = d;
-            if (prev) {
+            if (prev)
                 curr.avanzamentoSommatorio = curr.avanzamentoTotale + prev.avanzamentoSommatorio;
-            }
-            else {
+            else
                 curr.avanzamentoSommatorio = curr.avanzamentoTotale;
-            }
         });
 
         this.percentualeRimanente = 1 - this.dettaglio.map(d => d.avanzamentoTotale).reduce((a, b) => a + b, 0);

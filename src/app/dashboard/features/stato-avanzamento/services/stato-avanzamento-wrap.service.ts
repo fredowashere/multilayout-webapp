@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { StatoAvanzamentoService, UtentiService } from 'src/app/api/stato-avanzamento/services';
 import { AuthService } from 'src/app/services/auth.service';
-import { SottocommessaAvanzamento } from '../../../../models/stato-avanzamento';
+import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from '../../../../models/stato-avanzamento';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +66,26 @@ export class StatoAvanzamentoWrapService {
           res.map(sc => new SottocommessaAvanzamento(sc))
         )
       );
+  }
+
+  postAvanzamento$(dettaglio: SottocommessaAvanzamentoDettaglio) {
+
+    return this.statoAvanzamentoService
+      .postCommesseAvanzamento({
+        idAzienda: this.authService.user.idAzienda as number,
+        IdAvanzamento: dettaglio.idcommessaAvanzamentiMensili,
+        body: {
+          idSottoCommessa: dettaglio.sottoCommessa.id,
+          avanzamento: dettaglio.avanzamentoTotale,
+          descrizione: "What's that?",
+          statoValidazione: dettaglio.statoValidazione.id,
+          idAzienda: this.authService.user.idAzienda as number,
+          idProjectManager: dettaglio.idProjectManager,
+          ricavoCompetenza: dettaglio.ricavoCompetenza,
+          dataAggiornamento: dettaglio.dataAggiornamento,
+          meseValidazione: dettaglio.meseValidazione,
+          valido: !!dettaglio.valido
+        }
+      });
   }
 }

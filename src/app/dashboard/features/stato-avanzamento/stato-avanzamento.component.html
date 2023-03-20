@@ -84,23 +84,8 @@
                     </a>
                     <ng-template ngbNavContent>
 
-                        <div class="d-flex gap-3 p-3">
-
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                            >
-                                <i class="bi bi-save pe-2"></i>
-                                Salva selezionate
-                            </button>
-
-                            <button
-                                class="btn btn-danger"
-                                [disabled]="dt.selectedRows.length === 0"
-                            >
-                                <i class="bi bi-trash3 pe-2"></i>
-                                Chiudi selezionate
-                            </button>
+                        <div>
+                            Filtri usati: <b>{{ tab.pm.cognome + ' ' + tab.pm.nome }}</b> | <b>{{ tab.cliente?.descrizione || "-" }}</b> | <b>{{ ["Tutti", "Aperto", "Chiuso", "Validato"][tab.stato] }}</b>
                         </div>
 
                         <app-table
@@ -153,14 +138,40 @@
 
                             <ng-template #rowExpand let-avanzamento>
                                 <div class="bg-white p-3">
+
+                                    <div
+                                        *ngIf="avanzamento.dettaglio.length"
+                                        class="d-flex gap-3 p-3"
+                                    >
+
+                                        <button
+                                            class="btn btn-primary"
+                                            [disabled]="dt2.selectedRows.length === 0"
+                                            (click)="salvaDettagliSelezionati(dt2.selectedRows)"
+                                        >
+                                            <i class="bi bi-save pe-2"></i>
+                                            Salva selezionate
+                                        </button>
+            
+                                        <button
+                                            class="btn btn-danger"
+                                            [disabled]="dt2.selectedRows.length === 0"
+                                            (click)="chiudiDettagliSelezionati(dt2.selectedRows)"
+                                        >
+                                            <i class="bi bi-trash3 pe-2"></i>
+                                            Chiudi selezionate
+                                        </button>
+                                    </div>
+
                                     <app-table
-                                        style="max-height: 65vh; overflow: auto;"
                                         #dt2
                                         class="shadow"
                                         [thead]="thead2"
                                         [tbody]="tbody2"
                                         [items]="avanzamento.dettaglio"
                                         [selectable]="true"
+                                        maxHeight="65vh"
+                                        [stickyHead]="true"
                                     >
 
                                         <ng-template #thead2>
@@ -177,14 +188,32 @@
                                             <td>
                                                 <div class="d-flex align-items-center justify-content-end gap-2">
                                                     <input
+                                                        #perc
                                                         style="max-width: 5rem"
                                                         type="number"
                                                         class="form-control"
                                                         min="0"
                                                         step="0.01"
-                                                        [max]="(avanzamento.percentualeRimanente <= 0) ? dettaglio.avanzamentoTotale : 1"
-                                                        [(ngModel)]="dettaglio.avanzamentoTotale"
-                                                        (input)="avanzamento.aggiorna(); dettaglio.dirty = true"
+                                                        [max]="
+                                                            (avanzamento.percentualeRimanente <= 0)
+                                                                ? (dettaglio.avanzamentoTotale <= 1)
+                                                                    ? dettaglio.avanzamentoTotale
+                                                                    : 1
+                                                                : 1
+                                                        "
+                                                        [value]="dettaglio.avanzamentoTotale"
+                                                        (input)="
+                                                            enforceMinMax(perc);
+                                                            dettaglio.avanzamentoTotale = perc.value;
+                                                            avanzamento.aggiornaAvanzamento();
+                                                            dettaglio.dirty = true;
+                                                        "
+                                                        (keyup)="
+                                                            enforceMinMax(perc);
+                                                            dettaglio.avanzamentoTotale = perc.value;
+                                                            avanzamento.aggiornaAvanzamento();
+                                                            dettaglio.dirty = true;
+                                                        "
                                                         [readonly]="dettaglio.statoValidazione.id !== EnumStatiChiusura.Aperto"
                                                     >
                                                     <div style="text-align: right; width: 2.5rem">
@@ -197,26 +226,29 @@
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <div class="btn-group" role="group">
-                                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                                        <button
+                                                            class="btn btn-primary dropdown-toggle"
+                                                            data-bs-toggle="dropdown"
+                                                        >
                                                             {{ dettaglio.statoValidazione.id }}
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li>
                                                                 <button
                                                                     class="dropdown-item"
-                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Aperto"
+                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Aperto; dettaglio.dirty = true"
                                                                 >Aperto</button>
                                                             </li>
                                                             <li>
                                                                 <button
                                                                     class="dropdown-item"
-                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Chiuso"
+                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Chiuso; dettaglio.dirty = true"
                                                                 >Chiuso</button>
                                                             </li>
                                                             <li>
                                                                 <button
                                                                     class="dropdown-item"
-                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Vistato"
+                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Vistato; dettaglio.dirty = true"
                                                                 >Vistato</button>
                                                             </li>
                                                         </ul>
@@ -227,7 +259,7 @@
                                                 <button
                                                     class="btn btn-outline-primary"
                                                     [class.pulse]="dettaglio.dirty"
-                                                    (click)="salvaDettaglio()"
+                                                    (click)="salvaDettaglio(dettaglio)"
                                                 >
                                                     <i class="bi bi-save pe-2"></i>
                                                     Save
