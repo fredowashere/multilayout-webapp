@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { catchError, startWith, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
 import { Dettaglio, EnumStatiChiusura, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-avanzamento/services/stato-avanzamento-wrap.service';
-import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/models/stato-avanzamento';
+import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/dashboard/features/stato-avanzamento/models/stato-avanzamento';
 import { ToastService } from 'src/app/services/toast.service';
 import { enforceMinMax } from 'src/app/utils/input';
 import { guid } from 'src/app/utils/uuid';
@@ -33,7 +33,7 @@ export class StatoAvanzamentoComponent {
   activeTabId!: string;
   tabs: Tab[] = [];
 
-  pmCtrl = new FormControl<UtentiAnagrafica | null>(null);
+  pmCtrl = new FormControl<UtentiAnagrafica | null>(null, [Validators.required]);
   get idPm() {
     return this.pmCtrl.value?.idUtente;
   }

@@ -1,8 +1,10 @@
 import { format } from "date-fns";
-import { Chiusura, Commessa, Dettaglio, EnumStatiChiusura, GetSottoCommesseAvanzamentoResponse, GetSottoCommesseAvanzamentoResponseDettaglio, UtentiAnagrafica } from "../api/stato-avanzamento/models";
+import { guid } from "src/app/utils/uuid";
+import { Chiusura, Commessa, Dettaglio, EnumStatiChiusura, GetSottoCommesseAvanzamentoResponse, GetSottoCommesseAvanzamentoResponseDettaglio, UtentiAnagrafica } from "../../../../api/stato-avanzamento/models";
 
 export class SottocommessaAvanzamentoDettaglio {
 
+    _id = guid();
     dirty = false;
     avanzamentoSommatorio: number;
 
@@ -46,6 +48,7 @@ export class SottocommessaAvanzamentoDettaglio {
 
 export class SottocommessaAvanzamento {
 
+    _id = guid();
     percentualeRimanente!: number;
 
     cliente: Dettaglio;

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { StatoAvanzamentoService, UtentiService } from 'src/app/api/stato-avanzamento/services';
 import { AuthService } from 'src/app/services/auth.service';
-import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from '../../../../models/stato-avanzamento';
+import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from '../models/stato-avanzamento';
 
 @Injectable({
   providedIn: 'root'

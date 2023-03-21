@@ -153,6 +153,10 @@ th[sortable].desc::before {
   max-width: 1600px;
 }
 
+.form-check > :is(input, label) {
+  cursor: pointer;
+}
+
 /* Round button */
 .app-round-btn {
   box-shadow: 0 4px 8px 0 #0005;

@@ -204,13 +204,13 @@
                                                         [value]="dettaglio.avanzamentoTotale"
                                                         (input)="
                                                             enforceMinMax(perc);
-                                                            dettaglio.avanzamentoTotale = perc.value;
+                                                            dettaglio.avanzamentoTotale = +perc.value;
                                                             avanzamento.aggiornaAvanzamento();
                                                             dettaglio.dirty = true;
                                                         "
                                                         (keyup)="
                                                             enforceMinMax(perc);
-                                                            dettaglio.avanzamentoTotale = perc.value;
+                                                            dettaglio.avanzamentoTotale = +perc.value;
                                                             avanzamento.aggiornaAvanzamento();
                                                             dettaglio.dirty = true;
                                                         "
@@ -224,34 +224,57 @@
                                             <td class="text-end">{{ dettaglio.avanzamentoSommatorio | percent }}</td>
                                             <td class="text-end">{{ dettaglio.ricavoCompetenza | currency:"EUR":"symbol" }}</td>
                                             <td class="text-center">
-                                                <div class="btn-group">
-                                                    <div class="btn-group" role="group">
-                                                        <button
-                                                            class="btn btn-primary dropdown-toggle"
-                                                            data-bs-toggle="dropdown"
+                                                <div class="d-flex flex-wrap justify-content-center gap-2">
+
+                                                    <div class="form-check">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            [name]="'stato-' + dettaglio._id"
+                                                            [id]="'stato-' + dettaglio._id + '-aperto'"
+                                                            [checked]="dettaglio.statoValidazione.id === EnumStatiChiusura.Aperto"
+                                                            (change)="
+                                                                dettaglio.statoValidazione.id = EnumStatiChiusura.Aperto;
+                                                                dettaglio.dirty = true
+                                                            "
                                                         >
-                                                            {{ dettaglio.statoValidazione.id }}
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            <li>
-                                                                <button
-                                                                    class="dropdown-item"
-                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Aperto; dettaglio.dirty = true"
-                                                                >Aperto</button>
-                                                            </li>
-                                                            <li>
-                                                                <button
-                                                                    class="dropdown-item"
-                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Chiuso; dettaglio.dirty = true"
-                                                                >Chiuso</button>
-                                                            </li>
-                                                            <li>
-                                                                <button
-                                                                    class="dropdown-item"
-                                                                    (click)="dettaglio.statoValidazione.id = EnumStatiChiusura.Vistato; dettaglio.dirty = true"
-                                                                >Vistato</button>
-                                                            </li>
-                                                        </ul>
+                                                        <label class="form-check-label" [for]="'stato-' + dettaglio._id + '-aperto'">
+                                                            Aperto
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            [name]="'stato-' + dettaglio._id"
+                                                            [id]="'stato-' + dettaglio._id + '-chiuso'"
+                                                            [checked]="dettaglio.statoValidazione.id === EnumStatiChiusura.Chiuso"
+                                                            (change)="
+                                                                dettaglio.statoValidazione.id = EnumStatiChiusura.Chiuso;
+                                                                dettaglio.dirty = true
+                                                            "
+                                                        >
+                                                        <label class="form-check-label" [for]="'stato-' + dettaglio._id + '-chiuso'">
+                                                            Chiuso
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            [name]="'stato-' + dettaglio._id"
+                                                            [id]="'stato-' + dettaglio._id + '-vistato'"
+                                                            [checked]="dettaglio.statoValidazione.id === EnumStatiChiusura.Vistato"
+                                                            (change)="
+                                                                dettaglio.statoValidazione.id = EnumStatiChiusura.Vistato;
+                                                                dettaglio.dirty = true
+                                                            "
+                                                        >
+                                                        <label class="form-check-label" [for]="'stato-' + dettaglio._id + '-vistato'">
+                                                            Vistato
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </td>
