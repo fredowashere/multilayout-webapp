@@ -163,6 +163,12 @@ export class StatoAvanzamentoComponent {
   }
 
   salvaDettaglio(dettaglio: SottocommessaAvanzamentoDettaglio) {
+
+    // Save active tab and filters
+    const activeTabIndex = this.tabs.findIndex(t => t.id === this.activeTabId);
+    const activeTab = this.tabs[activeTabIndex];
+    const { pm, cliente, stato } = this.tabs[activeTabIndex];
+
     this.statoAvanzamentoWrap
       .postAvanzamento$(dettaglio)
       .pipe(
@@ -172,10 +178,6 @@ export class StatoAvanzamentoComponent {
         }),
         tap(() => {
 
-          const activeTabIndex = this.tabs.findIndex(t => t.id === this.activeTabId);
-
-          const { pm, cliente, stato } = this.tabs[activeTabIndex];
-
           // Call the backend with the original filter and update tab avanzamento
           this.statoAvanzamentoWrap
             .getAvanzamento$(
@@ -184,7 +186,7 @@ export class StatoAvanzamentoComponent {
               cliente?.id,
               stato
             )
-            .subscribe(avanzamento => this.tabs[activeTabIndex].avanzamento = avanzamento);
+            .subscribe(avanzamento => activeTab.avanzamento = avanzamento);
         })
       )
       .subscribe();
