@@ -78,7 +78,7 @@ export class StatoAvanzamentoWrapService {
           idSottoCommessa: dettaglio.sottoCommessa.id,
           avanzamento: dettaglio.avanzamentoTotale,
           descrizione: "What's that?",
-          statoValidazione: dettaglio.statoValidazione.id,
+          statoValidazione: dettaglio.statoValidazione.updId,
           idAzienda: this.authService.user.idAzienda as number,
           idProjectManager: dettaglio.idProjectManager,
           ricavoCompetenza: dettaglio.ricavoCompetenza,

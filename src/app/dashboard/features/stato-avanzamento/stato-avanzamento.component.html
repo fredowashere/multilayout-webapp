@@ -224,7 +224,10 @@
                                             <td class="text-end">{{ dettaglio.avanzamentoSommatorio | percent }}</td>
                                             <td class="text-end">{{ dettaglio.ricavoCompetenza | currency:"EUR":"symbol" }}</td>
                                             <td class="text-center">
-                                                <div class="d-flex flex-wrap justify-content-center gap-2">
+                                                <fieldset
+                                                    class="d-flex flex-wrap justify-content-center gap-2"
+                                                    [disabled]="dettaglio.statoValidazione.id === EnumStatiChiusura.Vistato"
+                                                >
 
                                                     <div class="form-check">
                                                         <input
@@ -232,9 +235,9 @@
                                                             type="radio"
                                                             [name]="'stato-' + dettaglio._id"
                                                             [id]="'stato-' + dettaglio._id + '-aperto'"
-                                                            [checked]="dettaglio.statoValidazione.id === EnumStatiChiusura.Aperto"
+                                                            [checked]="dettaglio.statoValidazione.updId === EnumStatiChiusura.Aperto"
                                                             (change)="
-                                                                dettaglio.statoValidazione.id = EnumStatiChiusura.Aperto;
+                                                                dettaglio.statoValidazione.updId = EnumStatiChiusura.Aperto;
                                                                 dettaglio.dirty = true
                                                             "
                                                         >
@@ -249,9 +252,9 @@
                                                             type="radio"
                                                             [name]="'stato-' + dettaglio._id"
                                                             [id]="'stato-' + dettaglio._id + '-chiuso'"
-                                                            [checked]="dettaglio.statoValidazione.id === EnumStatiChiusura.Chiuso"
+                                                            [checked]="dettaglio.statoValidazione.updId === EnumStatiChiusura.Chiuso"
                                                             (change)="
-                                                                dettaglio.statoValidazione.id = EnumStatiChiusura.Chiuso;
+                                                                dettaglio.statoValidazione.updId = EnumStatiChiusura.Chiuso;
                                                                 dettaglio.dirty = true
                                                             "
                                                         >
@@ -260,15 +263,15 @@
                                                         </label>
                                                     </div>
 
-                                                    <div class="form-check">
+                                                    <div class="form-check" *rbacAllow="[BUSINESS_MANAGER]">
                                                         <input
                                                             class="form-check-input"
                                                             type="radio"
                                                             [name]="'stato-' + dettaglio._id"
                                                             [id]="'stato-' + dettaglio._id + '-vistato'"
-                                                            [checked]="dettaglio.statoValidazione.id === EnumStatiChiusura.Vistato"
+                                                            [checked]="dettaglio.statoValidazione.updId === EnumStatiChiusura.Vistato"
                                                             (change)="
-                                                                dettaglio.statoValidazione.id = EnumStatiChiusura.Vistato;
+                                                                dettaglio.statoValidazione.updId = EnumStatiChiusura.Vistato;
                                                                 dettaglio.dirty = true
                                                             "
                                                         >
@@ -276,7 +279,7 @@
                                                             Vistato
                                                         </label>
                                                     </div>
-                                                </div>
+                                                </fieldset>
                                             </td>
                                             <td class="text-center">
                                                 <button

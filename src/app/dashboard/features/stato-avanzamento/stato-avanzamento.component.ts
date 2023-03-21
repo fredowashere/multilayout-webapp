@@ -7,6 +7,7 @@ import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src
 import { ToastService } from 'src/app/services/toast.service';
 import { enforceMinMax } from 'src/app/utils/input';
 import { guid } from 'src/app/utils/uuid';
+import { BUSINESS_MANAGER } from 'src/app/models/user';
 
 interface Tab {
   id: string;
@@ -26,6 +27,7 @@ export class StatoAvanzamentoComponent {
 
   enforceMinMax = enforceMinMax;
   EnumStatiChiusura = EnumStatiChiusura;
+  BUSINESS_MANAGER = BUSINESS_MANAGER;
 
   destroy$ = new Subject<void>();
   searchClick$ = new Subject<void>();

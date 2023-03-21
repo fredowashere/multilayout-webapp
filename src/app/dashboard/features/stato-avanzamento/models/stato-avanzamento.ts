@@ -2,6 +2,10 @@ import { format } from "date-fns";
 import { guid } from "src/app/utils/uuid";
 import { Chiusura, Commessa, Dettaglio, EnumStatiChiusura, GetSottoCommesseAvanzamentoResponse, GetSottoCommesseAvanzamentoResponseDettaglio, UtentiAnagrafica } from "../../../../api/stato-avanzamento/models";
 
+export interface ChiusuraWrap extends Chiusura {
+    updId: EnumStatiChiusura;
+}
+
 export class SottocommessaAvanzamentoDettaglio {
 
     _id = guid();
@@ -21,13 +25,12 @@ export class SottocommessaAvanzamentoDettaglio {
     meseValidazione: string;
     ricavoCompetenza: number;
     sottoCommessa: Commessa;
-    statoValidazione: Chiusura;
     valido: number;
+    statoValidazione: ChiusuraWrap;
 
     constructor(raw: GetSottoCommesseAvanzamentoResponseDettaglio) {
         
         this.avanzamentoSommatorio = 0;
-
         this.avanzamentoTotale = raw.avanzamentoTotale!;
         this.dataAggiornamento = raw.dataAggiornamento!;
         this.dataInserimento = raw.dataInserimento!;
@@ -41,8 +44,11 @@ export class SottocommessaAvanzamentoDettaglio {
         this.meseValidazione = raw.meseValidazione!;
         this.ricavoCompetenza = raw.ricavoCompetenza!;
         this.sottoCommessa = raw.sottoCommessa!;
-        this.statoValidazione = raw.statoValidazione!;
         this.valido = raw.valido!;
+        this.statoValidazione = {
+            ...raw.statoValidazione!,
+            updId: raw.statoValidazione?.id!
+        };
     }
 }
 
