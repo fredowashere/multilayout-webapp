@@ -202,6 +202,7 @@
                                                                 : 1
                                                         "
                                                         [value]="dettaglio.avanzamentoTotale"
+                                                        [disabled]="dettaglio.statoValidazione.id !== EnumStatiChiusura.Aperto"
                                                         (input)="
                                                             enforceMinMax(perc);
                                                             dettaglio.avanzamentoTotale = +perc.value;
@@ -214,7 +215,6 @@
                                                             avanzamento.aggiornaAvanzamento();
                                                             dettaglio.dirty = true;
                                                         "
-                                                        [readonly]="dettaglio.statoValidazione.id !== EnumStatiChiusura.Aperto"
                                                     >
                                                     <div style="text-align: right; width: 2.5rem">
                                                         {{ dettaglio.avanzamentoTotale | percent }}
@@ -226,7 +226,7 @@
                                             <td class="text-center">
                                                 <fieldset
                                                     class="d-flex flex-wrap justify-content-center gap-2"
-                                                    [disabled]="dettaglio.statoValidazione.id === EnumStatiChiusura.Vistato"
+                                                    [disabled]="dettaglio.raw.statoValidazione.id === EnumStatiChiusura.Vistato"
                                                 >
 
                                                     <div class="form-check">
@@ -235,9 +235,9 @@
                                                             type="radio"
                                                             [name]="'stato-' + dettaglio._id"
                                                             [id]="'stato-' + dettaglio._id + '-aperto'"
-                                                            [checked]="dettaglio.updStatoValidazione.id === EnumStatiChiusura.Aperto"
+                                                            [checked]="dettaglio.statoValidazione.id === EnumStatiChiusura.Aperto"
                                                             (change)="
-                                                                dettaglio.updStatoValidazione.id = EnumStatiChiusura.Aperto;
+                                                                dettaglio.statoValidazione.id = EnumStatiChiusura.Aperto;
                                                                 dettaglio.dirty = true
                                                             "
                                                         >
@@ -252,9 +252,9 @@
                                                             type="radio"
                                                             [name]="'stato-' + dettaglio._id"
                                                             [id]="'stato-' + dettaglio._id + '-chiuso'"
-                                                            [checked]="dettaglio.updStatoValidazione.id === EnumStatiChiusura.Chiuso"
+                                                            [checked]="dettaglio.statoValidazione.id === EnumStatiChiusura.Chiuso"
                                                             (change)="
-                                                                dettaglio.updStatoValidazione.id = EnumStatiChiusura.Chiuso;
+                                                                dettaglio.statoValidazione.id = EnumStatiChiusura.Chiuso;
                                                                 dettaglio.dirty = true
                                                             "
                                                         >
@@ -269,9 +269,9 @@
                                                             type="radio"
                                                             [name]="'stato-' + dettaglio._id"
                                                             [id]="'stato-' + dettaglio._id + '-vistato'"
-                                                            [checked]="dettaglio.updStatoValidazione.id === EnumStatiChiusura.Vistato"
+                                                            [checked]="dettaglio.statoValidazione.id === EnumStatiChiusura.Vistato"
                                                             (change)="
-                                                                dettaglio.updStatoValidazione.id = EnumStatiChiusura.Vistato;
+                                                                dettaglio.statoValidazione.id = EnumStatiChiusura.Vistato;
                                                                 dettaglio.dirty = true
                                                             "
                                                         >

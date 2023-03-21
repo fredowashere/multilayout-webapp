@@ -5,6 +5,8 @@ import { Chiusura, Commessa, Dettaglio, EnumStatiChiusura, GetSottoCommesseAvanz
 
 export class SottocommessaAvanzamentoDettaglio {
 
+    raw: GetSottoCommesseAvanzamentoResponseDettaglio;
+
     _id = guid();
     dirty = false;
     avanzamentoSommatorio: number;
@@ -22,11 +24,12 @@ export class SottocommessaAvanzamentoDettaglio {
     meseValidazione: string;
     ricavoCompetenza: number;
     sottoCommessa: Commessa;
-    valido: number;
     statoValidazione: Chiusura;
-    updStatoValidazione: Chiusura;
+    valido: number;
 
     constructor(raw: GetSottoCommesseAvanzamentoResponseDettaglio) {
+
+        this.raw = jsonCopy(raw);
         
         this.avanzamentoSommatorio = 0;
         this.avanzamentoTotale = raw.avanzamentoTotale!;
@@ -42,38 +45,41 @@ export class SottocommessaAvanzamentoDettaglio {
         this.meseValidazione = raw.meseValidazione!;
         this.ricavoCompetenza = raw.ricavoCompetenza!;
         this.sottoCommessa = raw.sottoCommessa!;
-        this.valido = raw.valido!;
         this.statoValidazione = raw.statoValidazione!;
-        this.updStatoValidazione = jsonCopy(raw.statoValidazione!);
+        this.valido = raw.valido!;
     }
 }
 
 export class SottocommessaAvanzamento {
+
+    raw: GetSottoCommesseAvanzamentoResponse;
 
     _id = guid();
     percentualeRimanente!: number;
 
     cliente: Dettaglio;
     clienteFinale: Dettaglio;
+    dettaglio: Array<SottocommessaAvanzamentoDettaglio>;
     commessa: Commessa;
     dataFine: string;
     dataInizio: string;
     referente: UtentiAnagrafica;
     sottoCommessa: Commessa;
     stato: number;
-    dettaglio: Array<SottocommessaAvanzamentoDettaglio>;
 
     constructor(raw: GetSottoCommesseAvanzamentoResponse) {
+
+        this.raw = jsonCopy(raw);
 
         this.cliente = raw.cliente!;
         this.clienteFinale = raw.clienteFinale!;
         this.commessa = raw.commessa!;
+        this.dettaglio = raw.dettaglio?.map(d => new SottocommessaAvanzamentoDettaglio(d))!;
         this.dataFine = raw.dataFine!;
         this.dataInizio = raw.dataInizio!;
         this.referente = raw.referente!;
         this.sottoCommessa = raw.sottoCommessa!;
         this.stato = raw.stato!;
-        this.dettaglio = raw.dettaglio?.map(d => new SottocommessaAvanzamentoDettaglio(d))!;
 
         this.aggiungiRigaImplicita();
         this.aggiornaAvanzamento();
