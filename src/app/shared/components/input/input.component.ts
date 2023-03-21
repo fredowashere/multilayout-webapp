@@ -41,8 +41,9 @@ export class InputComponent {
   @Input("template") template!: any;
   @Output("selectItem") selectItemEmitter = new EventEmitter<NgbTypeaheadSelectItemEvent>();
 
-  instance!: NgbTypeahead;
+  @Input("customSearch") customSearch!: OperatorFunction<string, readonly any[]>;
   search!: OperatorFunction<string, readonly any[]>;
+  instance!: NgbTypeahead;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
 
@@ -76,13 +77,13 @@ export class InputComponent {
 
     if (this.type === 'autocomplete') {
       this.setAutocompleteDefaultValue();
-      this.setAutocompleteDefaultSearch();
+      this.setAutocompleteSearch();
       this.setupAutocompleteReactivity();
     }
 
     if (this.type === 'tagger') {
       this.setTaggerDefault();
-      this.setAutocompleteDefaultSearch();
+      this.setAutocompleteSearch();
       this.setupAutocompleteReactivity();
     }
   }
@@ -116,15 +117,13 @@ export class InputComponent {
     if (!this.name)
       throw Error('app-input needs a name');
 
-    if (this.type === 'select' || this.type === 'radio' || this.type === 'autocomplete')
+    if (this.type === 'select' || this.type === 'radio')
       if (!this.options || this.options && !Array.isArray(this.options))
-        throw Error('Select, radio and autocomplete need the options array');
+        throw Error('Select and radio need the options array');
 
-    if (this.type === 'autocomplete' && this.formatter == defaultFormatter)
-      throw Error('Autocomplete needs a formatter function');
-
-    if (this.type === 'autocomplete' && this.filter === defaultFilter)
-      throw Error('Autocomplete needs a filter function');
+    if (this.type === 'autocomplete' && !this.customSearch)
+      if (!this.options || this.options && !Array.isArray(this.options))
+        throw Error('Autocomplete without a custom search needs the options array');
   }
 
   addOptionIds() {
@@ -134,7 +133,6 @@ export class InputComponent {
       .pipe(
         takeUntil(this.destroy$),
         tap(options => {
-
           if (options && Array.isArray(options))
             options.forEach(opt =>
               opt._id = this.name + '-' + guid()
@@ -144,29 +142,25 @@ export class InputComponent {
       .subscribe();
   }
 
-  setAutocompleteDefaultSearch() {
+  setAutocompleteSearch() {
 
     this.search = (text$: Observable<string>) => {
 
       const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
       const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
       const inputFocus$ = this.focus$;
-    
-      return merge(
-        debouncedText$,
-        inputFocus$,
-        clicksWithClosedPopup$
-      )
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(200),
-        distinctUntilChanged(),
-        map((term) => {
-          return this.options.filter(value =>
-            this.filter(term, value)
-          );
-        }),
-      );
+
+      if (this.customSearch)
+        return this.customSearch(merge(debouncedText$, inputFocus$, clicksWithClosedPopup$));
+
+      return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
+        .pipe(
+          map((term: string) => {
+            return this.options.filter(value =>
+              this.filter(term, value)
+            );
+          })
+        );
     };
   };
 
