@@ -1,0 +1,89 @@
+name: Pubblicazione_gcp
+
+on:
+  push:
+    tags:
+    - "*"
+
+env:
+  REGISTRY: eu.gcr.io
+  IMAGE_NAME: itec-be-project-4/modulo-attivita-fe
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Login
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID_TEST }}
+          service_account_email: ${{ secrets.GCP_EMAIL_TEST }}
+          service_account_key: ${{ secrets.GCP_SA_KEY_TEST }}
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker --quiet
+      
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        id: docker
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+
+      - name: check version output
+        run: |- 
+          echo "RELEASE_VERSION=${{ steps.tag.outputs.tag }}" 
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+      image: ${{ steps.docker.outputs.imageid }}
+  
+  deploy:
+    needs: build-and-push-image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Get tag
+      id: tag
+      uses: dawidd6/action-get-tag@v1
+
+    - name: check version 
+      run: echo  ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY_TEST }}'
+
+    - name: Configure Docker
+      run: gcloud auth configure-docker --quiet
+
+    - name: 'Deploy to App Engine'
+      uses: 'google-github-actions/deploy-appengine@v0'
+      with:
+        deliverables: 'app.yaml'
+        promote: true
+        image_url:  ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}
+        credentials: ${{ secrets.GCP_SA_KEY_TEST }}
+        version: 'v-0-0-1'
