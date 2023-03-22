@@ -105,7 +105,7 @@
                     <ng-template ngbNavContent>
 
                         <div>
-                            Filtri usati: <b>{{ tab.pm.cognome + ' ' + tab.pm.nome }}</b> | <b>{{ tab.sottocommessa?.sottoCommessa?.codice }}</b> | <b>{{ tab.cliente?.descrizione || "-" }}</b> | <b>{{ ["Tutti", "Aperto", "Chiuso", "Validato"][tab.stato] }}</b>
+                            Filtri usati: <b>{{ tab.pm.cognome + ' ' + tab.pm.nome }}</b> | <b>{{ tab.sottocommessa?.sottoCommessa?.codice || "-" }}</b> | <b>{{ tab.cliente?.descrizione || "-" }}</b> | <b>{{ ["Tutti", "Aperto", "Chiuso", "Validato"][tab.stato] }}</b>
                         </div>
 
                         <app-table
