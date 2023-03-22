@@ -30,7 +30,7 @@ export class StatoAvanzamentoWrapService {
     });
   }
 
-  getSottoCommesse$(idReferente?: number, idCliente?: number) {
+  getSottocommesse$(idReferente?: number, idCliente?: number) {
     return this.statoAvanzamentoService
       .getSottoCommesse({
         idAzienda: this.authService.user.idAzienda as number,

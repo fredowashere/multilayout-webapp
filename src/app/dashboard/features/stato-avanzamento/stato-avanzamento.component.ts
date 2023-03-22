@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { catchError, startWith, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
-import { Dettaglio, EnumStatiChiusura, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
+import { catchError, combineLatest, startWith, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
+import { Dettaglio, EnumStatiChiusura, GetSottoCommessePerReferenteResponse, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-avanzamento/services/stato-avanzamento-wrap.service';
 import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/dashboard/features/stato-avanzamento/models/stato-avanzamento';
 import { ToastService } from 'src/app/services/toast.service';
@@ -13,6 +13,7 @@ interface Tab {
   id: string;
   title: string;
   pm: UtentiAnagrafica;
+  sottocommessa: GetSottoCommessePerReferenteResponse | null;
   cliente: Dettaglio | null;
   stato: number;
   avanzamento: SottocommessaAvanzamento[];
@@ -44,6 +45,15 @@ export class StatoAvanzamentoComponent {
   pmFilter = (term: string, pm: UtentiAnagrafica) =>
     (pm.cognome + ' ' + pm.nome).toLowerCase().includes(term.toLowerCase());
 
+  sottocommessaCtrl = new FormControl<GetSottoCommessePerReferenteResponse | null>(null);
+  get idSottocommessa() {
+    return this.sottocommessaCtrl.value?.sottoCommessa?.id;
+  }
+  sottocommesse: GetSottoCommessePerReferenteResponse[] = [];
+  sottocommesseFormatter = (sc: GetSottoCommessePerReferenteResponse) => sc.sottoCommessa?.codice + ' ' + sc.sottoCommessa?.descrizione;
+  sottocommesseFilter = (term: string, sc: GetSottoCommessePerReferenteResponse) =>
+    (sc.sottoCommessa?.codice + ' ' + sc.sottoCommessa?.descrizione).toLowerCase().includes(term.toLowerCase());
+
   clienteCtrl = new FormControl<Dettaglio | null>(null);
   get idCliente() {
     return this.clienteCtrl.value?.id;
@@ -73,22 +83,68 @@ export class StatoAvanzamentoComponent {
     this.pmCtrl.valueChanges
       .pipe(
         startWith(null),
-        switchMap(pm =>
-          this.statoAvanzamentoWrap
-            .getClienti$(pm?.idUtente)
+        switchMap(() =>
+          combineLatest([
+            this.statoAvanzamentoWrap.getClienti$(
+              this.idPm,
+              this.idSottocommessa
+            ),
+            this.statoAvanzamentoWrap.getSottocommesse$(
+              this.idPm,
+              this.idCliente
+            )
+          ])
         ),
-        tap(clienti => this.clienti = clienti)
+        tap(([ clienti, sottocommesse ]) => {
+          this.sottocommesse = sottocommesse;
+          this.clienti = clienti;
+        })
+      )
+      .subscribe();
+
+    this.sottocommessaCtrl.valueChanges
+      .pipe(
+        startWith(null),
+        switchMap(() =>
+          combineLatest([
+            this.statoAvanzamentoWrap.getUtenti$(
+              true, false,
+              this.idSottocommessa,
+              this.idCliente
+            ),
+            this.statoAvanzamentoWrap.getClienti$(
+              this.idPm,
+              this.idSottocommessa
+            ),
+          ])
+        ),
+        tap(([ pmList, clienti ]) => {
+          this.pmList = pmList;
+          this.clienti = clienti;
+        })
       )
       .subscribe();
     
     this.clienteCtrl.valueChanges
       .pipe(
         startWith(null),
-        switchMap(cliente =>
-          this.statoAvanzamentoWrap
-            .getUtenti$(true, false, undefined, cliente?.id)
+        switchMap(() =>
+          combineLatest([
+            this.statoAvanzamentoWrap.getUtenti$(
+              true, false,
+              this.idSottocommessa,
+              this.idCliente
+            ),
+            this.statoAvanzamentoWrap.getSottocommesse$(
+              this.idPm,
+              this.idCliente
+            )
+          ])
         ),
-        tap(pmList => this.pmList = pmList)
+        tap(([ pmList, sottocommesse ]) => {
+          this.pmList = pmList;
+          this.sottocommesse = sottocommesse;
+        })
       )
       .subscribe();
 
@@ -99,16 +155,13 @@ export class StatoAvanzamentoComponent {
           this.statoAvanzamentoWrap
             .getAvanzamento$(
               this.idPm as number,
-              undefined,
+              this.idSottocommessa,
               this.idCliente,
               this.statoCtrl.value as number
             )
         ),
         tap(avanzamento => {
-          this.addTab(
-            this.pmCtrl.value?.cognome as string,
-            avanzamento
-          );
+          this.addTab(avanzamento);
           this.sottocommesseAvanzamento = avanzamento  
         })
       )
@@ -125,7 +178,16 @@ export class StatoAvanzamentoComponent {
     this.statoCtrl.setValue(0);
   }
 
-  addTab(title: string, avanzamento: SottocommessaAvanzamento[]) {
+  addTab(avanzamento: SottocommessaAvanzamento[]) {
+
+    const title = this.pmCtrl.value?.cognome + ' ' + this.pmCtrl.value?.nome;
+
+    const isAlreadyIncluded = this.tabs.some(t => t.pm.idUtente === this.pmCtrl.value?.idUtente);
+    if (isAlreadyIncluded) {
+      const txt = `${title} già incluso nelle tab di ricerca`;
+      this.toastService.show(txt, { classname: 'bg-danger text-white' });
+      return;
+    }
 
     const id = guid();
     this.activeTabId = id;
@@ -135,6 +197,7 @@ export class StatoAvanzamentoComponent {
       title,
       avanzamento,
       pm: this.pmCtrl.value as UtentiAnagrafica,
+      sottocommessa: this.sottocommessaCtrl.value,
       cliente: this.clienteCtrl.value,
       stato: this.statoCtrl.value as number,
     });
@@ -167,7 +230,12 @@ export class StatoAvanzamentoComponent {
     // Save active tab and filters
     const activeTabIndex = this.tabs.findIndex(t => t.id === this.activeTabId);
     const activeTab = this.tabs[activeTabIndex];
-    const { pm, cliente, stato } = this.tabs[activeTabIndex];
+    const {
+      pm,
+      sottocommessa,
+      cliente,
+      stato
+    } = this.tabs[activeTabIndex];
 
     this.statoAvanzamentoWrap
       .postAvanzamento$(dettaglio)
@@ -182,11 +250,13 @@ export class StatoAvanzamentoComponent {
           this.statoAvanzamentoWrap
             .getAvanzamento$(
               pm.idUtente as number,
-              undefined,
+              sottocommessa?.sottoCommessa?.id,
               cliente?.id,
               stato
             )
-            .subscribe(avanzamento => activeTab.avanzamento = avanzamento);
+            .subscribe(avanzamento =>
+              activeTab.avanzamento = avanzamento
+            );
         })
       )
       .subscribe();
