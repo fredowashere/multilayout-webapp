@@ -217,12 +217,12 @@ export class StatoAvanzamentoComponent {
 
   salvaDettagliSelezionati(dettagli: SottocommessaAvanzamentoDettaglio[]) {
     console.log(dettagli);
-    this.toastService.show("Non implementato", { classname: 'bg-info fw-bold' });
+    this.toastService.show("Non implementato", { classname: 'bg-warning' });
   }
 
   chiudiDettagliSelezionati(dettagli: SottocommessaAvanzamentoDettaglio[]) {
     console.log(dettagli);
-    this.toastService.show("Non implementato", { classname: 'bg-info fw-bold' });
+    this.toastService.show("Non implementato", { classname: 'bg-warning' });
   }
 
   salvaDettaglio(dettaglio: SottocommessaAvanzamentoDettaglio) {
