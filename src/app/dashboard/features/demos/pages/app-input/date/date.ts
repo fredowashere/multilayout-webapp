@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
@@ -12,6 +12,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 export class AppdDate {
 
     date = new FormControl();
+
+	month = new FormControl(null, [Validators.required]);
 }
 
 

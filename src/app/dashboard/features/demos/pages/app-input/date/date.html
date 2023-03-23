@@ -1,7 +1,7 @@
 <div class="d-grid gap-5 pt-4">
 
     <div>
-        <h5 class="mb-3">Fixed label</h5>
+        <h5 class="mb-3">Fixed labels</h5>
 
         <div class="flexgrid flexgrid--3">
 
@@ -35,7 +35,7 @@
     </div>
 
     <div>
-        <h5 class="mb-3">Floating label</h5>
+        <h5 class="mb-3">Floating labels</h5>
 
         <div class="flexgrid flexgrid--3">
 
@@ -69,5 +69,25 @@
                 [floatingLabel]="true"
             ></app-input>
         </div>
+    </div>
+
+    <div>
+
+        <app-monthpicker
+            name="monthpicker"
+            label="Monthpicker"
+            helper="minDate = { year: 2020, month: 6 }, maxDate = { year: 2026, month: 6 }"
+            [minDate]="{ year: 2020, month: 6 }"
+            [maxDate]="{ year: 2026, month: 6 }"
+            [ngControl]="month"
+        ></app-monthpicker>
+
+        <div class="card my-2">
+            <div class="card-body">
+                {{ month.value | json }}
+            </div>
+        </div>
+
+        <p>For the time being <code>app-monthpicker</code> doesn't support the <code>floatingLabel</code> attribute</p>
     </div>
 </div>
