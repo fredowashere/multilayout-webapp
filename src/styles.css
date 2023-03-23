@@ -109,6 +109,10 @@ ngb-typeahead-window {
   overflow: auto;
 }
 
+ngb-typeahead-window .dropdown-item {
+  white-space: initial;
+}
+
 app-table .ngb-highlight {
   background-color: #ff0;
 }

@@ -15,8 +15,8 @@
                         placeholder="Cerca project manager"
                         [options]="pmList"
                         [formatter]="pmFormatter"
-                        [template]="pmTmpl"
                         [filter]="pmFilter"
+                        [template]="pmTmpl"
                         [ngControl]="pmCtrl"
                         [floatingLabel]="true"
                     ></app-input>
@@ -30,6 +30,29 @@
                     <app-input
                         #pmAutocomplete
                         type="autocomplete"
+                        name="sottocommessa"
+                        label="Sottocommessa"
+                        placeholder="Cerca sottocommessa"
+                        [options]="sottocommesse"
+                        [formatter]="sottocommesseFormatter"
+                        [filter]="sottocommesseFilter"
+                        [template]="scTmpl"
+                        [ngControl]="sottocommessaCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                    <ng-template #scTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r.sottoCommessa?.codice }}</div>
+                            <ngb-highlight [result]="r.sottoCommessa?.descrizione" [term]="t"></ngb-highlight>
+                        </div>
+                    </ng-template>
+                </div>
+
+                <div class="flexgrid flexgrid--2">
+
+                    <app-input
+                        #pmAutocomplete
+                        type="autocomplete"
                         name="cliente"
                         label="Cliente"
                         placeholder="Cerca cliente"
@@ -39,9 +62,6 @@
                         [ngControl]="clienteCtrl"
                         [floatingLabel]="true"
                     ></app-input>
-                </div>
-
-                <div class="flexgrid flexgrid--2">
 
                     <app-input
                         type="select"
@@ -85,7 +105,7 @@
                     <ng-template ngbNavContent>
 
                         <div>
-                            Filtri usati: <b>{{ tab.pm.cognome + ' ' + tab.pm.nome }}</b> | <b>{{ tab.cliente?.descrizione || "-" }}</b> | <b>{{ ["Tutti", "Aperto", "Chiuso", "Validato"][tab.stato] }}</b>
+                            Filtri usati: <b>{{ tab.pm.cognome + ' ' + tab.pm.nome }}</b> | <b>{{ tab.sottocommessa?.sottoCommessa?.codice || "-" }}</b> | <b>{{ tab.cliente?.descrizione || "-" }}</b> | <b>{{ ["Tutti", "Aperto", "Chiuso", "Validato"][tab.stato] }}</b>
                         </div>
 
                         <app-table
@@ -301,10 +321,13 @@
                 </li>
             </ul>
             
-            <div [ngbNavOutlet]="nav" class="mt-2"></div>
-
-            <div class="p-3 text-center text-muted" *ngIf="this.tabs.length === 0">
-                Cerca per aggiungere schede
+            <div class="border p-3" style="border-top: none !important">
+                
+                <div [ngbNavOutlet]="nav"></div>
+    
+                <div class="p-3 text-center text-muted" *ngIf="this.tabs.length === 0">
+                    Cerca per aggiungere schede
+                </div>
             </div>
         </div>
     </div>

@@ -5,9 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "gh-pages": "ng build --output-path docs --base-href /multilayout-webapp/"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {

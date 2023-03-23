@@ -16,6 +16,7 @@ import { TableComponent } from './components/table/table.component';
 import { AppSortableHeader } from './directives/sortable-header';
 import { RbacAllowDirective } from './directives/role-based-access-allow';
 import { LetDirective } from './directives/ng-let';
+import { MonthpickerComponent } from './components/monthpicker/monthpicker.component';
 
 
 
@@ -29,7 +30,8 @@ import { LetDirective } from './directives/ng-let';
     InputComponent,
     SearchRouterComponent,
     TableComponent,
-    LetDirective
+    LetDirective,
+    MonthpickerComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +61,8 @@ import { LetDirective } from './directives/ng-let';
     TableComponent,
     AppSortableHeader,
     RbacAllowDirective,
-    LetDirective
+    LetDirective,
+    MonthpickerComponent
   ]
 })
 export class SharedModule { }
