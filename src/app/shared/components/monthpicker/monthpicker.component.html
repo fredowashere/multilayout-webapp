@@ -1,0 +1,72 @@
+<div #dd="ngbDropdown" ngbDropdown>
+
+    <label
+        *ngIf="label"
+        class="form-label"
+        (click)="$event.stopPropagation(); dd.open();"
+    >
+        {{ label }}
+    </label>
+
+    <div class="app-monthpicker">
+
+        <div class="app-monthpicker__toggle" ngbDropdownToggle></div>
+    
+        <input
+            #mp
+            class="app-month-picker__input form-control"
+            [class.form-control-sm]="size === 'sm'"
+            [class.form-control-lg]="size === 'lg'"
+            [class.is-invalid]="touched && ngControl.errors"
+            [name]="name"
+            [placeholder]="placeholder"
+            [formControl]="ngControl"
+        >
+
+        <i
+            *ngIf="ngControl.value"
+            class="app-monthpicker__reset-icon bi bi-x-lg"
+            (click)="reset()"
+        ></i>
+
+        <i
+            class="app-monthpicker__calendar-icon bi bi-calendar3"
+            (click)="$event.stopPropagation(); dd.open();"
+        ></i>
+    </div>
+
+    <div class="invalid-feedback" [class.d-block]="touched && ngControl.errors">
+        <div *ngIf="ngControl.errors?.required">
+            Richiesto
+        </div>
+    </div>
+
+    <div class="dropdown-menu p-3" ngbDropdownMenu>
+
+        <div class="d-grid" style="justify-items: center;">
+            <select class="form-select" style="max-width: 7.5rem;" (change)="onYearSelected($event)">
+                <option
+                    *ngFor="let y of years"
+                    [selected]="y.selected"
+                    [value]="y.year"
+                >
+                    {{ y.year }}
+                </option>
+            </select>
+        </div>
+
+        <div class="d-grid gap-2 mt-3" style="grid-template-columns: repeat(3, 1fr);">
+            <button
+                *ngFor="let m of months"
+                class="btn btn-outline-primary text-uppercase"
+                [class.highlight]="m.current"
+                [disabled]="m.disabled"
+                (click)="onMonthSelected(m.number)"
+            >
+                {{ m.name }}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="helper" class="form-text ps-2">{{ helper }}</div>
