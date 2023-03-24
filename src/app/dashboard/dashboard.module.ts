@@ -11,14 +11,19 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     children: [
-      { path: '', redirectTo: 'stato-avanzamento', pathMatch: 'full' },
+      { path: '', redirectTo: 'attivita', pathMatch: 'full' },
+      {
+        path: 'attivita',
+        loadChildren: () =>
+          import('./features/attivita/attivita.module').then(m => m.AttivitaModule)
+      },
       {
         path: 'stato-avanzamento',
         loadChildren: () =>
           import('./features/stato-avanzamento/stato-avanzamento.module').then(m => m.StatoAvanzamentoModule)
       },
     ]
-  }
+  },
 ];
 
 @NgModule({

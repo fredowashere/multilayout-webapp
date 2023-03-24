@@ -32,6 +32,12 @@ export class DashboardSidebarComponent {
   sidebarItems: SidebarItem[] = [
     {
       isActive: false,
+      title: 'Attività',
+      icon: 'bi bi-activity',
+      path: '/attivita',
+    },
+    {
+      isActive: false,
       title: 'Stato Avanzamento',
       icon: 'fa fa-tasks',
       path: '/stato-avanzamento',

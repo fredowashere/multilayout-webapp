@@ -1,0 +1,173 @@
+<div class="container-xxxl py-5 px-3">
+    
+    <div class="card shadow">
+        <div class="card-body">
+
+            <h5 class="mb-4">Ricerca Attività</h5>
+
+            <div class="col-md-8 mx-auto">
+
+                <div class="flexgrid flexgrid--2">
+
+                    <app-input
+                        type="autocomplete"
+                        name="projectManager"
+                        label="Project manager"
+                        placeholder="Cerca project manager"
+                        [options]="pmList"
+                        [formatter]="pmFormatter"
+                        [filter]="pmFilter"
+                        [template]="pmTmpl"
+                        [ngControl]="pmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                    <ng-template #pmTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r.idUtente }}</div>
+                            <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
+                        </div>
+                    </ng-template>
+
+                    <app-input
+                        type="autocomplete"
+                        name="commessa"
+                        label="Commessa"
+                        placeholder="Cerca commessa"
+                        [options]="commesse"
+                        [formatter]="commesseFormatter"
+                        [filter]="commesseFilter"
+                        [template]="cTmpl"
+                        [ngControl]="commessaCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                    <ng-template #cTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r?.codice }}</div>
+                            <ngb-highlight [result]="r?.descrizione" [term]="t"></ngb-highlight>
+                        </div>
+                    </ng-template>
+                </div>
+
+                <div class="flexgrid flexgrid--2">
+
+                    <app-input
+                        type="autocomplete"
+                        name="cliente"
+                        label="Cliente"
+                        placeholder="Cerca cliente"
+                        [options]="clienti"
+                        [formatter]="clienteFormatter"
+                        [filter]="clienteFilter"
+                        [ngControl]="clienteCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="select"
+                        name="stato"
+                        label="Stato"
+                        [ngControl]="statoCtrl"
+                        [options]="stati"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <ng-container *ngLet="{ collapsed: true } as _collapse">
+
+                    <div class="text-center my-3">
+                        <span
+                            class="text-muted clickable"
+                            (click)="_collapse.collapsed = !_collapse.collapsed"
+                        >
+                            Altri filtri
+                        </span>
+                    </div>
+
+                    <div class="card" #collapse="ngbCollapse" [(ngbCollapse)]="_collapse.collapsed">
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                </ng-container>
+
+                <div class="text-center my-3">
+                    <div class="btn-group">
+
+                        <button
+                            class="btn btn-outline-primary"
+                            (click)="resetControls()"
+                        >
+                            <i class="bi bi-x-lg pe-2"></i>
+                            Reset
+                        </button>
+    
+                        <button
+                            class="btn btn-primary"
+                            (click)="searchClick$.next()"
+                        >
+                            Cerca
+                            <i class="bi bi-search ps-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+
+                <div class="text-center p-3 pb-0">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                    >
+                        <i class="bi bi-plus"></i>
+                        Crea nuova attività
+                    </button>
+                </div>
+    
+                <app-table
+                    #dt
+                    [thead]="thead"
+                    [tbody]="tbody"
+                    [items]="attivita"
+                    [searchable]="['descrizione', 'cognomeBusinessManager', 'cognomeProjectManager']"
+                    [paginated]="true"
+                    [pageSize]="5"
+                    emptyMessage="Nessun risultato, effettua una ricerca"
+                >
+    
+                    <ng-template #thead>
+                        <th sortable="descrizioneCliente" (sort)="dt.sort($any($event))">Cliente</th>
+                        <th sortable="valido" (sort)="dt.sort($any($event))">Stato</th>
+                        <th sortable="descrizione" (sort)="dt.sort($any($event))">Attività</th>
+                        <th sortable="cognomeBusinessManager" (sort)="dt.sort($any($event))">BM</th>
+                        <th sortable="cognomeProjectManager" (sort)="dt.sort($any($event))">PM</th>
+                        <th sortable="data" (sort)="dt.sort($any($event))">Data</th>
+                        <th style="width: 10rem"></th>
+                    </ng-template>
+    
+                    <ng-template #tbody let-item let-term$="term$">
+                        <td>{{ item.descrizioneCliente }}</td>
+                        <td>{{ item.valido ? 'Valida' : 'Invalida' }}</td>
+                        <td>
+                            <div class="small fw-bold">{{ item.codiceCommessa }}</div>
+                            {{ item.descrizione }}
+                        </td>
+                        <td>{{ (item.cognomeBusinessManager || '') + ' ' + (item.nomeBusinessManager || '') }}</td>
+                        <td>{{ (item.cognomeProjectManager || '') + ' ' + (item.nomeProjectManager || '') }}</td>
+                        <td>{{ item.data | date:'yyyy-MM-dd' }}</td>
+                        <td>
+                            <!-- <div class="d-flex gap-2 justify-content-center">
+                                <button type="button" class="btn btn-primary" (click)="edit(country)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger" (click)="confirmDeleteSingle(country)">
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+                            </div> -->
+                        </td>
+                    </ng-template>
+                </app-table>
+            </div>
+        </div>
+    </div>
+</div>
