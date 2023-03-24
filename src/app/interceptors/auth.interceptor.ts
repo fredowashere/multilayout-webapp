@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
         const idToken = localStorage.getItem("token");
 
-        if (environment.name === ENV_DEV || !idToken)
+        if (!idToken) // exclude bearer for StatoAvanzamento with "environment.name === ENV_DEV ||"
             return next.handle(req);
 
         const cloned = req.clone({

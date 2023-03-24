@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from "rxjs";
+import { environment } from 'src/environments/environment';
+import { ENV_COLL, ENV_DEV, ENV_PROD } from 'src/environments/envs';
 import { GetAttoreResponse } from '../api/stato-avanzamento/models';
 import { UtentiService } from '../api/stato-avanzamento/services';
 import { User, UTENTE_BASE } from '../models/user';
@@ -38,6 +40,8 @@ export class AuthService {
     localStorage.setItem('token', token);
     localStorage.setItem('id_azienda', JSON.stringify(idAzienda));
     localStorage.setItem("expires_at", JSON.stringify(parseJwt(token).exp));
+
+    this.loggedInElseLogout();
 
     return this.utentiService.getAttore({ idAzienda })
       .pipe(
@@ -93,8 +97,10 @@ export class AuthService {
     const token = localStorage.getItem('token');
     const idAzienda = localStorage.getItem('id_azienda');
     const userData = localStorage.getItem('user_data');
+
+    this.loggedInElseLogout();
     
-    if (token && idAzienda && userData) // && this.isLoggedIn())
+    if (token && idAzienda && userData)
       this.user = JSON.parse(userData);
     
     return this.user$;
@@ -106,6 +112,15 @@ export class AuthService {
     localStorage.removeItem("user_data");
     localStorage.removeItem("expires_at");
     this.user = ANONYMOUS_USER;
+
+    if ([ENV_COLL, ENV_PROD].includes(environment.name))
+      window.location.href = environment.loginUrl;
+  }
+
+  loggedInElseLogout() {
+    const loggedIn = this.isLoggedIn() || environment.name === ENV_DEV; // bypass this procedure in dev
+    if (!loggedIn)
+      this.logout();
   }
 
   isLoggedIn() {
@@ -122,7 +137,7 @@ export class AuthService {
 
     let expiresAt = 0;
     if (expiration)
-      expiresAt = JSON.parse(expiration);
+      expiresAt = JSON.parse(expiration) * 1000;
 
     return expiresAt;
   }
