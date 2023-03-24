@@ -37,6 +37,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -50,6 +56,20 @@
                 }
               ],
               "outputHashing": "all"
+            },
+            "collaudo": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.coll.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             },
             "development": {
               "buildOptimizer": false,
@@ -67,6 +87,9 @@
           "configurations": {
             "production": {
               "browserTarget": "multi-layout:build:production"
+            },
+            "collaudo": {
+              "browserTarget": "multi-layout:build:collaudo"
             },
             "development": {
               "browserTarget": "multi-layout:build:development"

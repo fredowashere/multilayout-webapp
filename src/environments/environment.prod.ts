@@ -2,5 +2,7 @@ import { ENV_PROD } from "./envs";
 
 export const environment = {
     name: ENV_PROD,
-    statoAvanzamentoUrl: ""
+    attivitaApiRoot: "https://scaiportal.grupposcai.it",
+    statoAvanzamentoUrl: "",
+    loginUrl: "https://scaiportal.grupposcai.it/pages/login"
 };

@@ -1,25 +1,33 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { delay } from 'src/app/utils/promise';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-splash',
-  templateUrl: './splash.component.html',
-  styleUrls: ['./splash.component.css']
+  template: '<!-- this is an empty page that serves as a landing page to login the user via query params -->'
 })
 export class SplashComponent {
 
-  @ViewChild('logo') logo!: ElementRef;
-  
-  today: Date = new Date();
-
-  constructor() {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private toaster: ToastService
+  ) {}
 
   async ngOnInit() {
 
-    await delay(2000);
+    const qp = this.route.snapshot.queryParams;
 
-    this.logo.nativeElement.classList.add('expand');
-    await delay(450);
-    // this.router.navigate(['/']);
+    if (qp.token && qp.idAziendaSelezionata) {
+      const bareToken = qp.token.replace('Bearer ', '');
+      this.authService
+        .login(bareToken, qp.idAziendaSelezionata)
+        .subscribe(
+          () => this.router.navigate(['/']),
+          () => this.toaster.show("Non è stato possibile recuperare le informazioni dell'utente collegato", { classname: 'bg-warning' })
+        );
+    }
   }
 }
