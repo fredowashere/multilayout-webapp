@@ -15,12 +15,14 @@ export class CommessaService {
     private http: HttpClient
   ) { }
 
-  getAllCommesse$(input: GetAllCommesseInput) {
+  getAllCommesse$(input?: GetAllCommesseInput) {
+    input = input || {};
     const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/all-padre/id-azienda/${this.authService.user.idAzienda}`;
     return this.http.post<CommessaSearchDto[]>(url, input);
   }
 
-  getCommesseAutocomplete$(input: GetAllCommesseInput): Observable<Commessa[]> {
+  getCommesseAutocomplete$(input?: GetAllCommesseInput): Observable<Commessa[]> {
+    input = input || {};
     const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/all-padre/id-azienda/${this.authService.user.idAzienda}`;
     return this.http.post<CommessaSearchDto[]>(url, input)
       .pipe(

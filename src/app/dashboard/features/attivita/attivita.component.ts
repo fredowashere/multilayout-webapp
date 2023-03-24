@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { combineLatest, startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
+import { InputComponent } from 'src/app/shared/components/input/input.component';
 import { StatoAvanzamentoWrapService } from '../stato-avanzamento/services/stato-avanzamento-wrap.service';
 import { Commessa, CommessaSearchDto } from './models/attivita.models';
 import { CommessaService } from './services/attivita.service';
@@ -12,6 +13,10 @@ import { CommessaService } from './services/attivita.service';
   styleUrls: ['./attivita.component.css']
 })
 export class AttivitaComponent {
+
+  @ViewChild("pmAutocomplete") pmAutocomplete!: InputComponent;
+  @ViewChild("commessaAutocomplete") commessaAutocomplete!: InputComponent;
+  @ViewChild("clienteAutocomplete") clienteAutocomplete!: InputComponent;
 
   destroy$ = new Subject<void>();
   searchClick$ = new Subject<void>();
@@ -62,78 +67,79 @@ export class AttivitaComponent {
 
   ngOnInit() {
 
-    this.pmCtrl.valueChanges
-      .pipe(
-        startWith(null),
-        switchMap(() =>
-          combineLatest([
-            this.statoAvanzamentoWrap
-              .getClienti$(
-                this.idPm,
-                this.idCommessa
-              ),
-            this.commessaService
-              .getCommesseAutocomplete$({
-                idCliente: this.idCliente,
-                idProjectManager: this.idPm
-              })
-          ])
+    this.initializeAutocompleteValues();
+
+    // Define of autocomplete handlers
+    const onPmType$ = combineLatest([
+      this.statoAvanzamentoWrap
+        .getClienti$(
+          this.idPm,
+          this.idCommessa
         ),
-        tap(([ clienti, commesse ]) => {
-          this.commesse = commesse;
-          this.clienti = clienti;
+      this.commessaService
+        .getCommesseAutocomplete$({
+          idCliente: this.idCliente,
+          idProjectManager: this.idPm
         })
-      )
+    ])
+    .pipe(
+      tap(([ clienti, commesse ]) => {
+        this.commesse = commesse;
+        this.clienti = clienti;
+      })
+    );
+
+    const onCommessaType$ = combineLatest([
+      this.statoAvanzamentoWrap
+        .getUtenti$(
+          true, false,
+          this.idCommessa,
+          this.idCliente
+        ),
+      this.statoAvanzamentoWrap
+        .getClienti$(
+          this.idPm,
+          this.idCommessa
+        ),
+    ])
+    .pipe(
+      tap(([ pmList, clienti ]) => {
+        this.pmList = pmList;
+        this.clienti = clienti;
+      })
+    );
+
+    const onClienteType$ = combineLatest([
+      this.statoAvanzamentoWrap
+        .getUtenti$(
+          true, false,
+          this.idCommessa,
+          this.idCliente
+        ),
+      this.commessaService
+        .getCommesseAutocomplete$({
+          idCliente: this.idCliente,
+          idProjectManager: this.idPm
+        })
+    ])
+    .pipe(
+      tap(([ pmList, commesse ]) => {
+        this.pmList = pmList;
+        this.commesse = commesse;
+      })
+    );
+
+    // Assign autocomplete handler to its control
+    this.pmCtrl.valueChanges
+      .pipe(switchMap(() => onPmType$))
       .subscribe();
 
     this.commessaCtrl.valueChanges
-      .pipe(
-        startWith(null),
-        switchMap(() =>
-          combineLatest([
-            this.statoAvanzamentoWrap
-              .getUtenti$(
-                true, false,
-                this.idCommessa,
-                this.idCliente
-              ),
-            this.statoAvanzamentoWrap
-              .getClienti$(
-                this.idPm,
-                this.idCommessa
-              ),
-          ])
-        ),
-        tap(([ pmList, clienti ]) => {
-          this.pmList = pmList;
-          this.clienti = clienti;
-        })
-      )
+      .pipe(switchMap(() => onCommessaType$))
       .subscribe();
     
     this.clienteCtrl.valueChanges
-      .pipe(
-        startWith(null),
-        switchMap(() =>
-          combineLatest([
-            this.statoAvanzamentoWrap
-              .getUtenti$(
-                true, false,
-                this.idCommessa,
-                this.idCliente
-              ),
-            this.commessaService
-              .getCommesseAutocomplete$({
-                idCliente: this.idCliente,
-                idProjectManager: this.idPm
-              })
-          ])
-        ),
-        tap(([ pmList, commesse ]) => {
-          this.pmList = pmList;
-          this.commesse = commesse;
-        })
-      )
+      .pipe(switchMap(() => onClienteType$))
       .subscribe();
 
     this.searchClick$
@@ -159,10 +165,35 @@ export class AttivitaComponent {
     this.destroy$.next();
   }
 
+  initializeAutocompleteValues() {
+
+    this.statoAvanzamentoWrap
+      .getUtenti$(true, false)
+      .subscribe(pmList => this.pmList = pmList);
+
+    this.commessaService
+      .getCommesseAutocomplete$()
+      .subscribe(commesse => this.commesse = commesse);
+
+    this.statoAvanzamentoWrap
+      .getClienti$()
+      .subscribe(clienti => this.clienti = clienti);
+  }
+
   resetControls() {
-    this.pmCtrl.setValue(null);
-    this.commessaCtrl.setValue(null);
-    this.clienteCtrl.setValue(null);
+
+    // DO NOT emit otherwise they will call the backend 6 times...
+    this.pmCtrl.setValue(null, { emitEvent: false });
+    this.commessaCtrl.setValue(null, { emitEvent: false });
+    this.clienteCtrl.setValue(null, { emitEvent: false });
+
+    // ...instead clear the input manually
+    this.pmAutocomplete._autocompleteChoice = null;
+    this.commessaAutocomplete._autocompleteChoice = null;
+    this.clienteAutocomplete._autocompleteChoice = null;
+
+    this.initializeAutocompleteValues();
+
     this.statoCtrl.setValue('true');
   }
 }
