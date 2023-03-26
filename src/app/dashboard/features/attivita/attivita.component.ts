@@ -369,12 +369,13 @@ export class AttivitaComponent {
       .deleteCommessa(commessa.id)
       .subscribe(
         () => {
-        const txt = "Commessa eliminata con successo!";
-        this.toaster.show(txt, { classname: 'bg-success text-white' });
-      },
-      (ex) => {
-        this.toaster.show(ex.error, { classname: 'bg-danger text-white' });
-      }
+          const txt = "Commessa eliminata con successo!";
+          this.toaster.show(txt, { classname: 'bg-success text-white' });
+          this.refresh$.next();
+        },
+        (ex) => {
+          this.toaster.show(ex.error, { classname: 'bg-danger text-white' });
+        }
       );
   }
 }
