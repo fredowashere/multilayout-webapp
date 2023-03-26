@@ -1,11 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { combineLatest, startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { combineLatest, merge, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
+import { ToastService } from 'src/app/services/toast.service';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
+import { jsonCopy } from 'src/app/utils/json';
 import { StatoAvanzamentoWrapService } from '../stato-avanzamento/services/stato-avanzamento-wrap.service';
+import { AttivitaCreazioneModificaDialog } from './dialogs/attivita-creazione-modifica.dialog';
+import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
 import { Commessa, CommessaSearchDto } from './models/attivita.models';
-import { CommessaService } from './services/attivita.service';
+import { AttivitaService } from './services/attivita.service';
 
 @Component({
   selector: 'app-attivita',
@@ -14,21 +19,31 @@ import { CommessaService } from './services/attivita.service';
 })
 export class AttivitaComponent {
 
-  @ViewChild("pmAutocomplete") pmAutocomplete!: InputComponent;
+  @ViewChild("clienteDirettoAutocomplete") clienteDirettoAutocomplete!: InputComponent;
+  @ViewChild("clienteFinaleAutocomplete") clienteFinaleAutocomplete!: InputComponent;
   @ViewChild("commessaAutocomplete") commessaAutocomplete!: InputComponent;
-  @ViewChild("clienteAutocomplete") clienteAutocomplete!: InputComponent;
+  @ViewChild("pmAutocomplete") pmAutocomplete!: InputComponent;
+  @ViewChild("bmAutocomplete") bmAutocomplete!: InputComponent;
 
   destroy$ = new Subject<void>();
   searchClick$ = new Subject<void>();
+  refresh$ = new Subject<void>();
+  isLoading = false;
 
-  pmCtrl = new FormControl<UtentiAnagrafica | null>(null);
-  get idPm() {
-    return this.pmCtrl.value?.idUtente;
+  clienteDirettoCtrl = new FormControl<Dettaglio | null>(null);
+  get idClienteDiretto() {
+    return this.clienteDirettoCtrl.value?.id;
   }
-  pmList: UtentiAnagrafica[] = [];
-  pmFormatter = (pm: UtentiAnagrafica) => pm.cognome + ' ' + pm.nome;
-  pmFilter = (term: string, pm: UtentiAnagrafica) =>
-    (pm.cognome + ' ' + pm.nome).toLowerCase().includes(term.toLowerCase());
+  clientiDiretti: Dettaglio[] = [];
+  clienteFormatter = (c: Dettaglio) => c.descrizione;
+  clienteFilter = (term: string, c: Dettaglio) =>
+    (c.descrizione as string).toLowerCase().includes(term.toLowerCase());
+
+  clienteFinaleCtrl = new FormControl<Dettaglio | null>(null);
+  get idClienteFinale() {
+    return this.clienteFinaleCtrl.value?.id;
+  }
+  clientiFinali: Dettaglio[] = [];
 
   commessaCtrl = new FormControl<Commessa | null>(null);
   get idCommessa() {
@@ -42,14 +57,17 @@ export class AttivitaComponent {
   commesseFilter = (term: string, sc: Commessa) =>
     (sc?.codice + ' ' + sc?.descrizione).toLowerCase().includes(term.toLowerCase());
 
-  clienteCtrl = new FormControl<Dettaglio | null>(null);
-  get idCliente() {
-    return this.clienteCtrl.value?.id;
+  descrizioneCtrl = new FormControl<string | null>(null);
+
+  tipoAttivitaCtrl = new FormControl<number | null>(null);
+  get tipoAttivita() {
+    return this.tipoAttivitaCtrl.value;
   }
-  clienti: Dettaglio[] = [];
-  clienteFormatter = (c: Dettaglio) => c.descrizione;
-  clienteFilter = (term: string, c: Dettaglio) =>
-    (c.descrizione as string).toLowerCase().includes(term.toLowerCase());
+  tipiAttivita = [
+    { text: 'Tutti', value: null },
+    { text: 'Opportunità', _descr: "optn", value: 1 },
+    { text: 'Commessa interna', _descr: "cmint", value: 2 }
+  ];
 
   statoCtrl = new FormControl<string | null>('true'); // backend wants a string "true" or "false"
   stati = [
@@ -58,11 +76,28 @@ export class AttivitaComponent {
     { text: 'Invalido', value: 'false' },
   ];
 
-  attivita: CommessaSearchDto[] = [];
+  pmCtrl = new FormControl<UtentiAnagrafica | null>(null);
+  get idPm() {
+    return this.pmCtrl.value?.idUtente;
+  }
+  pmList: UtentiAnagrafica[] = [];
+  pmFormatter = (pm: UtentiAnagrafica) => pm.cognome + ' ' + pm.nome;
+  pmFilter = (term: string, pm: UtentiAnagrafica) =>
+    (pm.cognome + ' ' + pm.nome).toLowerCase().includes(term.toLowerCase());
+
+  bmCtrl = new FormControl<UtentiAnagrafica | null>(null);
+  get idBm() {
+      return this.bmCtrl.value?.idUtente;
+  }
+  bmList: UtentiAnagrafica[] = [];
+
+  commesseResults: CommessaSearchDto[] = [];
 
   constructor(
-    private commessaService: CommessaService,
-    private statoAvanzamentoWrap: StatoAvanzamentoWrapService
+    private attivitaService: AttivitaService,
+    private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
+    private modalService: NgbModal,
+    private toaster: ToastService
   ) { }
 
   ngOnInit() {
@@ -70,130 +105,276 @@ export class AttivitaComponent {
     this.initializeAutocompleteValues();
 
     // Define of autocomplete handlers
-    const onPmType$ = combineLatest([
+    const onClienteSelect$ = () => combineLatest([
+      this.statoAvanzamentoWrap
+        .getUtenti$(
+          true,
+          false,
+          undefined,
+          this.idClienteDiretto,
+          this.idCommessa
+        ),
+      this.statoAvanzamentoWrap
+        .getUtenti$(
+          false,
+          true,
+          undefined,
+          this.idClienteDiretto,
+          this.idCommessa
+        ),
+      this.attivitaService
+        .getCommesseAutocomplete$({
+          idCliente: this.idClienteDiretto,
+          idProjectManager: this.idPm,
+          idBusinessManager: this.idBm
+        })
+    ])
+    .pipe(
+      tap(([ pmList, bmList, commesse ]) => {
+        this.pmList = pmList;
+        this.bmList = bmList;
+        this.commesse = commesse;
+      })
+    );
+
+    const onCommessaSelect$ = () => combineLatest([
+      this.statoAvanzamentoWrap
+        .getUtenti$(
+          true,
+          false,
+          undefined,
+          this.idClienteDiretto,
+          this.idCommessa
+        ),
+      this.statoAvanzamentoWrap
+        .getUtenti$(
+          false,
+          true,
+          undefined,
+          this.idClienteDiretto,
+          this.idCommessa
+        ),
       this.statoAvanzamentoWrap
         .getClienti$(
           this.idPm,
+          undefined,
+          this.idBm,
           this.idCommessa
         ),
-      this.commessaService
+    ])
+    .pipe(
+      tap(([ pmList, bmList, clienti ]) => {
+        this.pmList = pmList;
+        this.bmList = bmList;
+        this.clientiDiretti = clienti;
+      })
+    );
+
+    const onPmSelect$ = () => combineLatest([
+      this.statoAvanzamentoWrap
+        .getClienti$(
+          this.idPm,
+          undefined,
+          this.idBm,
+          this.idCommessa
+        ),
+      this.attivitaService
         .getCommesseAutocomplete$({
-          idCliente: this.idCliente,
+          idCliente: this.idClienteDiretto,
           idProjectManager: this.idPm
         })
     ])
     .pipe(
       tap(([ clienti, commesse ]) => {
         this.commesse = commesse;
-        this.clienti = clienti;
+        this.clientiDiretti = clienti;
       })
     );
 
-    const onCommessaType$ = combineLatest([
-      this.statoAvanzamentoWrap
-        .getUtenti$(
-          true, false,
-          this.idCommessa,
-          this.idCliente
-        ),
+    const onBmSelect$ = () => combineLatest([
       this.statoAvanzamentoWrap
         .getClienti$(
           this.idPm,
+          undefined,
+          this.idBm,
           this.idCommessa
         ),
-    ])
-    .pipe(
-      tap(([ pmList, clienti ]) => {
-        this.pmList = pmList;
-        this.clienti = clienti;
-      })
-    );
-
-    const onClienteType$ = combineLatest([
-      this.statoAvanzamentoWrap
-        .getUtenti$(
-          true, false,
-          this.idCommessa,
-          this.idCliente
-        ),
-      this.commessaService
+      this.attivitaService
         .getCommesseAutocomplete$({
-          idCliente: this.idCliente,
+          idCliente: this.idClienteDiretto,
           idProjectManager: this.idPm
         })
     ])
     .pipe(
-      tap(([ pmList, commesse ]) => {
-        this.pmList = pmList;
+      tap(([ clienti, commesse ]) => {
         this.commesse = commesse;
+        this.clientiDiretti = clienti;
       })
     );
 
     // Assign autocomplete handler to its control
-    this.pmCtrl.valueChanges
-      .pipe(switchMap(() => onPmType$))
+    this.clienteDirettoCtrl.valueChanges
+      .pipe(switchMap(() => onClienteSelect$()))
       .subscribe();
 
     this.commessaCtrl.valueChanges
-      .pipe(switchMap(() => onCommessaType$))
-      .subscribe();
-    
-    this.clienteCtrl.valueChanges
-      .pipe(switchMap(() => onClienteType$))
+      .pipe(switchMap(() => onCommessaSelect$()))
       .subscribe();
 
-    this.searchClick$
+    this.pmCtrl.valueChanges
+      .pipe(switchMap(() => onPmSelect$()))
+      .subscribe();
+
+    this.bmCtrl.valueChanges
+      .pipe(switchMap(() => onBmSelect$()))
+      .subscribe();
+    
+    merge(this.searchClick$, this.refresh$)
       .pipe(
         takeUntil(this.destroy$),
+        tap(() => this.isLoading = true),
         switchMap(() =>
-          this.commessaService
+          this.attivitaService
             .getAllCommesse$({
-              idProjectManager: this.idPm,
+              idCliente: this.idClienteDiretto,
+              idClienteFinale: this.idClienteFinale,
               codiceCommessa: this.codiceCommessa,
-              idCliente: this.idCliente,
+              idProjectManager: this.idPm,
+              idBusinessManager: this.idBm,
+              idFase: this.tipoAttivita as number,
               valido: this.statoCtrl.value as string
             })
         ),
-        tap(attivita => {
-          this.attivita = attivita  
+        tap(commesseResults => {
+          this.isLoading = false;
+          this.commesseResults = commesseResults;
         })
       )
       .subscribe();
+
+    // When adding a new commessa
+    this.refresh$
+      .subscribe(() =>
+        this.initializeAutocompleteValues(false, true, false) // only refresh commesse
+      );
   }
 
   ngOnDestroy() {
     this.destroy$.next();
   }
 
-  initializeAutocompleteValues() {
+  initializeAutocompleteValues(
+    refreshUtenti = true,
+    refreshCommesse = true,
+    refreshClienti = true
+  ) {
 
-    this.statoAvanzamentoWrap
-      .getUtenti$(true, false)
-      .subscribe(pmList => this.pmList = pmList);
+    if (refreshUtenti) {
 
-    this.commessaService
-      .getCommesseAutocomplete$()
-      .subscribe(commesse => this.commesse = commesse);
+      this.statoAvanzamentoWrap
+        .getUtenti$(true, false)
+        .subscribe(pmList => this.pmList = pmList);
 
-    this.statoAvanzamentoWrap
-      .getClienti$()
-      .subscribe(clienti => this.clienti = clienti);
+      this.statoAvanzamentoWrap
+        .getUtenti$(false, true)
+        .subscribe(bmList => this.bmList = bmList);
+    }
+
+    if (refreshCommesse)
+      this.attivitaService
+        .getCommesseAutocomplete$()
+        .subscribe(commesse => this.commesse = commesse);
+
+    if (refreshClienti)
+      this.statoAvanzamentoWrap
+        .getClienti$()
+        .subscribe(clienti => {
+          this.clientiDiretti = jsonCopy(clienti);
+          this.clientiFinali = jsonCopy(clienti);
+        });
   }
 
   resetControls() {
 
     // DO NOT emit otherwise they will call the backend 6 times...
-    this.pmCtrl.setValue(null, { emitEvent: false });
+    this.clienteDirettoCtrl.setValue(null, { emitEvent: false });
+    this.clienteFinaleCtrl.setValue(null, { emitEvent: false });
     this.commessaCtrl.setValue(null, { emitEvent: false });
-    this.clienteCtrl.setValue(null, { emitEvent: false });
+    this.pmCtrl.setValue(null, { emitEvent: false });
+    this.bmCtrl.setValue(null, { emitEvent: false });
 
     // ...instead clear the input manually
-    this.pmAutocomplete._autocompleteChoice = null;
+    this.clienteDirettoAutocomplete._autocompleteChoice = null;
+    this.clienteFinaleAutocomplete._autocompleteChoice = null;
     this.commessaAutocomplete._autocompleteChoice = null;
-    this.clienteAutocomplete._autocompleteChoice = null;
+    this.pmAutocomplete._autocompleteChoice = null;
+    this.bmAutocomplete._autocompleteChoice = null;
 
     this.initializeAutocompleteValues();
 
     this.statoCtrl.setValue('true');
+    this.tipoAttivitaCtrl.setValue(null);
+  }
+
+  async create() {
+
+    const modalRef = this.modalService
+      .open(
+        AttivitaCreazioneModificaDialog,
+        {
+          size: 'lg',
+          centered: true,
+          scrollable: true,
+          modalDialogClass: 'app-tall-dialog'
+        }
+      );
+
+    await modalRef.result;
+    this.refresh$.next();
+  }
+
+  async update(commessa: CommessaSearchDto) {
+
+    const modalRef = this.modalService
+      .open(
+        AttivitaCreazioneModificaDialog,
+        {
+          size: 'lg',
+          centered: true,
+          scrollable: true,
+          modalDialogClass: 'app-tall-dialog'
+        }
+      );
+    modalRef.componentInstance.idCommessaPadre = commessa.id;
+
+    await modalRef.result;
+    this.refresh$.next();
+  }
+
+  async delete(commessa: CommessaSearchDto) {
+
+    const modalRef = this.modalService
+      .open(
+        EliminazioneDialog,
+        {
+          size: 'md',
+          centered: true,
+          scrollable: true
+        }
+      );
+    modalRef.componentInstance.name = commessa.codiceCommessa;
+
+    await modalRef.result;
+    this.attivitaService
+      .deleteCommessa(commessa.id)
+      .subscribe(
+        () => {
+        const txt = "Commessa eliminata con successo!";
+        this.toaster.show(txt, { classname: 'bg-success text-white' });
+      },
+      (ex) => {
+        this.toaster.show(ex.error, { classname: 'bg-danger text-white' });
+      }
+      );
   }
 }

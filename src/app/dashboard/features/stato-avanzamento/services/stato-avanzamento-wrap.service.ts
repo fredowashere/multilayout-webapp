@@ -19,15 +19,18 @@ export class StatoAvanzamentoWrapService {
     IsPm = true,
     IsBm = true,
     idSottoCommessa?: number,
-    idCliente?: number
+    idCliente?: number,
+    idCommessa?: number
   ) {
-    return this.utentiService.getUtenti({
-      idAzienda: this.authService.user.idAzienda as number,
-      IsPm,
-      IsBm,
-      idSottoCommessa,
-      idCliente
-    });
+    return this.utentiService
+      .getUtenti({
+        idAzienda: this.authService.user.idAzienda as number,
+        IsPm,
+        IsBm,
+        idSottoCommessa,
+        idCliente,
+        idCommessa
+      });
   }
 
   getSottocommesse$(idReferente?: number, idCliente?: number) {
@@ -39,12 +42,20 @@ export class StatoAvanzamentoWrapService {
       });
   }
 
-  getClienti$(idReferente?: number, idSottoCommessa?: number) {
-    return this.statoAvanzamentoService.getClienti({
-      idAzienda: this.authService.user.idAzienda as number,
-      idReferente,
-      idSottoCommessa
-    });
+  getClienti$(
+    idReferente?: number,
+    idSottoCommessa?: number,
+    idBusinessManager?: number,
+    idCommessa?: number
+  ) {
+    return this.statoAvanzamentoService
+      .getClienti({
+        idAzienda: this.authService.user.idAzienda as number,
+        idReferente,
+        idSottoCommessa,
+        idBusinessManager,
+        idCommessa
+      });
   }
 
   getAvanzamento$(

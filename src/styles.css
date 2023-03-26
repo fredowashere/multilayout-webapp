@@ -103,6 +103,10 @@ body {
   height: 40px;
 }
 
+.app-tall-dialog .modal-body {
+  min-height: 50vh;
+}
+
 ngb-typeahead-window {
   width: clamp(25ch, 100%, 40ch);
   max-height: 300px;

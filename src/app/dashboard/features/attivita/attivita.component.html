@@ -3,38 +3,41 @@
     <div class="card shadow">
         <div class="card-body">
 
-            <h5 class="mb-4">Ricerca Attività</h5>
+            <h5 class="mb-4">Ricerca Commesse</h5>
 
             <div class="col-md-8 mx-auto">
 
-                <div class="flexgrid flexgrid--2">
+                <div class="flexgrid flexgrid--3">
 
                     <app-input
-                        #pmAutocomplete
+                        #clienteDirettoAutocomplete
                         type="autocomplete"
-                        name="projectManager"
-                        label="Project manager"
-                        placeholder="Cerca project manager"
-                        [options]="pmList"
-                        [formatter]="pmFormatter"
-                        [filter]="pmFilter"
-                        [template]="pmTmpl"
-                        [ngControl]="pmCtrl"
+                        name="clienteDiretto"
+                        label="Cliente diretto"
+                        [options]="clientiDiretti"
+                        [formatter]="clienteFormatter"
+                        [filter]="clienteFilter"
+                        [ngControl]="clienteDirettoCtrl"
                         [floatingLabel]="true"
                     ></app-input>
-                    <ng-template #pmTmpl let-r="result" let-t="term">
-                        <div class="my-1">
-                            <div class="small">{{ r.idUtente }}</div>
-                            <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
-                        </div>
-                    </ng-template>
+
+                    <app-input
+                        #clienteFinaleAutocomplete
+                        type="autocomplete"
+                        name="clienteFinale"
+                        label="Cliente finale"
+                        [options]="clientiFinali"
+                        [formatter]="clienteFormatter"
+                        [filter]="clienteFilter"
+                        [ngControl]="clienteFinaleCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
 
                     <app-input
                         #commessaAutocomplete
                         type="autocomplete"
                         name="commessa"
                         label="Commessa"
-                        placeholder="Cerca commessa"
                         [options]="commesse"
                         [formatter]="commesseFormatter"
                         [filter]="commesseFilter"
@@ -50,18 +53,21 @@
                     </ng-template>
                 </div>
 
-                <div class="flexgrid flexgrid--2">
+                <div class="flexgrid flexgrid--3">
 
                     <app-input
-                        #clienteAutocomplete
-                        type="autocomplete"
-                        name="cliente"
-                        label="Cliente"
-                        placeholder="Cerca cliente"
-                        [options]="clienti"
-                        [formatter]="clienteFormatter"
-                        [filter]="clienteFilter"
-                        [ngControl]="clienteCtrl"
+                        name="descrizione"
+                        label="Descrizione"
+                        [ngControl]="descrizioneCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="select"
+                        name="tipoAttivita"
+                        label="Tipo attivita"
+                        [ngControl]="tipoAttivitaCtrl"
+                        [options]="tipiAttivita"
                         [floatingLabel]="true"
                     ></app-input>
 
@@ -75,7 +81,42 @@
                     ></app-input>
                 </div>
 
-                <ng-container *ngLet="{ collapsed: true } as _collapse">
+                <div class="flexgrid flexgrid--2">
+
+                    <app-input
+                        #pmAutocomplete
+                        type="autocomplete"
+                        name="projectManager"
+                        label="Project manager"
+                        [options]="pmList"
+                        [formatter]="pmFormatter"
+                        [filter]="pmFilter"
+                        [template]="pmTmpl"
+                        [ngControl]="pmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                    <ng-template #pmTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r.idUtente }}</div>
+                            <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
+                        </div>
+                    </ng-template>
+
+                    <app-input
+                        #bmAutocomplete
+                        type="autocomplete"
+                        name="businessManager"
+                        label="Business manager"
+                        [options]="bmList"
+                        [formatter]="pmFormatter"
+                        [filter]="pmFilter"
+                        [template]="pmTmpl"
+                        [ngControl]="pmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <!-- <ng-container *ngLet="{ collapsed: true } as _collapse">
 
                     <div class="text-center my-3">
                         <span
@@ -88,10 +129,10 @@
 
                     <div class="card" #collapse="ngbCollapse" [(ngbCollapse)]="_collapse.collapsed">
                         <div class="card-body">
-
+                            Filtri aggiuntivi qui
                         </div>
                     </div>
-                </ng-container>
+                </ng-container> -->
 
                 <div class="text-center my-3">
                     <div class="btn-group">
@@ -109,7 +150,12 @@
                             (click)="searchClick$.next()"
                         >
                             Cerca
-                            <i class="bi bi-search ps-2"></i>
+                            <ng-container *ngIf="isLoading; else searchIcon">
+                                <span class="spinner-border spinner-border-sm"></span>
+                            </ng-container>
+                            <ng-template #searchIcon>
+                                <i class="bi bi-search ps-2"></i>
+                            </ng-template>
                         </button>
                     </div>
                 </div>
@@ -121,9 +167,10 @@
                     <button
                         type="button"
                         class="btn btn-primary"
+                        (click)="create()"
                     >
                         <i class="bi bi-plus"></i>
-                        Crea nuova attività
+                        Crea nuova commessa
                     </button>
                 </div>
     
@@ -131,8 +178,13 @@
                     #dt
                     [thead]="thead"
                     [tbody]="tbody"
-                    [items]="attivita"
-                    [searchable]="['descrizione', 'cognomeBusinessManager', 'cognomeProjectManager']"
+                    [items]="commesseResults"
+                    [searchable]="[
+                        'descrizioneCliente',
+                        'descrizione',
+                        'cognomeBusinessManager',
+                        'cognomeProjectManager'
+                    ]"
                     [paginated]="true"
                     [pageSize]="5"
                     emptyMessage="Nessun risultato, effettua una ricerca"
@@ -142,8 +194,8 @@
                         <th sortable="descrizioneCliente" (sort)="dt.sort($any($event))">Cliente</th>
                         <th sortable="valido" (sort)="dt.sort($any($event))">Stato</th>
                         <th sortable="descrizione" (sort)="dt.sort($any($event))">Attività</th>
-                        <th sortable="cognomeBusinessManager" (sort)="dt.sort($any($event))">BM</th>
                         <th sortable="cognomeProjectManager" (sort)="dt.sort($any($event))">PM</th>
+                        <th sortable="cognomeBusinessManager" (sort)="dt.sort($any($event))">BM</th>
                         <th sortable="data" (sort)="dt.sort($any($event))">Data</th>
                         <th style="width: 10rem"></th>
                     </ng-template>
@@ -155,18 +207,28 @@
                             <div class="small fw-bold">{{ item.codiceCommessa }}</div>
                             {{ item.descrizione }}
                         </td>
-                        <td>{{ (item.cognomeBusinessManager || '') + ' ' + (item.nomeBusinessManager || '') }}</td>
                         <td>{{ (item.cognomeProjectManager || '') + ' ' + (item.nomeProjectManager || '') }}</td>
+                        <td>{{ (item.cognomeBusinessManager || '') + ' ' + (item.nomeBusinessManager || '') }}</td>
                         <td>{{ item.data | date:'yyyy-MM-dd' }}</td>
                         <td>
-                            <!-- <div class="d-flex gap-2 justify-content-center">
-                                <button type="button" class="btn btn-primary" (click)="edit(country)">
+                            <div class="d-flex gap-2 justify-content-center">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    (click)="update(item)"
+                                >
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button type="button" class="btn btn-danger" (click)="confirmDeleteSingle(country)">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    (click)="delete(item)"
+                                >
                                     <i class="bi bi-trash3"></i>
                                 </button>
-                            </div> -->
+                            </div>
                         </td>
                     </ng-template>
                 </app-table>
