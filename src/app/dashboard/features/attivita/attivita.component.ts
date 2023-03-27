@@ -64,16 +64,16 @@ export class AttivitaComponent {
     return this.tipoAttivitaCtrl.value;
   }
   tipiAttivita = [
-    { text: 'Tutti', value: null },
+    { text: 'Tutte', value: null },
     { text: 'Opportunità', _descr: "optn", value: 1 },
     { text: 'Commessa interna', _descr: "cmint", value: 2 }
   ];
 
   statoCtrl = new FormControl<string | null>('true'); // backend wants a string "true" or "false"
   stati = [
-    { text: 'Tutti', value: null },
-    { text: 'Valido', value: 'true' },
-    { text: 'Invalido', value: 'false' },
+    { text: 'Tutte', value: null },
+    { text: 'Valida', value: 'true' },
+    { text: 'Annullata', value: 'false' },
   ];
 
   pmCtrl = new FormControl<UtentiAnagrafica | null>(null);
@@ -366,6 +366,21 @@ export class AttivitaComponent {
       .subscribe(
         () => {
           const txt = "Commessa eliminata con successo!";
+          this.toaster.show(txt, { classname: 'bg-success text-white' });
+          this.refresh$.next();
+        },
+        (ex) => {
+          this.toaster.show(ex.error, { classname: 'bg-danger text-white' });
+        }
+      );
+  }
+
+  restore(commessa: CommessaSearchDto) {
+    this.attivitaService
+      .restoreCommessa(commessa.id)
+      .subscribe(
+        () => {
+          const txt = "Commessa rirpistinata con successo!";
           this.toaster.show(txt, { classname: 'bg-success text-white' });
           this.refresh$.next();
         },

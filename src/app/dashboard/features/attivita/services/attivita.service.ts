@@ -18,13 +18,18 @@ export class AttivitaService {
   getAllCommesse$(input?: GetAllCommesseParam) {
     input = input || {};
     const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/all-padre/id-azienda/${this.authService.user.idAzienda}`;
-    return this.http.post<CommessaSearchDto[]>(url, input);
+    return this.http.post<CommessaSearchDto[]>(url, input)
+      .pipe(
+        map(commesse =>
+          commesse.sort((a, b) =>
+            (b.data || "1970-01-01").localeCompare(a.data || "1970-01-01")
+          )
+        )
+      );
   }
 
   getCommesseAutocomplete$(input?: GetAllCommesseParam): Observable<Commessa[]> {
-    input = input || {};
-    const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/all-padre/id-azienda/${this.authService.user.idAzienda}`;
-    return this.http.post<CommessaSearchDto[]>(url, input)
+    return this.getAllCommesse$(input)
       .pipe(
         map(commesse =>
           commesse.map(({ id, codiceCommessa: codice, descrizione }) =>
@@ -54,6 +59,16 @@ export class AttivitaService {
   deleteCommessa(idCommessaPadre: number) {
     const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/deleteCommessaPadre/id/${idCommessaPadre}`;
     return this.http.delete(url);
+  }
+
+  cancelCommessa$(idCommessaPadre: number){
+    const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/invalidaCommessaPadre/id/${idCommessaPadre}`;
+    return this.http.post<any>(url, {});
+  }
+
+  restoreCommessa(idCommessaPadre: number){
+    const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/ripristinaCommessa/id/${idCommessaPadre}`;
+    return this.http.post<any>(url, {});
   }
   
 }
