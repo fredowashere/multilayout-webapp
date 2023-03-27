@@ -159,7 +159,8 @@ export class AttivitaComponent {
           this.idPm,
           undefined,
           this.idBm,
-          this.idCommessa
+          this.idCommessa,
+          true
         ),
     ])
     .pipe(
@@ -176,7 +177,8 @@ export class AttivitaComponent {
           this.idPm,
           undefined,
           this.idBm,
-          this.idCommessa
+          this.idCommessa,
+          true
         ),
       this.attivitaService
         .getCommesseAutocomplete$({
@@ -197,7 +199,8 @@ export class AttivitaComponent {
           this.idPm,
           undefined,
           this.idBm,
-          this.idCommessa
+          this.idCommessa,
+          true
         ),
       this.attivitaService
         .getCommesseAutocomplete$({
@@ -287,7 +290,7 @@ export class AttivitaComponent {
 
     if (refreshClienti)
       this.statoAvanzamentoWrap
-        .getClienti$()
+        .getClienti$(undefined, undefined, undefined, undefined, true)
         .subscribe(clienti => {
           this.clientiDiretti = jsonCopy(clienti);
           this.clientiFinali = jsonCopy(clienti);

@@ -29,7 +29,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
             <p>
                 Tutte le informazioni saranno eliminate definitivamente.<br>
-                <span *ngIf="reversible" class="text-danger">Questa operazione non è reversibile.</span>
+                <span *ngIf="!reversible" class="text-danger">Questa operazione non è reversibile.</span>
             </p>
         </div>
         
@@ -51,7 +51,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class EliminazioneDialog {
 
-    @Input("reversible") reversible: boolean = true;
+    @Input("reversible") reversible: boolean = false;
     @Input("name") name!: string;
     @Input("rows") rows?: any[];
 

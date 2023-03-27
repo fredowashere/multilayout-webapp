@@ -9,5 +9,6 @@ export { GetSottoCommesseAvanzamentoResponse } from './models/get-sotto-commesse
 export { GetSottoCommesseAvanzamentoResponseDettaglio } from './models/get-sotto-commesse-avanzamento-response-dettaglio';
 export { GetSottoCommesseAvanzamentoResponseReferente } from './models/get-sotto-commesse-avanzamento-response-referente';
 export { GetSottoCommessePerReferenteResponse } from './models/get-sotto-commesse-per-referente-response';
+export { GetSottoCommesseResponse } from './models/get-sotto-commesse-response';
 export { ProfiloDto } from './models/profilo-dto';
 export { UtentiAnagrafica } from './models/utenti-anagrafica';

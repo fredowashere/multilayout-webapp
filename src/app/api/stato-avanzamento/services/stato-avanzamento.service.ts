@@ -13,6 +13,7 @@ import { AvanzamentiMensili } from '../models/avanzamenti-mensili';
 import { Dettaglio } from '../models/dettaglio';
 import { GetSottoCommesseAvanzamentoResponse } from '../models/get-sotto-commesse-avanzamento-response';
 import { GetSottoCommessePerReferenteResponse } from '../models/get-sotto-commesse-per-referente-response';
+import { GetSottoCommesseResponse } from '../models/get-sotto-commesse-response';
 
 @Injectable({
   providedIn: 'root',
@@ -259,7 +260,7 @@ export class StatoAvanzamentoService extends BaseService {
   },
   context?: HttpContext
 
-): Observable<StrictHttpResponse<Array<GetSottoCommessePerReferenteResponse>>> {
+): Observable<StrictHttpResponse<Array<GetSottoCommesseResponse>>> {
 
     const rb = new RequestBuilder(this.rootUrl, StatoAvanzamentoService.GetSottoCommessePath, 'get');
     if (params) {
@@ -278,7 +279,7 @@ export class StatoAvanzamentoService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<GetSottoCommessePerReferenteResponse>>;
+        return r as StrictHttpResponse<Array<GetSottoCommesseResponse>>;
       })
     );
   }
@@ -299,10 +300,10 @@ export class StatoAvanzamentoService extends BaseService {
   },
   context?: HttpContext
 
-): Observable<Array<GetSottoCommessePerReferenteResponse>> {
+): Observable<Array<GetSottoCommesseResponse>> {
 
     return this.getSottoCommesse$Response(params,context).pipe(
-      map((r: StrictHttpResponse<Array<GetSottoCommessePerReferenteResponse>>) => r.body as Array<GetSottoCommessePerReferenteResponse>)
+      map((r: StrictHttpResponse<Array<GetSottoCommesseResponse>>) => r.body as Array<GetSottoCommesseResponse>)
     );
   }
 
@@ -324,6 +325,7 @@ export class StatoAvanzamentoService extends BaseService {
     idCliente?: number;
     idCommessa?: number;
     idSottoCommessa?: number;
+    totali?: boolean;
   },
   context?: HttpContext
 
@@ -337,6 +339,7 @@ export class StatoAvanzamentoService extends BaseService {
       rb.query('idCliente', params.idCliente, {});
       rb.query('idCommessa', params.idCommessa, {});
       rb.query('idSottoCommessa', params.idSottoCommessa, {});
+      rb.query('totali', params.totali, {});
     }
 
     return this.http.request(rb.build({
@@ -364,6 +367,7 @@ export class StatoAvanzamentoService extends BaseService {
     idCliente?: number;
     idCommessa?: number;
     idSottoCommessa?: number;
+    totali?: boolean;
   },
   context?: HttpContext
 

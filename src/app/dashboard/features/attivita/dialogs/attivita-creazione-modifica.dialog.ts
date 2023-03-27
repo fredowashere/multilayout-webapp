@@ -262,7 +262,8 @@ export class AttivitaCreazioneModificaDialog {
 
         if (this.dialogMode === DIALOG_MODE.Update) {
             this.isLoading = true;
-            this.attivitaService.getCommessaById(this.idCommessaPadre)
+            this.attivitaService
+                .getCommessaById(this.idCommessaPadre)
                 .subscribe(commessa => {
                     this.commessa = commessa;
                     this.initializeAutocompleteValues();
@@ -309,9 +310,12 @@ export class AttivitaCreazioneModificaDialog {
     initializeAutocompleteValues() {
 
         combineLatest([
-            this.statoAvanzamentoWrap.getUtenti$(true, false),
-            this.statoAvanzamentoWrap.getUtenti$(false, true),
-            this.statoAvanzamentoWrap.getClienti$()
+            this.statoAvanzamentoWrap
+                .getUtenti$(true, false),
+            this.statoAvanzamentoWrap
+                .getUtenti$(false, true),
+            this.statoAvanzamentoWrap
+                .getClienti$(undefined, undefined, undefined, undefined, true)
         ])
         .subscribe(([pmList, bmList, clienti]) => {
 

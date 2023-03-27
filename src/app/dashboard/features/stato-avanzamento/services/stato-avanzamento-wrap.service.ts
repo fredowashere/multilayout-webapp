@@ -46,7 +46,8 @@ export class StatoAvanzamentoWrapService {
     idReferente?: number,
     idSottoCommessa?: number,
     idBusinessManager?: number,
-    idCommessa?: number
+    idCommessa?: number,
+    totali?: boolean
   ) {
     return this.statoAvanzamentoService
       .getClienti({
@@ -54,7 +55,8 @@ export class StatoAvanzamentoWrapService {
         idReferente,
         idSottoCommessa,
         idBusinessManager,
-        idCommessa
+        idCommessa,
+        totali
       });
   }
 
