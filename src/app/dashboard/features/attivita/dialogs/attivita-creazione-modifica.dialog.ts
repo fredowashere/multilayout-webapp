@@ -311,11 +311,11 @@ export class AttivitaCreazioneModificaDialog {
 
         combineLatest([
             this.statoAvanzamentoWrap
-                .getUtenti$(true, false),
+                .getUtenti$({ IsPm: true, IsBm: false }),
             this.statoAvanzamentoWrap
-                .getUtenti$(false, true),
+                .getUtenti$({ IsPm: false, IsBm: true }),
             this.statoAvanzamentoWrap
-                .getClienti$(undefined, undefined, undefined, undefined, true)
+                .getClienti$({ totali: true })
         ])
         .subscribe(([pmList, bmList, clienti]) => {
 

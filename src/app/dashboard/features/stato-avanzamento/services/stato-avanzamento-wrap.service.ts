@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { StatoAvanzamentoService, UtentiService } from 'src/app/api/stato-avanzamento/services';
 import { AuthService } from 'src/app/services/auth.service';
-import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from '../models/stato-avanzamento';
+import { GetClientiParam, GetSottocommesseParam, GetUtentiParam } from '../models/autocomplete.models';
+import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from '../models/stato-avanzamento.models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,49 +16,25 @@ export class StatoAvanzamentoWrapService {
     private utentiService: UtentiService
   ) { }
 
-  getUtenti$(
-    IsPm = true,
-    IsBm = true,
-    idSottoCommessa?: number,
-    idCliente?: number,
-    idCommessa?: number
-  ) {
+  getUtenti$(input?: GetUtentiParam) {
+    input = input || { IsPm: true, IsBm: true }; // all users by default
+    input.idAzienda = this.authService.user.idAzienda as number;
     return this.utentiService
-      .getUtenti({
-        idAzienda: this.authService.user.idAzienda as number,
-        IsPm,
-        IsBm,
-        idSottoCommessa,
-        idCliente,
-        idCommessa
-      });
+      .getUtenti(input as any);
   }
 
-  getSottocommesse$(idReferente?: number, idCliente?: number) {
+  getSottocommesse$(input?: GetSottocommesseParam) {
+    input = input || {};
+    input.idAzienda = this.authService.user.idAzienda as number;
     return this.statoAvanzamentoService
-      .getSottoCommesse({
-        idAzienda: this.authService.user.idAzienda as number,
-        idReferente,
-        idCliente
-      });
+      .getSottoCommesse(input as any);
   }
 
-  getClienti$(
-    idReferente?: number,
-    idSottoCommessa?: number,
-    idBusinessManager?: number,
-    idCommessa?: number,
-    totali?: boolean
-  ) {
+  getClienti$(input?: GetClientiParam) {
+    input = input || {};
+    input.idAzienda = this.authService.user.idAzienda as number;
     return this.statoAvanzamentoService
-      .getClienti({
-        idAzienda: this.authService.user.idAzienda as number,
-        idReferente,
-        idSottoCommessa,
-        idBusinessManager,
-        idCommessa,
-        totali
-      });
+      .getClienti(input as any);
   }
 
   getAvanzamento$(

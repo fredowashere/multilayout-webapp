@@ -107,21 +107,19 @@ export class AttivitaComponent {
     // Define of autocomplete handlers
     const onClienteSelect$ = () => combineLatest([
       this.statoAvanzamentoWrap
-        .getUtenti$(
-          true,
-          false,
-          undefined,
-          this.idClienteDiretto,
-          this.idCommessa
-        ),
+        .getUtenti$({
+          IsPm: true,
+          IsBm: false,
+          idCliente: this.idClienteDiretto,
+          idCommessa: this.idCommessa
+        }),
       this.statoAvanzamentoWrap
-        .getUtenti$(
-          false,
-          true,
-          undefined,
-          this.idClienteDiretto,
-          this.idCommessa
-        ),
+        .getUtenti$({
+          IsPm: false,
+          IsBm: true,
+          idCliente: this.idClienteDiretto,
+          idCommessa: this.idCommessa
+        }),
       this.attivitaService
         .getCommesseAutocomplete$({
           idCliente: this.idClienteDiretto,
@@ -139,29 +137,26 @@ export class AttivitaComponent {
 
     const onCommessaSelect$ = () => combineLatest([
       this.statoAvanzamentoWrap
-        .getUtenti$(
-          true,
-          false,
-          undefined,
-          this.idClienteDiretto,
-          this.idCommessa
-        ),
+        .getUtenti$({
+          IsPm: true,
+          IsBm: false,
+          idCliente: this.idClienteDiretto,
+          idCommessa: this.idCommessa
+        }),
       this.statoAvanzamentoWrap
-        .getUtenti$(
-          false,
-          true,
-          undefined,
-          this.idClienteDiretto,
-          this.idCommessa
-        ),
+        .getUtenti$({
+          IsPm: false,
+          IsBm: true,
+          idCliente: this.idClienteDiretto,
+          idCommessa: this.idCommessa
+        }),
       this.statoAvanzamentoWrap
-        .getClienti$(
-          this.idPm,
-          undefined,
-          this.idBm,
-          this.idCommessa,
-          true
-        ),
+        .getClienti$({
+          idReferente: this.idPm,
+          idBusinessManager: this.idBm,
+          idCommessa: this.idCommessa,
+          totali: true
+        }),
     ])
     .pipe(
       tap(([ pmList, bmList, clienti ]) => {
@@ -173,13 +168,12 @@ export class AttivitaComponent {
 
     const onPmSelect$ = () => combineLatest([
       this.statoAvanzamentoWrap
-        .getClienti$(
-          this.idPm,
-          undefined,
-          this.idBm,
-          this.idCommessa,
-          true
-        ),
+        .getClienti$({
+          idReferente: this.idPm,
+          idBusinessManager: this.idBm,
+          idCommessa: this.idCommessa,
+          totali: true
+        }),
       this.attivitaService
         .getCommesseAutocomplete$({
           idCliente: this.idClienteDiretto,
@@ -195,13 +189,12 @@ export class AttivitaComponent {
 
     const onBmSelect$ = () => combineLatest([
       this.statoAvanzamentoWrap
-        .getClienti$(
-          this.idPm,
-          undefined,
-          this.idBm,
-          this.idCommessa,
-          true
-        ),
+        .getClienti$({
+          idReferente: this.idPm,
+          idBusinessManager: this.idBm,
+          idCommessa: this.idCommessa,
+          totali: true
+        }),
       this.attivitaService
         .getCommesseAutocomplete$({
           idCliente: this.idClienteDiretto,
@@ -275,11 +268,11 @@ export class AttivitaComponent {
     if (refreshUtenti) {
 
       this.statoAvanzamentoWrap
-        .getUtenti$(true, false)
+        .getUtenti$({ IsPm: true, IsBm: false })
         .subscribe(pmList => this.pmList = pmList);
 
       this.statoAvanzamentoWrap
-        .getUtenti$(false, true)
+        .getUtenti$({ IsPm: false, IsBm: true })
         .subscribe(bmList => this.bmList = bmList);
     }
 
@@ -290,7 +283,7 @@ export class AttivitaComponent {
 
     if (refreshClienti)
       this.statoAvanzamentoWrap
-        .getClienti$(undefined, undefined, undefined, undefined, true)
+        .getClienti$({ totali: true })
         .subscribe(clienti => {
           this.clientiDiretti = jsonCopy(clienti);
           this.clientiFinali = jsonCopy(clienti);

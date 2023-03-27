@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { catchError, combineLatest, startWith, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
 import { Dettaglio, EnumStatiChiusura, GetSottoCommessePerReferenteResponse, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-avanzamento/services/stato-avanzamento-wrap.service';
-import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/dashboard/features/stato-avanzamento/models/stato-avanzamento';
+import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/dashboard/features/stato-avanzamento/models/stato-avanzamento.models';
 import { ToastService } from 'src/app/services/toast.service';
 import { enforceMinMax } from 'src/app/utils/input';
 import { guid } from 'src/app/utils/uuid';
@@ -85,14 +85,16 @@ export class StatoAvanzamentoComponent {
         startWith(null),
         switchMap(() =>
           combineLatest([
-            this.statoAvanzamentoWrap.getClienti$(
-              this.idPm,
-              this.idSottocommessa
-            ),
-            this.statoAvanzamentoWrap.getSottocommesse$(
-              this.idPm,
-              this.idCliente
-            )
+            this.statoAvanzamentoWrap
+              .getClienti$({
+                idReferente: this.idPm,
+                idSottoCommessa: this.idSottocommessa
+              }),
+            this.statoAvanzamentoWrap
+              .getSottocommesse$({
+                idReferente: this.idPm,
+                idCliente: this.idCliente
+              })
           ])
         ),
         tap(([ clienti, sottocommesse ]) => {
@@ -107,15 +109,18 @@ export class StatoAvanzamentoComponent {
         startWith(null),
         switchMap(() =>
           combineLatest([
-            this.statoAvanzamentoWrap.getUtenti$(
-              true, false,
-              this.idSottocommessa,
-              this.idCliente
-            ),
-            this.statoAvanzamentoWrap.getClienti$(
-              this.idPm,
-              this.idSottocommessa
-            ),
+            this.statoAvanzamentoWrap
+              .getUtenti$({
+                IsPm: true,
+                IsBm: false,
+                idSottoCommessa: this.idSottocommessa,
+                idCliente: this.idCliente
+              }),
+            this.statoAvanzamentoWrap
+              .getClienti$({
+                idReferente: this.idPm,
+                idSottoCommessa: this.idSottocommessa
+              }),
           ])
         ),
         tap(([ pmList, clienti ]) => {
@@ -130,15 +135,18 @@ export class StatoAvanzamentoComponent {
         startWith(null),
         switchMap(() =>
           combineLatest([
-            this.statoAvanzamentoWrap.getUtenti$(
-              true, false,
-              this.idSottocommessa,
-              this.idCliente
-            ),
-            this.statoAvanzamentoWrap.getSottocommesse$(
-              this.idPm,
-              this.idCliente
-            )
+            this.statoAvanzamentoWrap
+              .getUtenti$({
+                IsPm: true,
+                IsBm: false,
+                idSottoCommessa: this.idSottocommessa,
+                idCliente: this.idCliente
+              }),
+            this.statoAvanzamentoWrap
+              .getSottocommesse$({
+                idReferente: this.idPm,
+                idCliente: this.idCliente
+              })
           ])
         ),
         tap(([ pmList, sottocommesse ]) => {
