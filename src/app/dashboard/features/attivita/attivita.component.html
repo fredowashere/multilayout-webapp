@@ -81,7 +81,7 @@
                     ></app-input>
                 </div>
 
-                <div class="flexgrid flexgrid--2">
+                <div class="flexgrid flexgrid--4">
 
                     <app-input
                         #pmAutocomplete
@@ -112,6 +112,26 @@
                         [filter]="pmFilter"
                         [template]="pmTmpl"
                         [ngControl]="bmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="date"
+                        name="dateInizio"
+                        label="Data inizio"
+                        [max]="dataFine"
+                        [helper]="'Max ' + (dataFine || '-')"
+                        [ngControl]="dataInizioCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="date"
+                        name="dateFine"
+                        label="Data fine"
+                        [min]="dataInizio"
+                        [helper]="'Min ' + (dataInizio || '-')"
+                        [ngControl]="dataFineCtrl"
                         [floatingLabel]="true"
                     ></app-input>
                 </div>

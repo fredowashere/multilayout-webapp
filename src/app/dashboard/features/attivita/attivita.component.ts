@@ -12,6 +12,9 @@ import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
 import { Commessa, CommessaSearchDto } from './models/attivita.models';
 import { AttivitaService } from './services/attivita.service';
 
+const today = new Date();
+const [ currYear, currMonth, currDay ] = [ today.getFullYear(), today.getMonth() + 1, today.getDate() ];
+
 @Component({
   selector: 'app-attivita',
   templateUrl: './attivita.component.html',
@@ -91,6 +94,18 @@ export class AttivitaComponent {
   }
   bmList: UtentiAnagrafica[] = [];
 
+  // dataInizioDef = `${currMonth > 1 ? currYear : currYear - 1}-${('' + (currMonth > 1 ? currMonth - 1 : 12)).padStart(2, '0')}-01`;
+  dataInizioCtrl = new FormControl();
+  get dataInizio() {
+    return this.dataInizioCtrl.value;
+  }
+
+  // dataFineDef = `${currMonth < 12 ? currYear : currYear + 1}-${('' + (currMonth < 12 ? currMonth + 1 : 1)).padStart(2, '0')}-01`;
+  dataFineCtrl = new FormControl();
+  get dataFine() {
+    return this.dataFineCtrl.value;
+  }
+
   commesseResults: CommessaSearchDto[] = [];
 
   constructor(
@@ -101,6 +116,8 @@ export class AttivitaComponent {
   ) { }
 
   ngOnInit() {
+
+    console.log(this.dataInizio);
 
     this.initializeAutocompleteValues();
 
@@ -238,7 +255,9 @@ export class AttivitaComponent {
               idProjectManager: this.idPm,
               idBusinessManager: this.idBm,
               idFase: this.tipoAttivita as number,
-              valido: this.statoCtrl.value as string
+              valido: this.statoCtrl.value as string,
+              dataInizio: this.dataInizio,
+              dataFine: this.dataFine
             })
         ),
         tap(commesseResults => {
