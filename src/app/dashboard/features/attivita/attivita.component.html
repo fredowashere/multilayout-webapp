@@ -1,7 +1,7 @@
 <div class="container-xxxl py-5 px-3">
     
     <div class="card shadow">
-        <div class="card-body">
+        <div class="card-body pb-4">
 
             <h5 class="mb-4">Ricerca Commesse</h5>
 
@@ -51,9 +51,6 @@
                             <ngb-highlight [result]="r?.descrizione" [term]="t"></ngb-highlight>
                         </div>
                     </ng-template>
-                </div>
-
-                <div class="flexgrid flexgrid--3">
 
                     <app-input
                         name="descrizione"
@@ -81,60 +78,7 @@
                     ></app-input>
                 </div>
 
-                <div class="flexgrid flexgrid--4">
-
-                    <app-input
-                        #pmAutocomplete
-                        type="autocomplete"
-                        name="projectManager"
-                        label="Project manager"
-                        [options]="pmList"
-                        [formatter]="pmFormatter"
-                        [filter]="pmFilter"
-                        [template]="pmTmpl"
-                        [ngControl]="pmCtrl"
-                        [floatingLabel]="true"
-                    ></app-input>
-                    <ng-template #pmTmpl let-r="result" let-t="term">
-                        <div class="my-1">
-                            <div class="small">{{ r.idUtente }}</div>
-                            <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
-                        </div>
-                    </ng-template>
-
-                    <app-input
-                        #bmAutocomplete
-                        type="autocomplete"
-                        name="businessManager"
-                        label="Business manager"
-                        [options]="bmList"
-                        [formatter]="pmFormatter"
-                        [filter]="pmFilter"
-                        [template]="pmTmpl"
-                        [ngControl]="bmCtrl"
-                        [floatingLabel]="true"
-                    ></app-input>
-
-                    <app-input
-                        type="date"
-                        name="dateInizio"
-                        label="Data inizio"
-                        [max]="dataFine"
-                        [ngControl]="dataInizioCtrl"
-                        [floatingLabel]="true"
-                    ></app-input>
-
-                    <app-input
-                        type="date"
-                        name="dateFine"
-                        label="Data fine"
-                        [min]="dataInizio"
-                        [ngControl]="dataFineCtrl"
-                        [floatingLabel]="true"
-                    ></app-input>
-                </div>
-
-                <!-- <ng-container *ngLet="{ collapsed: true } as _collapse">
+                <ng-container *ngLet="{ collapsed: true } as _collapse">
 
                     <div class="text-center my-3">
                         <span
@@ -145,18 +89,76 @@
                         </span>
                     </div>
 
-                    <div class="card" #collapse="ngbCollapse" [(ngbCollapse)]="_collapse.collapsed">
+                    <div
+                        class="card shadow"
+                        #collapse="ngbCollapse"
+                        [(ngbCollapse)]="_collapse.collapsed"
+                    >
                         <div class="card-body">
-                            Filtri aggiuntivi qui
+
+                            <h5 class="mb-4">Filtri aggiuntivi</h5>
+
+                            <div class="flexgrid flexgrid--4">
+
+                                <app-input
+                                    #pmAutocomplete
+                                    type="autocomplete"
+                                    name="projectManager"
+                                    label="Project manager"
+                                    [options]="pmList"
+                                    [formatter]="pmFormatter"
+                                    [filter]="pmFilter"
+                                    [template]="pmTmpl"
+                                    [ngControl]="pmCtrl"
+                                    [floatingLabel]="true"
+                                ></app-input>
+                                <ng-template #pmTmpl let-r="result" let-t="term">
+                                    <div class="my-1">
+                                        <div class="small">{{ r.idUtente }}</div>
+                                        <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
+                                    </div>
+                                </ng-template>
+            
+                                <app-input
+                                    #bmAutocomplete
+                                    type="autocomplete"
+                                    name="businessManager"
+                                    label="Business manager"
+                                    [options]="bmList"
+                                    [formatter]="pmFormatter"
+                                    [filter]="pmFilter"
+                                    [template]="pmTmpl"
+                                    [ngControl]="bmCtrl"
+                                    [floatingLabel]="true"
+                                ></app-input>
+            
+                                <app-input
+                                    type="date"
+                                    name="dateInizio"
+                                    label="Data inizio"
+                                    [max]="dataFine"
+                                    [ngControl]="dataInizioCtrl"
+                                    [floatingLabel]="true"
+                                ></app-input>
+            
+                                <app-input
+                                    type="date"
+                                    name="dateFine"
+                                    label="Data fine"
+                                    [min]="dataInizio"
+                                    [ngControl]="dataFineCtrl"
+                                    [floatingLabel]="true"
+                                ></app-input>
+                            </div>
                         </div>
                     </div>
-                </ng-container> -->
+                </ng-container>
 
                 <div class="text-center mt-3 mb-5">
                     <div class="btn-group">
 
                         <button
-                            class="btn btn-outline-primary"
+                            class="btn btn-outline-primary shadow"
                             (click)="resetControls()"
                         >
                             <i class="bi bi-x-lg pe-2"></i>
@@ -179,12 +181,15 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card pt-4 pb-2 shadow">
 
-                <div class="text-center p-3 pb-0">
+                <div class="table-plus">
+
+                    <h5 class="table-plus__title">Tabella Commesse</h5>
+
                     <button
                         type="button"
-                        class="btn btn-primary"
+                        class="table-plus__action btn btn-primary shadow"
                         (click)="create()"
                     >
                         <i class="bi bi-plus"></i>
@@ -238,7 +243,7 @@
 
                                 <button
                                     type="button"
-                                    class="btn btn-primary"
+                                    class="btn btn-primary shadow"
                                     (click)="addTab(item)"
                                 >
                                     <i class="bi bi-eye-fill"></i>
@@ -246,7 +251,7 @@
 
                                 <button
                                     type="button"
-                                    class="btn btn-primary"
+                                    class="btn btn-warning shadow"
                                     (click)="update(item)"
                                 >
                                     <i class="bi bi-pencil"></i>
@@ -254,7 +259,7 @@
 
                                 <button
                                     type="button"
-                                    class="btn btn-danger"
+                                    class="btn btn-danger shadow"
                                     (click)="delete(item)"
                                 >
                                     <i class="bi bi-trash3"></i>
@@ -299,7 +304,7 @@
                     </li>
                 </ul>
                 
-                <div class="border p-3" style="border-top: none !important">
+                <div class="border p-3 shadow" style="border-top: none !important; border-radius: 0 0 5px 5px">
                     
                     <div [ngbNavOutlet]="nav"></div>
         
