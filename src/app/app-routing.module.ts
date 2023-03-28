@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoggedInGuard } from './guards/logged-in.guard';
 
 const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: ["loggedInOnlyGuard"]
+    canActivate: [ LoggedInGuard, "attivitaUserGuard" ]
   },
   {
     path: 'login',
