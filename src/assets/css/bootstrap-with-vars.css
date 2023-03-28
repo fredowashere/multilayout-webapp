@@ -114,24 +114,6 @@
     --app-info_800: var(--app-info_800);
   }
   
-  @media (prefers-color-scheme: dark) {
-
-    :root {
-      --app-gray_100: 255, 255, 255;
-      --app-gray_900: 241, 241, 241;
-      --gray_1800: 226, 226, 226;
-      --app-gray_700: 208, 208, 208;
-      --app-gray_600: 187, 187, 187;
-      --app-gray_500: 147, 147, 147;
-      --app-gray_400: 117, 117, 117;
-      --app-gray_300: 104, 104, 104;
-      --app-gray_200: 80, 80, 80;
-      --app-gray_100: 54, 54, 54;
-      --app-gray_50: 35, 35, 35;
-      --app-gray_0: 0, 0, 0;
-    }
-  }
-  
   /*!
    * Bootstrap v5.0.2 (https://getbootstrap.com/)
    * Copyright 2011-2021 The Bootstrap Authors

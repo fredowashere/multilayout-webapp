@@ -233,3 +233,26 @@ th[sortable].desc::before {
   flex: 1 1 clamp(var(--flexgrid-col-min-width), 20%, 20%);
   padding: calc(var(--flexgrid-gap) / 2);
 }
+
+/* Animations */
+@keyframes Pulse {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: Pulse 1000ms ease infinite;
+}

@@ -14,6 +14,7 @@ import { FattureComponent } from './components/fatture/fatture.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
 import { AttivitaCreazioneModificaDialog } from './dialogs/attivita-creazione-modifica.dialog';
+import { AttivitaNavigationComponent } from './components/attivita-navigation/attivita-navigation.component';
 
 
 const routes: Routes = [
@@ -33,7 +34,8 @@ const routes: Routes = [
     OrdiniComponent,
     FattureComponent,
     EliminazioneDialog,
-    AttivitaCreazioneModificaDialog
+    AttivitaCreazioneModificaDialog,
+    AttivitaNavigationComponent
   ],
   imports: [
     CommonModule,

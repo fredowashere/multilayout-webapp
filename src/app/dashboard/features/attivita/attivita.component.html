@@ -240,6 +240,14 @@
                                 <button
                                     type="button"
                                     class="btn btn-primary"
+                                    (click)="addTab(item)"
+                                >
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
                                     (click)="update(item)"
                                 >
                                     <i class="bi bi-pencil"></i>
@@ -268,6 +276,35 @@
                         </td>
                     </ng-template>
                 </app-table>
+            </div>
+
+            <div *ngIf="commesseResults.length" class="mt-3">
+                <ul
+                    class="nav-tabs"
+                    ngbNav
+                    #nav="ngbNav"
+                    [destroyOnHide]="false"
+                    [(activeId)]="activeTabId"
+                >
+                    <li *ngFor="let tab of tabs" [ngbNavItem]="tab.id">
+                        <a ngbNavLink>
+                            {{ tab.title }}
+                            <span class="btn-close ms-2 fw-light" (click)="closeTab($event, tab.id)"></span>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <app-attivita-navigation [commessa]="tab.commessa"></app-attivita-navigation>
+                        </ng-template>
+                    </li>
+                </ul>
+                
+                <div class="border p-3" style="border-top: none !important">
+                    
+                    <div [ngbNavOutlet]="nav"></div>
+        
+                    <div class="p-3 text-center text-muted" *ngIf="this.tabs.length === 0">
+                        <span class="d-inline-block pulse">Clicca sul tasto <i class="bi bi-eye-fill"></i> per aggiungere una scheda</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

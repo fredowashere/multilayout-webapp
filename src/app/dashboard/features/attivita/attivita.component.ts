@@ -15,6 +15,12 @@ import { AttivitaService } from './services/attivita.service';
 const today = new Date();
 const [ currYear, currMonth, currDay ] = [ today.getFullYear(), today.getMonth() + 1, today.getDate() ];
 
+interface Tab {
+  id: number;
+  title: string;
+  commessa: CommessaSearchDto;
+}
+
 @Component({
   selector: 'app-attivita',
   templateUrl: './attivita.component.html',
@@ -32,6 +38,9 @@ export class AttivitaComponent {
   searchClick$ = new Subject<void>();
   refresh$ = new Subject<void>();
   isLoading = false;
+
+  activeTabId!: number;
+  tabs: Tab[] = [];
 
   clienteDirettoCtrl = new FormControl<Dettaglio | null>(null);
   get idClienteDiretto() {
@@ -330,6 +339,36 @@ export class AttivitaComponent {
     this.statoCtrl.setValue('true');
     this.tipoAttivitaCtrl.setValue(null);
   }
+
+  addTab(commessa: CommessaSearchDto) {
+
+    const isAlreadyIncluded = this.tabs.some(t => t.id === commessa.id);
+    if (isAlreadyIncluded) {
+      const txt = `Commessa ${commessa.codiceCommessa} già inclusa nelle tab di ricerca`;
+      this.toaster.show(txt, { classname: 'bg-danger text-white' });
+      return;
+    }
+
+    this.activeTabId = commessa.id;
+
+    this.tabs.push({
+      id: commessa.id,
+      title: commessa.codiceCommessa,
+      commessa
+    });
+  }
+
+  closeTab(event: MouseEvent, toRemove: number) {
+
+    // Open the tab to the left
+    const tabToRemoveIndex = this.tabs.findIndex(tab => tab.id === toRemove);
+    this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.id;
+
+    // Remove tab from the array
+		this.tabs = this.tabs.filter((tab) => tab.id !== toRemove);
+		event.preventDefault();
+		event.stopImmediatePropagation();
+	}
 
   async create() {
 
