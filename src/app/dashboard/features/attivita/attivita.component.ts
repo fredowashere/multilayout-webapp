@@ -5,11 +5,12 @@ import { combineLatest, merge, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { ToastService } from 'src/app/services/toast.service';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
+import { delayedScrollTo } from 'src/app/utils/dom';
 import { jsonCopy } from 'src/app/utils/json';
 import { StatoAvanzamentoWrapService } from '../stato-avanzamento/services/stato-avanzamento-wrap.service';
-import { AttivitaCreazioneModificaDialog } from './dialogs/attivita-creazione-modifica.dialog';
+import { AttivitaCreazioneModifica } from './dialogs/attivita-creazione-modifica/attivita-creazione-modifica.component';
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
-import { Commessa, CommessaSearchDto } from './models/attivita.models';
+import { Commessa, CommessaSearchDto } from './models/commessa.models';
 import { AttivitaService } from './services/attivita.service';
 
 const today = new Date();
@@ -272,6 +273,7 @@ export class AttivitaComponent {
         tap(commesseResults => {
           this.isLoading = false;
           this.commesseResults = commesseResults;
+          delayedScrollTo("tabella-commesse", 150);
         })
       )
       .subscribe();
@@ -356,6 +358,8 @@ export class AttivitaComponent {
       title: commessa.codiceCommessa,
       commessa
     });
+
+    delayedScrollTo("commessa-" + commessa.id, 150);
   }
 
   closeTab(event: MouseEvent, toRemove: number) {
@@ -374,7 +378,7 @@ export class AttivitaComponent {
 
     const modalRef = this.modalService
       .open(
-        AttivitaCreazioneModificaDialog,
+        AttivitaCreazioneModifica,
         {
           size: 'lg',
           centered: true,
@@ -391,7 +395,7 @@ export class AttivitaComponent {
 
     const modalRef = this.modalService
       .open(
-        AttivitaCreazioneModificaDialog,
+        AttivitaCreazioneModifica,
         {
           size: 'lg',
           centered: true,

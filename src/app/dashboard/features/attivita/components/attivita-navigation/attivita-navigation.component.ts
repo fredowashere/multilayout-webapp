@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CommessaSearchDto } from '../../models/attivita.models';
+import { CommessaSearchDto } from '../../models/commessa.models';
 
 @Component({
   selector: 'app-attivita-navigation',

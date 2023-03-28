@@ -120,7 +120,6 @@
                         name="dateInizio"
                         label="Data inizio"
                         [max]="dataFine"
-                        [helper]="'Max ' + (dataFine || '-')"
                         [ngControl]="dataInizioCtrl"
                         [floatingLabel]="true"
                     ></app-input>
@@ -130,7 +129,6 @@
                         name="dateFine"
                         label="Data fine"
                         [min]="dataInizio"
-                        [helper]="'Min ' + (dataInizio || '-')"
                         [ngControl]="dataFineCtrl"
                         [floatingLabel]="true"
                     ></app-input>
@@ -154,7 +152,7 @@
                     </div>
                 </ng-container> -->
 
-                <div class="text-center my-3">
+                <div class="text-center mt-3 mb-5">
                     <div class="btn-group">
 
                         <button
@@ -196,6 +194,7 @@
     
                 <app-table
                     #dt
+                    id="tabella-commesse"
                     [thead]="thead"
                     [tbody]="tbody"
                     [items]="commesseResults"
@@ -278,7 +277,7 @@
                 </app-table>
             </div>
 
-            <div *ngIf="commesseResults.length" class="mt-3">
+            <div *ngIf="commesseResults.length" class="mt-5">
                 <ul
                     class="nav-tabs"
                     ngbNav
@@ -292,7 +291,10 @@
                             <span class="btn-close ms-2 fw-light" (click)="closeTab($event, tab.id)"></span>
                         </a>
                         <ng-template ngbNavContent>
-                            <app-attivita-navigation [commessa]="tab.commessa"></app-attivita-navigation>
+                            <app-attivita-navigation
+                                [id]="'commessa-' + tab.id"
+                                [commessa]="tab.commessa"
+                            ></app-attivita-navigation>
                         </ng-template>
                     </li>
                 </ul>
@@ -302,7 +304,7 @@
                     <div [ngbNavOutlet]="nav"></div>
         
                     <div class="p-3 text-center text-muted" *ngIf="this.tabs.length === 0">
-                        <span class="d-inline-block pulse">Clicca sul tasto <i class="bi bi-eye-fill"></i> per aggiungere una scheda</span>
+                        <span class="d-inline-block animate__animated animate__bounceIn animate__delay-100ms">Clicca sul tasto <i class="bi bi-eye-fill"></i> per aggiungere una scheda</span>
                     </div>
                 </div>
             </div>

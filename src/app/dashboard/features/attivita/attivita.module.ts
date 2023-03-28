@@ -13,8 +13,8 @@ import { OrdiniComponent } from './components/ordini/ordini.component';
 import { FattureComponent } from './components/fatture/fatture.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
-import { AttivitaCreazioneModificaDialog } from './dialogs/attivita-creazione-modifica.dialog';
 import { AttivitaNavigationComponent } from './components/attivita-navigation/attivita-navigation.component';
+import { AttivitaCreazioneModifica } from './dialogs/attivita-creazione-modifica/attivita-creazione-modifica.component';
 
 
 const routes: Routes = [
@@ -34,7 +34,7 @@ const routes: Routes = [
     OrdiniComponent,
     FattureComponent,
     EliminazioneDialog,
-    AttivitaCreazioneModificaDialog,
+    AttivitaCreazioneModifica,
     AttivitaNavigationComponent
   ],
   imports: [

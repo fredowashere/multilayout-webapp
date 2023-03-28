@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardNavbarComponent } from './layout/navbar/navbar.component';
 import { DashboardSidebarComponent } from './layout/sidebar/sidebar.component';
 import { SharedModule } from '../shared/shared.module';
+import { DashboardFooterComponent } from './layout/footer/footer.component';
 
 const routes: Routes = [
   { 
@@ -31,6 +32,7 @@ const routes: Routes = [
     DashboardComponent,
     DashboardNavbarComponent,
     DashboardSidebarComponent,
+    DashboardFooterComponent
   ],
   imports: [
     CommonModule,
