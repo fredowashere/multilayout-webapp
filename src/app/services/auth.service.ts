@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { environment } from 'src/environments/environment';
 import { ENV_COLL, ENV_DEV, ENV_PROD } from 'src/environments/envs';
@@ -30,10 +31,9 @@ export class AuthService {
   }
 
   constructor(
-    private utentiService: UtentiService
-  ) {
-    this.autoLogin();
-  }
+    private utentiService: UtentiService,
+    private router: Router
+  ) { }
 
   login(token: string, idAzienda: number) {
 
@@ -41,7 +41,8 @@ export class AuthService {
     localStorage.setItem('id_azienda', JSON.stringify(idAzienda));
     localStorage.setItem("expires_at", JSON.stringify(parseJwt(token).exp));
 
-    this.loggedInElseLogout();
+    if (!this.isLoggedIn())
+      this.logout();
 
     return this.utentiService.getAttore({ idAzienda })
       .pipe(
@@ -66,13 +67,25 @@ export class AuthService {
       );
   }
 
+  autoLogin() {
+
+    const token = localStorage.getItem('token');
+    const idAzienda = localStorage.getItem('id_azienda');
+    const userData = localStorage.getItem('user_data');
+    
+    if (token && idAzienda && userData)
+      this.user = JSON.parse(userData);
+    
+    return this.user$;
+  }
+
   fakeLogin(
     utente: { idUtente: number, nome: string, cognome: string},
     idAzienda: number,
     roles: string[]
   ) {
 
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRG9ua2V5IEtvbmcifQ.QeBhkODg6wc3TYXhmn7swjqUh2USVxI86bdRl57eAUA');
+    localStorage.setItem('token', 'eyJhbGciOiJIUzUxMiJ9.eyJkYXRhIjoiZXlKNmFYQWlPaUpFUlVZaUxDSmhiR2NpT2lKa2FYSWlMQ0psYm1NaU9pSkJNVEk0UjBOTkluMC4uSWNkVWg5TGhrUzUyY3pIUS5jenpGUEpXeTFrVW1xRWpITTRjdzNDekY4Ql8yODF2THpsbTcwblhJYjJjMnE0X05sVEZXOTUzMS1PXzFGUHRpTGdGVkl1aG1EdU43NjJHbnZONkdhaWhveWtIdHpTd0ZkSjdPeDVrMDBvcE5CcDRaUE94OXA5bXV0eWhWRGE2dW85VW53SkRIZDg2S2RXYTlOcVhYU3dLMXNSNzJRODJLS0EuVERNME82dlY0V1E1M0ZES0NPbW9WUSIsImV4cCI6MTY4MDA3NzEwMywiaWF0IjoxNjc5OTkwNzAzfQ.q7dWuFkgGCvPnrPRk_94RVeB4pc7Az3VUJ-h9240CLcqfBklN-oZGPuRTiTT1pEeOIytMeuC1wU0ygRBRitSjg');
     localStorage.setItem('id_azienda', JSON.stringify(idAzienda));
     localStorage.setItem("expires_at", JSON.stringify(10000000000000));
 
@@ -92,20 +105,6 @@ export class AuthService {
     this.user = user;
   }
 
-  autoLogin() {
-
-    const token = localStorage.getItem('token');
-    const idAzienda = localStorage.getItem('id_azienda');
-    const userData = localStorage.getItem('user_data');
-
-    this.loggedInElseLogout();
-    
-    if (token && idAzienda && userData)
-      this.user = JSON.parse(userData);
-    
-    return this.user$;
-  }
-
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("id_azienda");
@@ -113,14 +112,11 @@ export class AuthService {
     localStorage.removeItem("expires_at");
     this.user = ANONYMOUS_USER;
 
+    if (environment.name === ENV_DEV)
+      this.router.navigateByUrl('/login');
+
     if ([ENV_COLL, ENV_PROD].includes(environment.name))
       window.location.href = environment.loginUrl;
-  }
-
-  loggedInElseLogout() {
-    const loggedIn = this.isLoggedIn() || environment.name === ENV_DEV; // bypass this procedure in dev
-    if (!loggedIn)
-      this.logout();
   }
 
   isLoggedIn() {

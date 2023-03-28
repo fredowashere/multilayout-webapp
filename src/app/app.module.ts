@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { UTENTE_BASE } from './models/user';
+import { AMMINISTRATORE, ROLES } from './models/user';
 import { AuthService } from './services/auth.service';
 import { ToastsContainer } from './shared/components/toasts-container.component';
 
@@ -24,9 +24,9 @@ import { ToastsContainer } from './shared/components/toasts-container.component'
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
-      provide: 'loggedInOnlyGuard',
+      provide: 'attivitaUserGuard',
       useFactory: (authService: AuthService, router: Router) =>
-        new AuthGuard([ UTENTE_BASE ], authService, router),
+        new AuthGuard([ ...ROLES ], authService, router),
       deps: [ AuthService, Router ]
     },
   ],
