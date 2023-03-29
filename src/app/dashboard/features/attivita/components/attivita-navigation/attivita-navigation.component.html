@@ -1,7 +1,7 @@
 <h6 class="display-6 text-center mt-3 mb-4">{{ commessa.descrizione }}</h6>
 
 <ul
-    class="attivita-nav"
+    class="attivita-nav mb-5"
     ngbNav
     #nav="ngbNav"
     [destroyOnHide]="false"
@@ -9,7 +9,7 @@
 >
 	<li [ngbNavItem]="1" class="attivita-nav__item" [disabled]="commessa.tipoAttivita.id == 2">
         <a ngbNavLink>
-            <i class="bi bi-0-square-fill"></i>
+            <i class="bi bi-1-square-fill"></i>
             Opportunità
         </a>
 		<ng-template ngbNavContent>
@@ -18,7 +18,7 @@
 	</li>
 	<li [ngbNavItem]="2" class="attivita-nav__item" [disabled]="commessa.tipoAttivita.id == 2">
         <a ngbNavLink>
-            <i class="bi bi-1-square-fill"></i>
+            <i class="bi bi-2-square-fill"></i>
             Offerta
         </a>
 		<ng-template ngbNavContent>
@@ -27,7 +27,7 @@
 	</li>
 	<li [ngbNavItem]="3" class="attivita-nav__item" [disabled]="this.commessa.tipoAttivita.id == 1 && !this.offerta?.dataAccettazione">
         <a ngbNavLink>
-            <i class="bi bi-2-square-fill"></i>
+            <i class="bi bi-3-square-fill"></i>
             Sottocommesse
         </a>
 		<ng-template ngbNavContent>
@@ -36,7 +36,7 @@
 	</li>
 	<li [ngbNavItem]="4" class="attivita-nav__item" [disabled]="!hasSottocommesse">
         <a ngbNavLink>
-            <i class="bi bi-3-square-fill"></i>
+            <i class="bi bi-4-square-fill"></i>
             Costi
         </a>
 		<ng-template ngbNavContent>
@@ -45,7 +45,7 @@
 	</li>
     <li [ngbNavItem]="5" class="attivita-nav__item" [disabled]="!hasSottocommesse">
         <a ngbNavLink>
-            <i class="bi bi-4-square-fill"></i>
+            <i class="bi bi-5-square-fill"></i>
             Ricavi
         </a>
 		<ng-template ngbNavContent>
@@ -54,7 +54,7 @@
 	</li>
     <li [ngbNavItem]="6" class="attivita-nav__item">
         <a ngbNavLink>
-            <i class="bi bi-5-square-fill"></i>
+            <i class="bi bi-6-square-fill"></i>
             Ordini
         </a>
 		<ng-template ngbNavContent>
@@ -63,7 +63,7 @@
 	</li>
     <li [ngbNavItem]="7" class="attivita-nav__item">
         <a ngbNavLink>
-            <i class="bi bi-6-square-fill"></i>
+            <i class="bi bi-7-square-fill"></i>
             Fatture
         </a>
 		<ng-template ngbNavContent>

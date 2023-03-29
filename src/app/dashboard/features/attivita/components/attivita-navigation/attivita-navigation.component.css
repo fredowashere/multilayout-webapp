@@ -8,9 +8,9 @@
 
 .attivita-nav {
     background: rgba(var(--app-primary_100), 1);
-    border-radius: 10px;
     display: flex;
     color: rgba(var(--app-gray_100), 1);
+    margin: 0 -1rem;
     padding: 0.5rem;
     padding-bottom: 0;
     overflow: auto;
