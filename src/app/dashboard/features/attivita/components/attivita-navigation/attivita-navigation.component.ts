@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CommessaSearchDto } from '../../models/commessa.models';
+import { CommessaSearchDto } from '../../models/commessa';
+import { Offerta } from '../../models/offerta';
+import { OffertaService } from '../../services/offerta.service';
+import { SottocommessaService } from '../../services/sottocommessa.service';
 
 @Component({
   selector: 'app-attivita-navigation',
@@ -9,22 +11,44 @@ import { CommessaSearchDto } from '../../models/commessa.models';
 })
 export class AttivitaNavigationComponent {
 
-  @Input("commessa") commessa!: CommessaSearchDto;
+  	@Input("commessa") commessa!: CommessaSearchDto;
 
-  active: number = 3;
-	disabled = true;
+  	activeTabId: number = -1;
+	offerta: Offerta | undefined = undefined;
+	hasSottocommesse = false;
 
-	onNavChange(changeEvent: NgbNavChangeEvent) {
-		// if (changeEvent.nextId === 3) {
-		// 	changeEvent.preventDefault();
-		// }
+	constructor(
+		private offertaService: OffertaService,
+		private sottocommessaService: SottocommessaService
+	) { }
+
+	ngOnInit() {
+
+		this.offertaService
+			.getOffertaByIdCommessaPadre$(this.commessa.id)
+			.subscribe(offerta => {
+
+				if (this.commessa.tipoAttivita.id === 2)
+					this.activeTabId = 3;
+				else if (!offerta.dataAccettazione)
+					this.activeTabId = 2;
+				else
+					this.activeTabId = 3;
+			});
+
+		this.sottocommessaService
+			.checkExistingSottoCommesseByIdPadre$(this.commessa.id)
+			.subscribe(hasSottocommesse =>
+				this.hasSottocommesse = hasSottocommesse
+			);
 	}
 
-	toggleDisabled() {
-		this.disabled = !this.disabled;
-		if (this.disabled) {
-			this.active = 1;
-		}
+	sottocommesseEnabled() {
+		return this.commessa.tipoAttivita.id == 1 && !this.offerta?.dataAccettazione;
+	}
+
+	forzatureEnabled() {
+		return !this.hasSottocommesse || !this.offerta?.dataAccettazione;
 	}
 
 }

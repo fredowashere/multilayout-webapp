@@ -3,12 +3,20 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';
-import { Commessa, CommessaDto, CommessaSearchDto, CreateCommessaParam, GetAllCommesseParam, OpportunitaDto, UpdateCommessaParam } from '../models/commessa.models';
+import {
+  Commessa,
+  CommessaDto,
+  CommessaSearchDto,
+  CreateCommessaParam,
+  GetAllCommesseParam,
+  OpportunitaDto,
+  UpdateCommessaParam
+} from '../models/commessa';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AttivitaService {
+export class CommessaService {
 
   constructor(
     private authService: AuthService,
@@ -44,7 +52,7 @@ export class AttivitaService {
     return this.http.get<CommessaDto>(url);
   }
 
-  createCommessa$(input: CreateCommessaParam){
+  createCommessa$(input: CreateCommessaParam) {
     input.idAzienda = this.authService.user.idAzienda;
     input.idUtenteInserimento = this.authService.user.idUtente;
     const url = `${environment.attivitaApiRoot}/modulo-attivita-be/save/opportunita`;
@@ -61,14 +69,14 @@ export class AttivitaService {
     return this.http.delete(url);
   }
 
-  cancelCommessa$(idCommessaPadre: number){
+  cancelCommessa$(idCommessaPadre: number) {
     const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/invalidaCommessaPadre/id/${idCommessaPadre}`;
     return this.http.post<any>(url, {});
   }
 
-  restoreCommessa(idCommessaPadre: number){
+  restoreCommessa(idCommessaPadre: number) {
     const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/ripristinaCommessa/id/${idCommessaPadre}`;
     return this.http.post<any>(url, {});
   }
-  
+
 }

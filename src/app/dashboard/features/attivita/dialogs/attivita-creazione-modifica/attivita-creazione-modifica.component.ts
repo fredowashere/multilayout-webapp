@@ -7,9 +7,9 @@ import { ToastService } from "src/app/services/toast.service";
 import { InputComponent } from "src/app/shared/components/input/input.component";
 import { jsonCopy } from "src/app/utils/json";
 import { StatoAvanzamentoWrapService } from "../../../stato-avanzamento/services/stato-avanzamento-wrap.service";
-import { CommessaDto, CreateCommessaParam, SimpleDto, UpdateCommessaParam } from "../../models/commessa.models";
+import { CommessaDto, CreateCommessaParam, SimpleDto, UpdateCommessaParam } from "../../models/commessa";
 import { DIALOG_MODE } from "../../models/dialog";
-import { AttivitaService } from "../../services/attivita.service";
+import { CommessaService } from "../../services/commessa.service";
 
 @Component({
 	selector: 'app-attivita-creazione-modifica-dialog',
@@ -88,7 +88,7 @@ export class AttivitaCreazioneModifica {
         public activeModal: NgbActiveModal,
         private toaster: ToastService,
         private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
-        private attivitaService: AttivitaService
+        private commessaService: CommessaService
     ) { }
 
     ngOnInit() {
@@ -99,7 +99,7 @@ export class AttivitaCreazioneModifica {
 
         if (this.dialogMode === DIALOG_MODE.Update) {
             this.isLoading = true;
-            this.attivitaService
+            this.commessaService
                 .getCommessaById(this.idCommessaPadre)
                 .subscribe(commessa => {
                     this.commessa = commessa;
@@ -222,7 +222,7 @@ export class AttivitaCreazioneModifica {
             tag: this.tagCtrl.value,
         };
         
-        this.attivitaService
+        this.commessaService
             .createCommessa$(createObj)
             .subscribe(
                 () => {
@@ -250,7 +250,7 @@ export class AttivitaCreazioneModifica {
             tag: this.tagCtrl.value,
         };
 
-        this.attivitaService
+        this.commessaService
             .updateCommessa$(updateObj)
             .subscribe(
                 () => {

@@ -12,7 +12,7 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     children: [
-      { path: '', redirectTo: 'attivita', pathMatch: 'full' },
+      { path: '', redirectTo: 'stato-avanzamento', pathMatch: 'full' },
       {
         path: 'attivita',
         loadChildren: () =>

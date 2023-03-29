@@ -10,8 +10,8 @@ import { jsonCopy } from 'src/app/utils/json';
 import { StatoAvanzamentoWrapService } from '../stato-avanzamento/services/stato-avanzamento-wrap.service';
 import { AttivitaCreazioneModifica } from './dialogs/attivita-creazione-modifica/attivita-creazione-modifica.component';
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
-import { Commessa, CommessaSearchDto } from './models/commessa.models';
-import { AttivitaService } from './services/attivita.service';
+import { Commessa, CommessaSearchDto } from './models/commessa';
+import { CommessaService } from './services/commessa.service';
 
 const today = new Date();
 const [ currYear, currMonth, currDay ] = [ today.getFullYear(), today.getMonth() + 1, today.getDate() ];
@@ -119,7 +119,7 @@ export class AttivitaComponent {
   commesseResults: CommessaSearchDto[] = [];
 
   constructor(
-    private attivitaService: AttivitaService,
+    private commessaService: CommessaService,
     private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
     private modalService: NgbModal,
     private toaster: ToastService
@@ -145,7 +145,7 @@ export class AttivitaComponent {
           idCliente: this.idClienteDiretto,
           idCommessa: this.idCommessa
         }),
-      this.attivitaService
+      this.commessaService
         .getCommesseAutocomplete$({
           idCliente: this.idClienteDiretto,
           idProjectManager: this.idPm,
@@ -199,7 +199,7 @@ export class AttivitaComponent {
           idCommessa: this.idCommessa,
           totali: true
         }),
-      this.attivitaService
+      this.commessaService
         .getCommesseAutocomplete$({
           idCliente: this.idClienteDiretto,
           idProjectManager: this.idPm
@@ -220,7 +220,7 @@ export class AttivitaComponent {
           idCommessa: this.idCommessa,
           totali: true
         }),
-      this.attivitaService
+      this.commessaService
         .getCommesseAutocomplete$({
           idCliente: this.idClienteDiretto,
           idProjectManager: this.idPm
@@ -255,7 +255,7 @@ export class AttivitaComponent {
         takeUntil(this.destroy$),
         tap(() => this.isLoading = true),
         switchMap(() =>
-          this.attivitaService
+          this.commessaService
             .getAllCommesse$({
               idCliente: this.idClienteDiretto,
               idClienteFinale: this.idClienteFinale,
@@ -305,7 +305,7 @@ export class AttivitaComponent {
     }
 
     if (refreshCommesse)
-      this.attivitaService
+      this.commessaService
         .getCommesseAutocomplete$()
         .subscribe(commesse => this.commesse = commesse);
 
@@ -421,7 +421,7 @@ export class AttivitaComponent {
     modalRef.componentInstance.name = commessa.codiceCommessa;
 
     await modalRef.result;
-    this.attivitaService
+    this.commessaService
       .deleteCommessa(commessa.id)
       .subscribe(
         () => {
@@ -436,7 +436,7 @@ export class AttivitaComponent {
   }
 
   restore(commessa: CommessaSearchDto) {
-    this.attivitaService
+    this.commessaService
       .restoreCommessa(commessa.id)
       .subscribe(
         () => {
