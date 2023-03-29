@@ -3,7 +3,7 @@ import { map } from 'rxjs';
 import { StatoAvanzamentoService, UtentiService } from 'src/app/api/stato-avanzamento/services';
 import { AuthService } from 'src/app/services/auth.service';
 import { GetClientiParam, GetSottocommesseParam, GetUtentiParam } from '../models/autocomplete.models';
-import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from '../models/stato-avanzamento.models';
+import { GetAvanzamentoParam, SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from '../models/stato-avanzamento.models';
 
 @Injectable({
   providedIn: 'root'
@@ -37,20 +37,11 @@ export class StatoAvanzamentoWrapService {
       .getClienti(input as any);
   }
 
-  getAvanzamento$(
-    idReferente: number,
-    idSottoCommessa?: number,
-    idCliente?: number,
-    stato?: number
-  ) {
+  getAvanzamento$(input: GetAvanzamentoParam) {
+    input = input || {};
+    input.idAzienda = this.authService.user.idAzienda as number;
     return this.statoAvanzamentoService
-      .getSottoCommesseAvanzamento({
-        idAzienda: this.authService.user.idAzienda as number,
-        idReferente,
-        idSottoCommessa,
-        idCliente,
-        stato
-      })
+      .getSottoCommesseAvanzamento(input as any)
       .pipe(
         map(res =>
           res.map(sc => new SottocommessaAvanzamento(sc))
@@ -59,7 +50,6 @@ export class StatoAvanzamentoWrapService {
   }
 
   postAvanzamento$(dettaglio: SottocommessaAvanzamentoDettaglio) {
-
     return this.statoAvanzamentoService
       .postCommesseAvanzamento({
         idAzienda: this.authService.user.idAzienda as number,
@@ -67,7 +57,7 @@ export class StatoAvanzamentoWrapService {
         body: {
           idSottoCommessa: dettaglio.sottoCommessa.id,
           avanzamento: dettaglio.avanzamentoTotale,
-          descrizione: "What's that?",
+          descrizione: "Modulo Attività - Stato Avanzamento",
           statoValidazione: dettaglio.statoValidazione.id,
           idAzienda: this.authService.user.idAzienda as number,
           idProjectManager: dettaglio.idProjectManager,

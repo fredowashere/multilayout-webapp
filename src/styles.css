@@ -107,6 +107,16 @@ body {
   min-height: 50vh;
 }
 
+.app-tabbable.nav-tabs {
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+}
+
+.app-tabbable.nav-tabs .nav-link {
+ white-space: nowrap;
+}
+
 ngb-typeahead-window {
   width: clamp(25ch, 100%, 40ch);
   max-height: 300px;

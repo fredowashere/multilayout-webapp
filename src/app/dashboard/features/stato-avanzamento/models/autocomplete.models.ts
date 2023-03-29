@@ -10,6 +10,7 @@ export interface GetUtentiParam {
 export interface GetSottocommesseParam {
     idAzienda?: number;
     idReferente?: number;
+    idBusinessManager?: number;
     idCliente?: number;
 }
 

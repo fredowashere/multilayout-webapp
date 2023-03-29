@@ -127,8 +127,6 @@ export class AttivitaComponent {
 
   ngOnInit() {
 
-    console.log(this.dataInizio);
-
     this.initializeAutocompleteValues();
 
     // Define of autocomplete handlers
