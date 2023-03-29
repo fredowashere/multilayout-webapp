@@ -17,7 +17,7 @@ export class StatoAvanzamentoWrapService {
   ) { }
 
   getUtenti$(input?: GetUtentiParam) {
-    input = input || { IsPm: true, IsBm: true }; // all users by default
+    input = input || {}; // all users by default?
     input.idAzienda = this.authService.user.idAzienda as number;
     return this.utentiService
       .getUtenti(input as any);

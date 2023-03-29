@@ -1,7 +1,7 @@
 export interface GetUtentiParam {
     idAzienda?: number;
-    IsPm: boolean;
-    IsBm: boolean;
+    IsPm?: boolean;
+    IsBm?: boolean;
     idSottoCommessa?: number;
     idCliente?: number;
     idCommessa?: number;

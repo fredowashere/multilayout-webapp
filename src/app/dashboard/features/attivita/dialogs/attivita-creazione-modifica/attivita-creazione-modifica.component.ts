@@ -150,7 +150,7 @@ export class AttivitaCreazioneModifica {
             this.statoAvanzamentoWrap
                 .getUtenti$({ IsPm: true, IsBm: false }),
             this.statoAvanzamentoWrap
-                .getUtenti$({ IsPm: false, IsBm: true }),
+                .getUtenti$(),
             this.statoAvanzamentoWrap
                 .getClienti$({ totali: true })
         ])

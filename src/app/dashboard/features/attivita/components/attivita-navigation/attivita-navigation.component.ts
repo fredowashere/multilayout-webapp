@@ -13,8 +13,8 @@ export class AttivitaNavigationComponent {
 
   	@Input("commessa") commessa!: CommessaSearchDto;
 
-  	activeTabId: number = -1;
-	offerta: Offerta | undefined = undefined;
+  	activeTabId: number | null = null;
+	offerta: Offerta | null = null;
 	hasSottocommesse = false;
 
 	constructor(
@@ -34,6 +34,8 @@ export class AttivitaNavigationComponent {
 					this.activeTabId = 2;
 				else
 					this.activeTabId = 3;
+
+				this.offerta = offerta;
 			});
 
 		this.sottocommessaService
@@ -41,14 +43,6 @@ export class AttivitaNavigationComponent {
 			.subscribe(hasSottocommesse =>
 				this.hasSottocommesse = hasSottocommesse
 			);
-	}
-
-	sottocommesseEnabled() {
-		return this.commessa.tipoAttivita.id == 1 && !this.offerta?.dataAccettazione;
-	}
-
-	forzatureEnabled() {
-		return !this.hasSottocommesse || !this.offerta?.dataAccettazione;
 	}
 
 }

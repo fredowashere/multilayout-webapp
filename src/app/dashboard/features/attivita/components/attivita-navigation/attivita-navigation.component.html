@@ -25,7 +25,7 @@
 			<app-offerta></app-offerta>
 		</ng-template>
 	</li>
-	<li [ngbNavItem]="3" class="attivita-nav__item" [disabled]="sottocommesseEnabled()">
+	<li [ngbNavItem]="3" class="attivita-nav__item" [disabled]="this.commessa.tipoAttivita.id == 1 && !this.offerta?.dataAccettazione">
         <a ngbNavLink>
             <i class="bi bi-2-square-fill"></i>
             Sottocommesse
@@ -34,7 +34,7 @@
 			<app-sottocommesse></app-sottocommesse>
 		</ng-template>
 	</li>
-	<li [ngbNavItem]="4" class="attivita-nav__item" [disabled]="forzatureEnabled()">
+	<li [ngbNavItem]="4" class="attivita-nav__item" [disabled]="!hasSottocommesse">
         <a ngbNavLink>
             <i class="bi bi-3-square-fill"></i>
             Costi
@@ -43,7 +43,7 @@
 			<app-costi></app-costi>
 		</ng-template>
 	</li>
-    <li [ngbNavItem]="5" class="attivita-nav__item" [disabled]="forzatureEnabled()">
+    <li [ngbNavItem]="5" class="attivita-nav__item" [disabled]="!hasSottocommesse">
         <a ngbNavLink>
             <i class="bi bi-4-square-fill"></i>
             Ricavi

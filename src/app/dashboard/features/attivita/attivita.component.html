@@ -78,81 +78,58 @@
                     ></app-input>
                 </div>
 
-                <ng-container *ngLet="{ collapsed: true } as _collapse">
+                <div class="flexgrid flexgrid--4">
 
-                    <div class="text-center my-3">
-                        <span
-                            class="text-muted clickable"
-                            (click)="_collapse.collapsed = !_collapse.collapsed"
-                        >
-                            Altri filtri
-                        </span>
-                    </div>
-
-                    <div
-                        class="card shadow"
-                        #collapse="ngbCollapse"
-                        [(ngbCollapse)]="_collapse.collapsed"
-                    >
-                        <div class="card-body">
-
-                            <h5 class="mb-4">Filtri aggiuntivi</h5>
-
-                            <div class="flexgrid flexgrid--4">
-
-                                <app-input
-                                    #pmAutocomplete
-                                    type="autocomplete"
-                                    name="projectManager"
-                                    label="Project manager"
-                                    [options]="pmList"
-                                    [formatter]="pmFormatter"
-                                    [filter]="pmFilter"
-                                    [template]="pmTmpl"
-                                    [ngControl]="pmCtrl"
-                                    [floatingLabel]="true"
-                                ></app-input>
-                                <ng-template #pmTmpl let-r="result" let-t="term">
-                                    <div class="my-1">
-                                        <div class="small">{{ r.idUtente }}</div>
-                                        <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
-                                    </div>
-                                </ng-template>
-            
-                                <app-input
-                                    #bmAutocomplete
-                                    type="autocomplete"
-                                    name="businessManager"
-                                    label="Business manager"
-                                    [options]="bmList"
-                                    [formatter]="pmFormatter"
-                                    [filter]="pmFilter"
-                                    [template]="pmTmpl"
-                                    [ngControl]="bmCtrl"
-                                    [floatingLabel]="true"
-                                ></app-input>
-            
-                                <app-input
-                                    type="date"
-                                    name="dateInizio"
-                                    label="Data inizio"
-                                    [max]="dataFine"
-                                    [ngControl]="dataInizioCtrl"
-                                    [floatingLabel]="true"
-                                ></app-input>
-            
-                                <app-input
-                                    type="date"
-                                    name="dateFine"
-                                    label="Data fine"
-                                    [min]="dataInizio"
-                                    [ngControl]="dataFineCtrl"
-                                    [floatingLabel]="true"
-                                ></app-input>
-                            </div>
+                    <app-input
+                        #pmAutocomplete
+                        type="autocomplete"
+                        name="projectManager"
+                        label="Project manager"
+                        [options]="pmList"
+                        [formatter]="pmFormatter"
+                        [filter]="pmFilter"
+                        [template]="pmTmpl"
+                        [ngControl]="pmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                    <ng-template #pmTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r.idUtente }}</div>
+                            <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
                         </div>
-                    </div>
-                </ng-container>
+                    </ng-template>
+
+                    <app-input
+                        #bmAutocomplete
+                        type="autocomplete"
+                        name="businessManager"
+                        label="Business manager"
+                        [options]="bmList"
+                        [formatter]="pmFormatter"
+                        [filter]="pmFilter"
+                        [template]="pmTmpl"
+                        [ngControl]="bmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="date"
+                        name="dateInizio"
+                        label="Data inizio"
+                        [max]="dataFine"
+                        [ngControl]="dataInizioCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="date"
+                        name="dateFine"
+                        label="Data fine"
+                        [min]="dataInizio"
+                        [ngControl]="dataFineCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
 
                 <div class="text-center mt-3 mb-5">
                     <div class="btn-group">
@@ -246,7 +223,7 @@
                                     class="btn btn-primary shadow"
                                     (click)="addTab(item)"
                                 >
-                                    <i class="bi bi-eye-fill"></i>
+                                    <i class="bi bi-arrow-90deg-down"></i>
                                 </button>
 
                                 <button
@@ -308,8 +285,8 @@
                     
                     <div [ngbNavOutlet]="nav"></div>
         
-                    <div class="p-3 text-center text-muted" *ngIf="this.tabs.length === 0">
-                        <span class="d-inline-block animate__animated animate__bounceIn animate__delay-100ms">Clicca sul tasto <i class="bi bi-eye-fill"></i> per aggiungere una scheda</span>
+                    <div class="p-3 text-center" *ngIf="this.tabs.length === 0">
+                        <span class="d-inline-block animate__animated animate__bounceIn animate__delay-100ms">Clicca sul tasto <i class="bi bi-arrow-90deg-down"></i> in Tabella Commesse per aggiungere una scheda</span>
                     </div>
                 </div>
             </div>

@@ -364,7 +364,12 @@ export class AttivitaComponent {
 
     // Open the tab to the left
     const tabToRemoveIndex = this.tabs.findIndex(tab => tab.id === toRemove);
-    this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.id;
+
+    if (this.tabs[tabToRemoveIndex].id === toRemove)
+      if (tabToRemoveIndex === 0)
+        this.activeTabId = this.tabs[tabToRemoveIndex + 1]?.id; // right
+      else
+        this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.id; // left
 
     // Remove tab from the array
 		this.tabs = this.tabs.filter((tab) => tab.id !== toRemove);
