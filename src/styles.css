@@ -139,7 +139,7 @@ th[sortable].desc::before {
 .flexgrid {
   display: flex;
   flex-wrap: wrap;
-  margin: calc(-1 * var(--flexgrid-gap) / 2);
+  margin: 0 calc(-1 * var(--flexgrid-gap) / 2);
 }
 
 .flexgrid > * {
