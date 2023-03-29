@@ -1,21 +1,18 @@
-import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { catchError, combineLatest, startWith, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
+import { Component, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { catchError, combineLatest, filter, map, startWith, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
 import { Dettaglio, EnumStatiChiusura, GetSottoCommessePerReferenteResponse, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-avanzamento/services/stato-avanzamento-wrap.service';
-import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/dashboard/features/stato-avanzamento/models/stato-avanzamento';
+import { GetAvanzamentoParam, SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/dashboard/features/stato-avanzamento/models/stato-avanzamento.models';
 import { ToastService } from 'src/app/services/toast.service';
 import { enforceMinMax } from 'src/app/utils/input';
-import { guid } from 'src/app/utils/uuid';
 import { BUSINESS_MANAGER } from 'src/app/models/user';
+import { jsonCopy } from 'src/app/utils/json';
+import { InputComponent } from 'src/app/shared/components/input/input.component';
 
 interface Tab {
-  id: string;
+  id: number;
   title: string;
-  pm: UtentiAnagrafica;
-  sottocommessa: GetSottoCommessePerReferenteResponse | null;
-  cliente: Dettaglio | null;
-  stato: number;
   avanzamento: SottocommessaAvanzamento[];
 }
 
@@ -26,6 +23,11 @@ interface Tab {
 })
 export class StatoAvanzamentoComponent {
 
+  @ViewChild("clienteAutocomplete") clienteAutocomplete!: InputComponent;
+  @ViewChild("sottocommessaAutocomplete") sottocommessaAutocomplete!: InputComponent;
+  @ViewChild("pmAutocomplete") pmAutocomplete!: InputComponent;
+  @ViewChild("bmAutocomplete") bmAutocomplete!: InputComponent;
+
   enforceMinMax = enforceMinMax;
   EnumStatiChiusura = EnumStatiChiusura;
   BUSINESS_MANAGER = BUSINESS_MANAGER;
@@ -33,10 +35,12 @@ export class StatoAvanzamentoComponent {
   destroy$ = new Subject<void>();
   searchClick$ = new Subject<void>();
 
-  activeTabId!: string;
+  activeTabId!: number;
   tabs: Tab[] = [];
 
-  pmCtrl = new FormControl<UtentiAnagrafica | null>(null, [Validators.required]);
+  lastSearchFilter!: GetAvanzamentoParam;
+
+  pmCtrl = new FormControl<UtentiAnagrafica | null>(null);
   get idPm() {
     return this.pmCtrl.value?.idUtente;
   }
@@ -44,6 +48,12 @@ export class StatoAvanzamentoComponent {
   pmFormatter = (pm: UtentiAnagrafica) => pm.cognome + ' ' + pm.nome;
   pmFilter = (term: string, pm: UtentiAnagrafica) =>
     (pm.cognome + ' ' + pm.nome).toLowerCase().includes(term.toLowerCase());
+
+  bmCtrl = new FormControl<UtentiAnagrafica | null>(null);
+  get idBm() {
+    return this.bmCtrl.value?.idUtente;
+  }
+  bmList: UtentiAnagrafica[] = [];
 
   sottocommessaCtrl = new FormControl<GetSottoCommessePerReferenteResponse | null>(null);
   get idSottocommessa() {
@@ -71,8 +81,6 @@ export class StatoAvanzamentoComponent {
     { text: 'Vistato', value: 3 },
   ];
 
-  sottocommesseAvanzamento: SottocommessaAvanzamento[] = [];
-
   constructor(
     private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
     private toastService: ToastService
@@ -80,19 +88,114 @@ export class StatoAvanzamentoComponent {
   
   ngOnInit() {
 
+    this.initializeAutocompleteValues();
+
+    this.setupAutocompletes();
+
+    this.searchClick$
+      .pipe(
+        takeUntil(this.destroy$),
+        map(() =>
+          ({
+            idReferente: this.idPm,
+            idBusinessManager: this.idBm,
+            idSottoCommessa: this.idSottocommessa,
+            idCliente: this.idCliente,
+            stato: this.statoCtrl.value as number
+          })
+        ),
+        tap(searchParam =>
+          this.lastSearchFilter = jsonCopy(searchParam)
+        ),
+        filter(() => {
+          let _confirm = true;
+          if (this.hasUnsavedWork())
+            _confirm = confirm("Hai del lavoro in sospeso, e rilanciando la ricerca potresti perderlo. Vuoi comunque continuare?");
+          return _confirm;
+        }),
+        switchMap(searchParam =>
+          this.statoAvanzamentoWrap
+            .getAvanzamento$(searchParam)
+        ),
+        tap(avanzamento =>
+          this.updateResults(avanzamento)
+        )
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+  }
+
+  initializeAutocompleteValues() {
+
+    this.statoAvanzamentoWrap
+      .getClienti$()
+      .subscribe(clienti => this.clienti = clienti);
+
+    this.statoAvanzamentoWrap
+      .getSottocommesse$()
+      .subscribe(sottocommesse => this.sottocommesse = sottocommesse);
+
+    this.statoAvanzamentoWrap
+      .getUtenti$({
+        IsPm: true,
+        IsBm: false
+      })
+      .subscribe(pmList => this.pmList = pmList);
+
+    this.statoAvanzamentoWrap
+      .getUtenti$({
+        IsPm: false,
+        IsBm: true
+      })
+      .subscribe(bmList => this.bmList = bmList);
+  }
+
+  setupAutocompletes() {
+
     this.pmCtrl.valueChanges
       .pipe(
-        startWith(null),
         switchMap(() =>
           combineLatest([
-            this.statoAvanzamentoWrap.getClienti$(
-              this.idPm,
-              this.idSottocommessa
-            ),
-            this.statoAvanzamentoWrap.getSottocommesse$(
-              this.idPm,
-              this.idCliente
-            )
+            this.statoAvanzamentoWrap
+              .getClienti$({
+                idBusinessManager: this.idBm,
+                idReferente: this.idPm,
+                idSottoCommessa: this.idSottocommessa
+              }),
+            this.statoAvanzamentoWrap
+              .getSottocommesse$({
+                idBusinessManager: this.idBm,
+                idReferente: this.idPm,
+                idCliente: this.idCliente
+              })
+          ])
+        ),
+        tap(([ clienti, sottocommesse ]) => {
+          this.sottocommesse = sottocommesse;
+          this.clienti = clienti;
+        })
+      )
+      .subscribe();
+
+    this.bmCtrl.valueChanges
+      .pipe(
+        switchMap(() =>
+          combineLatest([
+            this.statoAvanzamentoWrap
+              .getClienti$({
+                idBusinessManager: this.idBm,
+                idReferente: this.idPm,
+                idSottoCommessa: this.idSottocommessa
+              }),
+            this.statoAvanzamentoWrap
+              .getSottocommesse$({
+                idBusinessManager: this.idBm,
+                idReferente: this.idPm,
+                idCliente: this.idCliente
+              })
           ])
         ),
         tap(([ clienti, sottocommesse ]) => {
@@ -104,22 +207,33 @@ export class StatoAvanzamentoComponent {
 
     this.sottocommessaCtrl.valueChanges
       .pipe(
-        startWith(null),
         switchMap(() =>
           combineLatest([
-            this.statoAvanzamentoWrap.getUtenti$(
-              true, false,
-              this.idSottocommessa,
-              this.idCliente
-            ),
-            this.statoAvanzamentoWrap.getClienti$(
-              this.idPm,
-              this.idSottocommessa
-            ),
+            this.statoAvanzamentoWrap
+              .getUtenti$({
+                IsPm: true,
+                IsBm: false,
+                idSottoCommessa: this.idSottocommessa,
+                idCliente: this.idCliente
+              }),
+            this.statoAvanzamentoWrap
+              .getUtenti$({
+                IsPm: false,
+                IsBm: true,
+                idSottoCommessa: this.idSottocommessa,
+                idCliente: this.idCliente
+              }),
+            this.statoAvanzamentoWrap
+              .getClienti$({
+                idBusinessManager: this.idBm,
+                idReferente: this.idPm,
+                idSottoCommessa: this.idSottocommessa
+              }),
           ])
         ),
-        tap(([ pmList, clienti ]) => {
+        tap(([ pmList, bmList, clienti ]) => {
           this.pmList = pmList;
+          this.bmList = bmList;
           this.clienti = clienti;
         })
       )
@@ -127,93 +241,135 @@ export class StatoAvanzamentoComponent {
     
     this.clienteCtrl.valueChanges
       .pipe(
-        startWith(null),
         switchMap(() =>
           combineLatest([
-            this.statoAvanzamentoWrap.getUtenti$(
-              true, false,
-              this.idSottocommessa,
-              this.idCliente
-            ),
-            this.statoAvanzamentoWrap.getSottocommesse$(
-              this.idPm,
-              this.idCliente
-            )
+            this.statoAvanzamentoWrap
+              .getUtenti$({
+                IsPm: true,
+                IsBm: false,
+                idSottoCommessa: this.idSottocommessa,
+                idCliente: this.idCliente
+              }),
+            this.statoAvanzamentoWrap
+              .getUtenti$({
+                IsPm: false,
+                IsBm: true,
+                idSottoCommessa: this.idSottocommessa,
+                idCliente: this.idCliente
+              }),
+            this.statoAvanzamentoWrap
+              .getSottocommesse$({
+                idReferente: this.idPm,
+                idCliente: this.idCliente
+              })
           ])
         ),
-        tap(([ pmList, sottocommesse ]) => {
+        tap(([ pmList, bmList, sottocommesse ]) => {
           this.pmList = pmList;
+          this.bmList = bmList;
           this.sottocommesse = sottocommesse;
         })
       )
       .subscribe();
-
-    this.searchClick$
-      .pipe(
-        takeUntil(this.destroy$),
-        switchMap(() =>
-          this.statoAvanzamentoWrap
-            .getAvanzamento$(
-              this.idPm as number,
-              this.idSottocommessa,
-              this.idCliente,
-              this.statoCtrl.value as number
-            )
-        ),
-        tap(avanzamento => {
-          this.addTab(avanzamento);
-          this.sottocommesseAvanzamento = avanzamento  
-        })
-      )
-      .subscribe();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
   }
 
   resetControls() {
-    this.pmCtrl.setValue(null);
-    this.clienteCtrl.setValue(null);
+
+    // DO NOT emit otherwise they will call the backend 6 times...
+    this.pmCtrl.setValue(null, { emitEvent: false });
+    this.bmCtrl.setValue(null, { emitEvent: false });
+    this.sottocommessaCtrl.setValue(null, { emitEvent: false });
+    this.clienteCtrl.setValue(null, { emitEvent: false });
+
+    // ...instead clear the input manually
+    this.clienteAutocomplete._autocompleteChoice = null;
+    this.sottocommessaAutocomplete._autocompleteChoice = null;
+    this.pmAutocomplete._autocompleteChoice = null;
+    this.bmAutocomplete._autocompleteChoice = null;
+
+    this.initializeAutocompleteValues();
+    
     this.statoCtrl.setValue(0);
   }
 
-  addTab(avanzamento: SottocommessaAvanzamento[]) {
+  updateResults(avanzamento: SottocommessaAvanzamento[]) {
 
-    const title = this.pmCtrl.value?.cognome + ' ' + this.pmCtrl.value?.nome;
+    const idPmSottocommessaAvanzamenti = avanzamento
+      .reduce(
+        (a, b) => {
+          a[b.referente.idUtente as number] = a[b.referente.idUtente as number] || [];
+          a[b.referente.idUtente as number].push(b);
+          return a;
+        },
+        {} as { [key: number]: SottocommessaAvanzamento[] }
+      );
 
-    const isAlreadyIncluded = this.tabs.some(t => t.pm.idUtente === this.pmCtrl.value?.idUtente);
-    if (isAlreadyIncluded) {
-      const txt = `${title} già incluso nelle tab di ricerca`;
-      this.toastService.show(txt, { classname: 'bg-danger text-white' });
-      return;
+    const idPmList = Object.keys(idPmSottocommessaAvanzamenti) as unknown as number[];
+
+    // Clean tabs that are not present in the current view
+    for (let i = this.tabs.length - 1; i > -1; i--) {
+
+      const tab = this.tabs[i];
+
+      if (!idPmSottocommessaAvanzamenti[tab.id])
+        this.tabs.splice(i, 1);
     }
 
-    const id = guid();
-    this.activeTabId = id;
+    // Create/update tabs
+    for (const idPm of idPmList) {
 
+      const { referente: ref } = idPmSottocommessaAvanzamenti[idPm][0];
+
+      this.addTab(
+        idPm,
+        ref.cognome + ' ' + ref.nome,
+        idPmSottocommessaAvanzamenti[idPm]
+      );
+    }
+
+    this.activeTabId = this.tabs[0]?.id;
+  }
+
+  addTab(
+    id: number,
+    title: string,
+    avanzamento: SottocommessaAvanzamento[]
+  ) {
+
+    // Update existing
+    const tabIndex = this.tabs.findIndex(t => t.id === id);
+    if (tabIndex > - 1) {
+      this.tabs[tabIndex].avanzamento = avanzamento;
+      return;
+    }
+    
+    // Create new
     this.tabs.push({
       id,
       title,
-      avanzamento,
-      pm: this.pmCtrl.value as UtentiAnagrafica,
-      sottocommessa: this.sottocommessaCtrl.value,
-      cliente: this.clienteCtrl.value,
-      stato: this.statoCtrl.value as number,
+      avanzamento
     });
   }
 
-  closeTab(event: MouseEvent, toRemove: string) {
+  hasUnsavedWork(t?: Tab) {
 
-    // Open the tab to the left
-    const tabToRemoveIndex = this.tabs.findIndex(tab => tab.id === toRemove);
-    this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.id;
+    // Check given tab
+    if (t)
+      return t.avanzamento.some(a =>
+        a.dettaglio.some(d =>
+          d.dirty
+        )
+      );
 
-    // Remove tab from the array
-		this.tabs = this.tabs.filter((tab) => tab.id !== toRemove);
-		event.preventDefault();
-		event.stopImmediatePropagation();
-	}
+    // Check all tabs
+    return this.tabs.some(t =>
+      t.avanzamento.some(a =>
+        a.dettaglio.some(d =>
+          d.dirty
+        )
+      )
+    );
+  }
 
   salvaDettagliSelezionati(dettagli: SottocommessaAvanzamentoDettaglio[]) {
     console.log(dettagli);
@@ -226,17 +382,6 @@ export class StatoAvanzamentoComponent {
   }
 
   salvaDettaglio(dettaglio: SottocommessaAvanzamentoDettaglio) {
-
-    // Save active tab and filters
-    const activeTabIndex = this.tabs.findIndex(t => t.id === this.activeTabId);
-    const activeTab = this.tabs[activeTabIndex];
-    const {
-      pm,
-      sottocommessa,
-      cliente,
-      stato
-    } = this.tabs[activeTabIndex];
-
     this.statoAvanzamentoWrap
       .postAvanzamento$(dettaglio)
       .pipe(
@@ -244,20 +389,13 @@ export class StatoAvanzamentoComponent {
           this.toastService.show(err.error, { classname: 'bg-danger text-light', delay: 10000 });
           return throwError(err);
         }),
-        tap(() => {
-
-          // Call the backend with the original filter and update tab avanzamento
+        tap(() =>
           this.statoAvanzamentoWrap
-            .getAvanzamento$(
-              pm.idUtente as number,
-              sottocommessa?.sottoCommessa?.id,
-              cliente?.id,
-              stato
-            )
+            .getAvanzamento$(this.lastSearchFilter) // Call the backend with the last filter
             .subscribe(avanzamento =>
-              activeTab.avanzamento = avanzamento
-            );
-        })
+              this.updateResults(avanzamento)
+            )
+        )
       )
       .subscribe();
   }

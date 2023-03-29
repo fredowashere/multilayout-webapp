@@ -28,6 +28,7 @@
               "src/assets/css/bootstrap-with-vars.css",
               "./node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "./node_modules/highlight.js/styles/magula.css",
+              "./node_modules/animate.css/animate.min.css",
               "src/assets/css/demos.css",
               "src/styles.css"
             ],

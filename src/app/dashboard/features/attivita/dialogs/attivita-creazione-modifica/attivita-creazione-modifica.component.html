@@ -1,0 +1,162 @@
+<ng-template #loading>
+    <div class="text-center py-4">
+        <div class="spinner-border"></div>
+    </div>
+</ng-template>
+
+<ng-container *ngIf="!isLoading; else loading">
+    <div class="modal-header">
+
+        <h4 class="modal-title" id="modal-title">
+            {{ dialogMode }}
+        </h4>
+
+        <button
+            type="button"
+            class="btn-close" 
+            (click)="activeModal.dismiss('Cross click')"
+        ></button>
+        </div>
+
+        <div class="modal-body">
+
+            <form [formGroup]="form">
+
+                <div class="flexgrid flexgrid--2">
+
+                    <app-input
+                        #clienteDirettoInput
+                        type="autocomplete"
+                        name="cliente"
+                        label="Cliente diretto *"
+                        [options]="clientiDiretti"
+                        [formatter]="clienteFormatter"
+                        [filter]="clienteFilter"
+                        [ngControl]="clienteDirettoCtrl"
+                        [disabled]="dialogMode === DIALOG_MODE.Update"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        #clienteFinaleInput
+                        type="autocomplete"
+                        name="clienteFinale"
+                        label="Cliente finale *"
+                        [options]="clientiFinali"
+                        [formatter]="clienteFormatter"
+                        [filter]="clienteFilter"
+                        [ngControl]="clienteFinaleCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        #pmInput
+                        type="autocomplete"
+                        name="projectManager"
+                        label="Project manager *"
+                        [options]="pmList"
+                        [formatter]="pmFormatter"
+                        [filter]="pmFilter"
+                        [template]="pmTmpl"
+                        [ngControl]="pmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                    <ng-template #pmTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r.idUtente }}</div>
+                            <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
+                        </div>
+                    </ng-template>
+
+                    <app-input
+                        #bmInput
+                        type="autocomplete"
+                        name="businessManager"
+                        label="Business manager *"
+                        [options]="bmList"
+                        [formatter]="pmFormatter"
+                        [filter]="pmFilter"
+                        [template]="pmTmpl"
+                        [ngControl]="bmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <div class="flexgrid flexgrid--2">
+                    
+                    <app-input
+                        type="select"
+                        name="tipoAttivita"
+                        label="Tipo attivita"
+                        [ngControl]="tipoAttivitaCtrl"
+                        [options]="tipiAttivita"
+                        [disabled]="dialogMode === DIALOG_MODE.Update"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        *ngIf="tipoAttivita == 2"
+                        name="codiceCommessa"
+                        label="Codice commessa *"
+                        [ngControl]="codiceCommessaCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <div class="flexgrid flexgrid--2">
+
+                    <app-input
+                        name="descrizione"
+                        label="Descrizione *"
+                        [ngControl]="descrizioneCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        name="tag"
+                        label="Tag"
+                        [ngControl]="tagCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="date"
+                        name="dataCreazione"
+                        label="Data creazione"
+                        [ngControl]="dataCreazioneCtrl"
+                        [floatingLabel]="true"
+                        [disabled]="true"
+                    ></app-input>
+
+                    <app-input
+                        *ngIf="tipoAttivita == 1"
+                        type="date"
+                        name="dataDecorrenza"
+                        label="Data decorrenza *"
+                        [ngControl]="dataDecorrenzaCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="btn btn-outline-secondary ms-auto"
+                (click)="activeModal.dismiss('Cancel')"
+            >
+                Cancella
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="form.invalid"
+                (click)="save()"
+            >
+                Salva
+            </button>
+        </div>
+</ng-container>

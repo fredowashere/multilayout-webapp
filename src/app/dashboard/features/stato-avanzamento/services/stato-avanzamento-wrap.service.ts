@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { StatoAvanzamentoService, UtentiService } from 'src/app/api/stato-avanzamento/services';
 import { AuthService } from 'src/app/services/auth.service';
-import { SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from '../models/stato-avanzamento';
+import { GetClientiParam, GetSottocommesseParam, GetUtentiParam } from '../models/autocomplete.models';
+import { GetAvanzamentoParam, SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from '../models/stato-avanzamento.models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,52 +16,32 @@ export class StatoAvanzamentoWrapService {
     private utentiService: UtentiService
   ) { }
 
-  getUtenti$(
-    IsPm = true,
-    IsBm = true,
-    idSottoCommessa?: number,
-    idCliente?: number
-  ) {
-    return this.utentiService.getUtenti({
-      idAzienda: this.authService.user.idAzienda as number,
-      IsPm,
-      IsBm,
-      idSottoCommessa,
-      idCliente
-    });
+  getUtenti$(input?: GetUtentiParam) {
+    input = input || { IsPm: true, IsBm: true }; // all users by default
+    input.idAzienda = this.authService.user.idAzienda as number;
+    return this.utentiService
+      .getUtenti(input as any);
   }
 
-  getSottocommesse$(idReferente?: number, idCliente?: number) {
+  getSottocommesse$(input?: GetSottocommesseParam) {
+    input = input || {};
+    input.idAzienda = this.authService.user.idAzienda as number;
     return this.statoAvanzamentoService
-      .getSottoCommesse({
-        idAzienda: this.authService.user.idAzienda as number,
-        idReferente,
-        idCliente
-      });
+      .getSottoCommesse(input as any);
   }
 
-  getClienti$(idReferente?: number, idSottoCommessa?: number) {
-    return this.statoAvanzamentoService.getClienti({
-      idAzienda: this.authService.user.idAzienda as number,
-      idReferente,
-      idSottoCommessa
-    });
-  }
-
-  getAvanzamento$(
-    idReferente: number,
-    idSottoCommessa?: number,
-    idCliente?: number,
-    stato?: number
-  ) {
+  getClienti$(input?: GetClientiParam) {
+    input = input || {};
+    input.idAzienda = this.authService.user.idAzienda as number;
     return this.statoAvanzamentoService
-      .getSottoCommesseAvanzamento({
-        idAzienda: this.authService.user.idAzienda as number,
-        idReferente,
-        idSottoCommessa,
-        idCliente,
-        stato
-      })
+      .getClienti(input as any);
+  }
+
+  getAvanzamento$(input: GetAvanzamentoParam) {
+    input = input || {};
+    input.idAzienda = this.authService.user.idAzienda as number;
+    return this.statoAvanzamentoService
+      .getSottoCommesseAvanzamento(input as any)
       .pipe(
         map(res =>
           res.map(sc => new SottocommessaAvanzamento(sc))
@@ -69,7 +50,6 @@ export class StatoAvanzamentoWrapService {
   }
 
   postAvanzamento$(dettaglio: SottocommessaAvanzamentoDettaglio) {
-
     return this.statoAvanzamentoService
       .postCommesseAvanzamento({
         idAzienda: this.authService.user.idAzienda as number,
@@ -77,7 +57,7 @@ export class StatoAvanzamentoWrapService {
         body: {
           idSottoCommessa: dettaglio.sottoCommessa.id,
           avanzamento: dettaglio.avanzamentoTotale,
-          descrizione: "What's that?",
+          descrizione: "Modulo Attività - Stato Avanzamento",
           statoValidazione: dettaglio.statoValidazione.id,
           idAzienda: this.authService.user.idAzienda as number,
           idProjectManager: dettaglio.idProjectManager,

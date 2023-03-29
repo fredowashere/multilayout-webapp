@@ -1,0 +1,318 @@
+<div class="container-xxxl py-5 px-3">
+    
+    <div class="card shadow">
+        <div class="card-body pb-4">
+
+            <h5 class="mb-4">Ricerca Commesse</h5>
+
+            <div class="col-md-8 mx-auto">
+
+                <div class="flexgrid flexgrid--3">
+
+                    <app-input
+                        #clienteDirettoAutocomplete
+                        type="autocomplete"
+                        name="clienteDiretto"
+                        label="Cliente diretto"
+                        [options]="clientiDiretti"
+                        [formatter]="clienteFormatter"
+                        [filter]="clienteFilter"
+                        [ngControl]="clienteDirettoCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        #clienteFinaleAutocomplete
+                        type="autocomplete"
+                        name="clienteFinale"
+                        label="Cliente finale"
+                        [options]="clientiFinali"
+                        [formatter]="clienteFormatter"
+                        [filter]="clienteFilter"
+                        [ngControl]="clienteFinaleCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        #commessaAutocomplete
+                        type="autocomplete"
+                        name="commessa"
+                        label="Commessa"
+                        [options]="commesse"
+                        [formatter]="commesseFormatter"
+                        [filter]="commesseFilter"
+                        [template]="cTmpl"
+                        [ngControl]="commessaCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                    <ng-template #cTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r?.codice }}</div>
+                            <ngb-highlight [result]="r?.descrizione" [term]="t"></ngb-highlight>
+                        </div>
+                    </ng-template>
+
+                    <app-input
+                        name="descrizione"
+                        label="Descrizione"
+                        [ngControl]="descrizioneCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="select"
+                        name="tipoAttivita"
+                        label="Tipo attivita"
+                        [ngControl]="tipoAttivitaCtrl"
+                        [options]="tipiAttivita"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="select"
+                        name="stato"
+                        label="Stato"
+                        [ngControl]="statoCtrl"
+                        [options]="stati"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <ng-container *ngLet="{ collapsed: true } as _collapse">
+
+                    <div class="text-center my-3">
+                        <span
+                            class="text-muted clickable"
+                            (click)="_collapse.collapsed = !_collapse.collapsed"
+                        >
+                            Altri filtri
+                        </span>
+                    </div>
+
+                    <div
+                        class="card shadow"
+                        #collapse="ngbCollapse"
+                        [(ngbCollapse)]="_collapse.collapsed"
+                    >
+                        <div class="card-body">
+
+                            <h5 class="mb-4">Filtri aggiuntivi</h5>
+
+                            <div class="flexgrid flexgrid--4">
+
+                                <app-input
+                                    #pmAutocomplete
+                                    type="autocomplete"
+                                    name="projectManager"
+                                    label="Project manager"
+                                    [options]="pmList"
+                                    [formatter]="pmFormatter"
+                                    [filter]="pmFilter"
+                                    [template]="pmTmpl"
+                                    [ngControl]="pmCtrl"
+                                    [floatingLabel]="true"
+                                ></app-input>
+                                <ng-template #pmTmpl let-r="result" let-t="term">
+                                    <div class="my-1">
+                                        <div class="small">{{ r.idUtente }}</div>
+                                        <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
+                                    </div>
+                                </ng-template>
+            
+                                <app-input
+                                    #bmAutocomplete
+                                    type="autocomplete"
+                                    name="businessManager"
+                                    label="Business manager"
+                                    [options]="bmList"
+                                    [formatter]="pmFormatter"
+                                    [filter]="pmFilter"
+                                    [template]="pmTmpl"
+                                    [ngControl]="bmCtrl"
+                                    [floatingLabel]="true"
+                                ></app-input>
+            
+                                <app-input
+                                    type="date"
+                                    name="dateInizio"
+                                    label="Data inizio"
+                                    [max]="dataFine"
+                                    [ngControl]="dataInizioCtrl"
+                                    [floatingLabel]="true"
+                                ></app-input>
+            
+                                <app-input
+                                    type="date"
+                                    name="dateFine"
+                                    label="Data fine"
+                                    [min]="dataInizio"
+                                    [ngControl]="dataFineCtrl"
+                                    [floatingLabel]="true"
+                                ></app-input>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <div class="text-center mt-3 mb-5">
+                    <div class="btn-group">
+
+                        <button
+                            class="btn btn-outline-primary shadow"
+                            (click)="resetControls()"
+                        >
+                            <i class="bi bi-x-lg pe-2"></i>
+                            Reset
+                        </button>
+    
+                        <button
+                            class="btn btn-primary"
+                            (click)="searchClick$.next()"
+                        >
+                            Cerca
+                            <ng-container *ngIf="isLoading; else searchIcon">
+                                <span class="spinner-border spinner-border-sm"></span>
+                            </ng-container>
+                            <ng-template #searchIcon>
+                                <i class="bi bi-search ps-2"></i>
+                            </ng-template>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card pt-3 shadow">
+
+                <div class="table-plus">
+
+                    <h5 class="table-plus__title">Tabella Commesse</h5>
+
+                    <button
+                        type="button"
+                        class="table-plus__action btn btn-primary shadow"
+                        (click)="create()"
+                    >
+                        <i class="bi bi-plus"></i>
+                        Crea nuova commessa
+                    </button>
+                </div>
+    
+                <app-table
+                    #dt
+                    id="tabella-commesse"
+                    [thead]="thead"
+                    [tbody]="tbody"
+                    [items]="commesseResults"
+                    [searchable]="[
+                        'descrizioneCliente',
+                        'descrizione',
+                        'codiceCommessa',
+                        'cognomeBusinessManager',
+                        'cognomeProjectManager'
+                    ]"
+                    [paginated]="true"
+                    [pageSize]="5"
+                    emptyMessage="Nessun risultato, effettua una ricerca"
+                >
+    
+                    <ng-template #thead>
+                        <th sortable="descrizioneCliente" (sort)="dt.sort($any($event))">Cliente</th>
+                        <th sortable="valido" (sort)="dt.sort($any($event))">Stato</th>
+                        <th sortable="descrizione" (sort)="dt.sort($any($event))">Attività</th>
+                        <th sortable="cognomeProjectManager" (sort)="dt.sort($any($event))">PM</th>
+                        <th sortable="cognomeBusinessManager" (sort)="dt.sort($any($event))">BM</th>
+                        <th sortable="data" (sort)="dt.sort($any($event))">Data</th>
+                        <th style="width: 10rem"></th>
+                    </ng-template>
+    
+                    <ng-template #tbody let-item let-term$="term$">
+                        <td>{{ item.descrizioneCliente }}</td>
+                        <td>{{ item.valido ? 'Valida' : 'Annullata' }}</td>
+                        <td>
+                            <div class="small fw-bold">{{ item.codiceCommessa }}</div>
+                            {{ item.descrizione }}
+                        </td>
+                        <td>{{ (item.cognomeProjectManager || '') + ' ' + (item.nomeProjectManager || '') }}</td>
+                        <td>{{ (item.cognomeBusinessManager || '') + ' ' + (item.nomeBusinessManager || '') }}</td>
+                        <td>{{ item.data | date:'yyyy-MM-dd' }}</td>
+                        <td>
+                            <div
+                                *ngIf="item.valido; else annullatoActions"
+                                class="d-flex gap-2 justify-content-center"
+                            >
+
+                                <button
+                                    type="button"
+                                    class="btn btn-primary shadow"
+                                    (click)="addTab(item)"
+                                >
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-warning shadow"
+                                    (click)="update(item)"
+                                >
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-danger shadow"
+                                    (click)="delete(item)"
+                                >
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+                            </div>
+
+                            <ng-template #annullatoActions>
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-primary"
+                                        (click)="restore(item)"
+                                    >
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </ng-template>
+                        </td>
+                    </ng-template>
+                </app-table>
+            </div>
+
+            <div *ngIf="commesseResults.length" class="mt-5">
+                <ul
+                    class="app-tabbable nav-tabs"
+                    ngbNav
+                    #nav="ngbNav"
+                    [destroyOnHide]="false"
+                    [(activeId)]="activeTabId"
+                >
+                    <li *ngFor="let tab of tabs" [ngbNavItem]="tab.id">
+                        <a ngbNavLink>
+                            {{ tab.title }}
+                            <span class="btn-close ms-2 fw-light" (click)="closeTab($event, tab.id)"></span>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <app-attivita-navigation
+                                [id]="'commessa-' + tab.id"
+                                [commessa]="tab.commessa"
+                            ></app-attivita-navigation>
+                        </ng-template>
+                    </li>
+                </ul>
+                
+                <div class="border p-3 shadow" style="border-top: none !important; border-radius: 0 0 5px 5px">
+                    
+                    <div [ngbNavOutlet]="nav"></div>
+        
+                    <div class="p-3 text-center text-muted" *ngIf="this.tabs.length === 0">
+                        <span class="d-inline-block animate__animated animate__bounceIn animate__delay-100ms">Clicca sul tasto <i class="bi bi-eye-fill"></i> per aggiungere una scheda</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

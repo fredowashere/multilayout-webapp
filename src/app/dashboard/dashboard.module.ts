@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardNavbarComponent } from './layout/navbar/navbar.component';
 import { DashboardSidebarComponent } from './layout/sidebar/sidebar.component';
 import { SharedModule } from '../shared/shared.module';
+import { DashboardFooterComponent } from './layout/footer/footer.component';
 
 const routes: Routes = [
   { 
@@ -13,12 +14,17 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'stato-avanzamento', pathMatch: 'full' },
       {
+        path: 'attivita',
+        loadChildren: () =>
+          import('./features/attivita/attivita.module').then(m => m.AttivitaModule)
+      },
+      {
         path: 'stato-avanzamento',
         loadChildren: () =>
           import('./features/stato-avanzamento/stato-avanzamento.module').then(m => m.StatoAvanzamentoModule)
       },
     ]
-  }
+  },
 ];
 
 @NgModule({
@@ -26,6 +32,7 @@ const routes: Routes = [
     DashboardComponent,
     DashboardNavbarComponent,
     DashboardSidebarComponent,
+    DashboardFooterComponent
   ],
   imports: [
     CommonModule,

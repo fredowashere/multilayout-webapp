@@ -30,6 +30,12 @@ export class DashboardSidebarComponent {
   rlaList!: QueryList<RouterLinkActive>;
 
   sidebarItems: SidebarItem[] = [
+    // {
+    //   isActive: false,
+    //   title: 'Attività',
+    //   icon: 'bi bi-activity',
+    //   path: '/attivita',
+    // },
     {
       isActive: false,
       title: 'Stato Avanzamento',

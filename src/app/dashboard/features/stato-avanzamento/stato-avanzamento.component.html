@@ -1,61 +1,18 @@
 <div class="container-xxxl py-5 px-3">
     <div class="card shadow">
-        <div class="card-body">
+        <div class="card-body pb-4">
 
-            <h5 class="mb-4">Ricerca</h5>
+            <h5 class="mb-4">Ricerca avanzamento</h5>
 
             <div class="col-md-8 mx-auto">
-                <div class="flexgrid flexgrid--2">
-
-                    <app-input
-                        #pmAutocomplete
-                        type="autocomplete"
-                        name="projectManager"
-                        label="Project manager *"
-                        placeholder="Cerca project manager"
-                        [options]="pmList"
-                        [formatter]="pmFormatter"
-                        [filter]="pmFilter"
-                        [template]="pmTmpl"
-                        [ngControl]="pmCtrl"
-                        [floatingLabel]="true"
-                    ></app-input>
-                    <ng-template #pmTmpl let-r="result" let-t="term">
-                        <div class="my-1">
-                            <div class="small">{{ r.idUtente }}</div>
-                            <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
-                        </div>
-                    </ng-template>
-
-                    <app-input
-                        #pmAutocomplete
-                        type="autocomplete"
-                        name="sottocommessa"
-                        label="Sottocommessa"
-                        placeholder="Cerca sottocommessa"
-                        [options]="sottocommesse"
-                        [formatter]="sottocommesseFormatter"
-                        [filter]="sottocommesseFilter"
-                        [template]="scTmpl"
-                        [ngControl]="sottocommessaCtrl"
-                        [floatingLabel]="true"
-                    ></app-input>
-                    <ng-template #scTmpl let-r="result" let-t="term">
-                        <div class="my-1">
-                            <div class="small">{{ r.sottoCommessa?.codice }}</div>
-                            <ngb-highlight [result]="r.sottoCommessa?.descrizione" [term]="t"></ngb-highlight>
-                        </div>
-                    </ng-template>
-                </div>
 
                 <div class="flexgrid flexgrid--2">
 
                     <app-input
-                        #pmAutocomplete
+                        #clienteAutocomplete
                         type="autocomplete"
                         name="cliente"
                         label="Cliente"
-                        placeholder="Cerca cliente"
                         [options]="clienti"
                         [formatter]="clienteFormatter"
                         [filter]="clienteFilter"
@@ -72,9 +29,67 @@
                         [floatingLabel]="true"
                     ></app-input>
                 </div>
+                
+                <div class="flexgrid flexgrid--3">
 
-                <div class="text-center my-3">
-                    <div class="btn-group">
+                    <app-input
+                        #sottocommessaAutocomplete
+                        type="autocomplete"
+                        name="sottocommessa"
+                        label="Sottocommessa"
+                        [options]="sottocommesse"
+                        [formatter]="sottocommesseFormatter"
+                        [filter]="sottocommesseFilter"
+                        [template]="scTmpl"
+                        [ngControl]="sottocommessaCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                    <ng-template #scTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r.sottoCommessa?.codice }}</div>
+                            <ngb-highlight [result]="r.sottoCommessa?.descrizione" [term]="t"></ngb-highlight>
+                        </div>
+                    </ng-template>
+
+                    <app-input
+                        #pmAutocomplete
+                        type="autocomplete"
+                        name="projectManager"
+                        label="Project manager"
+                        [options]="pmList"
+                        [formatter]="pmFormatter"
+                        [filter]="pmFilter"
+                        [template]="pmTmpl"
+                        [ngControl]="pmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                    <ng-template #pmTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r.idUtente }}</div>
+                            <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
+                        </div>
+                    </ng-template>
+
+                    <app-input
+                        #bmAutocomplete
+                        type="autocomplete"
+                        name="businessManager"
+                        label="Business manager"
+                        [options]="bmList"
+                        [formatter]="pmFormatter"
+                        [filter]="pmFilter"
+                        [template]="pmTmpl"
+                        [ngControl]="bmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <!-- <p class="small text-muted mt-2">
+                    È necessario inserire obbligatoriamente almeno un parametro tra: Sottocommessa, project manager o business manager
+                </p> -->
+
+                <div class="text-center mt-3 mb-5">
+                    <div class="btn-group shadow">
 
                         <button
                             class="btn btn-outline-primary"
@@ -86,7 +101,6 @@
     
                         <button
                             class="btn btn-primary"
-                            [disabled]="!idPm"
                             (click)="searchClick$.next()"
                         >
                             Cerca
@@ -96,17 +110,18 @@
                 </div>
             </div>
 
-            <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs" [destroyOnHide]="false">
+            <ul
+                class="app-tabbable nav-tabs"
+                ngbNav
+                #nav="ngbNav"
+                [destroyOnHide]="false"
+                [(activeId)]="activeTabId"
+            >
                 <li *ngFor="let tab of tabs" [ngbNavItem]="tab.id">
                     <a ngbNavLink>
                         {{ tab.title }}
-                        <span class="btn-close ms-2 fw-light" (click)="closeTab($event, tab.id)"></span>
                     </a>
                     <ng-template ngbNavContent>
-
-                        <div>
-                            Filtri usati: <b>{{ tab.pm.cognome + ' ' + tab.pm.nome }}</b> | <b>{{ tab.sottocommessa?.sottoCommessa?.codice || "-" }}</b> | <b>{{ tab.cliente?.descrizione || "-" }}</b> | <b>{{ ["Tutti", "Aperto", "Chiuso", "Validato"][tab.stato] }}</b>
-                        </div>
 
                         <app-table
                             class="avanzamento-table"
@@ -157,15 +172,15 @@
                             </ng-template>
 
                             <ng-template #rowExpand let-avanzamento>
-                                <div class="bg-white p-3">
+                                <div class="bg-white py-5 px-4" style="box-shadow: inset 0 0 16px 4px #0001;">
 
                                     <div
                                         *ngIf="avanzamento.dettaglio.length"
-                                        class="d-flex gap-3 p-3"
+                                        class="d-flex gap-3 mb-3"
                                     >
 
                                         <button
-                                            class="btn btn-primary"
+                                            class="btn btn-primary shadow"
                                             [disabled]="dt2.selectedRows.length === 0"
                                             (click)="salvaDettagliSelezionati(dt2.selectedRows)"
                                         >
@@ -174,11 +189,11 @@
                                         </button>
             
                                         <button
-                                            class="btn btn-danger"
+                                            class="btn btn-danger shadow"
                                             [disabled]="dt2.selectedRows.length === 0"
                                             (click)="chiudiDettagliSelezionati(dt2.selectedRows)"
                                         >
-                                            <i class="bi bi-trash3 pe-2"></i>
+                                            <i class="bi bi-x-circle pe-2"></i>
                                             Chiudi selezionate
                                         </button>
                                     </div>
@@ -321,12 +336,17 @@
                 </li>
             </ul>
             
-            <div class="border p-3" style="border-top: none !important">
+            <div class="border shadow" style="border-top: none !important; border-radius: 0 0 5px 5px;">
                 
                 <div [ngbNavOutlet]="nav"></div>
     
-                <div class="p-3 text-center text-muted" *ngIf="this.tabs.length === 0">
-                    Cerca per aggiungere schede
+                <div
+                    *ngIf="this.tabs.length === 0"
+                    class="p-3 text-center text-muted"
+                >
+                    <div class="p-3">
+                        Cerca per aggiungere schede
+                    </div>
                 </div>
             </div>
         </div>

@@ -103,6 +103,20 @@ body {
   height: 40px;
 }
 
+.app-tall-dialog .modal-body {
+  min-height: 50vh;
+}
+
+.app-tabbable.nav-tabs {
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+}
+
+.app-tabbable.nav-tabs .nav-link {
+ white-space: nowrap;
+}
+
 ngb-typeahead-window {
   width: clamp(25ch, 100%, 40ch);
   max-height: 300px;
@@ -228,4 +242,47 @@ th[sortable].desc::before {
 .flexgrid--5 > * {
   flex: 1 1 clamp(var(--flexgrid-col-min-width), 20%, 20%);
   padding: calc(var(--flexgrid-gap) / 2);
+}
+
+/* Animations */
+@keyframes Pulse {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: Pulse 1000ms ease infinite;
+}
+
+.animate__animated.animate__delay-100ms {
+  animation-delay: 100ms;
+}
+
+.animate__animated.animate__delay-200ms {
+  animation-delay: 200ms;
+}
+
+.animate__animated.animate__delay-300ms {
+  animation-delay: 300ms;
+}
+
+.animate__animated.animate__delay-400ms {
+  animation-delay: 400ms;
+}
+
+.animate__animated.animate__delay-500ms {
+  animation-delay: 500ms;
 }

@@ -48,7 +48,13 @@
 
 .sb-layout__main {
     grid-area: main;
+    display: flex;
+    flex-direction: column;
     overflow: auto;
+}
+
+.sb-layout__main ::ng-deep router-outlet + * {
+    margin-bottom: auto;
 }
 
 @media (max-width: 700px) {
