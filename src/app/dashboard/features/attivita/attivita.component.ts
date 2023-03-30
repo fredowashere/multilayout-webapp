@@ -12,6 +12,7 @@ import { AttivitaCreazioneModifica } from './dialogs/attivita-creazione-modifica
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
 import { Commessa, CommessaSearchDto } from './models/commessa';
 import { CommessaService } from './services/commessa.service';
+import { MiscDataService } from './services/state.service';
 
 const today = new Date();
 const [ currYear, currMonth, currDay ] = [ today.getFullYear(), today.getMonth() + 1, today.getDate() ];
@@ -121,9 +122,12 @@ export class AttivitaComponent {
   constructor(
     private commessaService: CommessaService,
     private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
+    private miscDataService: MiscDataService,
     private modalService: NgbModal,
     private toaster: ToastService
-  ) { }
+  ) {
+    console.log(miscDataService);
+  }
 
   ngOnInit() {
 

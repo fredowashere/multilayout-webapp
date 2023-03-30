@@ -1,4 +1,46 @@
-<h6 class="display-6 text-center mt-3 mb-4">{{ commessa.descrizione }}</h6>
+<div class="card mb-4 shadow" style="max-width: 800px; margin: 0 auto;">
+    <div class="card-body commessa-resume">
+        <div class="flexgrid flexgrid--3">
+
+            <div>
+                <div class="fw-bold">Codice commessa</div>
+                <div>{{ commessa.codiceCommessa }}</div>
+            </div>
+
+            <div>
+                <div class="fw-bold">Descrizione</div>
+                <div>{{ commessa.descrizione }}</div>
+            </div>
+
+            <div>
+                <div class="fw-bold">Tipo attività</div>
+                <div>{{ commessa.tipoAttivita.id === 1 ? 'Opportunità' : 'Commessa interna' }}</div>
+            </div>
+
+            <div>
+                <div class="fw-bold">Cliente</div>
+                <div>{{ commessa.descrizioneCliente }}</div>
+            </div>
+
+            <div>
+                <div class="fw-bold">Project manager</div>
+                <div>{{ (commessa.cognomeProjectManager || '-') + ' ' + (commessa.nomeProjectManager || '-') }}</div>
+            </div>
+
+            <div>
+                <div class="fw-bold">Business manager</div>
+                <div>{{ (commessa.nomeBusinessManager || '-') + ' ' + (commessa.cognomeBusinessManager || '-') }}</div>
+            </div>
+        </div>
+        <button
+            type="button"
+            class="btn btn-warning shadow"
+            (click)="update()"
+        >
+            <i class="bi bi-pencil"></i>
+        </button>
+    </div>
+</div>
 
 <ul
     class="attivita-nav mb-5"

@@ -6,10 +6,10 @@ import { Dettaglio, UtentiAnagrafica } from "src/app/api/stato-avanzamento/model
 import { ToastService } from "src/app/services/toast.service";
 import { InputComponent } from "src/app/shared/components/input/input.component";
 import { jsonCopy } from "src/app/utils/json";
-import { StatoAvanzamentoWrapService } from "../../../stato-avanzamento/services/stato-avanzamento-wrap.service";
 import { CommessaDto, CreateCommessaParam, SimpleDto, UpdateCommessaParam } from "../../models/commessa";
 import { DIALOG_MODE } from "../../models/dialog";
 import { CommessaService } from "../../services/commessa.service";
+import { MiscDataService } from "../../services/state.service";
 
 @Component({
 	selector: 'app-attivita-creazione-modifica-dialog',
@@ -48,8 +48,6 @@ export class AttivitaCreazioneModifica {
     }
     clientiFinali: Dettaglio[] = [];
 
-    clientiOriginal: Dettaglio[] = [];
-
     pmCtrl = new FormControl<UtentiAnagrafica | null>(null, [Validators.required]);
     get idPm() {
         return this.pmCtrl.value?.idUtente;
@@ -87,8 +85,8 @@ export class AttivitaCreazioneModifica {
 	constructor(
         public activeModal: NgbActiveModal,
         private toaster: ToastService,
-        private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
-        private commessaService: CommessaService
+        private commessaService: CommessaService,
+        private miscDataService: MiscDataService
     ) { }
 
     ngOnInit() {
@@ -104,6 +102,7 @@ export class AttivitaCreazioneModifica {
                 .subscribe(commessa => {
                     this.commessa = commessa;
                     this.initializeAutocompleteValues();
+                    this.isLoading = false;
                 });
         }
         else {
@@ -125,9 +124,7 @@ export class AttivitaCreazioneModifica {
 
         // Dynamic validators
         this.tipoAttivitaCtrl.valueChanges
-            .pipe(
-                startWith(() => this.tipoAttivitaCtrl.value)
-            )
+            .pipe(startWith(null))
             .subscribe(() => {
 
                 const ta = this.tipoAttivitaCtrl.value;
@@ -146,59 +143,41 @@ export class AttivitaCreazioneModifica {
 
     initializeAutocompleteValues() {
 
-        combineLatest([
-            this.statoAvanzamentoWrap
-                .getUtenti$({ IsPm: true, IsBm: false }),
-            this.statoAvanzamentoWrap
-                .getUtenti$(),
-            this.statoAvanzamentoWrap
-                .getClienti$({ totali: true })
-        ])
-        .subscribe(([pmList, bmList, clienti]) => {
+        this.pmList = this.miscDataService.pmList;
+        this.bmList = this.miscDataService.bmList;
 
-            this.isLoading = false;
+        this.clientiDiretti = jsonCopy(this.miscDataService.clienti);
+        this.clientiFinali = jsonCopy(this.miscDataService.clienti);
 
-            this.pmList = pmList;
-            this.bmList = bmList;
-            this.clientiOriginal = clienti;
-            this.clientiDiretti = jsonCopy(clienti);
-            this.clientiFinali = jsonCopy(clienti);
+        if (this.dialogMode === DIALOG_MODE.Update) {
 
-            if (this.dialogMode === DIALOG_MODE.Update) {
-                console.log("Modificando la commessa", this.commessa);
+            const clienteDiretto = this.miscDataService.idClienteCliente[this.commessa?.idCliente as number];
+            this.clienteDirettoCtrl.setValue(clienteDiretto);
 
-                const clienteDiretto = this.clientiOriginal
-                    .find(c => c.id === this.commessa?.idCliente);
-                this.clienteDirettoCtrl.setValue(clienteDiretto as Dettaglio);
+            const clienteFinale = this.miscDataService.idClienteCliente[this.commessa?.idClienteFinale as number];
+            this.clienteFinaleCtrl.setValue(clienteFinale);
 
-                const clienteFinale = this.clientiOriginal
-                    .find(c => c.id === this.commessa?.idClienteFinale);
-                this.clienteFinaleCtrl.setValue(clienteFinale as Dettaglio);
+            this.codiceCommessaCtrl.setValue(this.commessa?.codiceCommessa as string);
+            this.descrizioneCtrl.setValue(this.commessa?.descrizione as string);
+            this.tagCtrl.setValue(this.commessa?.tag as string);
 
-                this.codiceCommessaCtrl.setValue(this.commessa?.codiceCommessa as string);
-                this.descrizioneCtrl.setValue(this.commessa?.descrizione as string);
-                this.tagCtrl.setValue(this.commessa?.tag as string);
+            const pm = this.miscDataService.idPmPm[this.commessa?.idProjectManager as number];
+            this.pmCtrl.setValue(pm);
 
-                const pm = this.pmList
-                    .find(pm => pm.idUtente === this.commessa?.idProjectManager);
-                this.pmCtrl.setValue(pm as UtentiAnagrafica);
+            const bm = this.miscDataService.idUtenteUtente[this.commessa?.idBusinessManager as number];
+            this.bmCtrl.setValue(bm);
 
-                const bm = this.bmList
-                    .find(bm => bm.idUtente === this.commessa?.idBusinessManager);
-                this.bmCtrl.setValue(bm as UtentiAnagrafica);
+            const tipoAttivita = this.commessa?.tipoAttivita as SimpleDto;
+            this.tipoAttivitaCtrl.setValue(tipoAttivita.id);
 
-                const tipoAttivita = this.commessa?.tipoAttivita as SimpleDto;
-                this.tipoAttivitaCtrl.setValue(tipoAttivita.id);
+            this.dataCreazioneCtrl.setValue(
+                this.commessa?.dataInserimento?.slice(0, 10) as string
+            );
 
-                this.dataCreazioneCtrl.setValue(
-                    this.commessa?.dataInserimento?.slice(0, 10) as string
-                );
-
-                this.dataDecorrenzaCtrl.setValue(
-                    this.commessa?.decorrenzaAttivita?.slice(0, 10) as string
-                );
-            }
-        });
+            this.dataDecorrenzaCtrl.setValue(
+                this.commessa?.decorrenzaAttivita?.slice(0, 10) as string
+            );
+        }
     }
 
     save() {
