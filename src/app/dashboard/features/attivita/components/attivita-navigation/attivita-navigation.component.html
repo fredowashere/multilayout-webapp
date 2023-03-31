@@ -1,59 +1,66 @@
-<div class="commessa-resume col-md-9 mx-auto mt-3 mb-5">
+<div class="card col-md-9 mx-auto mt-3 mb-5 shadow">
+    <div class="card-body">
 
-    <div class="flexgrid flexgrid--4">
+        <h5 class="mb-3">Dettaglio commessa</h5>
 
-        <div>
-            <div>Cliente diretto</div>
-            <div class="fw-bold">
-                {{ clienteDiretto?.descrizione }}
+        <div class="commessa-resume">
+        
+            <div class="flexgrid flexgrid--4">
+        
+                <div>
+                    <div class="small text-muted">Cliente diretto</div>
+                    <div>
+                        {{ clienteDiretto?.descrizione }}
+                    </div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Cliente finale</div>
+                    <div>
+                        {{ clienteFinale?.descrizione }}
+                    </div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Tipo attivita</div>
+                    <div>{{ commessa?.tipoAttivita?.id === 1 ? 'Opportunità' : 'Commessa interna' }}</div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Data inserimento</div>
+                    <div>{{ commessa?.dataInserimento | date:'yyyy-MM-dd' }}</div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Codice commessa</div>
+                    <div>{{ commessa?.codiceCommessa }}</div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Descrizione</div>
+                    <div>{{ commessa?.descrizione }}</div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Project manager</div>
+                    <div>{{ pm?.cognome + ' ' + pm?.nome }}</div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Business manager</div>
+                    <div>{{ bm?.cognome + ' ' + bm?.nome }}</div>
+                </div>
             </div>
-        </div>
-
-        <div>
-            <div>Cliente finale</div>
-            <div class="fw-bold">
-                {{ clienteFinale?.descrizione }}
-            </div>
-        </div>
-
-        <div>
-            <div>Tipo attivita</div>
-            <div class="fw-bold">{{ commessa?.tipoAttivita?.id === 1 ? 'Opportunità' : 'Commessa interna' }}</div>
-        </div>
-
-        <div>
-            <div>Data inserimento</div>
-            <div class="fw-bold">{{ commessa?.dataInserimento | date:'yyyy-MM-dd' }}</div>
-        </div>
-
-        <div>
-            <div>Codice commessa</div>
-            <div class="fw-bold">{{ commessa?.codiceCommessa }}</div>
-        </div>
-
-        <div>
-            <div>Descrizione</div>
-            <div class="fw-bold">{{ commessa?.descrizione }}</div>
-        </div>
-
-        <div>
-            <div>Project manager</div>
-            <div class="fw-bold">{{ pm?.cognome + ' ' + pm?.nome }}</div>
-        </div>
-
-        <div>
-            <div>Business manager</div>
-            <div class="fw-bold">{{ bm?.cognome + ' ' + bm?.nome }}</div>
+        
+            <button
+                type="button"
+                class="btn btn-warning btn-lg shadow"
+                (click)="update()"
+            >
+                <i class="bi bi-pencil"></i>
+            </button>
         </div>
     </div>
-
-    <button
-        type="button"
-        class="btn btn-warning btn-lg shadow"
-        (click)="update()"
-    >
-        <i class="bi bi-pencil"></i>
-    </button>
 </div>
 
 <ul

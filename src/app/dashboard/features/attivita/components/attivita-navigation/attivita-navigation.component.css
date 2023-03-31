@@ -73,13 +73,12 @@
 
 .commessa-resume {
     display: grid;
-    align-items: start;
+    align-items: end;
 }
 
 @media (min-width: 800px) {
 
     .commessa-resume {
         grid-template-columns: 1fr min-content;
-        align-items: start;
     }
 }

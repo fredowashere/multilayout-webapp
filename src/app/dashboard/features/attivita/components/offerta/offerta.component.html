@@ -2,7 +2,7 @@
 
     <h5 class="mb-4">Creazione/aggiornamento Offerta</h5>
 
-    <p>In questo componente puoi creare o aggiornare l'Offerta legata alla Commessa.<br>Una Commessa di tipo Opportunità necessita di un'Offerta con Data Accettazione valorizzata per essere utilizzabile.</p>
+    <p>In questo componente puoi creare o aggiornare l'Offerta legata alla Commessa.<br>Una Commessa di tipo Opportunità necessita di un'Offerta con Data Accettazione valorizzata per permetterti di passare alle Sottocommesse.</p>
 
     <fieldset class="flexgrid flexgrid--2" [disabled]="!offerta">
 
@@ -60,7 +60,7 @@
     <div class="text-center my-4">
 
         <button
-            class="btn btn-primary btn-lg shadow"
+            class="btn btn-primary btn-lg shadow animate__animated animate__bounceIn animate__delay-100ms"
             [disabled]="!offerta || !dataOffertaCtrl.value"
             (click)="upsert()"
         >
