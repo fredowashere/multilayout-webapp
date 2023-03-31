@@ -1,35 +1,49 @@
-<div class="card mb-4 shadow" style="max-width: 800px; margin: 0 auto;">
-    <div class="card-body commessa-resume">
-        <div class="flexgrid flexgrid--3">
+<div class="card mb-4 shadow" style="max-width: 1000px; margin: 0 auto;">
+    <div class="card-body px-4 commessa-resume">
+        <div class="flexgrid flexgrid--4">
 
             <div>
-                <div class="fw-bold">Codice commessa</div>
-                <div>{{ commessa.codiceCommessa }}</div>
+                <div>Cliente diretto</div>
+                <div class="fw-bold">
+                    {{ clienteDiretto?.descrizione }}
+                </div>
             </div>
 
             <div>
-                <div class="fw-bold">Descrizione</div>
-                <div>{{ commessa.descrizione }}</div>
+                <div>Cliente finale</div>
+                <div class="fw-bold">
+                    {{ clienteFinale?.descrizione }}
+                </div>
             </div>
 
             <div>
-                <div class="fw-bold">Tipo attività</div>
-                <div>{{ commessa.tipoAttivita.id === 1 ? 'Opportunità' : 'Commessa interna' }}</div>
+                <div>Tipo attivita</div>
+                <div class="fw-bold">{{ commessa?.tipoAttivita?.id === 1 ? 'Opportunità' : 'Commessa interna' }}</div>
             </div>
 
             <div>
-                <div class="fw-bold">Cliente</div>
-                <div>{{ commessa.descrizioneCliente }}</div>
+                <div>Data inserimento</div>
+                <div class="fw-bold">{{ commessa?.dataInserimento | date:'yyyy-MM-dd' }}</div>
             </div>
 
             <div>
-                <div class="fw-bold">Project manager</div>
-                <div>{{ (commessa.cognomeProjectManager || '-') + ' ' + (commessa.nomeProjectManager || '-') }}</div>
+                <div>Codice commessa</div>
+                <div class="fw-bold">{{ commessa?.codiceCommessa }}</div>
             </div>
 
             <div>
-                <div class="fw-bold">Business manager</div>
-                <div>{{ (commessa.nomeBusinessManager || '-') + ' ' + (commessa.cognomeBusinessManager || '-') }}</div>
+                <div>Descrizione</div>
+                <div class="fw-bold">{{ commessa?.descrizione }}</div>
+            </div>
+
+            <div>
+                <div>Project manager</div>
+                <div class="fw-bold">{{ pm?.cognome + ' ' + pm?.nome }}</div>
+            </div>
+
+            <div>
+                <div>Business manager</div>
+                <div class="fw-bold">{{ bm?.cognome + ' ' + bm?.nome }}</div>
             </div>
         </div>
         <button
@@ -49,7 +63,7 @@
     [destroyOnHide]="false"
     [(activeId)]="activeTabId"
 >
-	<li [ngbNavItem]="1" class="attivita-nav__item" [disabled]="commessa.tipoAttivita.id == 2">
+	<li [ngbNavItem]="1" class="attivita-nav__item" [disabled]="commessa?.tipoAttivita?.id == 2">
         <a ngbNavLink>
             <i class="bi bi-1-square-fill"></i>
             Opportunità
@@ -58,7 +72,7 @@
 			<app-opportunita></app-opportunita>
 		</ng-template>
 	</li>
-	<li [ngbNavItem]="2" class="attivita-nav__item" [disabled]="commessa.tipoAttivita.id == 2">
+	<li [ngbNavItem]="2" class="attivita-nav__item" [disabled]="commessa?.tipoAttivita?.id == 2">
         <a ngbNavLink>
             <i class="bi bi-2-square-fill"></i>
             Offerta
@@ -67,7 +81,7 @@
 			<app-offerta></app-offerta>
 		</ng-template>
 	</li>
-	<li [ngbNavItem]="3" class="attivita-nav__item" [disabled]="this.commessa.tipoAttivita.id == 1 && !this.offerta?.dataAccettazione">
+	<li [ngbNavItem]="3" class="attivita-nav__item" [disabled]="this.commessa?.tipoAttivita?.id == 1 && !this.offerta?.dataAccettazione">
         <a ngbNavLink>
             <i class="bi bi-3-square-fill"></i>
             Sottocommesse

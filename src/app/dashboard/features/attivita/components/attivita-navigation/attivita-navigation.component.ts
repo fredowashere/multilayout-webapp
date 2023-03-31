@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { combineLatest } from 'rxjs';
+import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { AttivitaCreazioneModifica } from '../../dialogs/attivita-creazione-modifica/attivita-creazione-modifica.component';
-import { CommessaDto, CommessaSearchDto } from '../../models/commessa';
+import { CommessaDto } from '../../models/commessa';
 import { Offerta } from '../../models/offerta';
 import { CommessaService } from '../../services/commessa.service';
 import { OffertaService } from '../../services/offerta.service';
 import { SottocommessaService } from '../../services/sottocommessa.service';
+import { MiscDataService } from '../../services/state.service';
 
 @Component({
   selector: 'app-attivita-navigation',
@@ -14,14 +17,20 @@ import { SottocommessaService } from '../../services/sottocommessa.service';
 })
 export class AttivitaNavigationComponent {
 
-  	@Input("commessa") commessa!: CommessaSearchDto;
-	commessaDetail: CommessaDto | null = null;
+  	@Input("idCommessaPadre") idCommessaPadre!: number;
+	commessa?: CommessaDto;
 
-  	activeTabId: number | null = null;
-	offerta: Offerta | null = null;
+  	activeTabId?: number;
+	offerta?: Offerta;
 	hasSottocommesse = false;
 
+	clienteDiretto?: Dettaglio;
+	clienteFinale?: Dettaglio;
+	pm?: UtentiAnagrafica;
+	bm?: UtentiAnagrafica;
+
 	constructor(
+		private miscDataService: MiscDataService,
 		private commessaService: CommessaService,
 		private offertaService: OffertaService,
 		private sottocommessaService: SottocommessaService,
@@ -30,29 +39,30 @@ export class AttivitaNavigationComponent {
 
 	ngOnInit() {
 
-		this.commessaService
-			.getCommessaById(this.commessa.id)
-			.subscribe(commessa => this.commessaDetail = commessa);
+		combineLatest([
+			this.commessaService.getCommessaById(this.idCommessaPadre),
+			this.offertaService.getOffertaByIdCommessaPadre$(this.idCommessaPadre),
+			this.sottocommessaService.checkExistingSottoCommesseByIdPadre$(this.idCommessaPadre)
+		])
+		.subscribe(([commessa, offerta, hasSottocommesse]) => {
 
-		this.offertaService
-			.getOffertaByIdCommessaPadre$(this.commessa.id)
-			.subscribe(offerta => {
+			this.commessa = commessa;
+			this.clienteDiretto = this.miscDataService.idClienteCliente[commessa?.idCliente];
+			this.clienteFinale = this.miscDataService.idClienteCliente[commessa?.idClienteFinale];
+			this.pm = this.miscDataService.idUtenteUtente[commessa?.idProjectManager];
+			this.bm = this.miscDataService.idUtenteUtente[commessa?.idBusinessManager];
+			
+			this.offerta = offerta;
 
-				if (this.commessa.tipoAttivita.id === 2)
-					this.activeTabId = 3;
-				else if (!offerta.dataAccettazione)
-					this.activeTabId = 2;
-				else
-					this.activeTabId = 3;
+			this.hasSottocommesse = hasSottocommesse;
 
-				this.offerta = offerta;
-			});
-
-		this.sottocommessaService
-			.checkExistingSottoCommesseByIdPadre$(this.commessa.id)
-			.subscribe(hasSottocommesse =>
-				this.hasSottocommesse = hasSottocommesse
-			);
+			if (this.commessa.tipoAttivita.id === 2)
+				this.activeTabId = 3;
+			else if (!offerta.dataAccettazione)
+				this.activeTabId = 2;
+			else
+				this.activeTabId = 3;
+		});
 	}
 
 	async update() {
@@ -67,13 +77,19 @@ export class AttivitaNavigationComponent {
 			  modalDialogClass: 'app-tall-dialog'
 			}
 		  );
-		modalRef.componentInstance.idCommessaPadre = this.commessa.id;
+		modalRef.componentInstance.idCommessaPadre = this.idCommessaPadre;
 	
 		await modalRef.result;
 
 		this.commessaService
-			.getCommessaById(this.commessa.id)
-			.subscribe(commessa => this.commessaDetail = commessa);
+			.getCommessaById(this.idCommessaPadre)
+			.subscribe(commessa => {
+				this.commessa = commessa;
+				this.clienteDiretto = this.miscDataService.idClienteCliente[commessa?.idCliente];
+				this.clienteFinale = this.miscDataService.idClienteCliente[commessa?.idClienteFinale];
+				this.pm = this.miscDataService.idUtenteUtente[commessa?.idProjectManager];
+				this.bm = this.miscDataService.idUtenteUtente[commessa?.idBusinessManager];
+			});
 	  }
 
 }

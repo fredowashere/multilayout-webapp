@@ -7,7 +7,7 @@
 
             <div class="col-md-8 mx-auto">
 
-                <div class="flexgrid flexgrid--3">
+                <div class="flexgrid flexgrid--2">
 
                     <app-input
                         #clienteDirettoAutocomplete
@@ -32,6 +32,9 @@
                         [ngControl]="clienteFinaleCtrl"
                         [floatingLabel]="true"
                     ></app-input>
+                </div>
+
+                <div class="flexgrid flexgrid--3">
 
                     <app-input
                         #commessaAutocomplete
@@ -51,34 +54,6 @@
                             <ngb-highlight [result]="r?.descrizione" [term]="t"></ngb-highlight>
                         </div>
                     </ng-template>
-
-                    <app-input
-                        name="descrizione"
-                        label="Descrizione"
-                        [ngControl]="descrizioneCtrl"
-                        [floatingLabel]="true"
-                    ></app-input>
-
-                    <app-input
-                        type="select"
-                        name="tipoAttivita"
-                        label="Tipo attivita"
-                        [ngControl]="tipoAttivitaCtrl"
-                        [options]="tipiAttivita"
-                        [floatingLabel]="true"
-                    ></app-input>
-
-                    <app-input
-                        type="select"
-                        name="stato"
-                        label="Stato"
-                        [ngControl]="statoCtrl"
-                        [options]="stati"
-                        [floatingLabel]="true"
-                    ></app-input>
-                </div>
-
-                <div class="flexgrid flexgrid--4">
 
                     <app-input
                         #pmAutocomplete
@@ -109,6 +84,27 @@
                         [filter]="pmFilter"
                         [template]="pmTmpl"
                         [ngControl]="bmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <div class="flexgrid flexgrid--4">
+
+                    <app-input
+                        type="select"
+                        name="tipoAttivita"
+                        label="Tipo attivita"
+                        [ngControl]="tipoAttivitaCtrl"
+                        [options]="tipiAttivita"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="select"
+                        name="stato"
+                        label="Stato"
+                        [ngControl]="statoCtrl"
+                        [options]="stati"
                         [floatingLabel]="true"
                     ></app-input>
 
@@ -194,8 +190,9 @@
     
                     <ng-template #thead>
                         <th sortable="descrizioneCliente" (sort)="dt.sort($any($event))">Cliente</th>
+                        <th sortable="tipoAttivita.id" (sort)="dt.sort($any($event))">Tipo attività</th>
                         <th sortable="valido" (sort)="dt.sort($any($event))">Stato</th>
-                        <th sortable="descrizione" (sort)="dt.sort($any($event))">Attività</th>
+                        <th sortable="descrizione" (sort)="dt.sort($any($event))">Commessa</th>
                         <th sortable="cognomeProjectManager" (sort)="dt.sort($any($event))">PM</th>
                         <th sortable="cognomeBusinessManager" (sort)="dt.sort($any($event))">BM</th>
                         <th sortable="data" (sort)="dt.sort($any($event))">Data</th>
@@ -204,6 +201,7 @@
     
                     <ng-template #tbody let-item let-term$="term$">
                         <td>{{ item.descrizioneCliente }}</td>
+                        <td>{{ item.tipoAttivita.id === 1 ? 'Opportunità' : 'Commessa int.' }}</td>
                         <td>{{ item.valido ? 'Valida' : 'Annullata' }}</td>
                         <td>
                             <div class="small fw-bold">{{ item.codiceCommessa }}</div>
@@ -221,7 +219,7 @@
                                 <button
                                     type="button"
                                     class="btn btn-primary shadow"
-                                    (click)="addTab(item)"
+                                    (click)="addTab(item.id, item.codiceCommessa)"
                                 >
                                     <i class="bi bi-arrow-90deg-down"></i>
                                 </button>
@@ -267,15 +265,15 @@
                     [destroyOnHide]="false"
                     [(activeId)]="activeTabId"
                 >
-                    <li *ngFor="let tab of tabs" [ngbNavItem]="tab.id">
+                    <li *ngFor="let tab of tabs" [ngbNavItem]="tab.idCommessaPadre">
                         <a ngbNavLink>
-                            {{ tab.title }}
-                            <span class="btn-close ms-2 fw-light" (click)="closeTab($event, tab.id)"></span>
+                            {{ tab.codiceCommessa }}
+                            <span class="btn-close ms-2 fw-light" (click)="closeTab($event, tab.idCommessaPadre)"></span>
                         </a>
                         <ng-template ngbNavContent>
                             <app-attivita-navigation
-                                [id]="'commessa-' + tab.id"
-                                [commessa]="tab.commessa"
+                                [id]="'commessa-' + tab.idCommessaPadre"
+                                [idCommessaPadre]="tab.idCommessaPadre"
                             ></app-attivita-navigation>
                         </ng-template>
                     </li>

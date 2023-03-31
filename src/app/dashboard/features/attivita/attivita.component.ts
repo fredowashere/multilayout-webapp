@@ -18,9 +18,8 @@ const today = new Date();
 const [ currYear, currMonth, currDay ] = [ today.getFullYear(), today.getMonth() + 1, today.getDate() ];
 
 interface Tab {
-  id: number;
-  title: string;
-  commessa: CommessaSearchDto;
+  idCommessaPadre: number;
+  codiceCommessa: string;
 }
 
 @Component({
@@ -125,9 +124,7 @@ export class AttivitaComponent {
     private miscDataService: MiscDataService,
     private modalService: NgbModal,
     private toaster: ToastService
-  ) {
-    console.log(miscDataService);
-  }
+  ) { }
 
   ngOnInit() {
 
@@ -344,39 +341,37 @@ export class AttivitaComponent {
     this.tipoAttivitaCtrl.setValue(null);
   }
 
-  addTab(commessa: CommessaSearchDto) {
+  addTab(idCommessaPadre: number, codiceCommessa: string) {
 
-    const isAlreadyIncluded = this.tabs.some(t => t.id === commessa.id);
+    const isAlreadyIncluded = this.tabs.some(t => t.idCommessaPadre === idCommessaPadre);
     if (isAlreadyIncluded) {
-      const txt = `Commessa ${commessa.codiceCommessa} già inclusa nelle tab di ricerca`;
+      const txt = `Commessa ${codiceCommessa} già inclusa nelle tab di ricerca`;
       this.toaster.show(txt, { classname: 'bg-danger text-white' });
       return;
     }
 
-    this.activeTabId = commessa.id;
+    this.activeTabId = idCommessaPadre;
 
     this.tabs.push({
-      id: commessa.id,
-      title: commessa.codiceCommessa,
-      commessa
+      idCommessaPadre,
+      codiceCommessa
     });
 
-    delayedScrollTo("commessa-" + commessa.id, 150);
+    delayedScrollTo("commessa-" + idCommessaPadre, 150);
   }
 
   closeTab(event: MouseEvent, toRemove: number) {
 
     // Open the tab to the left
-    const tabToRemoveIndex = this.tabs.findIndex(tab => tab.id === toRemove);
-
-    if (this.tabs[tabToRemoveIndex].id === toRemove)
+    const tabToRemoveIndex = this.tabs.findIndex(tab => tab.idCommessaPadre === toRemove);
+    if (this.activeTabId === toRemove)
       if (tabToRemoveIndex === 0)
-        this.activeTabId = this.tabs[tabToRemoveIndex + 1]?.id; // right
+        this.activeTabId = this.tabs[tabToRemoveIndex + 1]?.idCommessaPadre; // right
       else
-        this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.id; // left
+        this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.idCommessaPadre; // left
 
     // Remove tab from the array
-		this.tabs = this.tabs.filter((tab) => tab.id !== toRemove);
+		this.tabs = this.tabs.filter((tab) => tab.idCommessaPadre !== toRemove);
 		event.preventDefault();
 		event.stopImmediatePropagation();
 	}
@@ -394,7 +389,8 @@ export class AttivitaComponent {
         }
       );
 
-    await modalRef.result;
+    const result = await modalRef.result;
+    this.addTab(result.idCommessaPadre, result.codiceCommessa);
     this.refresh$.next();
   }
 

@@ -204,10 +204,18 @@ export class AttivitaCreazioneModifica {
         this.commessaService
             .createCommessa$(createObj)
             .subscribe(
-                () => {
+                (result) => {
+
                     const txt = "Commessa creata con successo!";
                     this.toaster.show(txt, { classname: 'bg-success text-white' });
-                    this.activeModal.close({ dialogMode: this.dialogMode });
+
+                    // Close the modal with the id from the result to open the tab automatically
+                    this.activeModal
+                        .close({
+                            dialogMode: this.dialogMode,
+                            idCommessaPadre: result.id,
+                            codiceCommessa: result.protocollo
+                        });
                 },
                 () => {
                     const txt = "Non è stato possibile creare la commessa. Contattare il supporto tecnico.";
