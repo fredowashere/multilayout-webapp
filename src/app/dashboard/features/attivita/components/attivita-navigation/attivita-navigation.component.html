@@ -1,4 +1,4 @@
-<div class="commessa-resume col-md-8 mx-auto mt-3 mb-5">
+<div class="commessa-resume col-md-9 mx-auto mt-3 mb-5">
 
     <div class="flexgrid flexgrid--4">
 
@@ -49,7 +49,7 @@
 
     <button
         type="button"
-        class="btn btn-warning shadow"
+        class="btn btn-warning btn-lg shadow"
         (click)="update()"
     >
         <i class="bi bi-pencil"></i>
@@ -78,7 +78,7 @@
             Offerta
         </a>
 		<ng-template ngbNavContent>
-			<app-offerta [idCommessaPadre]="idCommessaPadre" (offertaUpsert)="offerta = $event"></app-offerta>
+			<app-offerta [idCommessaPadre]="idCommessaPadre" (offertaUpsert)="onOffertaUpsert($event)"></app-offerta>
 		</ng-template>
 	</li>
 	<li [ngbNavItem]="3" class="attivita-nav__item" [disabled]="this.commessa?.tipoAttivita?.id == 1 && !this.offerta?.dataAccettazione">

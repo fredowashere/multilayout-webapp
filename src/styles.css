@@ -247,7 +247,6 @@ th[sortable].desc::before {
 .flexgrid > * {
   flex: 1 1 clamp(var(--flexgrid-col-min-width), 100%, 100%);
   padding: calc(var(--flexgrid-gap) / 2);
-  word-break: break-all;
 }
 
 .flexgrid--2 > * {

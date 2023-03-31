@@ -26,6 +26,7 @@ export class AttivitaNavigationComponent {
 
 	clienteDiretto?: Dettaglio;
 	clienteFinale?: Dettaglio;
+
 	pm?: UtentiAnagrafica;
 	bm?: UtentiAnagrafica;
 
@@ -47,8 +48,10 @@ export class AttivitaNavigationComponent {
 		.subscribe(([commessa, offerta, hasSottocommesse]) => {
 
 			this.commessa = commessa;
+
 			this.clienteDiretto = this.miscDataService.idClienteCliente[commessa?.idCliente];
 			this.clienteFinale = this.miscDataService.idClienteCliente[commessa?.idClienteFinale];
+			
 			this.pm = this.miscDataService.idUtenteUtente[commessa?.idProjectManager];
 			this.bm = this.miscDataService.idUtenteUtente[commessa?.idBusinessManager];
 			
@@ -83,12 +86,26 @@ export class AttivitaNavigationComponent {
 		this.commessaService
 			.getCommessaById(this.idCommessaPadre)
 			.subscribe(commessa => {
+
 				this.commessa = commessa;
+
 				this.clienteDiretto = this.miscDataService.idClienteCliente[commessa?.idCliente];
 				this.clienteFinale = this.miscDataService.idClienteCliente[commessa?.idClienteFinale];
+
 				this.pm = this.miscDataService.idUtenteUtente[commessa?.idProjectManager];
 				this.bm = this.miscDataService.idUtenteUtente[commessa?.idBusinessManager];
 			});
+	}
+
+	onOffertaUpsert(offerta: Offerta) {
+
+		const prevDataAccettazione = this.offerta?.dataAccettazione;
+
+		this.offerta = offerta;
+
+		// If there was no data accettazione previously but now there is, then navigate to sottocommesse
+		if (!prevDataAccettazione && offerta.dataAccettazione)
+			setTimeout(() => this.activeTabId = 3, 200);
 	}
 
 }
