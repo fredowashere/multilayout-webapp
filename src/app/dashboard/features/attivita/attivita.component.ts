@@ -343,10 +343,9 @@ export class AttivitaComponent {
 
   addTab(idCommessaPadre: number, codiceCommessa: string) {
 
-    const isAlreadyIncluded = this.tabs.some(t => t.idCommessaPadre === idCommessaPadre);
-    if (isAlreadyIncluded) {
-      const txt = `Commessa ${codiceCommessa} già inclusa nelle tab di ricerca`;
-      this.toaster.show(txt, { classname: 'bg-danger text-white' });
+    const tab = this.tabs.find(t => t.idCommessaPadre === idCommessaPadre);
+    if (tab) {
+      this.activeTabId = tab.idCommessaPadre;
       return;
     }
 

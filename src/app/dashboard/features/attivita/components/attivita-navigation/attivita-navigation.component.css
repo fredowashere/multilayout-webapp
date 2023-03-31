@@ -8,6 +8,7 @@
 
 .attivita-nav {
     background: rgba(var(--app-primary_500), 1);
+    box-shadow: 0 -12px 16px 0 #0002;
     display: flex;
     color: rgba(var(--app-gray_100), 1);
     margin: 0 -1rem;
