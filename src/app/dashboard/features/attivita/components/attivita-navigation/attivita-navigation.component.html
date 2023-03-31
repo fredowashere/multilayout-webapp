@@ -78,7 +78,7 @@
             Offerta
         </a>
 		<ng-template ngbNavContent>
-			<app-offerta [idCommessaPadre]="idCommessaPadre"></app-offerta>
+			<app-offerta [idCommessaPadre]="idCommessaPadre" (offertaUpsert)="offerta = $event"></app-offerta>
 		</ng-template>
 	</li>
 	<li [ngbNavItem]="3" class="attivita-nav__item" [disabled]="this.commessa?.tipoAttivita?.id == 1 && !this.offerta?.dataAccettazione">

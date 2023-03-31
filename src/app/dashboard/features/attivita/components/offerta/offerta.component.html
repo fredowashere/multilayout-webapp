@@ -13,6 +13,24 @@
             [ngControl]="tipologiaCtrl"
             [options]="tipologie"
             [floatingLabel]="true"
+            [disabled]="!!offerta?.idTipoOfferta"
+        ></app-input>
+
+        <app-input
+            type="date"
+            name="dataOfferta"
+            label="Data offerta *"
+            [ngControl]="dataOffertaCtrl"
+            [floatingLabel]="true"
+            [disabled]="!!offerta?.dataOfferta"
+        ></app-input>
+
+        <app-input
+            type="date"
+            name="dataAccettazione"
+            label="Data accettazione"
+            [ngControl]="dataAccettazioneCtrl"
+            [floatingLabel]="true"
         ></app-input>
 
         <app-input
@@ -37,29 +55,13 @@
             [floatingLabel]="true"
             [disabled]="true"
         ></app-input>
-
-        <app-input
-            type="date"
-            name="dataOfferta"
-            label="Data offerta"
-            [ngControl]="dataOffertaCtrl"
-            [floatingLabel]="true"
-        ></app-input>
-
-        <app-input
-            type="date"
-            name="dataAccettazione"
-            label="Data accettazione"
-            [ngControl]="dataAccettazioneCtrl"
-            [floatingLabel]="true"
-        ></app-input>
     </fieldset>
 
     <div class="text-center my-4">
 
         <button
             class="btn btn-primary btn-lg shadow"
-            [disabled]="!offerta"
+            [disabled]="!offerta || !dataOffertaCtrl.value"
             (click)="upsert()"
         >
             Salva

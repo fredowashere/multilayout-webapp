@@ -12,7 +12,7 @@ import { AttivitaCreazioneModifica } from './dialogs/attivita-creazione-modifica
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
 import { Commessa, CommessaSearchDto } from './models/commessa';
 import { CommessaService } from './services/commessa.service';
-import { MiscDataService } from './services/state.service';
+import { MiscDataService } from './services/miscData.service';
 
 const today = new Date();
 const [ currYear, currMonth, currDay ] = [ today.getFullYear(), today.getMonth() + 1, today.getDate() ];

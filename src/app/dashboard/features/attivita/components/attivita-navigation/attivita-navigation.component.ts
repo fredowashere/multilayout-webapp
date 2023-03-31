@@ -8,7 +8,7 @@ import { Offerta } from '../../models/offerta';
 import { CommessaService } from '../../services/commessa.service';
 import { OffertaService } from '../../services/offerta.service';
 import { SottocommessaService } from '../../services/sottocommessa.service';
-import { MiscDataService } from '../../services/state.service';
+import { MiscDataService } from '../../services/miscData.service';
 
 @Component({
   selector: 'app-attivita-navigation',
@@ -90,6 +90,6 @@ export class AttivitaNavigationComponent {
 				this.pm = this.miscDataService.idUtenteUtente[commessa?.idProjectManager];
 				this.bm = this.miscDataService.idUtenteUtente[commessa?.idBusinessManager];
 			});
-	  }
+	}
 
 }

@@ -9,7 +9,7 @@ import { jsonCopy } from "src/app/utils/json";
 import { CommessaDto, CreateCommessaParam, SimpleDto, UpdateCommessaParam } from "../../models/commessa";
 import { DIALOG_MODE } from "../../models/dialog";
 import { CommessaService } from "../../services/commessa.service";
-import { MiscDataService } from "../../services/state.service";
+import { MiscDataService } from "../../services/miscData.service";
 
 @Component({
 	selector: 'app-attivita-creazione-modifica-dialog',

@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';
-import { FaseEventoDto, Offerta } from '../models/offerta';
+import { FaseEventoDto, Offerta, UpsertOffertaParam } from '../models/offerta';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +22,7 @@ export class OffertaService {
         return this.http.get<Offerta>(url);
     }
 
-    upsertOfferta$(input: any) {
+    upsertOfferta$(input: UpsertOffertaParam) {
         const url = `${environment.attivitaApiRoot}/modulo-attivita-be/save/offerta`;
         return this.http.post<Offerta>(url, input);
     }

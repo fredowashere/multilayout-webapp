@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { combineLatest } from 'rxjs';
+import { ToastService } from 'src/app/services/toast.service';
 import { Offerta } from '../../models/offerta';
 import { OffertaService } from '../../services/offerta.service';
 
@@ -11,53 +13,72 @@ import { OffertaService } from '../../services/offerta.service';
 export class OffertaComponent {
 
   @Input("idCommessaPadre") idCommessaPadre!: number;
+  @Output("offertaUpsert") offertaUpsertEmitter = new EventEmitter<Offerta>();
 
   offerta?: Offerta;
 
-  tipologiaCtrl = new FormControl();
-  tipologie: { text: string, value: any, _id: number }[] = [];
+  tipologiaCtrl = new FormControl<number>(1);
+  tipologie: { text: string, value: number }[] = [];
 
-  nrOrdineCtrl = new FormControl();
+  dataOffertaCtrl = new FormControl<string | null>(null, [Validators.required]);
+  dataAccettazioneCtrl = new FormControl<string | null>(null);
 
-  codDocumentoCtrl = new FormControl();
-
-  codIdentificativoCtrl = new FormControl();
-
-  dataOffertaCtrl = new FormControl();
-
-  dataAccettazioneCtrl = new FormControl();
+  nrOrdineCtrl = new FormControl<string | null>(null);
+  
+  codDocumentoCtrl = new FormControl<string | null>(null);
+  codIdentificativoCtrl = new FormControl<string | null>(null);
 
   constructor(
-    private offertaService: OffertaService
+    private offertaService: OffertaService,
+    private toaster: ToastService
   ) { }
 
   ngOnInit() {
 
-    this.offertaService
-      .getAllTipiOfferta$()
-      .subscribe(tipologie => {
+    combineLatest([
+      this.offertaService.getAllTipiOfferta$(),
+      this.offertaService.getOffertaByIdCommessaPadre$(this.idCommessaPadre)
+    ])
+    .subscribe(([ tipologie, offerta ]) => {
 
-        this.tipologie = tipologie
-          .map(tipologia => ({
-            _id: tipologia.id,
-            text: tipologia.descrizione,
-            value: tipologia.cod
-          }));
+      this.tipologie = tipologie
+        .map(tipologia => ({
+          text: tipologia.descrizione,
+          value: tipologia.id
+        }));
 
-        this.tipologiaCtrl.setValue(this.tipologie[0].value);
-      });
+      this.offerta = offerta;
 
-    this.offertaService
-      .getOffertaByIdCommessaPadre$(this.idCommessaPadre)
-      .subscribe(offerta => {
+      if (offerta.idTipoOfferta)
+        this.tipologiaCtrl.setValue(offerta.idTipoOfferta);
 
-        this.offerta = offerta;
-
-        // Init inputs
-      });
+      this.nrOrdineCtrl.setValue(offerta.numeroOrdine);
+      this.codDocumentoCtrl.setValue(offerta.codiceDocumento);
+      this.codIdentificativoCtrl.setValue(offerta.codiceIdentificativo);
+      this.dataOffertaCtrl.setValue(offerta.dataOfferta);
+      this.dataAccettazioneCtrl.setValue(offerta.dataAccettazione as string);
+    });
   }
 
   upsert() {
-    // TODO
+    this.offertaService
+      .upsertOfferta$({
+        idAttivita: this.idCommessaPadre,
+        idTipoOfferta: this.tipologiaCtrl.value as number,
+        dataOfferta: this.dataOffertaCtrl.value as string,
+        numeroOrdine: this.nrOrdineCtrl.value as string,
+        dataAccettazione: this.dataAccettazioneCtrl.value as string,
+      })
+      .subscribe(
+        (offerta) => {
+          const txt = "Offerta inserita/modificata con successo!";
+          this.toaster.show(txt, { classname: 'bg-success text-white' });
+          this.offertaUpsertEmitter.emit(offerta);
+        },
+        () => {
+            const txt = "Non è stato possibile inserire/modificare l'offerta. Contattare il supporto tecnico.";
+            this.toaster.show(txt, { classname: 'bg-danger text-white' });
+        }
+      )
   }
 }
