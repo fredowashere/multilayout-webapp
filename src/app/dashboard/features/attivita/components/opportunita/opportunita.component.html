@@ -1,1 +1,54 @@
-<p>opportunita works!</p>
+<div class="card pt-3 shadow">
+
+    <div class="table-plus">
+
+        <h5 class="table-plus__title">Tabella Eventi</h5>
+
+        <button
+            type="button"
+            class="table-plus__action btn btn-primary shadow"
+            (click)="create()"
+        >
+            <i class="bi bi-plus"></i>
+            Crea nuovo evento
+        </button>
+    </div>
+    
+    <app-table
+        #dt
+        id="tabella-commesse"
+        [thead]="thead"
+        [tbody]="tbody"
+        [items]="eventi"
+        [searchable]="['descrizione', 'faseEvento.descrizione']"
+        [paginated]="true"
+        [pageSize]="5"
+        emptyMessage="Nessun risultato, effettua una ricerca"
+    >
+    
+        <ng-template #thead>
+            <th sortable="dataEvento" (sort)="dt.sort($any($event))">Data</th>
+            <th sortable="faseEvento.id" (sort)="dt.sort($any($event))">Tipo evento</th>
+            <th sortable="descrizione" (sort)="dt.sort($any($event))">Descrizione</th>
+            <th style="width: 10rem"></th>
+        </ng-template>
+    
+        <ng-template #tbody let-item let-term$="term$">
+            <td>{{ item.dataEvento | date:'yyyy-MM-dd' }}</td>
+            <td>{{ item.faseEvento.descrizione }}</td>
+            <td>{{ item.descrizione }}</td>
+            <td>
+                <div class="d-flex gap-2 justify-content-center">
+                    <button
+                        type="button"
+                        class="btn btn-warning shadow"
+                        (click)="update(item)"
+                    >
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                </div>
+            </td>
+        </ng-template>
+    </app-table>
+</div>
+

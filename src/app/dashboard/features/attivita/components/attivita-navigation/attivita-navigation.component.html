@@ -69,7 +69,7 @@
             Opportunità
         </a>
 		<ng-template ngbNavContent>
-			<app-opportunita></app-opportunita>
+			<app-opportunita [idCommessaPadre]="idCommessaPadre"></app-opportunita>
 		</ng-template>
 	</li>
 	<li [ngbNavItem]="2" class="attivita-nav__item" [disabled]="commessa?.tipoAttivita?.id == 2">

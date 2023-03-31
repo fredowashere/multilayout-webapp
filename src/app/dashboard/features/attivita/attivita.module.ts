@@ -15,6 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
 import { AttivitaNavigationComponent } from './components/attivita-navigation/attivita-navigation.component';
 import { AttivitaCreazioneModifica } from './dialogs/attivita-creazione-modifica/attivita-creazione-modifica.component';
+import { OpportunitaCreazioneModifica } from './dialogs/opportunita-creazione-modifica/opportunita-creazione-modifica.component';
 
 
 const routes: Routes = [
@@ -35,7 +36,8 @@ const routes: Routes = [
     FattureComponent,
     EliminazioneDialog,
     AttivitaCreazioneModifica,
-    AttivitaNavigationComponent
+    AttivitaNavigationComponent,
+    OpportunitaCreazioneModifica
   ],
   imports: [
     CommonModule,

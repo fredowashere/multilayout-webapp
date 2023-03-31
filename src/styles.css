@@ -103,10 +103,6 @@ body {
   height: 40px;
 }
 
-.app-tall-dialog .modal-body {
-  min-height: 50vh;
-}
-
 .app-tabbable.nav-tabs {
   overflow-x: auto;
   overflow-y: hidden;
@@ -175,6 +171,29 @@ th[sortable].desc::before {
 .container-xxxl {
   margin: 0 auto;
   max-width: 1600px;
+}
+
+.table-plus {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0 1rem;
+  align-items: center;
+  justify-items: center;
+}
+
+.table-plus__title {
+  margin-bottom: 0;
+}
+
+@media (min-width: 800px) {
+
+  .table-plus {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .table-plus__title {
+    justify-self: start;
+  }
 }
 
 /* Round button */

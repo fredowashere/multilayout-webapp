@@ -73,8 +73,7 @@ export class AttivitaNavigationComponent {
 			{
 			  size: 'lg',
 			  centered: true,
-			  scrollable: true,
-			  modalDialogClass: 'app-tall-dialog'
+			  scrollable: true
 			}
 		  );
 		modalRef.componentInstance.idCommessaPadre = this.idCommessaPadre;

@@ -383,8 +383,7 @@ export class AttivitaComponent {
         {
           size: 'lg',
           centered: true,
-          scrollable: true,
-          modalDialogClass: 'app-tall-dialog'
+          scrollable: true
         }
       );
 
@@ -401,8 +400,7 @@ export class AttivitaComponent {
         {
           size: 'lg',
           centered: true,
-          scrollable: true,
-          modalDialogClass: 'app-tall-dialog'
+          scrollable: true
         }
       );
     modalRef.componentInstance.idCommessaPadre = commessa.id;
