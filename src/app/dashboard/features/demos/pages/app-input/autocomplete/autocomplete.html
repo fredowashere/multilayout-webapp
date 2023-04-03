@@ -5,21 +5,42 @@
 
         <p>The <code>type="autocomplete"</code> is a component that you can use to create typehead extremely fast with very little code.</p>
 
-        <app-input
-            type="autocomplete"
-            name="state"
-            label="State"
-            placeholder="Enter a state"
-            [options]="states"
-            [formatter]="statesFormatter"
-            [template]="rt"
-            [filter]="statesFilter"
-            [ngControl]="state"
-        ></app-input>
-        <ng-template #rt let-r="result" let-t="term">
-            <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" />
-            <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
-        </ng-template>
+        <div class="flexgrid flexgrid--2">
+
+            <app-input
+                type="autocomplete"
+                name="state"
+                placeholder="Enter a state"
+                [options]="states"
+                [formatter]="statesFormatter"
+                [template]="rt"
+                [filter]="statesFilter"
+                [ngControl]="state"
+                helper="This shows all the results"
+            ></app-input>
+            <ng-template #rt let-r="result" let-t="term">
+                <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" />
+                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+            </ng-template>
+
+            <app-input
+                type="autocomplete"
+                name="state"
+                placeholder="Enter a state"
+                [limit]="15"
+                [limitTextFactory]="onlyFewStatesTextFactory"
+                [options]="states"
+                [formatter]="statesFormatter"
+                [template]="rt"
+                [filter]="statesFilter"
+                [ngControl]="state"
+                helper="This only shows the first 15 results"
+            ></app-input>
+            <ng-template #rt let-r="result" let-t="term">
+                <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" />
+                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+            </ng-template>
+        </div>
 
         <div class="card mt-3">
             <div class="card-body">
@@ -67,7 +88,6 @@
         <app-input
             type="tagger"
             name="flavors"
-            label="Ice-cream flavors"
             placeholder="Choose your favourite flavors of ice-cream"
             [options]="flavorList"
             [formatter]="flavorsFormatter"
