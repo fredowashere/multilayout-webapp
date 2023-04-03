@@ -51,7 +51,10 @@ export class OffertaComponent {
 
       if(!offerta) return;
 
-      this.tipologiaCtrl.setValue(offerta.idTipoOfferta);
+      // Only update idTipoOfferta if present in offerta response, otherwise keep control default
+      if (offerta.idTipoOfferta)
+        this.tipologiaCtrl.setValue(offerta.idTipoOfferta);
+      
       this.nrOrdineCtrl.setValue(offerta.numeroOrdine);
       this.codDocumentoCtrl.setValue(offerta.codiceDocumento);
       this.codIdentificativoCtrl.setValue(offerta.codiceIdentificativo);
