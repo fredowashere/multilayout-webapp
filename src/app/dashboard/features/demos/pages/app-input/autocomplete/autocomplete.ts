@@ -15,6 +15,7 @@ export class AppdAutocomplete {
 
     statesFormatter = (state: any) => state.name;
     statesFilter = (term: string, state: any) => state.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    onlyFewStatesTextFactory = (limit: number) => "I'm only showing " + limit + " results, type for more!";
     state = new FormControl();
     states = states; // imported from autocomplete/mock
 
