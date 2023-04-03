@@ -49,9 +49,9 @@ export class OffertaComponent {
 
       this.offerta = offerta;
 
-      if (offerta.idTipoOfferta)
-        this.tipologiaCtrl.setValue(offerta.idTipoOfferta);
+      if(!offerta) return;
 
+      this.tipologiaCtrl.setValue(offerta.idTipoOfferta);
       this.nrOrdineCtrl.setValue(offerta.numeroOrdine);
       this.codDocumentoCtrl.setValue(offerta.codiceDocumento);
       this.codIdentificativoCtrl.setValue(offerta.codiceIdentificativo);

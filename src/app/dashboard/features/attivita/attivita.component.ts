@@ -251,6 +251,7 @@ export class AttivitaComponent {
       .pipe(switchMap(() => onBmSelect$()))
       .subscribe();
     
+    let init = false;
     merge(this.searchClick$, this.refresh$)
       .pipe(
         takeUntil(this.destroy$),
@@ -272,7 +273,11 @@ export class AttivitaComponent {
         tap(commesseResults => {
           this.isLoading = false;
           this.commesseResults = commesseResults;
-          delayedScrollTo("tabella-commesse", 150);
+
+          if (!init) {
+            delayedScrollTo("#tabella-commesse");
+            init = true;
+          }
         })
       )
       .subscribe();
@@ -343,9 +348,10 @@ export class AttivitaComponent {
 
   addTab(idCommessaPadre: number, codiceCommessa: string) {
 
-    const tab = this.tabs.find(t => t.idCommessaPadre === idCommessaPadre);
-    if (tab) {
-      this.activeTabId = tab.idCommessaPadre;
+    const tabAlreadyExist = this.tabs.find(t => t.idCommessaPadre === idCommessaPadre);
+    if (tabAlreadyExist) {
+      this.activeTabId = idCommessaPadre;
+      delayedScrollTo("#commessa-" + idCommessaPadre);
       return;
     }
 
@@ -356,10 +362,10 @@ export class AttivitaComponent {
       codiceCommessa
     });
 
-    delayedScrollTo("commessa-" + idCommessaPadre, 150);
+    delayedScrollTo("#commessa-" + idCommessaPadre);
   }
 
-  closeTab(event: MouseEvent, toRemove: number) {
+  closeTab(toRemove: number, evt?: MouseEvent) {
 
     // Open the tab to the left
     const tabToRemoveIndex = this.tabs.findIndex(tab => tab.idCommessaPadre === toRemove);
@@ -371,8 +377,11 @@ export class AttivitaComponent {
 
     // Remove tab from the array
 		this.tabs = this.tabs.filter((tab) => tab.idCommessaPadre !== toRemove);
-		event.preventDefault();
-		event.stopImmediatePropagation();
+
+    if (evt) {
+      evt.preventDefault();
+      evt.stopImmediatePropagation();
+    }
 	}
 
   async create() {
@@ -427,8 +436,12 @@ export class AttivitaComponent {
       .deleteCommessa(commessa.id)
       .subscribe(
         () => {
+
           const txt = "Commessa eliminata con successo!";
           this.toaster.show(txt, { classname: 'bg-success text-white' });
+
+          this.closeTab(commessa.id);
+
           this.refresh$.next();
         },
         (ex) => {
