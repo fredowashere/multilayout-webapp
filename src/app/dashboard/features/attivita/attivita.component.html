@@ -169,7 +169,7 @@
                         (click)="create()"
                     >
                         <i class="bi bi-plus"></i>
-                        Crea nuova commessa
+                        Crea commessa
                     </button>
                 </div>
     
@@ -238,9 +238,17 @@
                                 <button
                                     type="button"
                                     class="btn btn-danger shadow"
-                                    (click)="delete(item)"
+                                    (click)="
+                                        item.tipoAttivita.id === 1
+                                            ? cancelOpportunita(item)
+                                            : deleteCommessaInterna(item)
+                                    "
                                 >
-                                    <i class="bi bi-trash3"></i>
+                                    <i
+                                        class="bi"
+                                        [class.bi-x-circle]="item.tipoAttivita.id === 1"
+                                        [class.bi-trash3]="item.tipoAttivita.id === 2"
+                                    ></i>
                                 </button>
                             </div>
 
@@ -260,7 +268,7 @@
                 </app-table>
             </div>
 
-            <div *ngIf="commesseResults.length" class="mt-5">
+            <div *ngIf="commesseResults.length" class="mt-4">
                 <ul
                     class="app-tabbable nav-tabs"
                     ngbNav
@@ -268,15 +276,15 @@
                     [destroyOnHide]="false"
                     [(activeId)]="activeTabId"
                 >
-                    <li *ngFor="let tab of tabs" [ngbNavItem]="tab.idCommessaPadre">
+                    <li *ngFor="let tab of tabs" [ngbNavItem]="tab.id">
                         <a ngbNavLink>
                             {{ tab.codiceCommessa }}
-                            <span class="btn-close ms-2 fw-light" (click)="closeTab(tab.idCommessaPadre, $event)"></span>
+                            <span class="btn-close ms-2 fw-light" (click)="closeTab(tab.id, $event)"></span>
                         </a>
                         <ng-template ngbNavContent>
                             <app-attivita-navigation
-                                [id]="'commessa-' + tab.idCommessaPadre"
-                                [idCommessaPadre]="tab.idCommessaPadre"
+                                [id]="'commessa-' + tab.id"
+                                [idCommessa]="tab.id"
                             ></app-attivita-navigation>
                         </ng-template>
                     </li>
@@ -287,7 +295,7 @@
                     <div [ngbNavOutlet]="nav"></div>
         
                     <div class="p-3 pb-2 text-center" *ngIf="this.tabs.length === 0">
-                        <span class="d-inline-block animate__animated animate__bounceIn animate__delay-100ms">Clicca sul tasto <i class="bi bi-arrow-90deg-down"></i> in Tabella Commesse per aggiungere una scheda</span>
+                        <span class="d-inline-block animate__animated animate__bounceIn animate__delay-100ms">Clicca sul tasto <i class="bi bi-arrow-90deg-down"></i> in riga per scendere nel dettaglio</span>
                     </div>
                 </div>
             </div>

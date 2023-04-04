@@ -25,7 +25,7 @@ export class CommessaService {
 
   getAllCommesse$(input?: GetAllCommesseParam) {
     input = input || {};
-    const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/all-padre/id-azienda/${this.authService.user.idAzienda}`;
+    const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/all-padre/id-azienda/${this.authService.user.idAzienda}`;
     return this.http.post<CommessaSearchDto[]>(url, input)
       .pipe(
         map(commesse =>
@@ -47,35 +47,35 @@ export class CommessaService {
       );
   }
 
-  getCommessaById(idCommessaPadre: number) {
-    const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/id/${idCommessaPadre}/id-azienda/${this.authService.user.idAzienda}`;
+  getCommessaById(idCommessa: number) {
+    const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/id/${idCommessa}/id-azienda/${this.authService.user.idAzienda}`;
     return this.http.get<CommessaDto>(url);
   }
 
   createCommessa$(input: CreateCommessaParam) {
     input.idAzienda = this.authService.user.idAzienda;
     input.idUtenteInserimento = this.authService.user.idUtente;
-    const url = `${environment.attivitaApiRoot}/modulo-attivita-be/save/opportunita`;
+    const url = `${environment.scaiRoot}/modulo-attivita-be/save/opportunita`;
     return this.http.post<OpportunitaDto>(url, input);
   }
 
   updateCommessa$(commessa: UpdateCommessaParam) {
-    const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/update/id/${commessa.id}`;
+    const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/update/id/${commessa.id}`;
     return this.http.put<number>(url, commessa);
   }
 
-  deleteCommessa(idCommessaPadre: number) {
-    const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/deleteCommessaPadre/id/${idCommessaPadre}`;
+  deleteCommessaInterna$(idCommessa: number) {
+    const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/deleteCommessaPadre/id/${idCommessa}`;
     return this.http.delete(url);
   }
 
-  cancelCommessa$(idCommessaPadre: number) {
-    const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/invalidaCommessaPadre/id/${idCommessaPadre}`;
+  cancelOpportunita$(idCommessa: number) {
+    const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/invalidaCommessaPadre/id/${idCommessa}`;
     return this.http.post<any>(url, {});
   }
 
-  restoreCommessa(idCommessaPadre: number) {
-    const url = `${environment.attivitaApiRoot}/modulo-attivita-be/commesse/ripristinaCommessa/id/${idCommessaPadre}`;
+  restoreOpportunita(idCommessa: number) {
+    const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/ripristinaCommessa/id/${idCommessa}`;
     return this.http.post<any>(url, {});
   }
 

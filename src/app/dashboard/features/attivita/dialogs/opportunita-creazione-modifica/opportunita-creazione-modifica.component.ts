@@ -13,7 +13,7 @@ import { OpportunitaService } from "../../services/opportunita.service";
 })
 export class OpportunitaCreazioneModifica {
 
-    @Input("idCommessaPadre") idCommessaPadre!: number;
+    @Input("idCommessa") idCommessa!: number;
     @Input("evento") evento!: EventoDto;
 
     DIALOG_MODE = DIALOG_MODE;
@@ -70,7 +70,7 @@ export class OpportunitaCreazioneModifica {
 
         this.opportunitaService
             .createEvento$({
-                idOpportunita: this.idCommessaPadre,
+                idOpportunita: this.idCommessa,
                 dataEvento: this.dataCtrl.value as string,
                 descrizione: this.descrizioneCtrl.value as string,
                 faseEvento: {
@@ -96,7 +96,7 @@ export class OpportunitaCreazioneModifica {
             .updateEvento$(
                 this.evento.id,
                 {
-                    idOpportunita: this.idCommessaPadre,
+                    idOpportunita: this.idCommessa,
                     dataEvento: this.dataCtrl.value as string,
                     descrizione: this.descrizioneCtrl.value as string,
                     faseEvento: {

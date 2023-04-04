@@ -12,7 +12,7 @@ import { OffertaService } from '../../services/offerta.service';
 })
 export class OffertaComponent {
 
-  @Input("idCommessaPadre") idCommessaPadre!: number;
+  @Input("idCommessa") idCommessa!: number;
   @Output("offertaUpsert") offertaUpsertEmitter = new EventEmitter<Offerta>();
 
   offerta?: Offerta;
@@ -37,7 +37,7 @@ export class OffertaComponent {
 
     combineLatest([
       this.offertaService.getAllTipiOfferta$(),
-      this.offertaService.getOffertaByIdCommessaPadre$(this.idCommessaPadre)
+      this.offertaService.getOffertaByIdCommessa$(this.idCommessa)
     ])
     .subscribe(([ tipologie, offerta ]) => {
 
@@ -66,7 +66,7 @@ export class OffertaComponent {
   upsert() {
     this.offertaService
       .upsertOfferta$({
-        idAttivita: this.idCommessaPadre,
+        idAttivita: this.idCommessa,
         idTipoOfferta: this.tipologiaCtrl.value as number,
         dataOfferta: this.dataOffertaCtrl.value as string,
         numeroOrdine: this.nrOrdineCtrl.value as string,

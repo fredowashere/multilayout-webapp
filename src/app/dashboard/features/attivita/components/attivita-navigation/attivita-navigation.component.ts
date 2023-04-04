@@ -17,7 +17,7 @@ import { MiscDataService } from '../../services/miscData.service';
 })
 export class AttivitaNavigationComponent {
 
-  	@Input("idCommessaPadre") idCommessaPadre!: number;
+  	@Input("idCommessa") idCommessa!: number;
 	commessa?: CommessaDto;
 
   	activeTabId?: number;
@@ -41,9 +41,9 @@ export class AttivitaNavigationComponent {
 	ngOnInit() {
 
 		combineLatest([
-			this.commessaService.getCommessaById(this.idCommessaPadre),
-			this.offertaService.getOffertaByIdCommessaPadre$(this.idCommessaPadre),
-			this.sottocommessaService.checkExistingSottoCommesseByIdPadre$(this.idCommessaPadre)
+			this.commessaService.getCommessaById(this.idCommessa),
+			this.offertaService.getOffertaByIdCommessa$(this.idCommessa),
+			this.sottocommessaService.checkExistingSottocommesseByIdCommessa$(this.idCommessa)
 		])
 		.subscribe(([commessa, offerta, hasSottocommesse]) => {
 
@@ -79,12 +79,12 @@ export class AttivitaNavigationComponent {
 			  scrollable: true
 			}
 		  );
-		modalRef.componentInstance.idCommessaPadre = this.idCommessaPadre;
+		modalRef.componentInstance.idCommessa = this.idCommessa;
 	
 		await modalRef.result;
 
 		this.commessaService
-			.getCommessaById(this.idCommessaPadre)
+			.getCommessaById(this.idCommessa)
 			.subscribe(commessa => {
 
 				this.commessa = commessa;

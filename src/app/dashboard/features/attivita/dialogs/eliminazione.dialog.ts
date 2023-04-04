@@ -28,7 +28,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
             </ul>
 
             <p>
-                Tutte le informazioni saranno eliminate definitivamente.<br>
+                {{ message }}<br>
                 <span *ngIf="!reversible" class="text-danger">Questa operazione non è reversibile.</span>
             </p>
         </div>
@@ -39,13 +39,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
                 type="button"
                 class="btn btn-outline-secondary"
                 (click)="activeModal.dismiss('Canceled')"
-            >Cancella</button>
+            >Annulla</button>
 
             <button
                 type="button"
                 class="btn btn-danger"
                 (click)="activeModal.close('Deleted')"
-            >Elimina</button>
+            >Conferma</button>
         </div>
 	`,
 })
@@ -54,6 +54,7 @@ export class EliminazioneDialog {
     @Input("reversible") reversible: boolean = false;
     @Input("name") name!: string;
     @Input("rows") rows?: any[];
+    @Input("message") message = "Tutte le informazioni saranno eliminate definitivamente.";
 
 	constructor(
         public activeModal: NgbActiveModal

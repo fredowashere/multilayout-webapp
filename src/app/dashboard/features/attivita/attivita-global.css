@@ -1,0 +1,14 @@
+.attivita-parent-resume {
+    display: grid;
+    align-items: end;
+    border: 1px solid #eee;
+    border-radius: 0.75rem;
+    padding: 1rem 1.75rem;
+}
+
+@media (min-width: 800px) {
+
+    .attivita-parent-resume {
+        grid-template-columns: 1fr min-content;
+    }
+}

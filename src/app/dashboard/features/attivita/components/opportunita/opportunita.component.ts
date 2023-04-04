@@ -12,7 +12,7 @@ import { OpportunitaService } from '../../services/opportunita.service';
 })
 export class OpportunitaComponent {
 
-  @Input("idCommessaPadre") idCommessaPadre!: number;
+  @Input("idCommessa") idCommessa!: number;
 
   refresh$ = new Subject<void>();
 
@@ -29,7 +29,7 @@ export class OpportunitaComponent {
       .pipe(startWith(null))
       .subscribe(() =>
         this.opportunitaService
-          .getAllEventiByCommessaId$(this.idCommessaPadre)
+          .getAllEventiByIdCommessa$(this.idCommessa)
           .subscribe(eventi => this.eventi = eventi)
       );
   }
@@ -45,7 +45,7 @@ export class OpportunitaComponent {
           scrollable: true
         }
       );
-    modalRef.componentInstance.idCommessaPadre = this.idCommessaPadre;
+    modalRef.componentInstance.idCommessa = this.idCommessa;
 
     const result = await modalRef.result;
     this.refresh$.next();
@@ -62,7 +62,7 @@ export class OpportunitaComponent {
           scrollable: true
         }
       );
-    modalRef.componentInstance.idCommessaPadre = this.idCommessaPadre;
+    modalRef.componentInstance.idCommessa = this.idCommessa;
     modalRef.componentInstance.evento = evento;
 
     await modalRef.result;

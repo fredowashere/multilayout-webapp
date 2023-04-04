@@ -70,15 +70,3 @@
 .attivita-nav__item > .nav-link.disabled {
     color: rgba(var(--app-gray_0), 0.5);
 }
-
-.commessa-resume {
-    display: grid;
-    align-items: end;
-}
-
-@media (min-width: 800px) {
-
-    .commessa-resume {
-        grid-template-columns: 1fr min-content;
-    }
-}

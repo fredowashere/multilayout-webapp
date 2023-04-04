@@ -10,13 +10,12 @@
             (click)="create()"
         >
             <i class="bi bi-plus"></i>
-            Crea nuovo evento
+            Crea evento
         </button>
     </div>
     
     <app-table
         #dt
-        id="tabella-commesse"
         [thead]="thead"
         [tbody]="tbody"
         [items]="eventi"

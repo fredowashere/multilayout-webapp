@@ -14,8 +14,8 @@ export class OpportunitaService {
         private http: HttpClient
     ) { }
 
-    getAllEventiByCommessaId$(idCommessaPadre: number){
-        const url = `${environment.attivitaApiRoot}/modulo-attivita-be/list/eventi/attivita?idAttivita=${idCommessaPadre}`;
+    getAllEventiByIdCommessa$(idCommessa: number){
+        const url = `${environment.scaiRoot}/modulo-attivita-be/list/eventi/attivita?idAttivita=${idCommessa}`;
         return this.http.get<EventoDto[]>(url)
             .pipe(
                 map(eventi =>
@@ -25,17 +25,17 @@ export class OpportunitaService {
     }
 
     getTipiEvento$(){
-        const url = `${environment.attivitaApiRoot}/modulo-attivita-be/evento/fasi/list`;
+        const url = `${environment.scaiRoot}/modulo-attivita-be/evento/fasi/list`;
         return this.http.get<FaseEventoDto[]>(url);
     }
 
     createEvento$(input: UpsertEventoParam){
-        const url = `${environment.attivitaApiRoot}/modulo-attivita-be/save/evento`;
+        const url = `${environment.scaiRoot}/modulo-attivita-be/save/evento`;
         return this.http.post<string>(url, input);
     }
 
     updateEvento$(idEvento: number, input: UpsertEventoParam){
-        const url = `${environment.attivitaApiRoot}/modulo-attivita-be/update/evento?idEvento=${idEvento}`;
+        const url = `${environment.scaiRoot}/modulo-attivita-be/update/evento?idEvento=${idEvento}`;
         return this.http.put<string>(url, input);
     }
 

@@ -13,17 +13,17 @@ export class OffertaService {
     ) { }
 
     getAllTipiOfferta$() {
-        const url = `${environment.attivitaApiRoot}/modulo-attivita-be/template/list`;
+        const url = `${environment.scaiRoot}/modulo-attivita-be/template/list`;
         return this.http.get<FaseEventoDto[]>(url);
     }
 
-    getOffertaByIdCommessaPadre$(idCommessaPadre: number) {
-        const url = `${environment.attivitaApiRoot}/modulo-attivita-be/offerta/id/${idCommessaPadre}`;
+    getOffertaByIdCommessa$(idCommessa: number) {
+        const url = `${environment.scaiRoot}/modulo-attivita-be/offerta/id/${idCommessa}`;
         return this.http.get<Offerta>(url);
     }
 
     upsertOfferta$(input: UpsertOffertaParam) {
-        const url = `${environment.attivitaApiRoot}/modulo-attivita-be/save/offerta`;
+        const url = `${environment.scaiRoot}/modulo-attivita-be/save/offerta`;
         return this.http.post<Offerta>(url, input);
     }
 

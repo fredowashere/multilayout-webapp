@@ -23,7 +23,7 @@ export class AttivitaCreazioneModifica {
     @ViewChild("pmInput") pmInput!: InputComponent;
     @ViewChild("bmInput") bmInput!: InputComponent;
 
-    @Input("idCommessaPadre") idCommessaPadre!: number;
+    @Input("idCommessa") idCommessa!: number;
 
     DIALOG_MODE = DIALOG_MODE;
     dialogMode!: DIALOG_MODE;
@@ -91,14 +91,14 @@ export class AttivitaCreazioneModifica {
 
     ngOnInit() {
 
-        this.dialogMode = this.idCommessaPadre
+        this.dialogMode = this.idCommessa
             ? DIALOG_MODE.Update
             : DIALOG_MODE.Create;
 
         if (this.dialogMode === DIALOG_MODE.Update) {
             this.isLoading = true;
             this.commessaService
-                .getCommessaById(this.idCommessaPadre)
+                .getCommessaById(this.idCommessa)
                 .subscribe(commessa => {
                     this.commessa = commessa;
                     this.initializeAutocompleteValues();
@@ -213,7 +213,7 @@ export class AttivitaCreazioneModifica {
                     this.activeModal
                         .close({
                             dialogMode: this.dialogMode,
-                            idCommessaPadre: result.id,
+                            idCommessa: result.id,
                             codiceCommessa: result.protocollo
                         });
                 },

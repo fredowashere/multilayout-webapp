@@ -5,7 +5,7 @@ import { AttivitaComponent } from './attivita.component';
 import { OpportunitaComponent } from './components/opportunita/opportunita.component';
 import { OffertaComponent } from './components/offerta/offerta.component';
 import { SottocommesseComponent } from './components/sottocommesse/sottocommesse.component';
-import { TaskComponent } from './components/task/task.component';
+import { TasksComponent } from './components/tasks/tasks.component';
 import { RisorseComponent } from './components/risorse/risorse.component';
 import { CostiComponent } from './components/costi/costi.component';
 import { RicaviComponent } from './components/ricavi/ricavi.component';
@@ -28,7 +28,7 @@ const routes: Routes = [
     OpportunitaComponent,
     OffertaComponent,
     SottocommesseComponent,
-    TaskComponent,
+    TasksComponent,
     RisorseComponent,
     CostiComponent,
     RicaviComponent,

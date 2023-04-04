@@ -51,7 +51,7 @@ export interface CommessaSearchDto {
 	visibleRestore: boolean;
 }
 
-export interface CommessaDto{
+export interface CommessaDto {
     id: number;
     idCommessaPadre: number;
 	codiceCommessa: string;

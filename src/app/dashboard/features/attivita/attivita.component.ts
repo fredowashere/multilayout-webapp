@@ -18,7 +18,7 @@ const today = new Date();
 const [ currYear, currMonth, currDay ] = [ today.getFullYear(), today.getMonth() + 1, today.getDate() ];
 
 interface Tab {
-  idCommessaPadre: number;
+  id: number;
   codiceCommessa: string;
 }
 
@@ -346,37 +346,37 @@ export class AttivitaComponent {
     this.tipoAttivitaCtrl.setValue(null);
   }
 
-  addTab(idCommessaPadre: number, codiceCommessa: string) {
+  addTab(id: number, codiceCommessa: string) {
 
-    const tabAlreadyExist = this.tabs.find(t => t.idCommessaPadre === idCommessaPadre);
+    const tabAlreadyExist = this.tabs.find(t => t.id === id);
     if (tabAlreadyExist) {
-      this.activeTabId = idCommessaPadre;
-      delayedScrollTo("#commessa-" + idCommessaPadre);
+      this.activeTabId = id;
+      delayedScrollTo("#commessa-" + id);
       return;
     }
 
-    this.activeTabId = idCommessaPadre;
+    this.activeTabId = id;
 
     this.tabs.push({
-      idCommessaPadre,
+      id,
       codiceCommessa
     });
 
-    delayedScrollTo("#commessa-" + idCommessaPadre);
+    delayedScrollTo("#commessa-" + id);
   }
 
   closeTab(toRemove: number, evt?: MouseEvent) {
 
     // Open the tab to the left
-    const tabToRemoveIndex = this.tabs.findIndex(tab => tab.idCommessaPadre === toRemove);
+    const tabToRemoveIndex = this.tabs.findIndex(tab => tab.id === toRemove);
     if (this.activeTabId === toRemove)
       if (tabToRemoveIndex === 0)
-        this.activeTabId = this.tabs[tabToRemoveIndex + 1]?.idCommessaPadre; // right
+        this.activeTabId = this.tabs[tabToRemoveIndex + 1]?.id; // right
       else
-        this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.idCommessaPadre; // left
+        this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.id; // left
 
     // Remove tab from the array
-		this.tabs = this.tabs.filter((tab) => tab.idCommessaPadre !== toRemove);
+		this.tabs = this.tabs.filter((tab) => tab.id !== toRemove);
 
     if (evt) {
       evt.preventDefault();
@@ -397,7 +397,7 @@ export class AttivitaComponent {
       );
 
     const result = await modalRef.result;
-    this.addTab(result.idCommessaPadre, result.codiceCommessa);
+    this.addTab(result.idCommessa, result.codiceCommessa);
     this.refresh$.next();
   }
 
@@ -412,13 +412,13 @@ export class AttivitaComponent {
           scrollable: true
         }
       );
-    modalRef.componentInstance.idCommessaPadre = commessa.id;
+    modalRef.componentInstance.idCommessa = commessa.id;
 
     await modalRef.result;
     this.refresh$.next();
   }
 
-  async delete(commessa: CommessaSearchDto) {
+  async deleteCommessaInterna(commessa: CommessaSearchDto) {
 
     const modalRef = this.modalService
       .open(
@@ -430,14 +430,51 @@ export class AttivitaComponent {
         }
       );
     modalRef.componentInstance.name = commessa.codiceCommessa;
+    modalRef.componentInstance.message = "Stai eliminando definitivamente una commessa interna."
 
     await modalRef.result;
+
     this.commessaService
-      .deleteCommessa(commessa.id)
+      .deleteCommessaInterna$(commessa.id)
       .subscribe(
         () => {
 
-          const txt = "Commessa eliminata con successo!";
+          const txt = "Commessa interna eliminata con successo!";
+          this.toaster.show(txt, { classname: 'bg-success text-white' });
+
+          this.closeTab(commessa.id);
+
+          this.refresh$.next();
+        },
+        (ex) => {
+          this.toaster.show(ex.error, { classname: 'bg-danger text-white' });
+        }
+      );
+  }
+
+  async cancelOpportunita(commessa: CommessaSearchDto) {
+
+    const modalRef = this.modalService
+      .open(
+        EliminazioneDialog,
+        {
+          size: 'md',
+          centered: true,
+          scrollable: true
+        }
+      );
+    modalRef.componentInstance.name = commessa.codiceCommessa;
+    modalRef.componentInstance.reversible = true;
+    modalRef.componentInstance.message = "Stai disabilitando un'opportunità, potrai ripristinarla in qualunque momento."
+
+    await modalRef.result;
+
+    this.commessaService
+      .cancelOpportunita$(commessa.id)
+      .subscribe(
+        () => {
+
+          const txt = "Opportunità disabilitata con successo!";
           this.toaster.show(txt, { classname: 'bg-success text-white' });
 
           this.closeTab(commessa.id);
@@ -452,10 +489,10 @@ export class AttivitaComponent {
 
   restore(commessa: CommessaSearchDto) {
     this.commessaService
-      .restoreCommessa(commessa.id)
+      .restoreOpportunita(commessa.id)
       .subscribe(
         () => {
-          const txt = "Commessa rirpistinata con successo!";
+          const txt = "Opportunità ripristinata con successo!";
           this.toaster.show(txt, { classname: 'bg-success text-white' });
           this.refresh$.next();
         },
