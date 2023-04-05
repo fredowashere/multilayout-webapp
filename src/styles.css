@@ -213,6 +213,59 @@ th[sortable].desc::before {
   box-shadow: 0 10px 16px 0 #0004;
 }
 
+/* Callout */
+.app-callout {
+  border: 1px solid rgba(var(--app-gray_100), 1);
+  border-left-width: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.app-callout--with-spacing {
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.app-callout--blue {
+  border-left-color: rgba(var(--app-blue_100), 1);
+}
+
+.app-callout--indigo {
+  border-left-color: rgba(var(--app-indigo_500), 1);
+}
+
+.app-callout--purple {
+  border-left-color: rgba(var(--app-purple_500), 1);
+}
+
+.app-callout--pink {
+  border-left-color: rgba(var(--app-pink_500), 1);
+}
+
+.app-callout--red {
+  border-left-color: rgba(var(--app-red_500), 1);
+}
+
+.app-callout--orange {
+  border-left-color: rgba(var(--app-orange_500), 1);
+}
+
+.app-callout--yellow {
+  border-left-color: rgba(var(--app-yellow_500), 1);
+}
+
+.app-callout--green {
+  border-left-color: rgba(var(--app-green_500), 1);
+}
+
+.app-callout--teal {
+  border-left-color: rgba(var(--app-teal_500), 1);
+}
+
+.app-callout--cyan {
+  border-left-color: rgba(var(--app-cyan_500), 1);
+}
+
 /* Utilities */
 .lh-0 {
   line-height: 0 !important;

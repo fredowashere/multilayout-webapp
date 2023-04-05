@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest } from 'rxjs';
 import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
-import { AttivitaCreazioneModifica } from '../../dialogs/attivita-creazione-modifica/attivita-creazione-modifica.component';
+import { CommessaCreazioneModifica } from '../../dialogs/commessa-creazione-modifica/commessa-creazione-modifica.component';
 import { CommessaDto } from '../../models/commessa';
 import { Offerta } from '../../models/offerta';
 import { CommessaService } from '../../services/commessa.service';
@@ -72,7 +72,7 @@ export class AttivitaNavigationComponent {
 
 		const modalRef = this.modalService
 		  .open(
-			AttivitaCreazioneModifica,
+			CommessaCreazioneModifica,
 			{
 			  size: 'lg',
 			  centered: true,

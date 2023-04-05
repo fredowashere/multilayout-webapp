@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { delayedScrollTo } from 'src/app/utils/dom';
+import { SottocommessaCreazioneModifica } from '../../dialogs/sottocommessa-creazione-modifica/sottocommessa-creazione-modifica.component';
 import { CommessaDto } from '../../models/commessa';
 import { SottocommessaService } from '../../services/sottocommessa.service';
 
@@ -23,7 +25,8 @@ export class SottocommesseComponent {
   sottocommesse: CommessaDto[] = [];
 
   constructor(
-    private sottocommessaService: SottocommessaService
+    private sottocommessaService: SottocommessaService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -71,9 +74,73 @@ export class SottocommesseComponent {
     }
 	}
 
-  create() {}
+  async create() {
 
-  update(item?: any) {}
+    const modalRef = this.modalService
+      .open(
+        SottocommessaCreazioneModifica,
+        {
+          size: 'lg',
+          centered: true,
+          scrollable: true
+        }
+      );
+    modalRef.componentInstance.idCommessa = this.idCommessa;
 
-  delete(item: any) {}
+    const result = await modalRef.result;
+    this.addTab(result.idSottocommessa, result.codiceCommessa);
+    // this.refresh$.next();
+  }
+
+  async update(sottocommessa: CommessaDto) {
+
+    const modalRef = this.modalService
+      .open(
+        SottocommessaCreazioneModifica,
+        {
+          size: 'lg',
+          centered: true,
+          scrollable: true
+        }
+      );
+    modalRef.componentInstance.idCommessa = this.idCommessa;
+    modalRef.componentInstance.idSottocommessa = sottocommessa.id;
+
+    await modalRef.result;
+    // this.refresh$.next();
+  }
+
+  async delete(sottocommessa: CommessaDto) {
+
+    // const modalRef = this.modalService
+    //   .open(
+    //     EliminazioneDialog,
+    //     {
+    //       size: 'md',
+    //       centered: true,
+    //       scrollable: true
+    //     }
+    //   );
+    // modalRef.componentInstance.name = commessa.codiceCommessa;
+    // modalRef.componentInstance.message = "Stai eliminando definitivamente una commessa interna."
+
+    // await modalRef.result;
+
+    // this.commessaService
+    //   .deleteCommessaInterna$(commessa.id)
+    //   .subscribe(
+    //     () => {
+
+    //       const txt = "Commessa interna eliminata con successo!";
+    //       this.toaster.show(txt, { classname: 'bg-success text-white' });
+
+    //       this.closeTab(commessa.id);
+
+    //       this.refresh$.next();
+    //     },
+    //     (ex) => {
+    //       this.toaster.show(ex.error, { classname: 'bg-danger text-white' });
+    //     }
+    //   );
+  }
 }

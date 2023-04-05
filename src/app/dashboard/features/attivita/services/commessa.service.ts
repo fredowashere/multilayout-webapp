@@ -23,6 +23,11 @@ export class CommessaService {
     private http: HttpClient
   ) { }
 
+  checkAziendaPropria$(idCliente: number) { 
+    const url = `${environment.scaiRoot}/commonservices/terzaparte/checkAziendaPropria?idAzienda=${this.authService.user.idAzienda}&idCliente=${idCliente}`;
+    return this.http.get<boolean>(url);
+  }
+
   getAllCommesse$(input?: GetAllCommesseParam) {
     input = input || {};
     const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/all-padre/id-azienda/${this.authService.user.idAzienda}`;

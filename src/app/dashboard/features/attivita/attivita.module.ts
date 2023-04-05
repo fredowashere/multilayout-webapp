@@ -14,8 +14,9 @@ import { FattureComponent } from './components/fatture/fatture.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
 import { AttivitaNavigationComponent } from './components/attivita-navigation/attivita-navigation.component';
-import { AttivitaCreazioneModifica } from './dialogs/attivita-creazione-modifica/attivita-creazione-modifica.component';
-import { OpportunitaCreazioneModifica } from './dialogs/opportunita-creazione-modifica/opportunita-creazione-modifica.component';
+import { CommessaCreazioneModifica } from './dialogs/commessa-creazione-modifica/commessa-creazione-modifica.component';
+import { EventoCreazioneModifica } from './dialogs/evento-creazione-modifica/evento-creazione-modifica.component';
+import { SottocommessaCreazioneModifica } from './dialogs/sottocommessa-creazione-modifica/sottocommessa-creazione-modifica.component';
 
 
 const routes: Routes = [
@@ -35,9 +36,10 @@ const routes: Routes = [
     OrdiniComponent,
     FattureComponent,
     EliminazioneDialog,
-    AttivitaCreazioneModifica,
+    CommessaCreazioneModifica,
     AttivitaNavigationComponent,
-    OpportunitaCreazioneModifica
+    EventoCreazioneModifica,
+    SottocommessaCreazioneModifica
   ],
   imports: [
     CommonModule,

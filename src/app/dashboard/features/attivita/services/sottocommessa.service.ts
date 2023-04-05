@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CommessaDto } from '../models/commessa';
+import { TipoFatturazione } from '../models/fatturazione';
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,7 @@ export class SottocommessaService {
         return this.http.get<CommessaDto>(url);
     }
 
-    getIniziativa$(
+    getIniziative$(
         clienteDiretto: number,
         clienteFinale: number,
         idBm: number
@@ -38,6 +39,11 @@ export class SottocommessaService {
             terzaParteFinale: clienteFinale,
             idBusinessManager: idBm
         });
+    }
+
+    getTipiFatturazione$() {
+        const url = `${environment.scaiRoot}/scaiportal-common-services/commonservices/tipofatturazione/list`;
+        return this.http.get<TipoFatturazione[]>(url);
     }
 
     createSottocommessa$(sottocomessa: CommessaDto) {

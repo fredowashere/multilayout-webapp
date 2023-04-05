@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { combineLatest, startWith } from "rxjs";
+import { startWith } from "rxjs";
 import { Dettaglio, UtentiAnagrafica } from "src/app/api/stato-avanzamento/models";
 import { ToastService } from "src/app/services/toast.service";
 import { InputComponent } from "src/app/shared/components/input/input.component";
@@ -12,16 +12,11 @@ import { CommessaService } from "../../services/commessa.service";
 import { MiscDataService } from "../../services/miscData.service";
 
 @Component({
-	selector: 'app-attivita-creazione-modifica-dialog',
-	templateUrl: './attivita-creazione-modifica.component.html',
-    styleUrls: ['./attivita-creazione-modifica.component.css']
+	selector: 'app-commessa-creazione-modifica-dialog',
+	templateUrl: './commessa-creazione-modifica.component.html',
+    styleUrls: ['./commessa-creazione-modifica.component.css']
 })
-export class AttivitaCreazioneModifica {
-
-    @ViewChild("clienteDirettoInput") clienteDirettoInput!: InputComponent;
-    @ViewChild("clienteFinaleInput") clienteFinaleInput!: InputComponent;
-    @ViewChild("pmInput") pmInput!: InputComponent;
-    @ViewChild("bmInput") bmInput!: InputComponent;
+export class CommessaCreazioneModifica {
 
     @Input("idCommessa") idCommessa!: number;
 
@@ -101,12 +96,12 @@ export class AttivitaCreazioneModifica {
                 .getCommessaById(this.idCommessa)
                 .subscribe(commessa => {
                     this.commessa = commessa;
-                    this.initializeAutocompleteValues();
+                    this.initCtrlValues();
                     this.isLoading = false;
                 });
         }
         else {
-            this.initializeAutocompleteValues();
+            this.initCtrlValues();
         }
 
         this.form = new FormGroup({
@@ -141,7 +136,7 @@ export class AttivitaCreazioneModifica {
             });
     }
 
-    initializeAutocompleteValues() {
+    initCtrlValues() {
 
         this.pmList = this.miscDataService.pmList;
         this.bmList = this.miscDataService.bmList;

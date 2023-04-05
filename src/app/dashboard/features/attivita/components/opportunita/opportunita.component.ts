@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { startWith, Subject } from 'rxjs';
-import { OpportunitaCreazioneModifica } from '../../dialogs/opportunita-creazione-modifica/opportunita-creazione-modifica.component';
+import { EventoCreazioneModifica } from '../../dialogs/evento-creazione-modifica/evento-creazione-modifica.component';
 import { EventoDto } from '../../models/opportunita';
 import { OpportunitaService } from '../../services/opportunita.service';
 
@@ -38,7 +38,7 @@ export class OpportunitaComponent {
 
     const modalRef = this.modalService
       .open(
-        OpportunitaCreazioneModifica,
+        EventoCreazioneModifica,
         {
           size: 'lg',
           centered: true,
@@ -55,7 +55,7 @@ export class OpportunitaComponent {
 
     const modalRef = this.modalService
       .open(
-        OpportunitaCreazioneModifica,
+        EventoCreazioneModifica,
         {
           size: 'lg',
           centered: true,

@@ -8,7 +8,7 @@ import { InputComponent } from 'src/app/shared/components/input/input.component'
 import { delayedScrollTo } from 'src/app/utils/dom';
 import { jsonCopy } from 'src/app/utils/json';
 import { StatoAvanzamentoWrapService } from '../stato-avanzamento/services/stato-avanzamento-wrap.service';
-import { AttivitaCreazioneModifica } from './dialogs/attivita-creazione-modifica/attivita-creazione-modifica.component';
+import { CommessaCreazioneModifica } from './dialogs/commessa-creazione-modifica/commessa-creazione-modifica.component';
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
 import { Commessa, CommessaSearchDto } from './models/commessa';
 import { CommessaService } from './services/commessa.service';
@@ -388,7 +388,7 @@ export class AttivitaComponent {
 
     const modalRef = this.modalService
       .open(
-        AttivitaCreazioneModifica,
+        CommessaCreazioneModifica,
         {
           size: 'lg',
           centered: true,
@@ -405,7 +405,7 @@ export class AttivitaComponent {
 
     const modalRef = this.modalService
       .open(
-        AttivitaCreazioneModifica,
+        CommessaCreazioneModifica,
         {
           size: 'lg',
           centered: true,

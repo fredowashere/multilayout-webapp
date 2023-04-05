@@ -7,11 +7,11 @@ import { EventoDto } from "../../models/opportunita";
 import { OpportunitaService } from "../../services/opportunita.service";
 
 @Component({
-	selector: 'app-opportunita-creazione-modifica-dialog',
-	templateUrl: './opportunita-creazione-modifica.component.html',
-    styleUrls: ['./opportunita-creazione-modifica.component.css']
+	selector: 'app-evento-creazione-modifica-dialog',
+	templateUrl: './evento-creazione-modifica.component.html',
+    styleUrls: ['./evento-creazione-modifica.component.css']
 })
-export class OpportunitaCreazioneModifica {
+export class EventoCreazioneModifica {
 
     @Input("idCommessa") idCommessa!: number;
     @Input("evento") evento!: EventoDto;
