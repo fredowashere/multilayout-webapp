@@ -112,7 +112,7 @@ export class SottocommessaCreazioneModifica {
                 .subscribe(async commessa => {
                     this.commessa = commessa;
                     await this.initArrays();
-                    this.initCtrlValues();
+                    this.initCreationCtrlValues();
                     this.isLoading = false;
                 });
         }
@@ -183,6 +183,13 @@ export class SottocommessaCreazioneModifica {
         this.commesse = await lastValueFrom(
             this.commessaService.getCommesseAutocomplete$()
         );
+    }
+
+    initCreationCtrlValues() {
+
+        if (!this.commessa) return;
+
+        this.codiceSottocommessaCtrl.setValue(this.commessa.codiceCommessa);
     }
 
     initCtrlValues() {
