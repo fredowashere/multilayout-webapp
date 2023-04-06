@@ -87,6 +87,7 @@
                     [id]="'sottocommessa-' + tab.id"
                     [idCommessa]="idCommessa"
                     [idSottocommessa]="tab.id"
+                    (sottocommessaUpdate)="refresh$.next()"
                 ></app-tasks>
 
             </ng-template>

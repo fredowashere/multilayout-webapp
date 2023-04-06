@@ -282,10 +282,13 @@
                             <span class="btn-close ms-2 fw-light" (click)="closeTab(tab.id, $event)"></span>
                         </a>
                         <ng-template ngbNavContent>
+
                             <app-attivita-navigation
                                 [id]="'commessa-' + tab.id"
                                 [idCommessa]="tab.id"
+                                (commessaUpdate)="refresh$.next()"
                             ></app-attivita-navigation>
+
                         </ng-template>
                     </li>
                 </ul>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest } from 'rxjs';
 import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
@@ -18,6 +18,7 @@ import { MiscDataService } from '../../services/miscData.service';
 export class AttivitaNavigationComponent {
 
   	@Input("idCommessa") idCommessa!: number;
+	@Output("commessaUpdate") commessaUpdateEmitter = new EventEmitter<CommessaDto>();
 	commessa?: CommessaDto;
 
   	activeTabId?: number;
@@ -94,6 +95,8 @@ export class AttivitaNavigationComponent {
 
 				this.pm = this.miscDataService.idUtenteUtente[commessa?.idProjectManager];
 				this.bm = this.miscDataService.idUtenteUtente[commessa?.idBusinessManager];
+
+				this.commessaUpdateEmitter.emit(commessa);
 			});
 	}
 

@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { delayedScrollTo } from 'src/app/utils/dom';
+import { SottocommessaCreazioneModifica } from '../../dialogs/sottocommessa-creazione-modifica/sottocommessa-creazione-modifica.component';
 import { CommessaDto } from '../../models/commessa';
 import { TaskDto } from '../../models/task';
 import { MiscDataService } from '../../services/miscData.service';
@@ -21,13 +23,10 @@ export class TasksComponent {
 
   @Input("idCommessa") idCommessa!: number;
   @Input("idSottocommessa") idSottocommessa!: number;
+  @Output("sottocommessaUpdate") sottocommessaUpdateEmitter = new EventEmitter<CommessaDto>();
   sottocommessa?: CommessaDto;
 
-  clienteDiretto?: Dettaglio;
-	clienteFinale?: Dettaglio;
-
 	pm?: UtentiAnagrafica;
-	bm?: UtentiAnagrafica;
 
   activeTabId!: number;
   tabs: Tab[] = [];
@@ -37,7 +36,8 @@ export class TasksComponent {
   constructor(
     private sottocommessaService: SottocommessaService,
     private miscDataService: MiscDataService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -45,14 +45,8 @@ export class TasksComponent {
     this.sottocommessaService
       .getSottocommessaById$(this.idSottocommessa)
       .subscribe(sottocommessa => {
-
         this.sottocommessa = sottocommessa;
-
-        this.clienteDiretto = this.miscDataService.idClienteCliente[sottocommessa?.idCliente];
-        this.clienteFinale = this.miscDataService.idClienteCliente[sottocommessa?.idClienteFinale];
-        
         this.pm = this.miscDataService.idUtenteUtente[sottocommessa?.idProjectManager];
-        this.bm = this.miscDataService.idUtenteUtente[sottocommessa?.idBusinessManager];
       });
 
     this.taskService
@@ -96,6 +90,33 @@ export class TasksComponent {
       evt.preventDefault();
       evt.stopImmediatePropagation();
     }
+	}
+
+  async updateSottocommessa() {
+
+		const modalRef = this.modalService
+		  .open(
+        SottocommessaCreazioneModifica,
+        {
+          size: 'lg',
+          centered: true,
+          scrollable: true
+        }
+		  );
+		modalRef.componentInstance.idCommessa = this.idCommessa;
+		modalRef.componentInstance.idSottocommessa = this.idSottocommessa;
+	
+		await modalRef.result;
+
+		this.sottocommessaService
+			.getSottocommessaById$(this.idSottocommessa)
+			.subscribe(sottocommessa => {
+
+				this.sottocommessa = sottocommessa;
+        this.pm = this.miscDataService.idUtenteUtente[sottocommessa?.idProjectManager];
+
+        this.sottocommessaUpdateEmitter.emit(sottocommessa);
+			});
 	}
 
   create() {}

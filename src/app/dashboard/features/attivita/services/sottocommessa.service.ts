@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CommessaDto } from '../models/commessa';
+import { CommessaDto, CreateSottocommessaParam } from '../models/commessa';
 import { TipoFatturazione } from '../models/fatturazione';
 
 @Injectable({
@@ -21,6 +22,11 @@ export class SottocommessaService {
     getSottocommesseByIdCommessa$(idCommessa: number) {
         const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/by-padre/id/${idCommessa}`;
         return this.http.get<CommessaDto[]>(url)
+            .pipe(
+                map(sottocommesse =>
+                    sottocommesse.reverse()
+                )
+            )
     }
 
     getSottocommessaById$(idSottocommessa: number) {
@@ -46,9 +52,9 @@ export class SottocommessaService {
         return this.http.get<TipoFatturazione[]>(url);
     }
 
-    createSottocommessa$(sottocomessa: CommessaDto) {
+    createSottocommessa$(input: CreateSottocommessaParam) {
         const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/save`;
-        return this.http.post<number>(url, sottocomessa);
+        return this.http.post<number>(url, input);
     }
 
     updateSottocommessa$(idSottocommessa: number, sottocommessa: CommessaDto) {

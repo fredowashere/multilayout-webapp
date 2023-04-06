@@ -5,7 +5,7 @@ import { combineLatest, lastValueFrom } from "rxjs";
 import { ToastService } from "src/app/services/toast.service";
 import { jsonCopy } from "src/app/utils/json";
 import { euroMask, euroMask2numStr, numStr2euroMask } from "src/app/utils/mask";
-import { Commessa, CommessaDto, SimpleDto } from "../../models/commessa";
+import { Commessa, CommessaDto, CreateSottocommessaParam, SimpleDto } from "../../models/commessa";
 import { DIALOG_MODE } from "../../models/dialog";
 import { TipoFatturazione } from "../../models/fatturazione";
 import { CommessaService } from "../../services/commessa.service";
@@ -58,6 +58,9 @@ export class SottocommessaCreazioneModifica {
     commesseFormatter = (sc: Commessa) => sc?.codice + ' ' + sc?.descrizione;
     commesseFilter = (term: string, sc: Commessa) =>
         (sc?.codice + ' ' + sc?.descrizione).toLowerCase().includes(term.toLowerCase());
+
+    dataInizioCtrl = new FormControl();
+    dataFineCtrl = new FormControl();
 
     euroMask = euroMask;
     get importo() {
@@ -211,6 +214,9 @@ export class SottocommessaCreazioneModifica {
             );
             this.commessaFatturazioneCtrl.setValue(commessaFatturazione as Commessa);
 
+            this.dataInizioCtrl.setValue(this.sottocommessa.dataInizio);
+            this.dataFineCtrl.setValue(this.sottocommessa.dataFine);
+
             this.importo = this.sottocommessa.importo;
 
             this.trasfertaRibaltabileClienteCtrl.setValue(this.sottocommessa.ribaltabileCliente);
@@ -226,39 +232,41 @@ export class SottocommessaCreazioneModifica {
 
     create() {
 
-        // const createObj: CreateCommessaParam = {
-        //     idCliente: this.idClienteDiretto as number,
-        //     idClienteFinale: this.idClienteFinale as number,
-        //     idProjectManager: this.idPm as number,
-        //     idBusinessManager: this.idBm as number,
-        //     idTipoAttivita: this.tipoAttivitaCtrl.value as number,
-        //     dataDecorrenza: this.dataDecorrenzaCtrl.value,
-        //     protocollo: this.codiceCommessaCtrl.value as string,
-        //     descrizione: this.descrizioneCtrl.value as string,
-        //     tag: this.tagCtrl.value,
-        // };
+        if (this.form.invalid) return;
+
+        const createObj: CreateSottocommessaParam = {
+            idCommessaPadre: this.idCommessa,
+            codiceCommessa: this.codiceSottocommessaCtrl.value as string,
+            descrizione: this.descrizioneCtrl.value as string,
+            iniziativa: this.iniziativaCtrl.value as string,
+            tipoFatturazione: this.tipoFatturazione,
+            dataInizio: this.dataInizioCtrl.value,
+            dataFine: this.dataInizioCtrl.value,
+            importo: +this.importo, // Dunno why on update is a string and in create is a number...
+            ribaltabileCliente: !!this.trasfertaRibaltabileClienteCtrl.value
+        };
         
-        // this.commessaService
-        //     .createCommessa$(createObj)
-        //     .subscribe(
-        //         (result) => {
+        this.sottocommessaService
+            .createSottocommessa$(createObj)
+            .subscribe(
+                (idSottocommessa) => {
 
-        //             const txt = "Commessa creata con successo!";
-        //             this.toaster.show(txt, { classname: 'bg-success text-white' });
+                    const txt = "Sottocommessa creata con successo!";
+                    this.toaster.show(txt, { classname: 'bg-success text-white' });
 
-        //             // Close the modal with the id from the result to open the tab automatically
-        //             this.activeModal
-        //                 .close({
-        //                     dialogMode: this.dialogMode,
-        //                     idCommessa: result.id,
-        //                     codiceCommessa: result.protocollo
-        //                 });
-        //         },
-        //         () => {
-        //             const txt = "Non è stato possibile creare la commessa. Contattare il supporto tecnico.";
-        //             this.toaster.show(txt, { classname: 'bg-danger text-white' });
-        //         }
-        //     );
+                    // Close the modal with the id from the result to open the tab automatically
+                    this.activeModal
+                        .close({
+                            dialogMode: this.dialogMode,
+                            idSottocommessa,
+                            codiceSottocommessa: this.codiceSottocommessaCtrl.value as string
+                        });
+                },
+                () => {
+                    const txt = "Non è stato possibile creare la Sottocommessa. Contattare il supporto tecnico.";
+                    this.toaster.show(txt, { classname: 'bg-danger text-white' });
+                }
+            );
     }
 
     update() {
@@ -266,13 +274,15 @@ export class SottocommessaCreazioneModifica {
         if (!this.sottocommessa || this.form.invalid) return;
 
         const copyOfSottocommessa: CommessaDto = jsonCopy(this.sottocommessa);
-
+        
         copyOfSottocommessa.codiceCommessa = this.codiceSottocommessaCtrl.value as string;
         copyOfSottocommessa.descrizione = this.descrizioneCtrl.value as string;
         copyOfSottocommessa.iniziativa = this.iniziativaCtrl.value as string;
         copyOfSottocommessa.tipoFatturazione = this.tipoFatturazione;
         copyOfSottocommessa.idCommessaCollegata = this.idCommessaRendicontazione;
         copyOfSottocommessa.idCommessaFatturazione = this.idCommessaFatturazione;
+        copyOfSottocommessa.dataInizio = this.dataInizioCtrl.value;
+        copyOfSottocommessa.dataFine = this.dataFineCtrl.value;
         copyOfSottocommessa.importo = this.importo;
         copyOfSottocommessa.ribaltabileCliente = !!this.trasfertaRibaltabileClienteCtrl.value;
 
@@ -285,7 +295,10 @@ export class SottocommessaCreazioneModifica {
                 () => {
                     const txt = "Sottocommessa modificata con successo!";
                     this.toaster.show(txt, { classname: 'bg-success text-white' });
-                    this.activeModal.close({ dialogMode: this.dialogMode, item: this.sottocommessa });
+                    this.activeModal.close({
+                        dialogMode: this.dialogMode,
+                        item: copyOfSottocommessa
+                    });
                 },
                 () => {
                     const txt = "Non è stato possibile modificare la Sottocommessa. Contattare il supporto tecnico.";
