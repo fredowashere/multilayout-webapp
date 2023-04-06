@@ -130,6 +130,83 @@ export class AttivitaComponent {
 
     this.initializeAutocompleteValues();
 
+    this.attachAutocompleteListeners();
+    
+    let init = false;
+    merge(this.searchClick$, this.refresh$)
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.isLoading = true),
+        switchMap(() =>
+          this.commessaService
+            .getAllCommesse$({
+              idCliente: this.idClienteDiretto,
+              idClienteFinale: this.idClienteFinale,
+              codiceCommessa: this.codiceCommessa,
+              idProjectManager: this.idPm,
+              idBusinessManager: this.idBm,
+              idFase: this.tipoAttivita as number,
+              valido: this.statoCtrl.value as string,
+              dataInizio: this.dataInizio,
+              dataFine: this.dataFine
+            })
+        ),
+        tap(commesseResults => {
+          this.isLoading = false;
+          this.commesseResults = commesseResults;
+
+          if (!init) {
+            delayedScrollTo("#tabella-commesse");
+            init = true;
+          }
+        })
+      )
+      .subscribe();
+
+    // When adding a new commessa
+    this.refresh$
+      .subscribe(() =>
+        this.initializeAutocompleteValues(false, true, false) // only refresh commesse
+      );
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+  }
+
+  initializeAutocompleteValues(
+    refreshUtenti = true,
+    refreshCommesse = true,
+    refreshClienti = true
+  ) {
+
+    if (refreshUtenti) {
+
+      this.statoAvanzamentoWrap
+        .getUtenti$({ IsPm: true, IsBm: false })
+        .subscribe(pmList => this.pmList = pmList);
+
+      this.statoAvanzamentoWrap
+        .getUtenti$({ IsPm: false, IsBm: true })
+        .subscribe(bmList => this.bmList = bmList);
+    }
+
+    if (refreshCommesse)
+      this.commessaService
+        .getCommesseAutocomplete$()
+        .subscribe(commesse => this.commesse = commesse);
+
+    if (refreshClienti)
+      this.statoAvanzamentoWrap
+        .getClienti$({ totali: true })
+        .subscribe(clienti => {
+          this.clientiDiretti = jsonCopy(clienti);
+          this.clientiFinali = jsonCopy(clienti);
+        });
+  }
+
+  attachAutocompleteListeners() {
+
     // Define of autocomplete handlers
     const onClienteSelect$ = () => combineLatest([
       this.statoAvanzamentoWrap
@@ -250,78 +327,6 @@ export class AttivitaComponent {
     this.bmCtrl.valueChanges
       .pipe(switchMap(() => onBmSelect$()))
       .subscribe();
-    
-    let init = false;
-    merge(this.searchClick$, this.refresh$)
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(() => this.isLoading = true),
-        switchMap(() =>
-          this.commessaService
-            .getAllCommesse$({
-              idCliente: this.idClienteDiretto,
-              idClienteFinale: this.idClienteFinale,
-              codiceCommessa: this.codiceCommessa,
-              idProjectManager: this.idPm,
-              idBusinessManager: this.idBm,
-              idFase: this.tipoAttivita as number,
-              valido: this.statoCtrl.value as string,
-              dataInizio: this.dataInizio,
-              dataFine: this.dataFine
-            })
-        ),
-        tap(commesseResults => {
-          this.isLoading = false;
-          this.commesseResults = commesseResults;
-
-          if (!init) {
-            delayedScrollTo("#tabella-commesse");
-            init = true;
-          }
-        })
-      )
-      .subscribe();
-
-    // When adding a new commessa
-    this.refresh$
-      .subscribe(() =>
-        this.initializeAutocompleteValues(false, true, false) // only refresh commesse
-      );
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-  }
-
-  initializeAutocompleteValues(
-    refreshUtenti = true,
-    refreshCommesse = true,
-    refreshClienti = true
-  ) {
-
-    if (refreshUtenti) {
-
-      this.statoAvanzamentoWrap
-        .getUtenti$({ IsPm: true, IsBm: false })
-        .subscribe(pmList => this.pmList = pmList);
-
-      this.statoAvanzamentoWrap
-        .getUtenti$({ IsPm: false, IsBm: true })
-        .subscribe(bmList => this.bmList = bmList);
-    }
-
-    if (refreshCommesse)
-      this.commessaService
-        .getCommesseAutocomplete$()
-        .subscribe(commesse => this.commesse = commesse);
-
-    if (refreshClienti)
-      this.statoAvanzamentoWrap
-        .getClienti$({ totali: true })
-        .subscribe(clienti => {
-          this.clientiDiretti = jsonCopy(clienti);
-          this.clientiFinali = jsonCopy(clienti);
-        });
   }
 
   resetControls() {
