@@ -168,7 +168,7 @@
                                 </td>
                                 <td class="no-text-break">{{ avanzamento.dataInizio }}</td>
                                 <td class="no-text-break">{{ avanzamento.dataFine }}</td>
-                                <td class="text-end">{{ 1 - avanzamento.percentualeRimanente | percent }}</td>
+                                <td class="text-end">{{ avanzamento.avanzamentoTotale | percent }}</td>
                             </ng-template>
 
                             <ng-template #rowExpand let-avanzamento>
