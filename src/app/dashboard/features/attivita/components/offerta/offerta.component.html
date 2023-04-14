@@ -1,1 +1,71 @@
-<p>offerta works!</p>
+<div class="col-md-8 mx-auto">
+
+    <h5 class="mb-4">Creazione/aggiornamento Offerta</h5>
+
+    <p>In questo componente puoi creare o aggiornare l'Offerta legata alla Commessa.<br>Una Commessa di tipo Opportunità necessita di un'Offerta con Data Accettazione valorizzata per permetterti di passare alle Sottocommesse.</p>
+
+    <fieldset class="flexgrid flexgrid--2" [disabled]="!offerta">
+
+        <app-input
+            type="select"
+            name="tipologia"
+            label="Tipologia"
+            [ngControl]="tipologiaCtrl"
+            [options]="tipologie"
+            [floatingLabel]="true"
+            [disabled]="!!offerta?.idTipoOfferta"
+        ></app-input>
+
+        <app-input
+            type="date"
+            name="dataOfferta"
+            label="Data offerta *"
+            [ngControl]="dataOffertaCtrl"
+            [floatingLabel]="true"
+            [disabled]="!!offerta?.dataOfferta"
+        ></app-input>
+
+        <app-input
+            type="date"
+            name="dataAccettazione"
+            label="Data accettazione"
+            [ngControl]="dataAccettazioneCtrl"
+            [floatingLabel]="true"
+        ></app-input>
+
+        <app-input
+            name="nrOrdine"
+            label="Nr. ordine"
+            [ngControl]="nrOrdineCtrl"
+            [floatingLabel]="true"
+        ></app-input>
+
+        <app-input
+            name="codDocumento"
+            label="Codice documento"
+            [ngControl]="codDocumentoCtrl"
+            [floatingLabel]="true"
+            [disabled]="true"
+        ></app-input>
+
+        <app-input
+            name="codIdentificativo"
+            label="Codice identificativo"
+            [ngControl]="codIdentificativoCtrl"
+            [floatingLabel]="true"
+            [disabled]="true"
+        ></app-input>
+    </fieldset>
+
+    <div class="text-center my-4">
+
+        <button
+            class="btn btn-primary btn-lg shadow"
+            [disabled]="!offerta || !dataOffertaCtrl.value"
+            (click)="upsert()"
+        >
+            Salva
+            <i class="bi bi-save ps-2"></i>
+        </button>
+    </div>
+</div>

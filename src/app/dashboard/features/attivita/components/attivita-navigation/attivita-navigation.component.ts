@@ -1,8 +1,14 @@
-import { Component, Input } from '@angular/core';
-import { CommessaSearchDto } from '../../models/commessa';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { combineLatest } from 'rxjs';
+import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
+import { CommessaCreazioneModifica } from '../../dialogs/commessa-creazione-modifica/commessa-creazione-modifica.component';
+import { CommessaDto } from '../../models/commessa';
 import { Offerta } from '../../models/offerta';
+import { CommessaService } from '../../services/commessa.service';
 import { OffertaService } from '../../services/offerta.service';
 import { SottocommessaService } from '../../services/sottocommessa.service';
+import { MiscDataService } from '../../services/miscData.service';
 
 @Component({
   selector: 'app-attivita-navigation',
@@ -11,44 +17,98 @@ import { SottocommessaService } from '../../services/sottocommessa.service';
 })
 export class AttivitaNavigationComponent {
 
-  	@Input("commessa") commessa!: CommessaSearchDto;
+  	@Input("idCommessa") idCommessa!: number;
+	@Output("commessaUpdate") commessaUpdateEmitter = new EventEmitter<CommessaDto>();
+	commessa?: CommessaDto;
 
-  	activeTabId: number = -1;
-	offerta: Offerta | undefined = undefined;
+  	activeTabId?: number;
+	offerta?: Offerta;
 	hasSottocommesse = false;
 
+	clienteDiretto?: Dettaglio;
+	clienteFinale?: Dettaglio;
+
+	pm?: UtentiAnagrafica;
+	bm?: UtentiAnagrafica;
+
 	constructor(
+		private miscDataService: MiscDataService,
+		private commessaService: CommessaService,
 		private offertaService: OffertaService,
-		private sottocommessaService: SottocommessaService
+		private sottocommessaService: SottocommessaService,
+		private modalService: NgbModal
 	) { }
 
 	ngOnInit() {
 
-		this.offertaService
-			.getOffertaByIdCommessaPadre$(this.commessa.id)
-			.subscribe(offerta => {
+		combineLatest([
+			this.commessaService.getCommessaById(this.idCommessa),
+			this.offertaService.getOffertaByIdCommessa$(this.idCommessa),
+			this.sottocommessaService.checkExistingSottocommesseByIdCommessa$(this.idCommessa)
+		])
+		.subscribe(([commessa, offerta, hasSottocommesse]) => {
 
-				if (this.commessa.tipoAttivita.id === 2)
-					this.activeTabId = 3;
-				else if (!offerta.dataAccettazione)
-					this.activeTabId = 2;
-				else
-					this.activeTabId = 3;
+			this.commessa = commessa;
+
+			this.clienteDiretto = this.miscDataService.idClienteCliente[commessa?.idCliente];
+			this.clienteFinale = this.miscDataService.idClienteCliente[commessa?.idClienteFinale];
+			
+			this.pm = this.miscDataService.idUtenteUtente[commessa?.idProjectManager];
+			this.bm = this.miscDataService.idUtenteUtente[commessa?.idBusinessManager];
+			
+			this.offerta = offerta;
+
+			this.hasSottocommesse = hasSottocommesse;
+
+			if (this.commessa.tipoAttivita.id === 2)
+				this.activeTabId = 3;
+			else if (!offerta.dataAccettazione)
+				this.activeTabId = 2;
+			else
+				this.activeTabId = 3;
+		});
+	}
+
+	async update() {
+
+		const modalRef = this.modalService
+		  .open(
+			CommessaCreazioneModifica,
+			{
+			  size: 'lg',
+			  centered: true,
+			  scrollable: true
+			}
+		  );
+		modalRef.componentInstance.idCommessa = this.idCommessa;
+	
+		await modalRef.result;
+
+		this.commessaService
+			.getCommessaById(this.idCommessa)
+			.subscribe(commessa => {
+
+				this.commessa = commessa;
+
+				this.clienteDiretto = this.miscDataService.idClienteCliente[commessa?.idCliente];
+				this.clienteFinale = this.miscDataService.idClienteCliente[commessa?.idClienteFinale];
+
+				this.pm = this.miscDataService.idUtenteUtente[commessa?.idProjectManager];
+				this.bm = this.miscDataService.idUtenteUtente[commessa?.idBusinessManager];
+
+				this.commessaUpdateEmitter.emit(commessa);
 			});
-
-		this.sottocommessaService
-			.checkExistingSottoCommesseByIdPadre$(this.commessa.id)
-			.subscribe(hasSottocommesse =>
-				this.hasSottocommesse = hasSottocommesse
-			);
 	}
 
-	sottocommesseEnabled() {
-		return this.commessa.tipoAttivita.id == 1 && !this.offerta?.dataAccettazione;
-	}
+	onOffertaUpsert(offerta: Offerta) {
 
-	forzatureEnabled() {
-		return !this.hasSottocommesse || !this.offerta?.dataAccettazione;
+		const prevDataAccettazione = this.offerta?.dataAccettazione;
+
+		this.offerta = offerta;
+
+		// If there was no data accettazione previously but now there is, then navigate to sottocommesse
+		if (!prevDataAccettazione && offerta.dataAccettazione)
+			setTimeout(() => this.activeTabId = 3, 200);
 	}
 
 }

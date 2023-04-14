@@ -1,3 +1,10 @@
+//  _____   _                                     _     _                       _           _   _                   _ _       _     _        _                   
+// |_   _| | |                                   (_)   | |                     | |         | | ( )                 | | |     | |   | |      | |                  
+//   | |   | |__   __ ___   _____   _ __   ___    _  __| | ___  __ _  __      _| |__   __ _| |_|/ ___   _ __  _   _| | | __ _| |__ | | ___  | |__   ___ _ __ ___ 
+//   | |   | '_ \ / _` \ \ / / _ \ | '_ \ / _ \  | |/ _` |/ _ \/ _` | \ \ /\ / / '_ \ / _` | __| / __| | '_ \| | | | | |/ _` | '_ \| |/ _ \ | '_ \ / _ \ '__/ _ \
+//  _| |_  | | | | (_| |\ V /  __/ | | | | (_) | | | (_| |  __/ (_| |  \ V  V /| | | | (_| | |_  \__ \ | | | | |_| | | | (_| | |_) | |  __/ | | | |  __/ | |  __/
+//  \___/  |_| |_|\__,_| \_/ \___| |_| |_|\___/  |_|\__,_|\___|\__,_|   \_/\_/ |_| |_|\__,_|\__| |___/ |_| |_|\__,_|_|_|\__,_|_.__/|_|\___| |_| |_|\___|_|  \___|
+
 export interface GetAllCommesseParam {
     idCliente?: number;
     idClienteFinale?: number;
@@ -51,7 +58,7 @@ export interface CommessaSearchDto {
 	visibleRestore: boolean;
 }
 
-export interface CommessaDto{
+export interface CommessaDto {
     id: number;
     idCommessaPadre: number;
 	codiceCommessa: string;
@@ -75,8 +82,8 @@ export interface CommessaDto{
     stimaGiorniAFinire: number;
     tipoAttivita: SimpleDto;
     tipoFatturazione: SimpleDto;
-	idCommessaCollegata: number;
-	idCommessaFatturazione: number;
+	idCommessaCollegata?: number;
+	idCommessaFatturazione?: number;
     tag: string | null;
 }
 
@@ -118,4 +125,16 @@ export interface OpportunitaDto {
 	idAzienda: number;
 	idTipoAttivita: number;
 	protocollo: string;
+}
+
+export interface CreateSottocommessaParam {
+	idCommessaPadre: number;
+	codiceCommessa: string;
+	descrizione: string;
+	iniziativa: string | null;
+	tipoFatturazione: SimpleDto;
+	importo: number;
+	ribaltabileCliente: boolean;
+	dataInizio: string;
+	dataFine: string;
 }

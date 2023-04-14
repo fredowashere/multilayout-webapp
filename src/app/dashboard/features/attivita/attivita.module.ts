@@ -5,7 +5,7 @@ import { AttivitaComponent } from './attivita.component';
 import { OpportunitaComponent } from './components/opportunita/opportunita.component';
 import { OffertaComponent } from './components/offerta/offerta.component';
 import { SottocommesseComponent } from './components/sottocommesse/sottocommesse.component';
-import { TaskComponent } from './components/task/task.component';
+import { TasksComponent } from './components/tasks/tasks.component';
 import { RisorseComponent } from './components/risorse/risorse.component';
 import { CostiComponent } from './components/costi/costi.component';
 import { RicaviComponent } from './components/ricavi/ricavi.component';
@@ -14,7 +14,9 @@ import { FattureComponent } from './components/fatture/fatture.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
 import { AttivitaNavigationComponent } from './components/attivita-navigation/attivita-navigation.component';
-import { AttivitaCreazioneModifica } from './dialogs/attivita-creazione-modifica/attivita-creazione-modifica.component';
+import { CommessaCreazioneModifica } from './dialogs/commessa-creazione-modifica/commessa-creazione-modifica.component';
+import { EventoCreazioneModifica } from './dialogs/evento-creazione-modifica/evento-creazione-modifica.component';
+import { SottocommessaCreazioneModifica } from './dialogs/sottocommessa-creazione-modifica/sottocommessa-creazione-modifica.component';
 
 
 const routes: Routes = [
@@ -27,15 +29,17 @@ const routes: Routes = [
     OpportunitaComponent,
     OffertaComponent,
     SottocommesseComponent,
-    TaskComponent,
+    TasksComponent,
     RisorseComponent,
     CostiComponent,
     RicaviComponent,
     OrdiniComponent,
     FattureComponent,
     EliminazioneDialog,
-    AttivitaCreazioneModifica,
-    AttivitaNavigationComponent
+    CommessaCreazioneModifica,
+    AttivitaNavigationComponent,
+    EventoCreazioneModifica,
+    SottocommessaCreazioneModifica
   ],
   imports: [
     CommonModule,

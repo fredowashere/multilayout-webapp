@@ -1,0 +1,17 @@
+/*
+ * Be aware that these styles apply GLOBALLY and are NOT encapsulated
+ * Please prefix all styles down here with "ag-"
+*/
+
+.ag-parent-resume {
+    display: grid;
+    align-items: end;
+    padding: 1rem 1.75rem;
+}
+
+@media (min-width: 800px) {
+
+    .ag-parent-resume {
+        grid-template-columns: 1fr min-content;
+    }
+}

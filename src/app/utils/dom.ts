@@ -1,7 +1,13 @@
-export function delayedScrollTo(id: string, ms?: number) {
-    ms = ms || 50;
+export function delayedScrollTo(queryString: string, ms?: number) {
+    ms = ms || 150;
     setTimeout(
-        () => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }),
+        () =>
+            document.querySelector(queryString)
+                ?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'center'
+                }),
         ms
     );
 }

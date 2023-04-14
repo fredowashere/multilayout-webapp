@@ -8,7 +8,7 @@
     <div class="modal-header">
 
         <h4 class="modal-title" id="modal-title">
-            {{ dialogMode }}
+            {{ dialogMode }} commessa
         </h4>
 
         <button
@@ -25,11 +25,11 @@
                 <div class="flexgrid flexgrid--2">
 
                     <app-input
-                        #clienteDirettoInput
                         type="autocomplete"
                         name="cliente"
                         label="Cliente diretto *"
                         [options]="clientiDiretti"
+                        [limit]="25"
                         [formatter]="clienteFormatter"
                         [filter]="clienteFilter"
                         [ngControl]="clienteDirettoCtrl"
@@ -38,11 +38,11 @@
                     ></app-input>
 
                     <app-input
-                        #clienteFinaleInput
                         type="autocomplete"
                         name="clienteFinale"
                         label="Cliente finale *"
                         [options]="clientiFinali"
+                        [limit]="25"
                         [formatter]="clienteFormatter"
                         [filter]="clienteFilter"
                         [ngControl]="clienteFinaleCtrl"
@@ -50,7 +50,6 @@
                     ></app-input>
 
                     <app-input
-                        #pmInput
                         type="autocomplete"
                         name="projectManager"
                         label="Project manager *"
@@ -69,7 +68,6 @@
                     </ng-template>
 
                     <app-input
-                        #bmInput
                         type="autocomplete"
                         name="businessManager"
                         label="Business manager *"

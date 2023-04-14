@@ -293,7 +293,7 @@ export class StatoAvanzamentoComponent {
 
   updateResults(avanzamento: SottocommessaAvanzamento[]) {
 
-    const idPmSottocommessaAvanzamenti = avanzamento
+    const idPmAvanzamento = avanzamento
       .reduce(
         (a, b) => {
           a[b.referente.idUtente as number] = a[b.referente.idUtente as number] || [];
@@ -303,30 +303,32 @@ export class StatoAvanzamentoComponent {
         {} as { [key: number]: SottocommessaAvanzamento[] }
       );
 
-    const idPmList = Object.keys(idPmSottocommessaAvanzamenti) as unknown as number[];
+    const idPmList = Object.keys(idPmAvanzamento) as unknown as number[];
 
     // Clean tabs that are not present in the current view
     for (let i = this.tabs.length - 1; i > -1; i--) {
 
       const tab = this.tabs[i];
 
-      if (!idPmSottocommessaAvanzamenti[tab.id])
+      if (!idPmAvanzamento[tab.id])
         this.tabs.splice(i, 1);
     }
 
     // Create/update tabs
     for (const idPm of idPmList) {
 
-      const { referente: ref } = idPmSottocommessaAvanzamenti[idPm][0];
+      const { referente: ref } = idPmAvanzamento[idPm][0];
 
       this.addTab(
         idPm,
         ref.cognome + ' ' + ref.nome,
-        idPmSottocommessaAvanzamenti[idPm]
+        idPmAvanzamento[idPm]
       );
     }
 
-    this.activeTabId = this.tabs[0]?.id;
+    // If current tab doesn't exist anymore, then go back to first
+    if (!this.tabs.map(t => t.id).includes(this.activeTabId))
+      this.activeTabId = this.tabs[0]?.id;
   }
 
   addTab(

@@ -1,0 +1,63 @@
+
+<div class="modal-header">
+
+    <h4 class="modal-title" id="modal-title">
+        {{ dialogMode }} evento
+    </h4>
+
+    <button
+        type="button"
+        class="btn-close" 
+        (click)="activeModal.dismiss('Cross click')"
+    ></button>
+</div>
+
+<div class="modal-body">
+    <form class="flexgrid flexgrid--2">
+
+        <app-input
+            type="date"
+            name="data"
+            label="Data *"
+            [ngControl]="dataCtrl"
+            [floatingLabel]="true"
+        ></app-input>
+
+        <app-input
+            type="select"
+            name="tipoEvento"
+            label="Tipo evento"
+            [options]="tipiEvento"
+            [ngControl]="tipoEventoCtrl"
+            [floatingLabel]="true"
+        ></app-input>
+
+        <app-input
+            type="textarea"
+            name="descrizione"
+            label="Descrizione *"
+            [ngControl]="descrizioneCtrl"
+            [floatingLabel]="true"
+        ></app-input>
+    </form>
+</div>
+
+<div class="modal-footer">
+
+    <button
+        type="button"
+        class="btn btn-outline-secondary ms-auto"
+        (click)="activeModal.dismiss('Cancel')"
+    >
+        Cancella
+    </button>
+
+    <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="form.invalid"
+        (click)="save()"
+    >
+        Salva
+    </button>
+</div>

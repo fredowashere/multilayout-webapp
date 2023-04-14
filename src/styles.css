@@ -103,10 +103,6 @@ body {
   height: 40px;
 }
 
-.app-tall-dialog .modal-body {
-  min-height: 50vh;
-}
-
 .app-tabbable.nav-tabs {
   overflow-x: auto;
   overflow-y: hidden;
@@ -114,7 +110,13 @@ body {
 }
 
 .app-tabbable.nav-tabs .nav-link {
- white-space: nowrap;
+  white-space: nowrap;
+}
+
+.app-tabbable.nav-tabs .nav-link.active,
+.app-tabbable.nav-tabs .nav-item.show .nav-link {
+  color: rgba(var(--app-gray_1000), 1);
+  background-color: rgba(var(--app-gray_100), 1);
 }
 
 ngb-typeahead-window {
@@ -171,6 +173,29 @@ th[sortable].desc::before {
   max-width: 1600px;
 }
 
+.table-plus {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0 1rem;
+  align-items: center;
+  justify-items: center;
+}
+
+.table-plus__title {
+  margin-bottom: 0;
+}
+
+@media (min-width: 800px) {
+
+  .table-plus {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .table-plus__title {
+    justify-self: start;
+  }
+}
+
 /* Round button */
 .app-round-btn {
   box-shadow: 0 4px 8px 0 #0005;
@@ -186,6 +211,59 @@ th[sortable].desc::before {
 
 .app-round-btn:hover {
   box-shadow: 0 10px 16px 0 #0004;
+}
+
+/* Callout */
+.app-callout {
+  border: 1px solid rgba(var(--app-gray_100), 1);
+  border-left-width: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.app-callout--with-spacing {
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.app-callout--blue {
+  border-left-color: rgba(var(--app-blue_100), 1);
+}
+
+.app-callout--indigo {
+  border-left-color: rgba(var(--app-indigo_500), 1);
+}
+
+.app-callout--purple {
+  border-left-color: rgba(var(--app-purple_500), 1);
+}
+
+.app-callout--pink {
+  border-left-color: rgba(var(--app-pink_500), 1);
+}
+
+.app-callout--red {
+  border-left-color: rgba(var(--app-red_500), 1);
+}
+
+.app-callout--orange {
+  border-left-color: rgba(var(--app-orange_500), 1);
+}
+
+.app-callout--yellow {
+  border-left-color: rgba(var(--app-yellow_500), 1);
+}
+
+.app-callout--green {
+  border-left-color: rgba(var(--app-green_500), 1);
+}
+
+.app-callout--teal {
+  border-left-color: rgba(var(--app-teal_500), 1);
+}
+
+.app-callout--cyan {
+  border-left-color: rgba(var(--app-cyan_500), 1);
 }
 
 /* Utilities */
@@ -216,7 +294,7 @@ th[sortable].desc::before {
 .flexgrid {
   display: flex;
   flex-wrap: wrap;
-  margin: calc(-1 * var(--flexgrid-gap) / 2);
+  margin: 0 calc(-1 * var(--flexgrid-gap) / 2);
 }
 
 .flexgrid > * {
