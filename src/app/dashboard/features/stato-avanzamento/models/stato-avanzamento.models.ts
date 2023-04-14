@@ -173,7 +173,8 @@ export class SottocommessaAvanzamento {
                     return acc;
                 return acc + d.avanzamentoTotale;
             }, 0);
-
-        return Math.round((1 - percRimanente) * 100) / 100;
+        
+        const rounded = Math.round((1 - percRimanente) * 100) / 100;
+        return Math.max(0, Math.min(1, rounded));
     }
 }

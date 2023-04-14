@@ -3,7 +3,7 @@ export function enforceMinMax(
   opt?: { min?: number, max?: number }
 ) {
 
-  if (el.value == "") return;
+  if (el.value === "") return;
 
   let min = el.min;
   if (opt && "min" in opt) min = opt.min + "";

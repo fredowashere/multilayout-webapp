@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { catchError, combineLatest, filter, map, startWith, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
+import { catchError, combineLatest, filter, map, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
 import { Dettaglio, EnumStatiChiusura, GetSottoCommessePerReferenteResponse, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-avanzamento/services/stato-avanzamento-wrap.service';
 import { GetAvanzamentoParam, SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/dashboard/features/stato-avanzamento/models/stato-avanzamento.models';
@@ -406,10 +406,11 @@ export class StatoAvanzamentoComponent {
     avanzamento: SottocommessaAvanzamento,
     dettaglio: SottocommessaAvanzamentoDettaglio
   ) {
-    enforceMinMax(
-        percInput,
-        { max: avanzamento.calcPercRimanente(dettaglio) }
-    );
+
+    const min = 0;
+    const max = avanzamento.calcPercRimanente(dettaglio);
+    enforceMinMax(percInput, { min, max });
+
     dettaglio.avanzamentoTotale = +percInput.value;
     avanzamento.aggiornaAvanzamento();
     dettaglio.dirty = true;
