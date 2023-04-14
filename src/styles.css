@@ -302,22 +302,22 @@ th[sortable].desc::before {
   padding: calc(var(--flexgrid-gap) / 2);
 }
 
-.flexgrid--2 > * {
+.flexgrid.flexgrid--2 > * {
   flex: 1 1 clamp(var(--flexgrid-col-min-width), 50%, 50%);
   padding: calc(var(--flexgrid-gap) / 2);
 }
 
-.flexgrid--3 > * {
+.flexgrid.flexgrid--3 > * {
   flex: 1 1 clamp(var(--flexgrid-col-min-width), 33.33%, 33.33%);
   padding: calc(var(--flexgrid-gap) / 2);
 }
 
-.flexgrid--4 > * {
+.flexgrid.flexgrid--4 > * {
   flex: 1 1 clamp(var(--flexgrid-col-min-width), 25%, 25%);
   padding: calc(var(--flexgrid-gap) / 2);
 }
 
-.flexgrid--5 > * {
+.flexgrid.flexgrid--5 > * {
   flex: 1 1 clamp(var(--flexgrid-col-min-width), 20%, 20%);
   padding: calc(var(--flexgrid-gap) / 2);
 }

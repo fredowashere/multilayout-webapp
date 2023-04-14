@@ -86,6 +86,7 @@
                         type="date"
                         name="dataInizio"
                         label="Data inizio"
+                        [max]="dataFineCtrl.value"
                         [ngControl]="dataInizioCtrl"
                         [floatingLabel]="true"
                     ></app-input>
@@ -94,6 +95,7 @@
                         type="date"
                         name="dataFine"
                         label="Data fine"
+                        [min]="dataInizioCtrl.value"
                         [ngControl]="dataFineCtrl"
                         [floatingLabel]="true"
                     ></app-input>

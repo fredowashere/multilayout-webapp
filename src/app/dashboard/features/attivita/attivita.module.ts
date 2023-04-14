@@ -17,6 +17,7 @@ import { AttivitaNavigationComponent } from './components/attivita-navigation/at
 import { CommessaCreazioneModifica } from './dialogs/commessa-creazione-modifica/commessa-creazione-modifica.component';
 import { EventoCreazioneModifica } from './dialogs/evento-creazione-modifica/evento-creazione-modifica.component';
 import { SottocommessaCreazioneModifica } from './dialogs/sottocommessa-creazione-modifica/sottocommessa-creazione-modifica.component';
+import { TaskCreazioneModifica } from './dialogs/task-creazione-modifica/task-creazione-modifica.component';
 
 
 const routes: Routes = [
@@ -39,7 +40,8 @@ const routes: Routes = [
     CommessaCreazioneModifica,
     AttivitaNavigationComponent,
     EventoCreazioneModifica,
-    SottocommessaCreazioneModifica
+    SottocommessaCreazioneModifica,
+    TaskCreazioneModifica
   ],
   imports: [
     CommonModule,

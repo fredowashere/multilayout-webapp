@@ -266,7 +266,7 @@ export class SottocommessaCreazioneModifica {
                         .close({
                             dialogMode: this.dialogMode,
                             idSottocommessa,
-                            codiceSottocommessa: this.codiceSottocommessaCtrl.value as string
+                            codiceSottocommessa: this.codiceSottocommessaCtrl.value
                         });
                 },
                 () => {
