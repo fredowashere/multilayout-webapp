@@ -28,7 +28,6 @@ export class StatoAvanzamentoComponent {
   @ViewChild("pmAutocomplete") pmAutocomplete!: InputComponent;
   @ViewChild("bmAutocomplete") bmAutocomplete!: InputComponent;
 
-  enforceMinMax = enforceMinMax;
   EnumStatiChiusura = EnumStatiChiusura;
   BUSINESS_MANAGER = BUSINESS_MANAGER;
 
@@ -398,6 +397,20 @@ export class StatoAvanzamentoComponent {
         )
       )
       .subscribe();
+  }
+
+  onPercInputChange(
+    percInput: HTMLInputElement,
+    avanzamento: SottocommessaAvanzamento,
+    dettaglio: SottocommessaAvanzamentoDettaglio
+  ) {
+    enforceMinMax(
+        percInput,
+        { max: avanzamento.calcPercRimanente(dettaglio) }
+    );
+    dettaglio.avanzamentoTotale = +percInput.value;
+    avanzamento.aggiornaAvanzamento();
+    dettaglio.dirty = true;
   }
 
   trackByIdCommessa(index: number, item: SottocommessaAvanzamento) {

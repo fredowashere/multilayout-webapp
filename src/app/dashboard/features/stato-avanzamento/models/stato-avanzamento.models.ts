@@ -153,4 +153,16 @@ export class SottocommessaAvanzamento {
 
         this.percentualeRimanente = 1 - this.dettaglio.map(d => d.avanzamentoTotale).reduce((a, b) => a + b, 0);
     }
+
+    calcPercRimanente(dettaglio: SottocommessaAvanzamentoDettaglio) {
+
+        const percRimanente = this.dettaglio
+            .reduce((acc, d) => {
+                if (d === dettaglio)
+                    return acc;
+                return acc + d.avanzamentoTotale;
+            }, 0);
+
+        return Math.round((1 - percRimanente) * 100) / 100;
+    }
 }
