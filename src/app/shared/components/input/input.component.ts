@@ -263,9 +263,7 @@ export class InputComponent {
   taggerChoiceSelected(value: any) {
 
     this.tags = [ ...this.tags, value.item ];
-    setTimeout(() =>
-      this._autocompleteChoice = null
-    , 0);
+    setTimeout(() => this._autocompleteChoice = null, 0);
     this.ngControl.setValue(this.tags);
   }
 
@@ -273,11 +271,13 @@ export class InputComponent {
 
     const itemIndex = this.tags.lastIndexOf(item);
 
-    if (itemIndex > -1)
+    if (itemIndex > -1) {
       this.tags = [
         ...this.tags.slice(0, itemIndex),
         ...this.tags.slice(itemIndex + 1)
       ];
+      this.ngControl.setValue(this.tags);
+    }
   }
 
   markAsTouched() {

@@ -94,5 +94,9 @@
             [filter]="flavorsFilter"
             [ngControl]="flavors"
         ></app-input>
+
+        <div class="my-3">
+            {{ flavors.value | json }}
+        </div>
     </div>
 </div>
