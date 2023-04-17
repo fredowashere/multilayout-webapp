@@ -18,6 +18,7 @@ import { CommessaCreazioneModifica } from './dialogs/commessa-creazione-modifica
 import { EventoCreazioneModifica } from './dialogs/evento-creazione-modifica/evento-creazione-modifica.component';
 import { SottocommessaCreazioneModifica } from './dialogs/sottocommessa-creazione-modifica/sottocommessa-creazione-modifica.component';
 import { TaskCreazioneModifica } from './dialogs/task-creazione-modifica/task-creazione-modifica.component';
+import { RisorsaCreazioneModifica } from './dialogs/risorsa-creazione-modifica/risorsa-creazione-modifica.component';
 
 
 const routes: Routes = [
@@ -41,7 +42,8 @@ const routes: Routes = [
     AttivitaNavigationComponent,
     EventoCreazioneModifica,
     SottocommessaCreazioneModifica,
-    TaskCreazioneModifica
+    TaskCreazioneModifica,
+    RisorsaCreazioneModifica
   ],
   imports: [
     CommonModule,

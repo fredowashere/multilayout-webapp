@@ -1,0 +1,89 @@
+<ng-template #loading>
+    <div class="text-center py-4">
+        <div class="spinner-border"></div>
+    </div>
+</ng-template>
+
+<ng-container *ngIf="!isLoading; else loading">
+    <div class="modal-header">
+
+        <h4 class="modal-title" id="modal-title">
+            {{ dialogMode }} legame task-risorsa
+        </h4>
+
+        <button
+            type="button"
+            class="btn-close" 
+            (click)="activeModal.dismiss('Cross click')"
+        ></button>
+        </div>
+
+        <div class="modal-body" style="min-height: 40vh">
+
+            <form [formGroup]="form">
+
+                <div class="flexgrid">
+                    <app-input
+                        type="autocomplete"
+                        name="utente"
+                        label="Utente *"
+                        [options]="utenti"
+                        [limit]="25"
+                        [formatter]="utenteFormatter"
+                        [filter]="utenteFilter"
+                        [template]="uTmpl"
+                        [ngControl]="utenteCtrl"
+                        [floatingLabel]="true"
+                        [disabled]="this.dialogMode === DIALOG_MODE.Update"
+                    ></app-input>
+                    <ng-template #uTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r.idUtente }}</div>
+                            <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
+                        </div>
+                    </ng-template>
+                </div>
+
+                <div class="flexgrid flexgrid--2">
+
+                    <app-input
+                        type="date"
+                        name="dataInizio"
+                        label="Data inizio *"
+                        [max]="dataFineCtrl.value"
+                        [ngControl]="dataInizioCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="date"
+                        name="dataFine"
+                        label="Data fine *"
+                        [min]="dataInizioCtrl.value"
+                        [ngControl]="dataFineCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="btn btn-outline-secondary ms-auto"
+                (click)="activeModal.dismiss('Cancel')"
+            >
+                Cancella
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="form.invalid"
+                (click)="save()"
+            >
+                Salva
+            </button>
+        </div>
+</ng-container>

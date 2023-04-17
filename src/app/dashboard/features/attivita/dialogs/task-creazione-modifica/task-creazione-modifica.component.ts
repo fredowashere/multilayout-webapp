@@ -17,12 +17,11 @@ export class TaskCreazioneModifica {
     @Input("idCommessa") idCommessa!: number;
     @Input("idSottocommessa") idSottocommessa!: number;
     @Input("idTask") idTask!: number;
+    task?: TaskDto;
 
     DIALOG_MODE = DIALOG_MODE;
     dialogMode!: DIALOG_MODE;
     isLoading = false;
-
-    task?: TaskDto;
 
     form!: FormGroup;
 
@@ -61,12 +60,12 @@ export class TaskCreazioneModifica {
         }
 
         this.form = new FormGroup({
-            codiceTaskCtrl: this.codiceTaskCtrl,
-            descrizioneCtrl: this.descrizioneCtrl,
-            dataInizioCtrl: this.dataInizioCtrl,
-            dataFineCtrl: this.dataFineCtrl,
-            giorniPrevistiCtrl: this.giorniPrevistiCtrl,
-            attivitaObbligatoriaCtrl: this.attivitaObbligatoriaCtrl
+            codiceTask: this.codiceTaskCtrl,
+            descrizione: this.descrizioneCtrl,
+            dataInizio: this.dataInizioCtrl,
+            dataFine: this.dataFineCtrl,
+            giorniPrevisti: this.giorniPrevistiCtrl,
+            attivitaObbligatoria: this.attivitaObbligatoriaCtrl
         });
     }
 

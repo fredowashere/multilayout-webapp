@@ -68,13 +68,9 @@ export class CommessaCreazioneModifica {
     ];
 
     codiceCommessaCtrl = new FormControl<string | null>(null);
-
     descrizioneCtrl = new FormControl<string | null>(null, [Validators.required]);
-    
     tagCtrl = new FormControl<string | null>(null, [Validators.maxLength(5)]);
-
     dataCreazioneCtrl = new FormControl(new Date().toISOString().slice(0, 10));
-
     dataDecorrenzaCtrl = new FormControl();
 
 	constructor(

@@ -11,5 +11,15 @@ export interface RisorsaTaskDto {
 }
 
 export interface RisorsaTaskWrap extends RisorsaTaskDto {
-    utente?: UtentiAnagrafica
+    utente: UtentiAnagrafica
+}
+
+export interface UpsertLegameParam {
+	id?: number;
+	allocazione?: number;
+	idAzienda?: number;
+	inizioAllocazione: string;
+	fineAllocazione: string;
+	idTask: number;
+	idUtente: number;
 }

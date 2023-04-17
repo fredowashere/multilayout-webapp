@@ -63,18 +63,16 @@
         <ng-template #thead>
             <th sortable="utente.cognome" (sort)="dt.sort($any($event))">Cognome</th>
             <th sortable="utente.nome" (sort)="dt.sort($any($event))">Nome</th>
-            <th sortable="dataInizio" (sort)="dt.sort($any($event))">Data inizio</th>
-            <th sortable="dataFine" (sort)="dt.sort($any($event))">Data fine</th>
-            <th sortable="allocazione" (sort)="dt.sort($any($event))">Allocazione</th>
+            <th sortable="inizioAllocazione" (sort)="dt.sort($any($event))">Data inizio</th>
+            <th sortable="fineAllocazione" (sort)="dt.sort($any($event))">Data fine</th>
             <th style="width: 10rem"></th>
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
             <td>{{ item.utente?.cognome }}</td>
             <td>{{ item.utente?.nome }}</td>
-            <td>{{ item.dataInizio | date:'yyyy-MM-dd' }}</td>
-            <td>{{ item.dataFine | date:'yyyy-MM-dd' }}</td>
-            <td>{{ item.allocazione }}</td>
+            <td>{{ item.inizioAllocazione | date:'yyyy-MM-dd' }}</td>
+            <td>{{ item.fineAllocazione | date:'yyyy-MM-dd' }}</td>
             <td>
                 <div class="d-flex gap-2 justify-content-center">
 
