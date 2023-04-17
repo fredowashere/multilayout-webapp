@@ -47,7 +47,6 @@ export class TaskCreazioneModifica {
             : DIALOG_MODE.Create;
 
         if (this.dialogMode === DIALOG_MODE.Update) {
-
             this.taskService.getTaskById$(this.idTask)
                 .subscribe(async task => {
                     this.task = task;

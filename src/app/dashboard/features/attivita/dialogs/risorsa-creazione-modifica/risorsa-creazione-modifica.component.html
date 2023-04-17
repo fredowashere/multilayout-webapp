@@ -23,25 +23,43 @@
             <form [formGroup]="form">
 
                 <div class="flexgrid">
-                    <app-input
-                        type="autocomplete"
-                        name="utente"
-                        label="Utente *"
-                        [options]="utenti"
-                        [limit]="25"
-                        [formatter]="utenteFormatter"
-                        [filter]="utenteFilter"
-                        [template]="uTmpl"
-                        [ngControl]="utenteCtrl"
-                        [floatingLabel]="true"
-                        [disabled]="this.dialogMode === DIALOG_MODE.Update"
-                    ></app-input>
-                    <ng-template #uTmpl let-r="result" let-t="term">
-                        <div class="my-1">
-                            <div class="small">{{ r.idUtente }}</div>
-                            <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
+
+                    <!-- This is just a dummy raw input to show the user when updating -->
+                    <ng-container *ngIf="this.dialogMode === DIALOG_MODE.Update">
+                        <div *ngIf="utentiCtrl.value && utentiCtrl.value[0] as u">
+                            <div class="form-floating">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="..."
+                                    [value]="u.cognome + ' ' + u.nome"
+                                    [disabled]="this.dialogMode === DIALOG_MODE.Update"
+                                >
+                                <label>Utente</label>
+                            </div>
                         </div>
-                    </ng-template>
+                    </ng-container>
+
+                    <ng-container *ngIf="this.dialogMode === DIALOG_MODE.Create">
+                        <app-input
+                            type="tagger"
+                            name="utenti"
+                            placeholder="Aggiungi utenti *"
+                            [options]="utenti"
+                            helper="I risultati saranno deduplicati automaticamente"
+                            [limit]="25"
+                            [formatter]="utenteFormatter"
+                            [filter]="utenteFilter"
+                            [template]="uTmpl"
+                            [ngControl]="utentiCtrl"
+                        ></app-input>
+                        <ng-template #uTmpl let-r="result" let-t="term">
+                            <div class="my-1">
+                                <div class="small">{{ r.idUtente }}</div>
+                                <ngb-highlight [result]="r.cognome + ' '  + r.nome" [term]="t"></ngb-highlight>
+                            </div>
+                        </ng-template>
+                    </ng-container>
                 </div>
 
                 <div class="flexgrid flexgrid--2">
@@ -50,7 +68,8 @@
                         type="date"
                         name="dataInizio"
                         label="Data inizio *"
-                        [max]="dataFineCtrl.value"
+                        [min]="dataInizioCtrlMin()"
+                        [max]="dataInizioCtrlMax()"
                         [ngControl]="dataInizioCtrl"
                         [floatingLabel]="true"
                     ></app-input>
@@ -59,7 +78,8 @@
                         type="date"
                         name="dataFine"
                         label="Data fine *"
-                        [min]="dataInizioCtrl.value"
+                        [min]="dataFineCtrlMin()"
+                        [max]="dataFineCtrlMax()"
                         [ngControl]="dataFineCtrl"
                         [floatingLabel]="true"
                     ></app-input>
@@ -80,7 +100,7 @@
             <button
                 type="button"
                 class="btn btn-primary"
-                [disabled]="form.invalid"
+                [disabled]="form.invalid || (!utentiCtrl.value || utentiCtrl.value.length === 0)"
                 (click)="save()"
             >
                 Salva

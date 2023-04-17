@@ -1,15 +1,16 @@
 import { Component, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { catchError, combineLatest, of } from 'rxjs';
 import { ToastService } from "src/app/services/toast.service";
 import { DIALOG_MODE } from "../../models/dialog";
 import { TaskService } from "../../services/task.service";
-import { CreateTaskParam, TaskDto } from "../../models/task";
-import { jsonCopy } from "src/app/utils/json";
+import { TaskDto } from "../../models/task";
 import { UtentiAnagrafica } from "src/app/api/stato-avanzamento/models";
 import { MiscDataService } from "../../services/miscData.service";
 import { RisorsaTaskWrap, UpsertLegameParam } from "../../models/risorsa";
 import { RisorsaService } from "../../services/risorsa.service";
+import { dedupe } from "src/app/utils/array";
 
 @Component({
 	selector: 'app-risorsa-creazione-modifica-dialog',
@@ -22,20 +23,16 @@ export class RisorsaCreazioneModifica {
     @Input("idSottocommessa") idSottocommessa!: number;
     @Input("idTask") idTask!: number;
     @Input("idLegame") idLegame!: number;
+    task?: TaskDto;
     legame?: RisorsaTaskWrap;
 
     DIALOG_MODE = DIALOG_MODE;
     dialogMode!: DIALOG_MODE;
     isLoading = false;
 
-    task?: TaskDto;
-
     form!: FormGroup;
 
-    utenteCtrl = new FormControl<UtentiAnagrafica | null>(null, [Validators.required]);
-    get idUtenteFromCtrl() {
-        return this.utenteCtrl.value?.idUtente;
-    }
+    utentiCtrl = new FormControl<UtentiAnagrafica[] | null>(null, [Validators.required]);
     utenti: UtentiAnagrafica[] = [];
     utenteFormatter = (u: UtentiAnagrafica) => u.cognome + ' ' + u.nome;
     utenteFilter = (term: string, u: UtentiAnagrafica) =>
@@ -48,6 +45,7 @@ export class RisorsaCreazioneModifica {
         public activeModal: NgbActiveModal,
         private toaster: ToastService,
         private risorsaService: RisorsaService,
+        private taskService: TaskService,
         private miscData: MiscDataService
     ) { }
 
@@ -62,20 +60,29 @@ export class RisorsaCreazioneModifica {
         this.utenti = this.miscData.utenti;
 
         if (this.dialogMode === DIALOG_MODE.Update) {
-            
-            this.risorsaService.getLegameById$(this.idLegame)
-                .subscribe(async legame => {
-                    this.legame = legame;
+            combineLatest([
+                this.taskService.getTaskById$(this.idTask),
+                this.risorsaService.getLegameById$(this.idLegame)
+            ])
+            .subscribe(([ task, legame ]) => {
+                this.legame = legame;
+                this.task = task;
+                this.initCtrlValues();
+                this.isLoading = false;
+            });
+        }
+        else {
+            this.taskService
+                .getTaskById$(this.idTask)
+                .subscribe(task => {
+                    this.task = task;
                     this.initCtrlValues();
                     this.isLoading = false;
                 });
         }
-        else {
-            this.isLoading = false;
-        }
 
         this.form = new FormGroup({
-            utente: this.utenteCtrl,
+            utente: this.utentiCtrl,
             dataInizio: this.dataInizioCtrl,
             dataFine: this.dataFineCtrl
         });
@@ -97,10 +104,66 @@ export class RisorsaCreazioneModifica {
             
             if (!this.legame) return;
 
-            this.utenteCtrl.setValue(this.legame.utente);
+            this.utentiCtrl.setValue([this.legame.utente]);
             this.dataInizioCtrl.setValue(this.legame.inizioAllocazione && this.legame.inizioAllocazione.slice(0, 10));
             this.dataFineCtrl.setValue(this.legame.fineAllocazione && this.legame.fineAllocazione.slice(0, 10));
         }
+    }
+
+    dataInizioCtrlMin() {
+
+        const inception = "1970-01-01";
+
+        if (!this.task)
+            return inception;
+
+        return this.task.dataInizio;
+    }
+
+    dataInizioCtrlMax() {
+
+        const endOfWorld = "2239-01-01"; // According to the Talmud
+
+        if (!this.task)
+            return endOfWorld;
+
+        const dataFineTask = this.task.dataFine || endOfWorld;
+
+        if (!this.dataFineCtrl.value)
+            return dataFineTask;
+
+        if (this.dataFineCtrl.value.localeCompare(dataFineTask) <= 0)
+            return this.dataFineCtrl.value;
+        
+        return dataFineTask;
+    }
+
+    dataFineCtrlMin() {
+
+        const inception = "1970-01-01";
+
+        if (!this.task)
+            return inception;
+
+        const dataInizioTask = this.task.dataInizio || inception;
+
+        if (!this.dataInizioCtrl.value)
+            return dataInizioTask;
+
+        if (this.dataInizioCtrl.value.localeCompare(dataInizioTask) >= 0)
+            return this.dataInizioCtrl.value;
+        
+        return dataInizioTask;
+    }
+
+    dataFineCtrlMax() {
+
+        const endOfWorld = "2239-01-01"; // According to the Talmud
+
+        if (!this.task)
+            return endOfWorld;
+
+        return this.task.dataFine;
     }
 
     save() {
@@ -122,35 +185,44 @@ export class RisorsaCreazioneModifica {
         //     "inizioAllocazione": "2013-12-31T23:00:00.000Z",
         // }
 
-        if (this.form.invalid) return;
+        if (this.form.invalid || (!this.utentiCtrl.value || this.utentiCtrl.value.length === 0)) return;
+        
+        const utenti = dedupe(this.utentiCtrl.value, "idUtente");
 
-        const legameTaskRisorsa: UpsertLegameParam = {
-            idTask: this.idTask,
-            idUtente: this.idUtenteFromCtrl as number,
-            inizioAllocazione: this.dataInizioCtrl.value as string,
-            fineAllocazione: this.dataFineCtrl.value as string
-        };
+        const requests = utenti.map(u => {
 
-        this.risorsaService
-            .createLegame$(legameTaskRisorsa)
-            .subscribe(
-                (idLegame) => {
+            const legameTaskRisorsa: UpsertLegameParam = {
+                idTask: this.idTask,
+                idUtente: u.idUtente,
+                inizioAllocazione: this.dataInizioCtrl.value as string,
+                fineAllocazione: this.dataFineCtrl.value as string
+            };
 
-                    const txt = "Legame creato con successo!";
-                    this.toaster.show(txt, { classname: 'bg-success text-white' });
+            return this.risorsaService
+                .createLegame$(legameTaskRisorsa)
+                .pipe(
+                    catchError(() => {
 
-                    // Close the modal with the id from the result to open the tab automatically
-                    this.activeModal
-                        .close({
-                            dialogMode: this.dialogMode,
-                            idLegame
-                        });
-                },
-                () => {
-                    const txt = "Non è stato possibile creare il Legame. Contattare il supporto tecnico.";
-                    this.toaster.show(txt, { classname: 'bg-danger text-white' });
-                }
-            );
+                        const txt = `Non è stato possibile creare il Legame per ${u.cognome} ${u.nome}. Contattare il supporto tecnico.`;
+                        this.toaster.show(txt, { classname: 'bg-danger text-white' });
+
+                        return of(-1);
+                    })
+                );
+        });
+
+        combineLatest(requests)
+            .subscribe(responses => {
+
+                const txt = "Operazione terminata!";
+                this.toaster.show(txt, { classname: 'bg-success text-white' });
+
+                this.activeModal
+                    .close({
+                        dialogMode: this.dialogMode,
+                        // idLegame
+                    });
+            });
     }
 
     update() {
