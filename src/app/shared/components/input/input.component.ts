@@ -263,9 +263,11 @@ export class InputComponent {
   taggerChoiceSelected(value: any) {
 
     this.tags = [ ...this.tags, value.item ];
-    setTimeout(() => this._autocompleteChoice = null, 0);
     this.ngControl.setValue(this.tags);
+    setTimeout(() => this._autocompleteChoice = null, 0);
   }
+
+  taggerSelectAndClean() {}
 
   removeTag(item: any) {
 
@@ -277,6 +279,7 @@ export class InputComponent {
         ...this.tags.slice(itemIndex + 1)
       ];
       this.ngControl.setValue(this.tags);
+      setTimeout(() => this._autocompleteChoice = null, 0);
     }
   }
 
