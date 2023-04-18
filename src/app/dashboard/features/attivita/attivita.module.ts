@@ -7,8 +7,6 @@ import { OffertaComponent } from './components/offerta/offerta.component';
 import { SottocommesseComponent } from './components/sottocommesse/sottocommesse.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { RisorseComponent } from './components/risorse/risorse.component';
-import { CostiComponent } from './components/costi/costi.component';
-import { RicaviComponent } from './components/ricavi/ricavi.component';
 import { OrdiniComponent } from './components/ordini/ordini.component';
 import { FattureComponent } from './components/fatture/fatture.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -19,6 +17,7 @@ import { EventoCreazioneModifica } from './dialogs/evento-creazione-modifica/eve
 import { SottocommessaCreazioneModifica } from './dialogs/sottocommessa-creazione-modifica/sottocommessa-creazione-modifica.component';
 import { TaskCreazioneModifica } from './dialogs/task-creazione-modifica/task-creazione-modifica.component';
 import { RisorsaCreazioneModifica } from './dialogs/risorsa-creazione-modifica/risorsa-creazione-modifica.component';
+import { ForzatureComponent } from './components/forzature/forzature.component';
 
 
 const routes: Routes = [
@@ -33,8 +32,6 @@ const routes: Routes = [
     SottocommesseComponent,
     TasksComponent,
     RisorseComponent,
-    CostiComponent,
-    RicaviComponent,
     OrdiniComponent,
     FattureComponent,
     EliminazioneDialog,
@@ -43,7 +40,8 @@ const routes: Routes = [
     EventoCreazioneModifica,
     SottocommessaCreazioneModifica,
     TaskCreazioneModifica,
-    RisorsaCreazioneModifica
+    RisorsaCreazioneModifica,
+    ForzatureComponent
   ],
   imports: [
     CommonModule,

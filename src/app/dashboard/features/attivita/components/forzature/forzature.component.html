@@ -1,0 +1,63 @@
+<div class="card pt-3 shadow">
+
+    <div class="table-plus">
+
+        <h5 class="table-plus__title">Tabella {{ categoria }}</h5>
+
+        <button
+            type="button"
+            class="table-plus__action btn btn-success shadow"
+            (click)="create()"
+        >
+            <i class="bi bi-plus"></i>
+            Crea {{ categoria }}
+        </button>
+    </div>
+    
+    <app-table
+        #dt
+        [thead]="thead"
+        [tbody]="tbody"
+        [items]="forzature"
+        [searchable]="['commessa.text', 'note']"
+        [paginated]="true"
+        [pageSize]="5"
+        emptyMessage="Nessun risultato"
+    >
+    
+        <ng-template #thead>
+            <th sortable="commessa.text" (sort)="dt.sort($any($event))">Sottocommessa</th>
+            <th sortable="inizioPeriodo" (sort)="dt.sort($any($event))">Inizio competenza</th>
+            <th sortable="finePeriodo" (sort)="dt.sort($any($event))">Fine competenza</th>
+
+            <th *ngIf="categoria === 'costo'" sortable="costoTotale" (sort)="dt.sort($any($event))">Costo</th>
+            <th *ngIf="categoria === 'ricavo'" sortable="ricavoTotale" (sort)="dt.sort($any($event))">Ricavo</th>
+
+            <th sortable="note" (sort)="dt.sort($any($event))">Note</th>
+            <th style="width: 10rem"></th>
+        </ng-template>
+    
+        <ng-template #tbody let-item let-term$="term$">
+            <td>{{ item.commessa.text }}</td>
+            <td>{{ item.inizioPeriodo | date:'yyyy-MM' }}</td>
+            <td>{{ item.finePeriodo | date:'yyyy-MM' }}</td>
+
+            <td *ngIf="categoria === 'costo'">€ {{ item.costoTotale }}</td>
+            <td *ngIf="categoria === 'ricavo'">€ {{ item.ricavoTotale }}</td>
+
+            <td>{{ item.note }}</td>
+            <td>
+                <div class="d-flex gap-2 justify-content-center">
+                    <button
+                        type="button"
+                        class="btn btn-warning shadow"
+                        (click)="update(item)"
+                    >
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                </div>
+            </td>
+        </ng-template>
+    </app-table>
+</div>
+
