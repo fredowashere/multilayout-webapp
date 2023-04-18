@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { startWith } from "rxjs";
-import { Dettaglio, UtentiAnagrafica } from "src/app/api/stato-avanzamento/models";
+import { Dettaglio, UtentiAnagrafica } from "src/app/api/modulo-attivita/models";
 import { ToastService } from "src/app/services/toast.service";
 import { InputComponent } from "src/app/shared/components/input/input.component";
 import { jsonCopy } from "src/app/utils/json";

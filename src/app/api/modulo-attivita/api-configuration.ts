@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ApiConfiguration {
-  rootUrl: string = environment.statoAvanzamentoUrl;
+  rootUrl: string = environment.moduloAttivitaUrl;
 }
 
 /**

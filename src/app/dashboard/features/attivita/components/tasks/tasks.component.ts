@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
+import { UtentiAnagrafica } from 'src/app/api/modulo-attivita/models';
 import { delayedScrollTo } from 'src/app/utils/dom';
 import { SottocommessaCreazioneModifica } from '../../dialogs/sottocommessa-creazione-modifica/sottocommessa-creazione-modifica.component';
 import { CommessaDto } from '../../models/commessa';

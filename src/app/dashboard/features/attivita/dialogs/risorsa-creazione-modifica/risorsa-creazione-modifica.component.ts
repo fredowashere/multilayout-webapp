@@ -6,7 +6,7 @@ import { ToastService } from "src/app/services/toast.service";
 import { DIALOG_MODE } from "../../models/dialog";
 import { TaskService } from "../../services/task.service";
 import { TaskDto } from "../../models/task";
-import { UtentiAnagrafica } from "src/app/api/stato-avanzamento/models";
+import { UtentiAnagrafica } from "src/app/api/modulo-attivita/models";
 import { MiscDataService } from "../../services/miscData.service";
 import { RisorsaTaskWrap, UpsertLegameParam } from "../../models/risorsa";
 import { RisorsaService } from "../../services/risorsa.service";

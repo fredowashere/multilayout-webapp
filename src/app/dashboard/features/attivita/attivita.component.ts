@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest, merge, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
+import { Dettaglio, UtentiAnagrafica } from 'src/app/api/modulo-attivita/models';
 import { ToastService } from 'src/app/services/toast.service';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
 import { delayedScrollTo } from 'src/app/utils/dom';

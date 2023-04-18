@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { StatoAvanzamentoService, UtentiService } from 'src/app/api/stato-avanzamento/services';
+import { StatoAvanzamentoService, UtentiService } from 'src/app/api/modulo-attivita/services';
 import { AuthService } from 'src/app/services/auth.service';
 import { GetClientiParam, GetSottocommesseParam, GetUtentiParam } from '../models/autocomplete.models';
 import { GetAvanzamentoParam, SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from '../models/stato-avanzamento.models';

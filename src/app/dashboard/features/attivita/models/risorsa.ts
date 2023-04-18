@@ -1,4 +1,4 @@
-import { UtentiAnagrafica } from "src/app/api/stato-avanzamento/models";
+import { UtentiAnagrafica } from "src/app/api/modulo-attivita/models";
 
 export interface RisorsaTaskDto {
     id: number;
