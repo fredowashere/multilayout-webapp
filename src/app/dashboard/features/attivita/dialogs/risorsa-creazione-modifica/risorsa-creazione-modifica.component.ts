@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { catchError, combineLatest, of } from 'rxjs';
+import { catchError, combineLatest, lastValueFrom, map, of } from 'rxjs';
 import { ToastService } from "src/app/services/toast.service";
 import { DIALOG_MODE } from "../../models/dialog";
 import { TaskService } from "../../services/task.service";
@@ -10,7 +10,7 @@ import { UtentiAnagrafica } from "src/app/api/modulo-attivita/models";
 import { MiscDataService } from "../../services/miscData.service";
 import { RisorsaTaskWrap, UpsertLegameParam } from "../../models/risorsa";
 import { RisorsaService } from "../../services/risorsa.service";
-import { dedupe } from "src/app/utils/array";
+import { dedupe, intersection } from "src/app/utils/array";
 
 @Component({
 	selector: 'app-risorsa-creazione-modifica-dialog',
@@ -173,7 +173,7 @@ export class RisorsaCreazioneModifica {
             this.update();
     }
 
-    create() {
+    async create() {
 
         // esempio di payload {
         //     "allocazione": 100,
@@ -186,30 +186,54 @@ export class RisorsaCreazioneModifica {
         // }
 
         if (this.form.invalid || (!this.utentiCtrl.value || this.utentiCtrl.value.length === 0)) return;
-        
-        const utenti = dedupe(this.utentiCtrl.value, "idUtente");
 
-        const requests = utenti.map(u => {
+        const utentiSelezione = dedupe<UtentiAnagrafica>(this.utentiCtrl.value, "idUtente");
 
-            const legameTaskRisorsa: UpsertLegameParam = {
-                idTask: this.idTask,
-                idUtente: u.idUtente,
-                inizioAllocazione: this.dataInizioCtrl.value as string,
-                fineAllocazione: this.dataFineCtrl.value as string
-            };
-
-            return this.risorsaService
-                .createLegame$(legameTaskRisorsa)
+        const idUtentiLegami = await lastValueFrom(
+            this.risorsaService
+                .getLegamiByIdTask$(this.idTask)
                 .pipe(
-                    catchError(() => {
+                    map(ls => ls.map(l => l.idUtente))
+                )
+        );
 
-                        const txt = `Non è stato possibile creare il Legame per ${u.cognome} ${u.nome}. Contattare il supporto tecnico.`;
-                        this.toaster.show(txt, { classname: 'bg-danger text-white' });
+        const idUtentiToExclude = intersection(utentiSelezione.map(u => u.idUtente), idUtentiLegami);
 
-                        return of(-1);
-                    })
-                );
-        });
+        // Filter out any existing user, throw an error toast
+        const utentiToSave = utentiSelezione
+            .filter(u => {
+
+                if (idUtentiToExclude.includes(u.idUtente)) {
+                    const txt = u.cognome + " " + u.nome + " è già presente pertanto non è stato salvato.";
+                    this.toaster.show(txt, { classname: 'bg-danger text-white' });
+                    return false;
+                }
+
+                return true;
+            });
+
+        const requests = utentiToSave
+            .map(u => {
+
+                const legameTaskRisorsa: UpsertLegameParam = {
+                    idTask: this.idTask,
+                    idUtente: u.idUtente as number,
+                    inizioAllocazione: this.dataInizioCtrl.value as string,
+                    fineAllocazione: this.dataFineCtrl.value as string
+                };
+
+                return this.risorsaService
+                    .createLegame$(legameTaskRisorsa)
+                    .pipe(
+                        catchError(() => {
+
+                            const txt = `Non è stato possibile creare il Legame per ${u.cognome} ${u.nome}. Contattare il supporto tecnico.`;
+                            this.toaster.show(txt, { classname: 'bg-danger text-white' });
+
+                            return of(-1);
+                        })
+                    );
+            });
 
         combineLatest(requests)
             .subscribe(responses => {

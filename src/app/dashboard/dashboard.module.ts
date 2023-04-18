@@ -6,6 +6,7 @@ import { DashboardNavbarComponent } from './layout/navbar/navbar.component';
 import { DashboardSidebarComponent } from './layout/sidebar/sidebar.component';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardFooterComponent } from './layout/footer/footer.component';
+import { DiarieAziendaModule } from './features/diarie-azienda/diarie-azienda.module';
 
 const routes: Routes = [
   { 
@@ -16,12 +17,20 @@ const routes: Routes = [
       {
         path: 'attivita',
         loadChildren: () =>
-          import('./features/attivita/attivita.module').then(m => m.AttivitaModule)
+          import('./features/attivita/attivita.module')
+            .then(m => m.AttivitaModule)
+      },
+      {
+        path: 'diarie-azienda',
+        loadChildren: () =>
+          import('./features/diarie-azienda/diarie-azienda.module')
+            .then(m => m.DiarieAziendaModule)
       },
       {
         path: 'stato-avanzamento',
         loadChildren: () =>
-          import('./features/stato-avanzamento/stato-avanzamento.module').then(m => m.StatoAvanzamentoModule)
+          import('./features/stato-avanzamento/stato-avanzamento.module')
+            .then(m => m.StatoAvanzamentoModule)
       },
     ]
   },
@@ -37,7 +46,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SharedModule
+    SharedModule,
+    DiarieAziendaModule
   ]
 })
 export class DashboardModule { }
