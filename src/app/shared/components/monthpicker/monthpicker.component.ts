@@ -24,6 +24,7 @@ export class MonthpickerComponent {
   @Input("label") label?: string;
   @Input("placeholder") placeholder = "yyyy-mm";
   @Input("helper") helper?: string;
+  @Input("disabled") disabled = false;
 
   minDate?: MonthpickerStruct;
   @Input("minDate")
@@ -153,6 +154,19 @@ export class MonthpickerComponent {
   }
 
   reset() {
+
+    if (this.disabled)
+      return;
+
     this.ngControl.setValue(null);
+  }
+
+  openDropdown(evt: Event) {
+
+    if (this.disabled)
+      return;
+
+    evt.stopPropagation();
+    this.dropdown.open();
   }
 }
