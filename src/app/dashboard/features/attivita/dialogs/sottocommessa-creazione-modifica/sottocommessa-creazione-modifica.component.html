@@ -1,0 +1,154 @@
+<ng-template #loading>
+    <div class="text-center py-4">
+        <div class="spinner-border"></div>
+    </div>
+</ng-template>
+
+<ng-container *ngIf="!isLoading; else loading">
+    <div class="modal-header">
+
+        <h4 class="modal-title" id="modal-title">
+            {{ dialogMode }} sottocommessa
+        </h4>
+
+        <button
+            type="button"
+            class="btn-close" 
+            (click)="activeModal.dismiss('Cross click')"
+        ></button>
+        </div>
+
+        <div class="modal-body" style="min-height: 40vh">
+
+            <form [formGroup]="form">
+
+                <div class="flexgrid flexgrid--2">
+
+                    <app-input
+                        name="codiceSottocommessa"
+                        label="Codice sottocommessa *"
+                        [ngControl]="codiceSottocommessaCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        name="descrizione"
+                        label="Descrizione *"
+                        [ngControl]="descrizioneCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="select"
+                        name="iniziativa"
+                        label="Iniziativa"
+                        [ngControl]="iniziativaCtrl"
+                        [options]="iniziative"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="autocomplete"
+                        name="tipoFatturazione"
+                        label="Tipo fatturazione *"
+                        [options]="tipiFatturazione"
+                        [formatter]="tipoFatturazioneFormatter"
+                        [filter]="tipoFatturazioneFilter"
+                        [ngControl]="tipoFatturazioneCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="autocomplete"
+                        name="commessaRendicontazione"
+                        label="Commessa rendicontazione"
+                        [options]="commesse"
+                        [limit]="25"
+                        [formatter]="commesseFormatter"
+                        [filter]="commesseFilter"
+                        [ngControl]="commessaRendicontazioneCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+    
+                    <app-input
+                        type="autocomplete"
+                        name="commessaFatturazione"
+                        label="Commessa fatturazione"
+                        [options]="commesse"
+                        [limit]="25"
+                        [formatter]="commesseFormatter"
+                        [filter]="commesseFilter"
+                        [ngControl]="commessaFatturazioneCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="date"
+                        name="dataInizio"
+                        label="Data inizio"
+                        [ngControl]="dataInizioCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="date"
+                        name="dataFine"
+                        label="Data fine"
+                        [ngControl]="dataFineCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <div class="flexgrid flexgrid--1">
+
+                    <app-input
+                        name="importo"
+                        label="Importo *"
+                        [mask]="euroMask"
+                        [ngControl]="importoCtrl"
+                    ></app-input>
+
+                    <app-input
+                        type="checkbox"
+                        name="trasfertaRibaltabileCliente"
+                        label="Spese trasferta ribaltabili al cliente"
+                        [ngControl]="trasfertaRibaltabileClienteCtrl"
+                    ></app-input>
+
+                    <app-input
+                        type="checkbox"
+                        name="abilitazioneReperibilita"
+                        label="Abilitazione reperibilità"
+                        [ngControl]="abilitazioneReperibilitaCtrl"
+                    ></app-input>
+
+                    <app-input
+                        type="checkbox"
+                        name="abilitazioneStraordinari"
+                        label="Abilitazione straordinario"
+                        [ngControl]="abilitazioneStraordinarioCtrl"
+                    ></app-input>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="btn btn-outline-secondary ms-auto"
+                (click)="activeModal.dismiss('Cancel')"
+            >
+                Cancella
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="form.invalid"
+                (click)="save()"
+            >
+                Salva
+            </button>
+        </div>
+</ng-container>

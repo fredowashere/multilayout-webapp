@@ -14,3 +14,11 @@ export interface Offerta {
 	codiceIdentificativo: string;
 	dataAccettazione?: string;
 }
+
+export interface UpsertOffertaParam {
+    idAttivita: number;
+    idTipoOfferta: number;
+    dataOfferta: string;
+    dataAccettazione?: string;
+    numeroOrdine?: string;
+}

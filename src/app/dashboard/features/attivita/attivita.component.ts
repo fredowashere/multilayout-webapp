@@ -8,18 +8,18 @@ import { InputComponent } from 'src/app/shared/components/input/input.component'
 import { delayedScrollTo } from 'src/app/utils/dom';
 import { jsonCopy } from 'src/app/utils/json';
 import { StatoAvanzamentoWrapService } from '../stato-avanzamento/services/stato-avanzamento-wrap.service';
-import { AttivitaCreazioneModifica } from './dialogs/attivita-creazione-modifica/attivita-creazione-modifica.component';
+import { CommessaCreazioneModifica } from './dialogs/commessa-creazione-modifica/commessa-creazione-modifica.component';
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
 import { Commessa, CommessaSearchDto } from './models/commessa';
 import { CommessaService } from './services/commessa.service';
+import { MiscDataService } from './services/miscData.service';
 
 const today = new Date();
 const [ currYear, currMonth, currDay ] = [ today.getFullYear(), today.getMonth() + 1, today.getDate() ];
 
 interface Tab {
   id: number;
-  title: string;
-  commessa: CommessaSearchDto;
+  codiceCommessa: string;
 }
 
 @Component({
@@ -121,6 +121,7 @@ export class AttivitaComponent {
   constructor(
     private commessaService: CommessaService,
     private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
+    private miscDataService: MiscDataService,
     private modalService: NgbModal,
     private toaster: ToastService
   ) { }
@@ -128,6 +129,83 @@ export class AttivitaComponent {
   ngOnInit() {
 
     this.initializeAutocompleteValues();
+
+    this.attachAutocompleteListeners();
+    
+    let init = false;
+    merge(this.searchClick$, this.refresh$)
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => this.isLoading = true),
+        switchMap(() =>
+          this.commessaService
+            .getAllCommesse$({
+              idCliente: this.idClienteDiretto,
+              idClienteFinale: this.idClienteFinale,
+              codiceCommessa: this.codiceCommessa,
+              idProjectManager: this.idPm,
+              idBusinessManager: this.idBm,
+              idFase: this.tipoAttivita as number,
+              valido: this.statoCtrl.value as string,
+              dataInizio: this.dataInizio,
+              dataFine: this.dataFine
+            })
+        ),
+        tap(commesseResults => {
+          this.isLoading = false;
+          this.commesseResults = commesseResults;
+
+          if (!init) {
+            delayedScrollTo("#tabella-commesse");
+            init = true;
+          }
+        })
+      )
+      .subscribe();
+
+    // When adding a new commessa
+    this.refresh$
+      .subscribe(() =>
+        this.initializeAutocompleteValues(false, true, false) // only refresh commesse
+      );
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+  }
+
+  initializeAutocompleteValues(
+    refreshUtenti = true,
+    refreshCommesse = true,
+    refreshClienti = true
+  ) {
+
+    if (refreshUtenti) {
+
+      this.statoAvanzamentoWrap
+        .getUtenti$({ IsPm: true, IsBm: false })
+        .subscribe(pmList => this.pmList = pmList);
+
+      this.statoAvanzamentoWrap
+        .getUtenti$({ IsPm: false, IsBm: true })
+        .subscribe(bmList => this.bmList = bmList);
+    }
+
+    if (refreshCommesse)
+      this.commessaService
+        .getCommesseAutocomplete$()
+        .subscribe(commesse => this.commesse = commesse);
+
+    if (refreshClienti)
+      this.statoAvanzamentoWrap
+        .getClienti$({ totali: true })
+        .subscribe(clienti => {
+          this.clientiDiretti = jsonCopy(clienti);
+          this.clientiFinali = jsonCopy(clienti);
+        });
+  }
+
+  attachAutocompleteListeners() {
 
     // Define of autocomplete handlers
     const onClienteSelect$ = () => combineLatest([
@@ -249,73 +327,6 @@ export class AttivitaComponent {
     this.bmCtrl.valueChanges
       .pipe(switchMap(() => onBmSelect$()))
       .subscribe();
-    
-    merge(this.searchClick$, this.refresh$)
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(() => this.isLoading = true),
-        switchMap(() =>
-          this.commessaService
-            .getAllCommesse$({
-              idCliente: this.idClienteDiretto,
-              idClienteFinale: this.idClienteFinale,
-              codiceCommessa: this.codiceCommessa,
-              idProjectManager: this.idPm,
-              idBusinessManager: this.idBm,
-              idFase: this.tipoAttivita as number,
-              valido: this.statoCtrl.value as string,
-              dataInizio: this.dataInizio,
-              dataFine: this.dataFine
-            })
-        ),
-        tap(commesseResults => {
-          this.isLoading = false;
-          this.commesseResults = commesseResults;
-          delayedScrollTo("tabella-commesse", 150);
-        })
-      )
-      .subscribe();
-
-    // When adding a new commessa
-    this.refresh$
-      .subscribe(() =>
-        this.initializeAutocompleteValues(false, true, false) // only refresh commesse
-      );
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-  }
-
-  initializeAutocompleteValues(
-    refreshUtenti = true,
-    refreshCommesse = true,
-    refreshClienti = true
-  ) {
-
-    if (refreshUtenti) {
-
-      this.statoAvanzamentoWrap
-        .getUtenti$({ IsPm: true, IsBm: false })
-        .subscribe(pmList => this.pmList = pmList);
-
-      this.statoAvanzamentoWrap
-        .getUtenti$({ IsPm: false, IsBm: true })
-        .subscribe(bmList => this.bmList = bmList);
-    }
-
-    if (refreshCommesse)
-      this.commessaService
-        .getCommesseAutocomplete$()
-        .subscribe(commesse => this.commesse = commesse);
-
-    if (refreshClienti)
-      this.statoAvanzamentoWrap
-        .getClienti$({ totali: true })
-        .subscribe(clienti => {
-          this.clientiDiretti = jsonCopy(clienti);
-          this.clientiFinali = jsonCopy(clienti);
-        });
   }
 
   resetControls() {
@@ -340,52 +351,58 @@ export class AttivitaComponent {
     this.tipoAttivitaCtrl.setValue(null);
   }
 
-  addTab(commessa: CommessaSearchDto) {
+  addTab(id: number, codiceCommessa: string) {
 
-    const isAlreadyIncluded = this.tabs.some(t => t.id === commessa.id);
-    if (isAlreadyIncluded) {
-      const txt = `Commessa ${commessa.codiceCommessa} già inclusa nelle tab di ricerca`;
-      this.toaster.show(txt, { classname: 'bg-danger text-white' });
+    const tabAlreadyExist = this.tabs.find(t => t.id === id);
+    if (tabAlreadyExist) {
+      this.activeTabId = id;
+      delayedScrollTo("#commessa-" + id);
       return;
     }
 
-    this.activeTabId = commessa.id;
+    this.activeTabId = id;
 
     this.tabs.push({
-      id: commessa.id,
-      title: commessa.codiceCommessa,
-      commessa
+      id,
+      codiceCommessa
     });
 
-    delayedScrollTo("commessa-" + commessa.id, 150);
+    delayedScrollTo("#commessa-" + id);
   }
 
-  closeTab(event: MouseEvent, toRemove: number) {
+  closeTab(toRemove: number, evt?: MouseEvent) {
 
     // Open the tab to the left
     const tabToRemoveIndex = this.tabs.findIndex(tab => tab.id === toRemove);
-    this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.id;
+    if (this.activeTabId === toRemove)
+      if (tabToRemoveIndex === 0)
+        this.activeTabId = this.tabs[tabToRemoveIndex + 1]?.id; // right
+      else
+        this.activeTabId = this.tabs[tabToRemoveIndex - 1]?.id; // left
 
     // Remove tab from the array
 		this.tabs = this.tabs.filter((tab) => tab.id !== toRemove);
-		event.preventDefault();
-		event.stopImmediatePropagation();
+
+    if (evt) {
+      evt.preventDefault();
+      evt.stopImmediatePropagation();
+    }
 	}
 
   async create() {
 
     const modalRef = this.modalService
       .open(
-        AttivitaCreazioneModifica,
+        CommessaCreazioneModifica,
         {
           size: 'lg',
           centered: true,
-          scrollable: true,
-          modalDialogClass: 'app-tall-dialog'
+          scrollable: true
         }
       );
 
-    await modalRef.result;
+    const result = await modalRef.result;
+    this.addTab(result.idCommessa, result.codiceCommessa);
     this.refresh$.next();
   }
 
@@ -393,21 +410,20 @@ export class AttivitaComponent {
 
     const modalRef = this.modalService
       .open(
-        AttivitaCreazioneModifica,
+        CommessaCreazioneModifica,
         {
           size: 'lg',
           centered: true,
-          scrollable: true,
-          modalDialogClass: 'app-tall-dialog'
+          scrollable: true
         }
       );
-    modalRef.componentInstance.idCommessaPadre = commessa.id;
+    modalRef.componentInstance.idCommessa = commessa.id;
 
     await modalRef.result;
     this.refresh$.next();
   }
 
-  async delete(commessa: CommessaSearchDto) {
+  async deleteCommessaInterna(commessa: CommessaSearchDto) {
 
     const modalRef = this.modalService
       .open(
@@ -419,14 +435,55 @@ export class AttivitaComponent {
         }
       );
     modalRef.componentInstance.name = commessa.codiceCommessa;
+    modalRef.componentInstance.message = "Stai eliminando definitivamente una commessa interna."
 
     await modalRef.result;
+
     this.commessaService
-      .deleteCommessa(commessa.id)
+      .deleteCommessaInterna$(commessa.id)
       .subscribe(
         () => {
-          const txt = "Commessa eliminata con successo!";
+
+          const txt = "Commessa interna eliminata con successo!";
           this.toaster.show(txt, { classname: 'bg-success text-white' });
+
+          this.closeTab(commessa.id);
+
+          this.refresh$.next();
+        },
+        (ex) => {
+          this.toaster.show(ex.error, { classname: 'bg-danger text-white' });
+        }
+      );
+  }
+
+  async cancelOpportunita(commessa: CommessaSearchDto) {
+
+    const modalRef = this.modalService
+      .open(
+        EliminazioneDialog,
+        {
+          size: 'md',
+          centered: true,
+          scrollable: true
+        }
+      );
+    modalRef.componentInstance.name = commessa.codiceCommessa;
+    modalRef.componentInstance.reversible = true;
+    modalRef.componentInstance.message = "Stai disabilitando un'opportunità, potrai ripristinarla in qualunque momento."
+
+    await modalRef.result;
+
+    this.commessaService
+      .cancelOpportunita$(commessa.id)
+      .subscribe(
+        () => {
+
+          const txt = "Opportunità disabilitata con successo!";
+          this.toaster.show(txt, { classname: 'bg-success text-white' });
+
+          this.closeTab(commessa.id);
+
           this.refresh$.next();
         },
         (ex) => {
@@ -437,10 +494,10 @@ export class AttivitaComponent {
 
   restore(commessa: CommessaSearchDto) {
     this.commessaService
-      .restoreCommessa(commessa.id)
+      .restoreOpportunita(commessa.id)
       .subscribe(
         () => {
-          const txt = "Commessa rirpistinata con successo!";
+          const txt = "Opportunità ripristinata con successo!";
           this.toaster.show(txt, { classname: 'bg-success text-white' });
           this.refresh$.next();
         },

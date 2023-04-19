@@ -1,1 +1,100 @@
-<p>risorse works!</p>
+<div class="col-md-7 p-3 mt-3 mb-5 mx-auto">
+
+    <h5 class="mb-3">Dettaglio task</h5>
+
+    <div class="ag-parent-resume app-callout app-callout--green">
+
+        <div class="flexgrid flexgrid--2">
+
+            <div>
+                <div class="small text-muted">Codice task</div>
+                <div>{{ task?.codiceTask }}</div>
+            </div>
+
+            <div>
+                <div class="small text-muted">Descrizione</div>
+                <div>{{ task?.descrizione }}</div>
+            </div>
+
+            <div>
+                <div class="small text-muted">Data inizio</div>
+                <div>{{ task?.dataInizio | date:'yyyy-MM-dd' }}</div>
+            </div>
+
+            <div>
+                <div class="small text-muted">Data fine</div>
+                <div>{{ task?.dataFine | date:'yyyy-MM-dd' }}</div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-warning btn-lg shadow">
+            <i class="bi bi-pencil"></i>
+        </button>
+    </div>
+</div>
+
+<div class="card pt-3 shadow">
+
+    <div class="table-plus">
+
+        <h5 class="table-plus__title">Tabella risorse task</h5>
+
+        <button
+            type="button"
+            class="table-plus__action btn btn-success shadow"
+            (click)="create()"
+        >
+            <i class="bi bi-plus"></i>
+            Crea legame
+        </button>
+    </div>
+    
+    <app-table
+        #dt
+        [thead]="thead"
+        [tbody]="tbody"
+        [items]="risorseTask"
+        [searchable]="['utente.cognome', 'utente.nome']"
+        [paginated]="true"
+        [pageSize]="5"
+        emptyMessage="Nessun risultato, effettua una ricerca"
+    >
+    
+        <ng-template #thead>
+            <th sortable="utente.cognome" (sort)="dt.sort($any($event))">Cognome</th>
+            <th sortable="utente.nome" (sort)="dt.sort($any($event))">Nome</th>
+            <th sortable="dataInizio" (sort)="dt.sort($any($event))">Data inizio</th>
+            <th sortable="dataFine" (sort)="dt.sort($any($event))">Data fine</th>
+            <th sortable="allocazione" (sort)="dt.sort($any($event))">Allocazione</th>
+            <th style="width: 10rem"></th>
+        </ng-template>
+    
+        <ng-template #tbody let-item let-term$="term$">
+            <td>{{ item.utente?.cognome }}</td>
+            <td>{{ item.utente?.nome }}</td>
+            <td>{{ item.dataInizio | date:'yyyy-MM-dd' }}</td>
+            <td>{{ item.dataFine | date:'yyyy-MM-dd' }}</td>
+            <td>{{ item.allocazione }}</td>
+            <td>
+                <div class="d-flex gap-2 justify-content-center">
+
+                    <button
+                        type="button"
+                        class="btn btn-warning shadow"
+                        (click)="update(item)"
+                    >
+                        <i class="bi bi-pencil"></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-danger shadow"
+                        (click)="delete(item)"
+                    >
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </div>
+            </td>
+        </ng-template>
+    </app-table>
+</div>

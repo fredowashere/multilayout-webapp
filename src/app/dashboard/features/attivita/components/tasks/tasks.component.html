@@ -1,8 +1,57 @@
-<div class="card app-callout app-callout--orange pt-3 shadow">
+<div class="col-md-8 p-3 mt-3 mb-5 mx-auto">
+
+    <h5 class="mb-3">Dettaglio sottocommessa</h5>
+
+    <div class="ag-parent-resume app-callout app-callout--orange">
+    
+        <div class="flexgrid flexgrid--3">
+
+            <div>
+                <div class="small text-muted">Tipo attivita</div>
+                <div>{{ sottocommessa?.tipoFatturazione?.text }}</div>
+            </div>
+    
+            <div>
+                <div class="small text-muted">Data inizio</div>
+                <div>{{ sottocommessa?.dataInizio | date:'yyyy-MM-dd' }}</div>
+            </div>
+
+            <div>
+                <div class="small text-muted">Data fine</div>
+                <div>{{ sottocommessa?.dataFine | date:'yyyy-MM-dd' }}</div>
+            </div>
+    
+            <div>
+                <div class="small text-muted">Codice sottocommessa</div>
+                <div>{{ sottocommessa?.codiceCommessa }}</div>
+            </div>
+    
+            <div>
+                <div class="small text-muted">Descrizione</div>
+                <div>{{ sottocommessa?.descrizione }}</div>
+            </div>
+    
+            <div>
+                <div class="small text-muted">Project manager</div>
+                <div>{{ pm?.cognome + ' ' + pm?.nome }}</div>
+            </div>
+        </div>
+    
+        <button
+            type="button"
+            class="btn btn-warning btn-lg shadow"
+            (click)="updateSottocommessa()"
+        >
+            <i class="bi bi-pencil"></i>
+        </button>
+    </div>
+</div>
+
+<div class="card app-callout app-callout--green pt-3 shadow">
 
     <div class="table-plus">
 
-        <h5 class="table-plus__title">Tabella sottocommesse</h5>
+        <h5 class="table-plus__title">Tabella tasks</h5>
 
         <button
             type="button"
@@ -10,7 +59,7 @@
             (click)="create()"
         >
             <i class="bi bi-plus"></i>
-            Crea sottocommessa
+            Crea task
         </button>
     </div>
     
@@ -18,31 +67,33 @@
         #dt
         [thead]="thead"
         [tbody]="tbody"
-        [items]="sottocommesse"
-        [searchable]="['codice', 'descrizione', 'tipoFatturazione.text']"
+        [items]="tasks"
+        [searchable]="['codiceTask', 'descrizione']"
         [paginated]="true"
         [pageSize]="5"
         emptyMessage="Nessun risultato, effettua una ricerca"
     >
     
         <ng-template #thead>
-            <th sortable="codiceCommessa" (sort)="dt.sort($any($event))">Codice</th>
+            <th sortable="codiceTask" (sort)="dt.sort($any($event))">Codice</th>
             <th sortable="descrizione" (sort)="dt.sort($any($event))">Descrizione</th>
-            <th sortable="tipoFatturazione.id" (sort)="dt.sort($any($event))">Tipo fatturazione</th>
+            <th sortable="dataInizio" (sort)="dt.sort($any($event))">Data inizio</th>
+            <th sortable="dataFine" (sort)="dt.sort($any($event))">Data fine</th>
             <th style="width: 10rem"></th>
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.codiceCommessa }}</td>
+            <td>{{ item.codiceTask }}</td>
             <td>{{ item.descrizione }}</td>
-            <td>{{ item.tipoFatturazione.text }}</td>
+            <td>{{ item.dataInizio | date:'yyyy-MM-dd' }}</td>
+            <td>{{ item.dataFine | date:'yyyy-MM-dd' }}</td>
             <td>
                 <div class="d-flex gap-2 justify-content-center">
 
                     <button
                         type="button"
                         class="btn btn-primary shadow"
-                        (click)="addTab(item.id, item.codiceCommessa)"
+                        (click)="addTab(item.id, item.codiceTask)"
                     >
                         <i class="bi bi-arrow-90deg-down"></i>
                     </button>
@@ -68,7 +119,7 @@
     </app-table>
 </div>
 
-<div *ngIf="sottocommesse.length" class="mt-4">
+<div *ngIf="tasks.length" class="mt-4">
     <ul
         class="app-tabbable nav-tabs"
         ngbNav
@@ -78,17 +129,17 @@
     >
         <li *ngFor="let tab of tabs" [ngbNavItem]="tab.id">
             <a ngbNavLink>
-                {{ tab.codiceCommessa }}
+                {{ tab.codiceTask || 'ND' }}
                 <span class="btn-close ms-2 fw-light" (click)="closeTab(tab.id, $event)"></span>
             </a>
             <ng-template ngbNavContent>
 
-                <app-tasks
-                    [id]="'sottocommessa-' + tab.id"
+                <app-risorse
+                    [id]="'task-' + tab.id"
                     [idCommessa]="idCommessa"
-                    [idSottocommessa]="tab.id"
-                    (sottocommessaUpdate)="refresh$.next()"
-                ></app-tasks>
+                    [idSottocommessa]="idSottocommessa"
+                    [idTask]="tab.id"
+                ></app-risorse>
 
             </ng-template>
         </li>

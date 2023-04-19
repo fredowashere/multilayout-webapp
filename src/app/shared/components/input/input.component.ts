@@ -16,6 +16,7 @@ export class InputComponent {
 
   destroy$ = new Subject<void>();
 
+  guid!: string;
   _name!: string;
 
   @Input("floatingLabel") floatingLabel = false;
@@ -36,6 +37,8 @@ export class InputComponent {
   @Input("ngControl") ngControl!: FormControl;
   
   // Autocomplete and tagger properties
+  @Input("limit") limit: false | number = false;
+  @Input("limitTextFactory") limitTextMaker = (limit: number) => "Limited to " + limit + " items, type for more results.";
   @Input("formatter") formatter = defaultFormatter;
   @Input("filter") filter = defaultFilter;
   @Input("template") template!: any;
@@ -71,7 +74,8 @@ export class InputComponent {
 
     this.handleErrors();
 
-    this._name = this.name + '-' + guid();
+    this.guid = guid();
+    this._name = this.name + '-' + this.guid;
 
     this.addOptionIds();
 
@@ -86,10 +90,43 @@ export class InputComponent {
       this.setAutocompleteSearch();
       this.setupAutocompleteReactivity();
     }
+
+    if (['autocomplete', 'tagger'].includes(this.type) && this.limit)
+      this.appendLimitExplainerStylesheet();
   }
 
   ngOnDestroy() {
     this.destroy$.next();
+
+    if (['autocomplete', 'tagger'].includes(this.type) && this.limit)
+      this.removeLimitExplainerStylesheet();
+  }
+
+  appendLimitExplainerStylesheet() {
+
+    const css = `
+      input[role="combobox"].autocomplete-${this.guid} + ngb-typeahead-window::before {
+        content: "${this.limitTextMaker(this.limit as number)}";
+        white-space: pre;
+        color: #888;
+        display: block;
+        font-size: 0.9rem;
+        padding: 0 10px 5px;
+        text-align: center;
+      }
+    `;
+
+    const style = document.createElement("style");
+    style.id = "autocomplete-" + this.guid;
+    style.appendChild(document.createTextNode(css));
+
+    const head = document.getElementsByTagName("head")[0];
+    head.appendChild(style);
+  }
+
+  removeLimitExplainerStylesheet() {
+    const el = document.getElementById("autocomplete-" + this.guid)!;
+    el.remove();
   }
 
   handleErrors() {
@@ -150,17 +187,30 @@ export class InputComponent {
       const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
       const inputFocus$ = this.focus$;
 
+      let searchObs$;
       if (this.customSearch)
-        return this.customSearch(merge(debouncedText$, inputFocus$, clicksWithClosedPopup$));
-
-      return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
-        .pipe(
-          map((term: string) => {
-            return this.options.filter(value =>
-              this.filter(term, value)
-            );
-          })
+        searchObs$ = this.customSearch(
+          merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
         );
+      else
+        searchObs$ = merge(debouncedText$, inputFocus$, clicksWithClosedPopup$)
+          .pipe(
+            map((term: string) => {
+              return this.options.filter(value =>
+                this.filter(term, value)
+              );
+            })
+          );
+
+      if (this.limit)
+        return searchObs$
+          .pipe(
+            map(array =>
+              array.slice(0, this.limit as number)
+            )
+          );
+      else
+        return searchObs$;
     };
   };
 

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { catchError, combineLatest, filter, map, startWith, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
+import { catchError, combineLatest, filter, map, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
 import { Dettaglio, EnumStatiChiusura, GetSottoCommessePerReferenteResponse, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
 import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-avanzamento/services/stato-avanzamento-wrap.service';
 import { GetAvanzamentoParam, SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/dashboard/features/stato-avanzamento/models/stato-avanzamento.models';
@@ -28,7 +28,6 @@ export class StatoAvanzamentoComponent {
   @ViewChild("pmAutocomplete") pmAutocomplete!: InputComponent;
   @ViewChild("bmAutocomplete") bmAutocomplete!: InputComponent;
 
-  enforceMinMax = enforceMinMax;
   EnumStatiChiusura = EnumStatiChiusura;
   BUSINESS_MANAGER = BUSINESS_MANAGER;
 
@@ -294,7 +293,7 @@ export class StatoAvanzamentoComponent {
 
   updateResults(avanzamento: SottocommessaAvanzamento[]) {
 
-    const idPmSottocommessaAvanzamenti = avanzamento
+    const idPmAvanzamento = avanzamento
       .reduce(
         (a, b) => {
           a[b.referente.idUtente as number] = a[b.referente.idUtente as number] || [];
@@ -304,30 +303,32 @@ export class StatoAvanzamentoComponent {
         {} as { [key: number]: SottocommessaAvanzamento[] }
       );
 
-    const idPmList = Object.keys(idPmSottocommessaAvanzamenti) as unknown as number[];
+    const idPmList = Object.keys(idPmAvanzamento) as unknown as number[];
 
     // Clean tabs that are not present in the current view
     for (let i = this.tabs.length - 1; i > -1; i--) {
 
       const tab = this.tabs[i];
 
-      if (!idPmSottocommessaAvanzamenti[tab.id])
+      if (!idPmAvanzamento[tab.id])
         this.tabs.splice(i, 1);
     }
 
     // Create/update tabs
     for (const idPm of idPmList) {
 
-      const { referente: ref } = idPmSottocommessaAvanzamenti[idPm][0];
+      const { referente: ref } = idPmAvanzamento[idPm][0];
 
       this.addTab(
         idPm,
         ref.cognome + ' ' + ref.nome,
-        idPmSottocommessaAvanzamenti[idPm]
+        idPmAvanzamento[idPm]
       );
     }
 
-    this.activeTabId = this.tabs[0]?.id;
+    // If current tab doesn't exist anymore, then go back to first
+    if (!this.tabs.map(t => t.id).includes(this.activeTabId))
+      this.activeTabId = this.tabs[0]?.id;
   }
 
   addTab(
@@ -398,6 +399,21 @@ export class StatoAvanzamentoComponent {
         )
       )
       .subscribe();
+  }
+
+  onPercInputChange(
+    percInput: HTMLInputElement,
+    avanzamento: SottocommessaAvanzamento,
+    dettaglio: SottocommessaAvanzamentoDettaglio
+  ) {
+
+    const min = 0;
+    const max = avanzamento.calcPercRimanente(dettaglio);
+    enforceMinMax(percInput, { min, max });
+
+    dettaglio.avanzamentoTotale = +percInput.value;
+    avanzamento.aggiornaAvanzamento();
+    dettaglio.dirty = true;
   }
 
   trackByIdCommessa(index: number, item: SottocommessaAvanzamento) {
