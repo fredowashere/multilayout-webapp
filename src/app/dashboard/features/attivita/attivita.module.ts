@@ -18,6 +18,7 @@ import { SottocommessaCreazioneModifica } from './dialogs/sottocommessa-creazion
 import { TaskCreazioneModifica } from './dialogs/task-creazione-modifica/task-creazione-modifica.component';
 import { RisorsaCreazioneModifica } from './dialogs/risorsa-creazione-modifica/risorsa-creazione-modifica.component';
 import { ForzatureComponent } from './components/forzature/forzature.component';
+import { ForzaturaCreazioneModifica } from './dialogs/forzatura-creazione-modifica/forzatura-creazione-modifica.component';
 
 
 const routes: Routes = [
@@ -41,7 +42,8 @@ const routes: Routes = [
     SottocommessaCreazioneModifica,
     TaskCreazioneModifica,
     RisorsaCreazioneModifica,
-    ForzatureComponent
+    ForzatureComponent,
+    ForzaturaCreazioneModifica
   ],
   imports: [
     CommonModule,

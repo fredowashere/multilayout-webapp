@@ -124,10 +124,8 @@ export class TasksComponent {
 		this.sottocommessaService
 			.getSottocommessaById$(this.idSottocommessa)
 			.subscribe(sottocommessa => {
-
 				this.sottocommessa = sottocommessa;
         this.pm = this.miscDataService.idUtenteUtente[sottocommessa?.idProjectManager];
-
         this.sottocommessaUpdateEmitter.emit(sottocommessa);
 			});
 	}

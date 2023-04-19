@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RisorsaTaskWrap } from '../../models/risorsa';
 import { TaskDto } from '../../models/task';
 import { RisorsaService } from '../../services/risorsa.service';
@@ -8,6 +8,7 @@ import { RisorsaCreazioneModifica } from '../../dialogs/risorsa-creazione-modifi
 import { EliminazioneDialog } from '../../dialogs/eliminazione.dialog';
 import { ToastService } from 'src/app/services/toast.service';
 import { Subject, startWith, switchMap } from 'rxjs';
+import { TaskCreazioneModifica } from '../../dialogs/task-creazione-modifica/task-creazione-modifica.component';
 
 @Component({
   selector: 'app-risorse',
@@ -19,6 +20,7 @@ export class RisorseComponent {
   @Input("idCommessa") idCommessa!: number;
   @Input("idSottocommessa") idSottocommessa!: number;
   @Input("idTask") idTask!: number;
+  @Output("taskUpdate") taskUpdateEmitter = new EventEmitter<TaskDto>();
   task?: TaskDto;
 
   refresh$ = new Subject<void>();
@@ -48,6 +50,31 @@ export class RisorseComponent {
         )
         .subscribe(legami => this.risorseTask = legami);
   }
+
+  async updateTask() {
+
+		const modalRef = this.modalService
+		  .open(
+        TaskCreazioneModifica,
+        {
+          size: 'lg',
+          centered: true,
+          scrollable: true
+        }
+		  );
+		modalRef.componentInstance.idCommessa = this.idCommessa;
+		modalRef.componentInstance.idSottocommessa = this.idSottocommessa;
+		modalRef.componentInstance.idTask = this.idTask;
+	
+		await modalRef.result;
+
+		this.taskService
+      .getTaskById$(this.idTask)
+			.subscribe(task => {
+				this.task = task;
+        this.taskUpdateEmitter.emit(task);
+			});
+	}
 
   async create() {
 
@@ -122,5 +149,7 @@ export class RisorseComponent {
         }
       );
   }
+
+
 
 }

@@ -139,6 +139,7 @@
                     [idCommessa]="idCommessa"
                     [idSottocommessa]="idSottocommessa"
                     [idTask]="tab.id"
+                    (taskUpdate)="refresh$.next()"
                 ></app-risorse>
 
             </ng-template>

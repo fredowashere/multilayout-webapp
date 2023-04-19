@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { startWith, Subject } from 'rxjs';
-import { EventoCreazioneModifica } from '../../dialogs/evento-creazione-modifica/evento-creazione-modifica.component';
-import { EventoDto } from '../../models/opportunita';
 import { ForzaturaService } from '../../services/forzatura.service';
 import { ForzaturaDto } from '../../models/forzatura';
+import { ForzaturaCreazioneModifica } from '../../dialogs/forzatura-creazione-modifica/forzatura-creazione-modifica.component';
+import { EliminazioneDialog } from '../../dialogs/eliminazione.dialog';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-forzature',
@@ -22,7 +23,8 @@ export class ForzatureComponent {
 
   constructor(
     private forzatureService: ForzaturaService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toaster: ToastService
   ) { }
 
   ngOnInit() {
@@ -31,7 +33,7 @@ export class ForzatureComponent {
       .pipe(startWith(null))
       .subscribe(() =>
         this.forzatureService
-          .getForzature(this.idCommessa, this.categoria)
+          .getForzature$(this.idCommessa, this.categoria)
           .subscribe(forzature => this.forzature = forzature)
       );
   }
@@ -40,7 +42,7 @@ export class ForzatureComponent {
 
     const modalRef = this.modalService
       .open(
-        EventoCreazioneModifica,
+        ForzaturaCreazioneModifica,
         {
           size: 'lg',
           centered: true,
@@ -48,16 +50,17 @@ export class ForzatureComponent {
         }
       );
     modalRef.componentInstance.idCommessa = this.idCommessa;
+    modalRef.componentInstance.categoria = this.categoria;
 
     const result = await modalRef.result;
     this.refresh$.next();
   }
 
-  async update(evento: EventoDto) {
+  async update(forzatura: ForzaturaDto) {
 
     const modalRef = this.modalService
       .open(
-        EventoCreazioneModifica,
+        ForzaturaCreazioneModifica,
         {
           size: 'lg',
           centered: true,
@@ -65,9 +68,40 @@ export class ForzatureComponent {
         }
       );
     modalRef.componentInstance.idCommessa = this.idCommessa;
-    modalRef.componentInstance.evento = evento;
+    modalRef.componentInstance.idForzatura = forzatura.id;
+    modalRef.componentInstance.categoria = this.categoria;
 
     await modalRef.result;
     this.refresh$.next();
+  }
+
+  async delete(forzatura: ForzaturaDto) {
+
+    const modalRef = this.modalService
+      .open(
+        EliminazioneDialog,
+        {
+          size: 'md',
+          centered: true,
+          scrollable: true
+        }
+      );
+    modalRef.componentInstance.name = "forzatura";
+    modalRef.componentInstance.message = "Stai eliminando definitivamente una forzatura."
+
+    await modalRef.result;
+
+    this.forzatureService
+      .deleteForzatura$(forzatura.id as number, this.categoria)
+      .subscribe(
+        () => {
+          const txt = "Forzatura eliminata con successo!";
+          this.toaster.show(txt, { classname: 'bg-success text-white' });
+          this.refresh$.next();
+        },
+        (ex) => {
+          this.toaster.show(ex.error, { classname: 'bg-danger text-white' });
+        }
+      );
   }
 }

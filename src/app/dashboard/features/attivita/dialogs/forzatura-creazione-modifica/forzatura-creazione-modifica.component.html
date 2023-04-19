@@ -1,0 +1,156 @@
+<ng-template #loading>
+    <div class="text-center py-4">
+        <div class="spinner-border"></div>
+    </div>
+</ng-template>
+
+<ng-container *ngIf="!isLoading; else loading">
+    <div class="modal-header">
+
+        <h4 class="modal-title" id="modal-title">
+            {{ dialogMode }} forzatura di {{ categoria }}
+        </h4>
+
+        <button
+            type="button"
+            class="btn-close" 
+            (click)="activeModal.dismiss('Cross click')"
+        ></button>
+        </div>
+
+        <div class="modal-body" style="min-height: 40vh">
+
+            <form [formGroup]="form">
+
+                <div class="flexgrid flexgrid--2">
+
+                    <app-input
+                        type="autocomplete"
+                        name="sottocommessa"
+                        label="Sottocommessa *"
+                        [options]="sottocommesse"
+                        [formatter]="sottocommessaFormatter"
+                        [filter]="sottocommessaFilter"
+                        [template]="cTmpl"
+                        [ngControl]="sottocommessaCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                    <ng-template #cTmpl let-r="result" let-t="term">
+                        <div class="my-1">
+                            <div class="small">{{ r?.codiceCommessa }}</div>
+                            <ngb-highlight [result]="r?.descrizione" [term]="t"></ngb-highlight>
+                        </div>
+                    </ng-template>
+
+                    <app-input
+                        type="autocomplete"
+                        name="fornitore"
+                        label="Fornitore *"
+                        [options]="fornitori"
+                        [limit]="25"
+                        [formatter]="fornitoreFormatter"
+                        [filter]="fornitoreFilter"
+                        [ngControl]="fornitoreCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="select"
+                        name="categoriaForzatura"
+                        label="Categoria forzatura"
+                        [ngControl]="categoriaForzaturaCtrl"
+                        [options]="categorieForzatura"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="select"
+                        name="risconto"
+                        label="Risconto"
+                        [ngControl]="riscontoCtrl"
+                        [options]="risconti"
+                        [floatingLabel]="true"
+                        [disabled]="!!idForzatura"
+                    ></app-input>
+
+                    <app-monthpicker
+                        name="monthpicker"
+                        label="Inizio competenza *"
+                        [helper]="previewInizioCompetenza"
+                        [maxDate]="maxInizioCompetenza"
+                        [ngControl]="inizioCompetenzaCtrl"
+                        [disabled]="!!idForzatura"
+                    ></app-monthpicker>
+
+                    <app-monthpicker
+                        name="monthpicker"
+                        label="Fine competenza *"
+                        [helper]="previewFineCompetenza"
+                        [minDate]="minFineCompetenza"
+                        [ngControl]="fineCompetenzaCtrl"
+                        [disabled]="!!idForzatura"
+                    ></app-monthpicker>
+                </div>
+
+                <div *ngIf="categoria === 'costo'" class="flexgrid flexgrid--2">
+
+                    <app-input
+                        name="costo"
+                        label="Costo *"
+                        [mask]="euroMask"
+                        [ngControl]="costoCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="select"
+                        name="classificazioneCosto"
+                        label="Classificazione costo"
+                        [ngControl]="classificazioneCostoCtrl"
+                        [options]="classificazioniCosto"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <div *ngIf="categoria === 'ricavo'" class="flexgrid flexgrid--1">
+                    <app-input
+                        name="ricavo"
+                        label="Ricavo *"
+                        [mask]="euroMask"
+                        [ngControl]="ricavoCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <div class="flexgrid flexgrid--1">
+                    <app-input
+                        type="textarea"
+                        name="note"
+                        label="Note"
+                        [ngControl]="noteCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="btn btn-outline-secondary ms-auto"
+                (click)="activeModal.dismiss('Cancel')"
+            >
+                Cancella
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="form.invalid"
+                (click)="save()"
+            >
+                Salva
+            </button>
+        </div>
+</ng-container>

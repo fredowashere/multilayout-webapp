@@ -3,20 +3,25 @@
     <label
         *ngIf="label"
         class="form-label"
-        (click)="$event.stopPropagation(); dd.open();"
+        (click)="openDropdown($event)"
     >
         {{ label }}
     </label>
 
     <div class="app-monthpicker">
 
-        <div class="app-monthpicker__toggle" ngbDropdownToggle></div>
+        <div 
+            *ngIf="!disabled"
+            class="app-monthpicker__toggle"
+            ngbDropdownToggle
+        ></div>
     
         <input
             #mp
             class="app-month-picker__input form-control"
             [class.form-control-sm]="size === 'sm'"
             [class.form-control-lg]="size === 'lg'"
+            [class.pseudo-disabled]="disabled"
             [class.is-invalid]="touched && ngControl.errors"
             [name]="name"
             [placeholder]="placeholder"
@@ -31,7 +36,7 @@
 
         <i
             class="app-monthpicker__calendar-icon bi bi-calendar3"
-            (click)="$event.stopPropagation(); dd.open();"
+            (click)="openDropdown($event)"
         ></i>
     </div>
 
