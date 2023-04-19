@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { Subject, takeUntil, tap } from 'rxjs';
 
 export interface MonthpickerStruct {
   year: number;
@@ -51,10 +52,40 @@ export class MonthpickerComponent {
   year = this.currYear;
 
   touched = false;
+  destroy$ = new Subject<void>();
 
   ngOnInit() {
     this.handleErrors();
     this.updateMonthpickerModel();
+  }
+
+  ngAfterViewInit() {
+
+    if (this.ngControl.value) {
+      this.setMonthpickerInputValue(this.ngControl.value);
+    }
+
+    this.ngControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(this.setMonthpickerInputValue.bind(this))
+      )
+      .subscribe();
+  }
+
+  setMonthpickerInputValue(value: MonthpickerStruct | null) {
+
+    if (!value) {
+      this.monthpicker.nativeElement.value = "";
+      return;
+    }
+    
+    const { year, month } = value;
+    this.monthpicker.nativeElement.value = year + "-" + month;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
   }
 
   handleErrors() {
@@ -114,16 +145,10 @@ export class MonthpickerComponent {
   }
 
   onMonthSelected(monthNumber: number) {
-
     this.touched = true;
-
-    const output = { year: this.year, month: monthNumber };
-
-    this.monthSelectEmitter.emit(output);
-
-    this.ngControl.setValue(output);
-    this.monthpicker.nativeElement.value = this.year + '-' + monthNumber;
-
+    const selection = { year: this.year, month: monthNumber };
+    this.monthSelectEmitter.emit(selection);
+    this.ngControl.setValue(selection);
     this.dropdown.close();
   }
 
