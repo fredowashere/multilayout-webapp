@@ -23,8 +23,21 @@ export class MonthpickerComponent {
   @Input("label") label?: string;
   @Input("placeholder") placeholder = "yyyy-mm";
   @Input("helper") helper?: string;
-  @Input("minDate") minDate?: MonthpickerStruct;
-  @Input("maxDate") maxDate?: MonthpickerStruct;
+
+  minDate?: MonthpickerStruct;
+  @Input("minDate")
+  set _minDate(v: MonthpickerStruct) {
+    this.minDate = v;
+    this.updateMonthpickerModel();
+  }
+
+  maxDate?: MonthpickerStruct
+  @Input("maxDate")
+  set _maxDate(v: MonthpickerStruct) {
+    this.maxDate = v;
+    this.updateMonthpickerModel();
+  }
+
   @Output("monthSelect") monthSelectEmitter = new EventEmitter<MonthpickerStruct | null>();
 
   years: { selected: boolean, year: number }[] = [];
@@ -40,11 +53,8 @@ export class MonthpickerComponent {
   touched = false;
 
   ngOnInit() {
-
     this.handleErrors();
-
-    this.createYears();
-    this.createMonths();
+    this.updateMonthpickerModel();
   }
 
   handleErrors() {
@@ -56,7 +66,14 @@ export class MonthpickerComponent {
       throw Error('app-monthpicker needs a name');
   }
 
+  updateMonthpickerModel() {
+    this.createYears();
+    this.createMonths();
+  }
+
   createYears() {
+
+    this.years = [];
 
     const start = this.minDate?.year || this.currYear - 20;
     const end = this.maxDate?.year || this.currYear + 20;
@@ -70,6 +87,8 @@ export class MonthpickerComponent {
   }
 
   createMonths() {
+
+    this.months = [];
 
     for (let month = 0; month < 12; month++) {
 
