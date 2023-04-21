@@ -27,16 +27,16 @@ export class MonthpickerComponent {
   @Input("helper") helper?: string;
   @Input("disabled") disabled = false;
 
-  minDate?: MonthpickerStruct;
+  minDate?: MonthpickerStruct | null;
   @Input("minDate")
-  set _minDate(v: MonthpickerStruct) {
+  set _minDate(v: MonthpickerStruct | null) {
     this.minDate = v;
     this.updateMonthpickerModel();
   }
 
-  maxDate?: MonthpickerStruct
+  maxDate?: MonthpickerStruct | null;
   @Input("maxDate")
-  set _maxDate(v: MonthpickerStruct) {
+  set _maxDate(v: MonthpickerStruct | null) {
     this.maxDate = v;
     this.updateMonthpickerModel();
   }
