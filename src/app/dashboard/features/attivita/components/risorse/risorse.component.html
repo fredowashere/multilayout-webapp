@@ -52,6 +52,30 @@
             Crea legame
         </button>
     </div>
+
+    <ng-template #emptyTmpl>
+        <div style="
+            display: grid;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 250px;
+            padding: 3rem 1rem;
+            text-align: center;
+        ">
+
+            <img class="img-fluid" src="assets/images/no-results.svg" alt="nessun risultato trovato">
+
+            <div class="lead">Nessun legame trovato.</div>
+
+            <button
+                class="btn btn-outline-success"
+                (click)="create()"
+            >
+                Crea legame
+            </button>
+        </div>
+    </ng-template>
     
     <app-table
         #dt
@@ -61,7 +85,7 @@
         [searchable]="['utente.cognome', 'utente.nome']"
         [paginated]="true"
         [pageSize]="5"
-        emptyMessage="Nessun risultato, effettua una ricerca"
+        [emptyTemplate]="emptyTmpl"
     >
     
         <ng-template #thead>

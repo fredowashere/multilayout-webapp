@@ -13,6 +13,30 @@
             Crea evento
         </button>
     </div>
+
+    <ng-template #emptyTmpl>
+        <div style="
+            display: grid;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 250px;
+            padding: 3rem 1rem;
+            text-align: center;
+        ">
+
+            <img class="img-fluid" src="assets/images/not-found.png" alt="nessun risultato trovato">
+
+            <div class="lead">Nessun evento trovato.</div>
+
+            <button
+                class="btn btn-outline-success"
+                (click)="create()"
+            >
+                Crea evento
+            </button>
+        </div>
+    </ng-template>
     
     <app-table
         #dt
@@ -22,7 +46,7 @@
         [searchable]="['descrizione', 'faseEvento.descrizione']"
         [paginated]="true"
         [pageSize]="5"
-        emptyMessage="Nessun risultato"
+        [emptyTemplate]="emptyTmpl"
     >
     
         <ng-template #thead>

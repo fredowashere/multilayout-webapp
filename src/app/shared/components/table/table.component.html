@@ -140,6 +140,13 @@
 	</table>
 </div>
 
-<div class="p-3 text-center" *ngIf="emptyMessage && !items.length">
-	{{ emptyMessage }}
-</div>
+<ng-container *ngIf="emptyTemplate; else empty">
+	<ng-container *ngIf="!items.length">
+		<ng-container *ngTemplateOutlet="emptyTemplate"></ng-container>
+	</ng-container>
+</ng-container>
+<ng-template #empty>
+	<div class="p-3 text-center" *ngIf="!items.length">
+		{{ emptyMessage }}
+	</div>
+</ng-template>

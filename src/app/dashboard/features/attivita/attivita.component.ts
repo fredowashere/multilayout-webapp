@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { combineLatest, merge, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { combineLatest, merge, startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { Dettaglio, UtentiAnagrafica } from 'src/app/api/modulo-attivita/models';
 import { ToastService } from 'src/app/services/toast.service';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
@@ -116,6 +116,7 @@ export class AttivitaComponent {
     return this.dataFineCtrl.value;
   }
 
+  init = false;
   commesseResults: CommessaSearchDto[] = [];
 
   constructor(
@@ -131,10 +132,10 @@ export class AttivitaComponent {
     this.initializeAutocompleteValues();
 
     this.attachAutocompleteListeners();
-    
-    let init = false;
+
     merge(this.searchClick$, this.refresh$)
       .pipe(
+        startWith(null),
         takeUntil(this.destroy$),
         tap(() => this.isLoading = true),
         switchMap(() =>
@@ -155,9 +156,9 @@ export class AttivitaComponent {
           this.isLoading = false;
           this.commesseResults = commesseResults;
 
-          if (!init) {
+          if (!this.init) {
             delayedScrollTo("#tabella-commesse");
-            init = true;
+            this.init = true;
           }
         })
       )
