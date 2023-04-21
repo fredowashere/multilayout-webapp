@@ -6,7 +6,6 @@ import { DashboardNavbarComponent } from './layout/navbar/navbar.component';
 import { DashboardSidebarComponent } from './layout/sidebar/sidebar.component';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardFooterComponent } from './layout/footer/footer.component';
-import { DiarieAziendaModule } from './features/diarie-azienda/diarie-azienda.module';
 
 const routes: Routes = [
   { 
@@ -46,8 +45,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SharedModule,
-    DiarieAziendaModule
+    SharedModule
   ]
 })
 export class DashboardModule { }

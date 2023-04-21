@@ -26,6 +26,7 @@
     >
     
         <ng-template #thead>
+            <th sortable="note" (sort)="dt.sort($any($event))">Descrizione</th>
             <th sortable="commessa.text" (sort)="dt.sort($any($event))">Sottocommessa</th>
             <th sortable="inizioPeriodo" (sort)="dt.sort($any($event))">Inizio competenza</th>
             <th sortable="finePeriodo" (sort)="dt.sort($any($event))">Fine competenza</th>
@@ -33,11 +34,11 @@
             <th *ngIf="categoria === 'costo'" sortable="costoTotale" (sort)="dt.sort($any($event))">Costo</th>
             <th *ngIf="categoria === 'ricavo'" sortable="ricavoTotale" (sort)="dt.sort($any($event))">Ricavo</th>
 
-            <th sortable="note" (sort)="dt.sort($any($event))">Note</th>
             <th style="width: 10rem"></th>
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
+            <td>{{ item.note }}</td>
             <td>{{ item.commessa.text }}</td>
             <td>{{ item.inizioPeriodo | date:'yyyy-MM' }}</td>
             <td>{{ item.finePeriodo | date:'yyyy-MM' }}</td>
@@ -45,7 +46,6 @@
             <td *ngIf="categoria === 'costo'">€ {{ item.costoTotale }}</td>
             <td *ngIf="categoria === 'ricavo'">€ {{ item.ricavoTotale }}</td>
 
-            <td>{{ item.note }}</td>
             <td>
                 <div class="d-flex gap-2 justify-content-center">
 

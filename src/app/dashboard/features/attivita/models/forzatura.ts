@@ -2,7 +2,7 @@ export interface ForzaturaDto {
     id?: number;
     idAzienda?: number;
     valido?: boolean | number;
-    note?: string;
+    note: string;
     idFornitore: number;
     commessa: {
         id: number;
@@ -14,8 +14,8 @@ export interface ForzaturaDto {
     };
     inizioPeriodo: string;
     finePeriodo: string;
-    costoTotale?: string;
-    ricavoTotale?: string;
+    costoTotale?: string | null;
+    ricavoTotale?: string | null;
     idCliente: number;
     riscontoMensile: boolean;
     riscontoGiornaliero: boolean;

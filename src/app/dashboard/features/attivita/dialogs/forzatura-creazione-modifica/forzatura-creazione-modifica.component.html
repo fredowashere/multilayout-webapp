@@ -25,6 +25,13 @@
                 <div class="flexgrid flexgrid--2">
 
                     <app-input
+                        name="descrizione"
+                        label="Descrizione *"
+                        [ngControl]="descrizioneCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
                         type="autocomplete"
                         name="sottocommessa"
                         label="Sottocommessa *"
@@ -41,7 +48,9 @@
                             <ngb-highlight [result]="r?.descrizione" [term]="t"></ngb-highlight>
                         </div>
                     </ng-template>
+                </div>
 
+                <div class="flexgrid flexgrid--1">
                     <app-input
                         type="autocomplete"
                         name="fornitore"
@@ -53,6 +62,9 @@
                         [ngControl]="fornitoreCtrl"
                         [floatingLabel]="true"
                     ></app-input>
+                </div>
+
+                <div class="flexgrid flexgrid--2">
 
                     <app-input
                         type="select"
@@ -73,23 +85,42 @@
                         [disabled]="!!idForzatura"
                     ></app-input>
 
-                    <app-monthpicker
-                        name="monthpicker"
-                        label="Inizio competenza *"
-                        [helper]="previewInizioCompetenza"
-                        [maxDate]="maxInizioCompetenza"
-                        [ngControl]="inizioCompetenzaCtrl"
-                        [disabled]="!!idForzatura"
-                    ></app-monthpicker>
+                    <ng-container *ngIf="riscontoCtrl.value === 2; else mensile">
 
-                    <app-monthpicker
-                        name="monthpicker"
-                        label="Fine competenza *"
-                        [helper]="previewFineCompetenza"
-                        [minDate]="minFineCompetenza"
-                        [ngControl]="fineCompetenzaCtrl"
-                        [disabled]="!!idForzatura"
-                    ></app-monthpicker>
+                        <app-input
+                            type="date"
+                            name="inizioCompetenzaGiornaliera"
+                            label="Inizio competenza *"
+                            [max]="fineCompetenzaGiornalieroCtrl.value"
+                            [ngControl]="inizioCompetenzaGiornalieroCtrl"
+                        ></app-input>
+    
+                        <app-input
+                            type="date"
+                            name="fineCompetenzaGiornaliera"
+                            label="Fine competenza *"
+                            [min]="inizioCompetenzaGiornalieroCtrl.value"
+                            [ngControl]="fineCompetenzaGiornalieroCtrl"
+                        ></app-input>
+                    </ng-container>
+                    <ng-template #mensile>
+
+                        <app-monthpicker
+                            name="inizioCompetenzaMensile"
+                            label="Inizio competenza *"
+                            [maxDate]="fineCompetenzaMensileCtrl.value"
+                            [ngControl]="inizioCompetenzaMensileCtrl"
+                            [disabled]="!!idForzatura"
+                        ></app-monthpicker>
+
+                        <app-monthpicker
+                            name="fineCompetenzaMensile"
+                            label="Fine competenza *"
+                            [minDate]="inizioCompetenzaMensileCtrl.value"
+                            [ngControl]="fineCompetenzaMensileCtrl"
+                            [disabled]="!!idForzatura"
+                        ></app-monthpicker>
+                    </ng-template>
                 </div>
 
                 <div *ngIf="categoria === 'costo'" class="flexgrid flexgrid--2">
@@ -118,16 +149,6 @@
                         label="Ricavo *"
                         [mask]="euroMask"
                         [ngControl]="ricavoCtrl"
-                        [floatingLabel]="true"
-                    ></app-input>
-                </div>
-
-                <div class="flexgrid flexgrid--1">
-                    <app-input
-                        type="textarea"
-                        name="note"
-                        label="Note"
-                        [ngControl]="noteCtrl"
                         [floatingLabel]="true"
                     ></app-input>
                 </div>

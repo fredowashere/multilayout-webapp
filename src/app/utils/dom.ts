@@ -11,3 +11,7 @@ export function delayedScrollTo(queryString: string, ms?: number) {
         ms
     );
 }
+
+export function blur() {
+    (document.activeElement as any)?.blur();
+}

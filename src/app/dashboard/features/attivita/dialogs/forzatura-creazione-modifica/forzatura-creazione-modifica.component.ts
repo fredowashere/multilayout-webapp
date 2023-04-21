@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { combineLatest, lastValueFrom } from "rxjs";
+import { combineLatest, lastValueFrom, startWith, tap } from "rxjs";
 import { ToastService } from "src/app/services/toast.service";
 import { jsonCopy } from "src/app/utils/json";
 import { euroMask, euroMask2numStr, numStr2euroMask } from "src/app/utils/mask";
@@ -14,6 +14,7 @@ import { MonthpickerStruct } from "src/app/shared/components/monthpicker/monthpi
 import { ForzaturaService } from "../../services/forzatura.service";
 import { MiscDataService } from "../../services/miscData.service";
 import { ForzaturaDto } from "../../models/forzatura";
+import { isoToStruct, structToIso } from "src/app/utils/date";
 
 @Component({
 	selector: 'app-forzatura-creazione-modifica-dialog',
@@ -47,6 +48,8 @@ export class ForzaturaCreazioneModifica {
     sottocommessaFilter = (term: string, sc: CommessaDto) =>
         (sc?.codiceCommessa + ' ' + sc?.descrizione).toLowerCase().includes(term.toLowerCase());
 
+    descrizioneCtrl = new FormControl<string | null>(null, [Validators.required]);
+
     fornitoreCtrl = new FormControl<Dettaglio | null>(null, [Validators.required]);
     get idFornitore() {
         return this.fornitoreCtrl.value?.id;
@@ -57,102 +60,23 @@ export class ForzaturaCreazioneModifica {
         (c.descrizione as string).toLowerCase().includes(term.toLowerCase());
 
     categoriaForzaturaCtrl = new FormControl<number>(1);
-    get categoriaForzatura() {
-        return this.categoriaForzaturaCtrl.value;
-    }
     categorieForzatura: { text: string, value: any }[] = [];
 
     riscontoCtrl = new FormControl<number>(0);
-    get risconto() {
-        return this.riscontoCtrl.value;
-    }
     risconti = [
         { text: "Nessuno", value: 0 },
         { text: "Mensile", value: 1 },
         { text: "Giornaliero", value: 2 },
     ];
 
-    inizioCompetenzaCtrl = new FormControl<MonthpickerStruct | null>(null, [Validators.required]);
-    get inizioCompetenza() {
+    inizioCompetenzaGiornalieroCtrl = new FormControl<string | null>(null);
+    inizioCompetenzaMensileCtrl = new FormControl<MonthpickerStruct | null>(null);
 
-        if (!this.inizioCompetenzaCtrl.value)
-            return "1970-01-01";
-        
-        const date = "01";
-        const month = (this.inizioCompetenzaCtrl.value.month + "")
-            .padStart(2, "0");
-        const year = this.inizioCompetenzaCtrl.value.year;
-
-        return year + "-" + month + "-" + date;
-    }
-    set inizioCompetenza(val: string) {
-        if (val) {
-            const d = new Date(val);
-            this.inizioCompetenzaCtrl
-                .setValue({
-                    year: d.getFullYear(),
-                    month: d.getMonth() + 1
-                });
-        }
-    }
-    get previewInizioCompetenza() {
-        if (!this.inizioCompetenzaCtrl.value) {
-            return "Inizio del mese selezionato";
-        }
-        const { year, month } = this.inizioCompetenzaCtrl.value;
-        return `${year}-${month}-1`;
-    }
-    get maxInizioCompetenza(): MonthpickerStruct {
-        if (!this.fineCompetenzaCtrl.value) {
-            return { year: 2030, month: 12 };
-        }
-        return this.fineCompetenzaCtrl.value;
-    }
-
-    fineCompetenzaCtrl = new FormControl<MonthpickerStruct | null>(null, [Validators.required]);
-    get fineCompetenza() {
-
-        if (!this.fineCompetenzaCtrl.value)
-            return "2239-01-01";
-        
-        const date = "01";
-        const month = (this.fineCompetenzaCtrl.value.month + "")
-            .padStart(2, "0");
-        const year = this.fineCompetenzaCtrl.value.year;
-
-        return year + "-" + month + "-" + date;
-    }
-    set fineCompetenza(val: string) {
-        if (val) {
-            const d = new Date(val);
-            this.fineCompetenzaCtrl
-                .setValue({
-                    year: d.getFullYear(),
-                    month: d.getMonth() + 1
-                });
-        }
-    }
-    get previewFineCompetenza() {
-        if (!this.fineCompetenzaCtrl.value) {
-            return "Inizio del mese selezionato";
-        }
-        const { year, month } = this.fineCompetenzaCtrl.value;
-        return `${year}-${month}-1`;
-    }
-    get minFineCompetenza(): MonthpickerStruct {
-        if (!this.inizioCompetenzaCtrl.value) {
-            return { year: 2000, month: 1 };
-        }
-        return this.inizioCompetenzaCtrl.value;
-    }
-
-    noteCtrl = new FormControl();
+    fineCompetenzaGiornalieroCtrl = new FormControl<string | null>(null);
+    fineCompetenzaMensileCtrl = new FormControl<MonthpickerStruct | null>(null);
 
     // Only costo
     classificazioneCostoCtrl = new FormControl<number>(1);
-    get classificazioneCosto() {
-        return this.classificazioneCostoCtrl.value;
-    }
     classificazioniCosto: { text: string, value: any }[] = [];
 
     costoCtrl = new FormControl("0");
@@ -225,9 +149,11 @@ export class ForzaturaCreazioneModifica {
             fornitore: this.fornitoreCtrl,
             categoriaForzatura: this.categoriaForzaturaCtrl,
             risconto: this.riscontoCtrl,
-            inizioCompetenza: this.inizioCompetenzaCtrl,
-            fineCompetenza: this.fineCompetenzaCtrl,
-            note: this.noteCtrl,
+            inizioCompetenzaGiornaliero: this.inizioCompetenzaGiornalieroCtrl,
+            fineCompetenzaGiornaliero: this.fineCompetenzaGiornalieroCtrl,
+            inizioCompetenzaMensile: this.inizioCompetenzaMensileCtrl,
+            fineCompetenzaMensile: this.fineCompetenzaMensileCtrl,
+            note: this.descrizioneCtrl,
             costo: this.costoCtrl,
             classificazioneCosto: this.classificazioneCostoCtrl,
             ricavo: this.ricavoCtrl,
@@ -262,12 +188,43 @@ export class ForzaturaCreazioneModifica {
         if (this.categoria === "costo") {
             this.costoCtrl.setValidators([Validators.required]);
             this.costoCtrl.updateValueAndValidity();
-            this.form.updateValueAndValidity();
         }
         else {
             this.ricavoCtrl.setValidators([Validators.required]);
             this.ricavoCtrl.updateValueAndValidity();
         }
+
+        this.form.updateValueAndValidity();
+
+        this.riscontoCtrl.valueChanges
+            .pipe(
+                startWith(null),
+                tap(() => {
+
+                    const risconto = this.riscontoCtrl.value as number;
+
+                    if (risconto === 2) {
+                        this.inizioCompetenzaGiornalieroCtrl.setValidators([Validators.required]);
+                        this.fineCompetenzaGiornalieroCtrl.setValidators([Validators.required]);
+                        this.inizioCompetenzaMensileCtrl.setValidators(null);
+                        this.fineCompetenzaMensileCtrl.setValidators(null);
+                    }
+                    else {
+                        this.inizioCompetenzaGiornalieroCtrl.setValidators(null);
+                        this.fineCompetenzaGiornalieroCtrl.setValidators(null);
+                        this.inizioCompetenzaMensileCtrl.setValidators([Validators.required]);
+                        this.fineCompetenzaMensileCtrl.setValidators([Validators.required]);
+                    }
+
+                    this.inizioCompetenzaGiornalieroCtrl.updateValueAndValidity();
+                    this.fineCompetenzaGiornalieroCtrl.updateValueAndValidity();
+                    this.inizioCompetenzaMensileCtrl.updateValueAndValidity();
+                    this.fineCompetenzaMensileCtrl.updateValueAndValidity();
+
+                    this.form.updateValueAndValidity();
+                })
+            )
+            .subscribe();
     }
 
     initCtrlValues() {
@@ -316,13 +273,21 @@ export class ForzaturaCreazioneModifica {
             }
             if (this.forzatura.riscontoGiornaliero) {
                 risconto = 2;
+                
             }
             this.riscontoCtrl.setValue(risconto);
 
-            this.inizioCompetenza = this.forzatura.inizioPeriodo;
-            this.fineCompetenza = this.forzatura.finePeriodo;
+            this.inizioCompetenzaGiornalieroCtrl.setValue(this.forzatura.inizioPeriodo);
+            this.fineCompetenzaGiornalieroCtrl.setValue(this.forzatura.finePeriodo);
 
-            this.noteCtrl.setValue(this.forzatura.note);
+            this.inizioCompetenzaMensileCtrl.setValue(
+                isoToStruct(this.forzatura.inizioPeriodo)
+            );
+            this.fineCompetenzaMensileCtrl.setValue(
+                isoToStruct(this.forzatura.finePeriodo)
+            );
+
+            this.descrizioneCtrl.setValue(this.forzatura.note);
 
             if (this.categoria === "costo") {
                 this.costo = this.forzatura.costoTotale as string;
@@ -347,13 +312,24 @@ export class ForzaturaCreazioneModifica {
 
         let riscontoMensile = false;
         let riscontoGiornaliero = false;
-        if (this.risconto === 1) {
+        if (this.riscontoCtrl.value === 1) {
             riscontoMensile = true;
             riscontoGiornaliero = false;
         }
-        if (this.risconto === 2) {
+        if (this.riscontoCtrl.value === 2) {
             riscontoGiornaliero = true;
             riscontoMensile = false;
+        }
+
+        let inizioCompetenza: string;
+        let fineCompetenza: string;
+        if (this.riscontoCtrl.value === 2) {
+            inizioCompetenza = this.inizioCompetenzaGiornalieroCtrl.value as string;
+            fineCompetenza = this.fineCompetenzaGiornalieroCtrl.value as string;
+        }
+        else {
+            inizioCompetenza = structToIso(this.inizioCompetenzaMensileCtrl.value as MonthpickerStruct) as string;
+            fineCompetenza = structToIso(this.fineCompetenzaMensileCtrl.value as MonthpickerStruct) as string;
         }
 
         let createObj: ForzaturaDto;
@@ -382,18 +358,18 @@ export class ForzaturaCreazioneModifica {
             // }
 
             createObj = {
-                note: this.noteCtrl.value,
+                note: this.descrizioneCtrl.value as string,
                 costoTotale: this.costo,
-                inizioPeriodo: this.inizioCompetenza,
-                finePeriodo: this.fineCompetenza,
+                inizioPeriodo: inizioCompetenza,
+                finePeriodo: fineCompetenza,
                 commessa: {
                     id: this.idSottocommessa as number
                 },
                 categoriaForzatura: {
-                    id: this.categoriaForzatura as number
+                    id: this.categoriaForzaturaCtrl.value as number
                 },
                 classificazioneDiCosto: {
-                    id: this.classificazioneCosto as number
+                    id: this.classificazioneCostoCtrl.value as number
                 },
                 idCliente: this.commessa.idCliente,
                 idFornitore: this.idFornitore as number,
@@ -423,15 +399,15 @@ export class ForzaturaCreazioneModifica {
             // }
 
             createObj = {
-                note: this.noteCtrl.value,
+                note: this.descrizioneCtrl.value as string,
                 ricavoTotale: this.ricavo,
-                inizioPeriodo: this.inizioCompetenza,
-                finePeriodo: this.fineCompetenza,
+                inizioPeriodo: inizioCompetenza,
+                finePeriodo: fineCompetenza,
                 commessa: {
                     id: this.idSottocommessa as number
                 },
                 categoriaForzatura: {
-                    id: this.categoriaForzatura as number
+                    id: this.categoriaForzaturaCtrl.value as number
                 },
                 idCliente: this.commessa.idCliente,
                 idFornitore: this.idFornitore as number,
@@ -467,14 +443,14 @@ export class ForzaturaCreazioneModifica {
         if (!this.forzatura || this.form.invalid) return;
 
         const copyOfForzatura: ForzaturaDto = jsonCopy(this.forzatura);
-        copyOfForzatura.note = this.noteCtrl.value;
+        copyOfForzatura.note = this.descrizioneCtrl.value as string;
         copyOfForzatura.commessa.id = this.idSottocommessa as number;
-        copyOfForzatura.categoriaForzatura.id = this.categoriaForzatura as number;
+        copyOfForzatura.categoriaForzatura.id = this.categoriaForzaturaCtrl.value as number;
         copyOfForzatura.idFornitore = this.idFornitore as number;
 
         if (this.categoria === "costo") {
             copyOfForzatura.costoTotale = this.costo;
-            copyOfForzatura.classificazioneDiCosto!.id = this.classificazioneCosto as number;
+            copyOfForzatura.classificazioneDiCosto!.id = this.classificazioneCostoCtrl.value as number;
         }
         else {
             copyOfForzatura.ricavoTotale = this.ricavo;
