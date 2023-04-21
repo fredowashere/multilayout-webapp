@@ -16,7 +16,11 @@ export function structToIso(struct: NgbDateStruct | MonthpickerStruct): string |
         return null;
 
     const yyyy = struct.year;
-    const MM = struct.month;
-    const dd = (struct as NgbDateStruct).day || "01";
+    const MM = (struct.month + "").padStart(2, "0");
+
+    let dd = "01";
+    if ("day" in struct)
+        dd = (struct.day + "").padStart(2, "0");
+
     return yyyy + "-" + MM + "-" + dd;
 }
