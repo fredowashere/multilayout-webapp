@@ -19,6 +19,8 @@
         <input
             #mp
             class="app-month-picker__input form-control"
+            (focus)="openDropdown($event)"
+            (keypress)="$event.preventDefault()"
             [class.form-control-sm]="size === 'sm'"
             [class.form-control-lg]="size === 'lg'"
             [class.pseudo-disabled]="disabled"
