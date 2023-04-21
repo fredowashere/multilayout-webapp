@@ -155,4 +155,12 @@ export class SottocommesseComponent {
         }
       );
   }
+
+  async duplicate(sottocommessa: CommessaDto) {
+
+    await this.sottocommessaService
+      .duplicateSottocommessa(sottocommessa);
+    
+    this.refresh$.next();
+  }
 }

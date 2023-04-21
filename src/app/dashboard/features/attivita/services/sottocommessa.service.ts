@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { lastValueFrom, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CommessaDto, CreateSottocommessaParam } from '../models/commessa';
 import { TipoFatturazione } from '../models/fatturazione';
+import { TaskService } from './task.service';
+import { RisorsaService } from './risorsa.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +13,9 @@ import { TipoFatturazione } from '../models/fatturazione';
 export class SottocommessaService {
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private taskService: TaskService,
+        private risorsaService: RisorsaService,
     ) { }
 
     checkExistingSottocommesseByIdCommessa$(idCommessa: number) {
@@ -65,6 +69,69 @@ export class SottocommessaService {
     deleteSottocommessa$(idSottocommessa: number) {
         const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/deleteSottocommessa/id/${idSottocommessa}`;
         return this.http.delete(url);
+    }
+
+    async duplicateSottocommessa(sottocommessa: CommessaDto) {
+
+        const tasks = await lastValueFrom(
+            this.taskService.getTasksByIdSottocommessa$(sottocommessa.id)
+        );
+
+        const matriceRisorse = [];
+        for (let i = 0; i < tasks.length; i++) {
+
+            const risorse = await lastValueFrom(
+                this.risorsaService.getLegamiByIdTask$(tasks[i].id)
+            );
+
+            matriceRisorse.push(risorse);
+        }
+
+        const idSottocommessa = await lastValueFrom(
+            this.createSottocommessa$({
+                idCommessaPadre: sottocommessa.idCommessaPadre,
+                codiceCommessa: `Copia di ${sottocommessa.codiceCommessa}`,
+                descrizione: sottocommessa.descrizione,
+                iniziativa: sottocommessa.iniziativa,
+                tipoFatturazione: sottocommessa.tipoFatturazione,
+                importo: +sottocommessa.importo,
+                ribaltabileCliente: sottocommessa.ribaltabileCliente,
+                dataInizio: sottocommessa.dataInizio,
+                dataFine: sottocommessa.dataFine
+            })
+        );
+
+        for (let i = 0; i < tasks.length; i++) {
+
+            const idTask = await lastValueFrom(
+                this.taskService
+                    .createTask$({
+                        attivitaObbligatoria: tasks[i].attivitaObbligatoria,
+                        codiceTask: tasks[i].codiceTask,
+                        dataFine: tasks[i].dataFine,
+                        dataInizio: tasks[i].dataInizio,
+                        descrizione: tasks[i].descrizione,
+                        giorniPrevisti: tasks[i].giorniPrevisti,
+                        idCommessa: idSottocommessa,
+                        percentualeAvanzamento: tasks[i].percentualeAvanzamento,
+                        stimaGiorniAFinire: tasks[i].stimaGiorniAFinire,
+                        visualizzataInRapportini: tasks[i].visualizzataInRapportini,
+                    })
+            );
+
+            for (let j = 0; j < matriceRisorse[i].length; j++) {
+
+                await lastValueFrom(
+                    this.risorsaService
+                        .createLegame$({
+                            inizioAllocazione: matriceRisorse[i][j].inizioAllocazione,
+                            fineAllocazione: matriceRisorse[i][j].fineAllocazione,
+                            idTask: idTask,
+                            idUtente: matriceRisorse[i][j].idUtente,
+                        })
+                )
+            }
+        }
     }
 
 }
