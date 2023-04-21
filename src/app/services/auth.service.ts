@@ -33,7 +33,7 @@ export class AuthService {
 
   login(username: string, password: string) {
 
-    return timer(1000)
+    return timer(200)
       .pipe(
         tap(() => {
 

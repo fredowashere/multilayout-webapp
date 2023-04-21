@@ -19,7 +19,7 @@
         <input
             #mp
             class="app-month-picker__input form-control"
-            (focus)="openDropdown($event)"
+            (focus)="openDropdown($event); blur()"
             (keypress)="$event.preventDefault()"
             [class.form-control-sm]="size === 'sm'"
             [class.form-control-lg]="size === 'lg'"
@@ -33,7 +33,7 @@
         <i
             *ngIf="ngControl.value"
             class="app-monthpicker__reset-icon bi bi-x-lg"
-            (click)="reset()"
+            (click)="reset($event)"
         ></i>
 
         <i

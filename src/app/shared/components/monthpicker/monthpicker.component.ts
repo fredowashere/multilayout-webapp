@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { FormControl } from '@angular/forms';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, takeUntil, tap } from 'rxjs';
+import { blur } from 'src/app/utils/dom';
 
 export interface MonthpickerStruct {
   year: number;
@@ -54,6 +55,8 @@ export class MonthpickerComponent {
 
   touched = false;
   destroy$ = new Subject<void>();
+
+  blur = blur;
 
   ngOnInit() {
     this.handleErrors();
@@ -153,7 +156,9 @@ export class MonthpickerComponent {
     this.dropdown.close();
   }
 
-  reset() {
+  reset(evt: Event) {
+
+    evt.stopPropagation();
 
     if (this.disabled)
       return;
@@ -163,10 +168,11 @@ export class MonthpickerComponent {
 
   openDropdown(evt: Event) {
 
+    evt.stopPropagation();
+
     if (this.disabled)
       return;
-
-    evt.stopPropagation();
+    
     this.dropdown.open();
   }
 }
