@@ -6,18 +6,22 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: [ LoggedInGuard, "attivitaUserGuard" ]
+      import('./dashboard/dashboard.module')
+        .then(m => m.DashboardModule),
+    canActivate: ["loggedInOnlyGuard"]
+
   },
   {
     path: 'login',
     loadChildren: () =>
-      import('./pages/login/login.module').then(m => m.LoginModule)
+      import('./pages/login/login.module')
+        .then(m => m.LoginModule)
   },
   {
     path: 'splash',
     loadChildren: () =>
-      import('./pages/splash/splash.module').then(m => m.SplashModule)
+      import('./pages/splash/splash.module')
+        .then(m => m.SplashModule)
   },
 ];
 

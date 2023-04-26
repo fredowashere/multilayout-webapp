@@ -16,12 +16,20 @@ const routes: Routes = [
       {
         path: 'attivita',
         loadChildren: () =>
-          import('./features/attivita/attivita.module').then(m => m.AttivitaModule)
+          import('./features/attivita/attivita.module')
+            .then(m => m.AttivitaModule)
+      },
+      {
+        path: 'diarie-azienda',
+        loadChildren: () =>
+          import('./features/diarie-azienda/diarie-azienda.module')
+            .then(m => m.DiarieAziendaModule)
       },
       {
         path: 'stato-avanzamento',
         loadChildren: () =>
-          import('./features/stato-avanzamento/stato-avanzamento.module').then(m => m.StatoAvanzamentoModule)
+          import('./features/stato-avanzamento/stato-avanzamento.module')
+            .then(m => m.StatoAvanzamentoModule)
       },
     ]
   },

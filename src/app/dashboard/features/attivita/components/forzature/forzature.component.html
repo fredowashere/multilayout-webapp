@@ -1,0 +1,96 @@
+<div class="card pt-3 shadow">
+
+    <div class="table-plus">
+
+        <h5 class="table-plus__title">Tabella {{ categoria }}</h5>
+
+        <button
+            type="button"
+            class="table-plus__action btn btn-success shadow"
+            (click)="create()"
+        >
+            <i class="bi bi-plus"></i>
+            Crea {{ categoria }}
+        </button>
+    </div>
+
+    <ng-template #emptyTmpl>
+        <div style="
+            display: grid;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 300px;
+            padding: 3rem 1rem;
+            text-align: center;
+        ">
+
+            <img class="img-fluid" src="assets/images/no-results.png" alt="nessun risultato trovato">
+
+            <div class="lead">Nessuna forzatura trovata.</div>
+
+            <button
+                class="btn btn-outline-success"
+                (click)="create()"
+            >
+                Crea {{ categoria }}
+            </button>
+        </div>
+    </ng-template>
+    
+    <app-table
+        #dt
+        [thead]="thead"
+        [tbody]="tbody"
+        [items]="forzature"
+        [searchable]="['commessa.text', 'note']"
+        [paginated]="true"
+        [pageSize]="5"
+        [emptyTemplate]="emptyTmpl"
+    >
+    
+        <ng-template #thead>
+            <th sortable="note" (sort)="dt.sort($any($event))">Descrizione</th>
+            <th sortable="commessa.text" (sort)="dt.sort($any($event))">Sottocommessa</th>
+            <th sortable="inizioPeriodo" (sort)="dt.sort($any($event))">Inizio competenza</th>
+            <th sortable="finePeriodo" (sort)="dt.sort($any($event))">Fine competenza</th>
+
+            <th *ngIf="categoria === 'costo'" sortable="costoTotale" (sort)="dt.sort($any($event))">Costo</th>
+            <th *ngIf="categoria === 'ricavo'" sortable="ricavoTotale" (sort)="dt.sort($any($event))">Ricavo</th>
+
+            <th style="width: 10rem"></th>
+        </ng-template>
+    
+        <ng-template #tbody let-item let-term$="term$">
+            <td>{{ item.note }}</td>
+            <td>{{ item.commessa.text }}</td>
+            <td>{{ item.inizioPeriodo | date:'yyyy-MM' }}</td>
+            <td>{{ item.finePeriodo | date:'yyyy-MM' }}</td>
+
+            <td *ngIf="categoria === 'costo'">€ {{ item.costoTotale }}</td>
+            <td *ngIf="categoria === 'ricavo'">€ {{ item.ricavoTotale }}</td>
+
+            <td>
+                <div class="d-flex gap-2 justify-content-center">
+
+                    <button
+                        type="button"
+                        class="btn btn-warning shadow"
+                        (click)="update(item)"
+                    >
+                        <i class="bi bi-pencil"></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-danger shadow"
+                        (click)="delete(item)"
+                    >
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </div>
+            </td>
+        </ng-template>
+    </app-table>
+</div>
+

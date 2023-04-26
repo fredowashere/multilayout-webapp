@@ -93,7 +93,6 @@ export class SottocommessaCreazioneModifica {
             : DIALOG_MODE.Create;
 
         if (this.dialogMode === DIALOG_MODE.Update) {
-
             combineLatest([
                 this.commessaService.getCommessaById(this.idCommessa),
                 this.sottocommessaService.getSottocommessaById$(this.idSottocommessa)
@@ -107,8 +106,8 @@ export class SottocommessaCreazioneModifica {
             });
         }
         else {
-
-            this.commessaService.getCommessaById(this.idCommessa)
+            this.commessaService
+                .getCommessaById(this.idCommessa)
                 .subscribe(async commessa => {
                     this.commessa = commessa;
                     await this.initArrays();
@@ -266,7 +265,7 @@ export class SottocommessaCreazioneModifica {
                         .close({
                             dialogMode: this.dialogMode,
                             idSottocommessa,
-                            codiceSottocommessa: this.codiceSottocommessaCtrl.value as string
+                            codiceSottocommessa: this.codiceSottocommessaCtrl.value
                         });
                 },
                 () => {

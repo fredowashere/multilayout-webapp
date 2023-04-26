@@ -172,6 +172,52 @@
                         Crea commessa
                     </button>
                 </div>
+
+                <ng-template #emptyTmpl>
+                    <div style="
+                        display: grid;
+                        gap: 0.75rem;
+                        justify-content: center;
+                        margin: 0 auto;
+                        max-width: 300px;
+                        padding: 3rem 1rem;
+                        text-align: center;
+                    ">
+
+                        <ng-container *ngIf="init; else abc">
+
+                            <img class="img-fluid" src="assets/images/no-results.svg" alt="nessun risultato trovato">
+
+                            <div class="lead">Nessuna commessa trovata.</div>
+
+                            <!-- <button
+                                class="btn btn-outline-primary"
+                                (click)="searchClick$.next()"
+                            >
+                                <ng-container *ngIf="isLoading; else searchIcon">
+                                    <span class="spinner-border spinner-border-sm"></span> Cercando...
+                                </ng-container>
+                                <ng-template #searchIcon>
+                                    Cerca commesse
+                                </ng-template>
+                            </button>
+
+                            <div class="lead fw-bold">- oppure -</div>
+
+                            <button
+                                class="btn btn-outline-success"
+                                (click)="create()"
+                            >
+                                Crea commessa
+                            </button> -->
+                        </ng-container>
+                        <ng-template #abc>
+                            <ng-container *ngIf="isLoading">
+                                <span class="spinner-border"></span>
+                            </ng-container>
+                        </ng-template>
+                    </div>
+                </ng-template>
     
                 <app-table
                     #dt
@@ -188,7 +234,7 @@
                     ]"
                     [paginated]="true"
                     [pageSize]="5"
-                    emptyMessage="Nessun risultato, effettua una ricerca"
+                    [emptyTemplate]="emptyTmpl"
                 >
     
                     <ng-template #thead>
@@ -268,7 +314,7 @@
                 </app-table>
             </div>
 
-            <div *ngIf="commesseResults.length" class="mt-4">
+            <div *ngIf="commesseResults.length" class="mt-5 pt-5">
                 <ul
                     class="app-tabbable nav-tabs"
                     ngbNav

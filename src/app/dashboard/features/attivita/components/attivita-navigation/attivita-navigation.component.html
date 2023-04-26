@@ -125,7 +125,10 @@
             Costi
         </a>
 		<ng-template ngbNavContent>
-			<app-costi></app-costi>
+			<app-forzature
+                [idCommessa]="idCommessa"
+                categoria="costo"
+            ></app-forzature>
 		</ng-template>
 	</li>
 
@@ -139,7 +142,10 @@
             Ricavi
         </a>
 		<ng-template ngbNavContent>
-			<app-ricavi></app-ricavi>
+			<app-forzature
+                [idCommessa]="idCommessa"
+                categoria="ricavo"
+            ></app-forzature>
 		</ng-template>
 	</li>
 

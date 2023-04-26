@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { environment } from 'src/environments/environment';
 import { ENV_COLL, ENV_DEV, ENV_PROD } from 'src/environments/envs';
-import { GetAttoreResponse } from '../api/stato-avanzamento/models';
-import { UtentiService } from '../api/stato-avanzamento/services';
+import { GetAttoreResponse } from '../api/modulo-attivita/models';
+import { UtentiService } from '../api/modulo-attivita/services';
 import { User, UTENTE_BASE } from '../models/user';
 import { parseJwt } from '../utils/json';
 

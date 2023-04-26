@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
-import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
+import { Dettaglio, UtentiAnagrafica } from 'src/app/api/modulo-attivita/models';
 import { lookmap, singlifyLookmap } from 'src/app/utils/object';
 import { StatoAvanzamentoWrapService } from '../../stato-avanzamento/services/stato-avanzamento-wrap.service';
 

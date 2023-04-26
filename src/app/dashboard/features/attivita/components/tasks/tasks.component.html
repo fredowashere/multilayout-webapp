@@ -62,6 +62,30 @@
             Crea task
         </button>
     </div>
+
+    <ng-template #emptyTmpl>
+        <div style="
+            display: grid;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 300px;
+            padding: 3rem 1rem;
+            text-align: center;
+        ">
+
+            <img class="img-fluid" src="assets/images/no-results.svg" alt="nessun risultato trovato">
+
+            <div class="lead">Nessun task trovato.</div>
+
+            <button
+                class="btn btn-outline-success"
+                (click)="create()"
+            >
+                Crea task
+            </button>
+        </div>
+    </ng-template>
     
     <app-table
         #dt
@@ -71,7 +95,7 @@
         [searchable]="['codiceTask', 'descrizione']"
         [paginated]="true"
         [pageSize]="5"
-        emptyMessage="Nessun risultato, effettua una ricerca"
+        [emptyTemplate]="emptyTmpl"
     >
     
         <ng-template #thead>
@@ -119,7 +143,7 @@
     </app-table>
 </div>
 
-<div *ngIf="tasks.length" class="mt-4">
+<div *ngIf="tasks.length" class="mt-5 pt-5">
     <ul
         class="app-tabbable nav-tabs"
         ngbNav
@@ -139,6 +163,7 @@
                     [idCommessa]="idCommessa"
                     [idSottocommessa]="idSottocommessa"
                     [idTask]="tab.id"
+                    (taskUpdate)="refresh$.next()"
                 ></app-risorse>
 
             </ng-template>

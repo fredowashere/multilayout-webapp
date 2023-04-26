@@ -27,7 +27,11 @@
             </div>
         </div>
 
-        <button type="button" class="btn btn-warning btn-lg shadow">
+        <button
+            type="button"
+            class="btn btn-warning btn-lg shadow"
+            (click)="updateTask()"
+        >
             <i class="bi bi-pencil"></i>
         </button>
     </div>
@@ -48,6 +52,30 @@
             Crea legame
         </button>
     </div>
+
+    <ng-template #emptyTmpl>
+        <div style="
+            display: grid;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 300px;
+            padding: 3rem 1rem;
+            text-align: center;
+        ">
+
+            <img class="img-fluid" src="assets/images/no-results.svg" alt="nessun risultato trovato">
+
+            <div class="lead">Nessun legame trovato.</div>
+
+            <button
+                class="btn btn-outline-success"
+                (click)="create()"
+            >
+                Crea legame
+            </button>
+        </div>
+    </ng-template>
     
     <app-table
         #dt
@@ -57,24 +85,22 @@
         [searchable]="['utente.cognome', 'utente.nome']"
         [paginated]="true"
         [pageSize]="5"
-        emptyMessage="Nessun risultato, effettua una ricerca"
+        [emptyTemplate]="emptyTmpl"
     >
     
         <ng-template #thead>
             <th sortable="utente.cognome" (sort)="dt.sort($any($event))">Cognome</th>
             <th sortable="utente.nome" (sort)="dt.sort($any($event))">Nome</th>
-            <th sortable="dataInizio" (sort)="dt.sort($any($event))">Data inizio</th>
-            <th sortable="dataFine" (sort)="dt.sort($any($event))">Data fine</th>
-            <th sortable="allocazione" (sort)="dt.sort($any($event))">Allocazione</th>
+            <th sortable="inizioAllocazione" (sort)="dt.sort($any($event))">Data inizio</th>
+            <th sortable="fineAllocazione" (sort)="dt.sort($any($event))">Data fine</th>
             <th style="width: 10rem"></th>
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
             <td>{{ item.utente?.cognome }}</td>
             <td>{{ item.utente?.nome }}</td>
-            <td>{{ item.dataInizio | date:'yyyy-MM-dd' }}</td>
-            <td>{{ item.dataFine | date:'yyyy-MM-dd' }}</td>
-            <td>{{ item.allocazione }}</td>
+            <td>{{ item.inizioAllocazione | date:'yyyy-MM-dd' }}</td>
+            <td>{{ item.fineAllocazione | date:'yyyy-MM-dd' }}</td>
             <td>
                 <div class="d-flex gap-2 justify-content-center">
 

@@ -1,4 +1,4 @@
-import { UtentiAnagrafica } from "src/app/api/stato-avanzamento/models";
+import { UtentiAnagrafica } from "src/app/api/modulo-attivita/models";
 
 export interface RisorsaTaskDto {
     id: number;
@@ -11,5 +11,15 @@ export interface RisorsaTaskDto {
 }
 
 export interface RisorsaTaskWrap extends RisorsaTaskDto {
-    utente?: UtentiAnagrafica
+    utente: UtentiAnagrafica
+}
+
+export interface UpsertLegameParam {
+	id?: number;
+	allocazione?: number;
+	idAzienda?: number;
+	inizioAllocazione: string;
+	fineAllocazione: string;
+	idTask: number;
+	idUtente: number;
 }

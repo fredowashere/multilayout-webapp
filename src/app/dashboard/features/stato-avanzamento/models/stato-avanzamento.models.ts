@@ -9,7 +9,7 @@ import {
     GetSottoCommesseAvanzamentoResponse,
     GetSottoCommesseAvanzamentoResponseDettaglio,
     UtentiAnagrafica
-} from "../../../../api/stato-avanzamento/models";
+} from "../../../../api/modulo-attivita/models";
 
 export interface GetAvanzamentoParam {
     idAzienda?: number;

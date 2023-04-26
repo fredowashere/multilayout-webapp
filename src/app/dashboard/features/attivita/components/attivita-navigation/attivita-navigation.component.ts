@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest } from 'rxjs';
-import { Dettaglio, UtentiAnagrafica } from 'src/app/api/stato-avanzamento/models';
+import { Dettaglio, UtentiAnagrafica } from 'src/app/api/modulo-attivita/models';
 import { CommessaCreazioneModifica } from '../../dialogs/commessa-creazione-modifica/commessa-creazione-modifica.component';
 import { CommessaDto } from '../../models/commessa';
 import { Offerta } from '../../models/offerta';

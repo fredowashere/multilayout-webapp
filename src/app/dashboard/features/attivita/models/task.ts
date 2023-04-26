@@ -13,3 +13,16 @@ export interface TaskDto {
 	stimaGiorniAFinire: number;
 	giorniPrevisti: number;
 }
+
+export interface CreateTaskParam {
+	attivitaObbligatoria: boolean;
+	codiceTask: string;
+	dataFine: string;
+	dataInizio: string;
+	descrizione: string
+	giorniPrevisti: number;
+	idCommessa: number;
+	percentualeAvanzamento: number;
+	stimaGiorniAFinire: number;
+	visualizzataInRapportini: boolean;
+}
