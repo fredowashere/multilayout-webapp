@@ -169,7 +169,7 @@
                                 </td>
                                 <td class="no-text-break">{{ avanzamento.dataInizio }}</td>
                                 <td class="no-text-break">{{ avanzamento.dataFine }}</td>
-                                <td class="text-end">{{ 1 - avanzamento.percentualeRimanente | percent }}</td>
+                                <td class="text-end">{{ avanzamento.avanzamentoTotale | percent }}</td>
                             </ng-template>
 
                             <ng-template #rowExpand let-avanzamento>
@@ -224,33 +224,15 @@
                                             <td>
                                                 <div class="d-flex align-items-center justify-content-end gap-2">
                                                     <input
-                                                        #perc
+                                                        #percInput
                                                         style="max-width: 5rem"
                                                         type="number"
                                                         class="form-control"
-                                                        min="0"
                                                         step="0.01"
-                                                        [max]="
-                                                            (avanzamento.percentualeRimanente <= 0)
-                                                                ? (dettaglio.avanzamentoTotale <= 1)
-                                                                    ? dettaglio.avanzamentoTotale
-                                                                    : 1
-                                                                : 1
-                                                        "
                                                         [value]="dettaglio.avanzamentoTotale"
                                                         [disabled]="dettaglio.statoValidazione.id !== EnumStatiChiusura.Aperto"
-                                                        (input)="
-                                                            enforceMinMax(perc);
-                                                            dettaglio.avanzamentoTotale = +perc.value;
-                                                            avanzamento.aggiornaAvanzamento();
-                                                            dettaglio.dirty = true;
-                                                        "
-                                                        (keyup)="
-                                                            enforceMinMax(perc);
-                                                            dettaglio.avanzamentoTotale = +perc.value;
-                                                            avanzamento.aggiornaAvanzamento();
-                                                            dettaglio.dirty = true;
-                                                        "
+                                                        (input)="onPercInputChange(percInput, avanzamento, dettaglio)"
+                                                        (keyup)="onPercInputChange(percInput, avanzamento, dettaglio)"
                                                     >
                                                     <div style="text-align: right; width: 2.5rem">
                                                         {{ dettaglio.avanzamentoTotale | percent }}

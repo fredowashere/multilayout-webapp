@@ -15,7 +15,7 @@ export class DashboardComponent {
   constructor(
     public sidebarService: SidebarService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
 

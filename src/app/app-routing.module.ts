@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoggedInGuard } from './guards/logged-in.guard';
 
 const routes: Routes = [
   {
@@ -8,6 +9,7 @@ const routes: Routes = [
       import('./dashboard/dashboard.module')
         .then(m => m.DashboardModule),
     canActivate: ["loggedInOnlyGuard"]
+
   },
   {
     path: 'login',
