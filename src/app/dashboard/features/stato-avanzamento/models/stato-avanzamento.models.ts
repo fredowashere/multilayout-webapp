@@ -75,7 +75,7 @@ export class SottocommessaAvanzamento {
     raw: GetSottoCommesseAvanzamentoResponse;
 
     _id = guid();
-    avanzamentoTotale!: number;
+    percentualeRimanente!: number;
 
     cliente: Dettaglio;
     clienteFinale: Dettaglio;
@@ -101,13 +101,11 @@ export class SottocommessaAvanzamento {
         this.sottoCommessa = raw.sottoCommessa!;
         this.stato = raw.stato!;
 
-        this.aggiornaAvanzamento();
         this.aggiungiRigaImplicita();
+        this.aggiornaAvanzamento();
     }
 
     aggiungiRigaImplicita() {
-
-        const oggi = format(new Date(), 'yyyy-MM-dd');
 
         const contieneMeseCorrente = this.dettaglio
             .some(d => 
@@ -115,14 +113,9 @@ export class SottocommessaAvanzamento {
                 && new Date(d.meseValidazione).getMonth() === new Date().getMonth()
             );
 
-        const tutteChiuse = this.dettaglio
-            .every(d =>
-                d.statoValidazione.id === EnumStatiChiusura.Chiuso
-            );
+        const oggi = format(new Date(), 'yyyy-MM-dd');
 
-        const chiusoECompletato = tutteChiuse && this.avanzamentoTotale === 1;
-        
-        if (!contieneMeseCorrente && !chiusoECompletato) {
+        if (!contieneMeseCorrente)
             this.dettaglio.push(
                 new SottocommessaAvanzamentoDettaglio({
                     avanzamentoTotale: 0,
@@ -145,36 +138,19 @@ export class SottocommessaAvanzamento {
                     valido: 1,
                 })
             );
-        }
     }
 
     aggiornaAvanzamento() {
 
-        this.dettaglio
-            .forEach((d, i, a) => {
-                const prev = a[i - 1];
-                const curr = d;
-                if (prev)
-                    curr.avanzamentoSommatorio = curr.avanzamentoTotale + prev.avanzamentoSommatorio;
-                else
-                    curr.avanzamentoSommatorio = curr.avanzamentoTotale;
-            });
+        this.dettaglio.forEach((d, i, a) => {
+            const prev = a[i - 1];
+            const curr = d;
+            if (prev)
+                curr.avanzamentoSommatorio = curr.avanzamentoTotale + prev.avanzamentoSommatorio;
+            else
+                curr.avanzamentoSommatorio = curr.avanzamentoTotale;
+        });
 
-        this.avanzamentoTotale = this.dettaglio
-            .map(d => d.avanzamentoTotale)
-            .reduce((a, b) => a + b, 0);
-    }
-
-    calcPercRimanente(dettaglio: SottocommessaAvanzamentoDettaglio) {
-
-        const percRimanente = this.dettaglio
-            .reduce((acc, d) => {
-                if (d === dettaglio)
-                    return acc;
-                return acc + d.avanzamentoTotale;
-            }, 0);
-        
-        const rounded = Math.round((1 - percRimanente) * 100) / 100;
-        return Math.max(0, Math.min(1, rounded));
+        this.percentualeRimanente = 1 - this.dettaglio.map(d => d.avanzamentoTotale).reduce((a, b) => a + b, 0);
     }
 }
