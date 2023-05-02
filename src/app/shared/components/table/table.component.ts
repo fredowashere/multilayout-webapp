@@ -114,9 +114,10 @@ export class TableComponent {
       const term = this.lastTerm.toLocaleLowerCase();
 
       if (this.searchable && Array.isArray(this.searchable) && this.searchable.length)
-        return this.searchable.some(path =>
-          (resolve(path, item) || '').toLocaleLowerCase().includes(term)
-        );
+        return this.searchable.some(path => {
+          const resolved = resolve(path, item) || '';
+          return (resolved + '').toLocaleLowerCase().includes(term)
+        });
 
       // Global hacky search
       const serialized = JSON.stringify(item).toLocaleLowerCase();

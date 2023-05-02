@@ -9,8 +9,8 @@
             class="table-plus__action btn btn-success shadow"
             (click)="downloadExcel()"
         >
-            <i class="bi bi-plus"></i>
-            Scarica fatture
+            <i class="bi bi-download"></i>
+            Scarica ordini & fatture
         </button>
     </div>
 
@@ -50,7 +50,7 @@
     >
     
         <ng-template #thead>
-            <th sortable="tipo" (sort)="dt.sort($any($event))">Tipo</th>
+            <th sortable="tipoFattura" (sort)="dt.sort($any($event))">Tipo</th>
             <th sortable="numeroFattura" (sort)="dt.sort($any($event))">Nr. fattura</th>
             <th sortable="protocolloFattura" (sort)="dt.sort($any($event))">Protoc.</th>
             <th sortable="riferimentoOrdine" (sort)="dt.sort($any($event))">Rif. ordine</th>

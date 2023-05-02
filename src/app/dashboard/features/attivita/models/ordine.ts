@@ -4,7 +4,6 @@ export interface Ordine {
 	company: string;
 	protocolloOrdine: number;
 	dataOrdine: string;
-	// codBP: string;
 	riferimentoOrdine: string;
 	totaleImponibile: number;
 	codiceCommessa: string;

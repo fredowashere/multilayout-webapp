@@ -6,6 +6,7 @@ import { lastValueFrom } from "rxjs";
 import { downloadFile } from "src/app/utils/file";
 import { ToastService } from "src/app/services/toast.service";
 import { Ordine } from "../models/ordine";
+import { OrdiniService } from "src/app/api/modulo-attivita/services";
 
 @Injectable({
     providedIn: 'root'
@@ -14,12 +15,12 @@ export class DocumentoFiscaleService {
 
     constructor(
         private http: HttpClient,
+        private ordiniService: OrdiniService,
         private toaster: ToastService
     ) {}
 
     getOrdiniByIdCommessa(idCommessa: number) {
-        const url = `${environment.scaiRoot}/modulo-attivita-be/ordini/by-commessa/id/${idCommessa}`;
-        return this.http.get<Ordine[]>(url);
+        return this.ordiniService.getOrdiniByCommessa({ idCommessa });
     }
 
     getFattureByIdCommessa(idCommessa: number) {
