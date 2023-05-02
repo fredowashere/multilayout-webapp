@@ -1,0 +1,9 @@
+/* tslint:disable */
+/* eslint-disable */
+export interface PatchTipiTrasferta {
+  codiceEstesoFoglioStipendi?: null | string;
+  codiceFoglioStipendi?: null | string;
+  descrizione?: null | string;
+  fineValidita?: null | string;
+  inizioValidita?: null | string;
+}

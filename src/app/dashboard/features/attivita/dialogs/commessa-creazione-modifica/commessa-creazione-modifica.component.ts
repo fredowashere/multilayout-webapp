@@ -26,8 +26,6 @@ export class CommessaCreazioneModifica {
 
     commessa?: CommessaDto;
 
-    form!: FormGroup;
-
     clienteDirettoCtrl = new FormControl<Dettaglio | null>(null, [Validators.required]);
     get idClienteDiretto() {
         return this.clienteDirettoCtrl.value?.id;
@@ -73,6 +71,19 @@ export class CommessaCreazioneModifica {
     dataCreazioneCtrl = new FormControl(new Date().toISOString().slice(0, 10));
     dataDecorrenzaCtrl = new FormControl();
 
+    form = new FormGroup({
+        cliente: this.clienteDirettoCtrl,
+        clienteFinale: this.clienteFinaleCtrl,
+        pm: this.pmCtrl,
+        bm: this.bmCtrl,
+        tipoAttivita: this.tipoAttivitaCtrl,
+        codiceCommessa: this.codiceCommessaCtrl,
+        descrizione: this.descrizioneCtrl,
+        tag: this.tagCtrl,
+        dataCreazione: this.dataCreazioneCtrl,
+        dataDecorrenza: this.dataDecorrenzaCtrl
+    });
+
 	constructor(
         public activeModal: NgbActiveModal,
         private toaster: ToastService,
@@ -99,19 +110,6 @@ export class CommessaCreazioneModifica {
         else {
             this.initCtrlValues();
         }
-
-        this.form = new FormGroup({
-            cliente: this.clienteDirettoCtrl,
-            clienteFinale: this.clienteFinaleCtrl,
-            pm: this.pmCtrl,
-            bm: this.bmCtrl,
-            tipoAttivita: this.tipoAttivitaCtrl,
-            codiceCommessa: this.codiceCommessaCtrl,
-            descrizione: this.descrizioneCtrl,
-            tag: this.tagCtrl,
-            dataCreazione: this.dataCreazioneCtrl,
-            dataDecorrenza: this.dataDecorrenzaCtrl
-        });
 
         // Dynamic validators
         this.tipoAttivitaCtrl.valueChanges

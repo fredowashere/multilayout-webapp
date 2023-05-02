@@ -2,12 +2,12 @@ import { format } from "date-fns";
 import { jsonCopy } from "src/app/utils/json";
 import { guid } from "src/app/utils/uuid";
 import {
-    Chiusura,
+    StatoValidazione,
     Commessa,
     Dettaglio,
     EnumStatiChiusura,
     GetSottoCommesseAvanzamentoResponse,
-    GetSottoCommesseAvanzamentoResponseDettaglio,
+    DettaglioAvanzamento,
     UtentiAnagrafica
 } from "../../../../api/modulo-attivita/models";
 
@@ -25,7 +25,7 @@ export interface GetAvanzamentoParam {
 
 export class SottocommessaAvanzamentoDettaglio {
 
-    raw: GetSottoCommesseAvanzamentoResponseDettaglio;
+    raw: DettaglioAvanzamento;
 
     _id = guid();
     dirty = false;
@@ -44,10 +44,10 @@ export class SottocommessaAvanzamentoDettaglio {
     meseValidazione: string;
     ricavoCompetenza: number;
     sottoCommessa: Commessa;
-    statoValidazione: Chiusura;
+    statoValidazione: StatoValidazione;
     valido: number;
 
-    constructor(raw: GetSottoCommesseAvanzamentoResponseDettaglio) {
+    constructor(raw: DettaglioAvanzamento) {
 
         this.raw = jsonCopy(raw);
         
@@ -94,7 +94,7 @@ export class SottocommessaAvanzamento {
         this.cliente = raw.cliente!;
         this.clienteFinale = raw.clienteFinale!;
         this.commessa = raw.commessa!;
-        this.dettaglio = raw.dettaglio?.map(d => new SottocommessaAvanzamentoDettaglio(d))!;
+        this.dettaglio = raw.dettaglioAvanzamento?.map(d => new SottocommessaAvanzamentoDettaglio(d))!;
         this.dataFine = raw.dataFine!;
         this.dataInizio = raw.dataInizio!;
         this.referente = raw.referente!;

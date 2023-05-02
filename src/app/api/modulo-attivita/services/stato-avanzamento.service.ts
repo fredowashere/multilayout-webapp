@@ -121,8 +121,8 @@ export class StatoAvanzamentoService extends BaseService {
     idCliente?: number;
     idCommessa?: number;
     idSottoCommessa?: number;
-    anno?: number;
-    mese?: number;
+    dataInizio?: string;
+    dataFine?: string;
     stato?: number;
   },
   context?: HttpContext
@@ -137,8 +137,8 @@ export class StatoAvanzamentoService extends BaseService {
       rb.query('idCliente', params.idCliente, {});
       rb.query('idCommessa', params.idCommessa, {});
       rb.query('idSottoCommessa', params.idSottoCommessa, {});
-      rb.query('anno', params.anno, {});
-      rb.query('mese', params.mese, {});
+      rb.query('dataInizio', params.dataInizio, {});
+      rb.query('dataFine', params.dataFine, {});
       rb.query('stato', params.stato, {});
     }
 
@@ -167,8 +167,8 @@ export class StatoAvanzamentoService extends BaseService {
     idCliente?: number;
     idCommessa?: number;
     idSottoCommessa?: number;
-    anno?: number;
-    mese?: number;
+    dataInizio?: string;
+    dataFine?: string;
     stato?: number;
   },
   context?: HttpContext

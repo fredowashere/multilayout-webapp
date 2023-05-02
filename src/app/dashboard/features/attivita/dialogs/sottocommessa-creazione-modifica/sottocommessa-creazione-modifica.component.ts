@@ -28,8 +28,6 @@ export class SottocommessaCreazioneModifica {
     commessa?: CommessaDto;
     sottocommessa?: CommessaDto;
 
-    form!: FormGroup;
-
     codiceSottocommessaCtrl = new FormControl<string | null>(null, [Validators.required]);
     descrizioneCtrl = new FormControl<string | null>(null, [Validators.required]);
 
@@ -77,6 +75,17 @@ export class SottocommessaCreazioneModifica {
     abilitazioneReperibilitaCtrl = new FormControl();
     abilitazioneStraordinarioCtrl = new FormControl();
 
+    form = new FormGroup({
+        codiceSottocommessa: this.codiceSottocommessaCtrl,
+        descrizione: this.descrizioneCtrl,
+        iniziativa: this.iniziativaCtrl,
+        tipoFatturazione: this.tipoFatturazioneCtrl,
+        importo: this.importoCtrl,
+        trafertaRibaltabileCliente: this.trasfertaRibaltabileClienteCtrl,
+        abilitazioneReperibilita: this.abilitazioneReperibilitaCtrl,
+        abilitazioneStraordinario: this.abilitazioneStraordinarioCtrl,
+    });
+
 	constructor(
         public activeModal: NgbActiveModal,
         private toaster: ToastService,
@@ -115,17 +124,6 @@ export class SottocommessaCreazioneModifica {
                     this.isLoading = false;
                 });
         }
-
-        this.form = new FormGroup({
-            codiceSottocommessa: this.codiceSottocommessaCtrl,
-            descrizione: this.descrizioneCtrl,
-            iniziativa: this.iniziativaCtrl,
-            tipoFatturazione: this.tipoFatturazioneCtrl,
-            importo: this.importoCtrl,
-            trafertaRibaltabileCliente: this.trasfertaRibaltabileClienteCtrl,
-            abilitazioneReperibilita: this.abilitazioneReperibilitaCtrl,
-            abilitazioneStraordinario: this.abilitazioneStraordinarioCtrl,
-        });
     }
 
     async initArrays() {

@@ -30,8 +30,6 @@ export class RisorsaCreazioneModifica {
     dialogMode!: DIALOG_MODE;
     isLoading = false;
 
-    form!: FormGroup;
-
     utentiCtrl = new FormControl<UtentiAnagrafica[] | null>(null, [Validators.required]);
     utenti: UtentiAnagrafica[] = [];
     utenteFormatter = (u: UtentiAnagrafica) => u.cognome + ' ' + u.nome;
@@ -40,6 +38,12 @@ export class RisorsaCreazioneModifica {
 
     dataInizioCtrl = new FormControl<string | null>(null, [Validators.required]);
     dataFineCtrl = new FormControl<string | null>(null, [Validators.required]);
+
+    form = new FormGroup({
+        utente: this.utentiCtrl,
+        dataInizio: this.dataInizioCtrl,
+        dataFine: this.dataFineCtrl
+    });
 
 	constructor(
         public activeModal: NgbActiveModal,
@@ -80,12 +84,6 @@ export class RisorsaCreazioneModifica {
                     this.isLoading = false;
                 });
         }
-
-        this.form = new FormGroup({
-            utente: this.utentiCtrl,
-            dataInizio: this.dataInizioCtrl,
-            dataFine: this.dataFineCtrl
-        });
     }
 
     initCtrlValues() {

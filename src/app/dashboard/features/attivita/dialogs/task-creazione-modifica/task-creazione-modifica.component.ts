@@ -23,14 +23,21 @@ export class TaskCreazioneModifica {
     dialogMode!: DIALOG_MODE;
     isLoading = false;
 
-    form!: FormGroup;
-
     codiceTaskCtrl = new FormControl<string | null>(null, [Validators.required]);
     giorniPrevistiCtrl = new FormControl<number>(0, [Validators.required]);
     descrizioneCtrl = new FormControl<string | null>(null, [Validators.required]);
     dataInizioCtrl = new FormControl<string | null>(null, [Validators.required]);
     dataFineCtrl = new FormControl<string | null>(null, [Validators.required]);
     attivitaObbligatoriaCtrl = new FormControl<boolean>(false);
+
+    form = new FormGroup({
+        codiceTask: this.codiceTaskCtrl,
+        descrizione: this.descrizioneCtrl,
+        dataInizio: this.dataInizioCtrl,
+        dataFine: this.dataFineCtrl,
+        giorniPrevisti: this.giorniPrevistiCtrl,
+        attivitaObbligatoria: this.attivitaObbligatoriaCtrl
+    });
 
 	constructor(
         public activeModal: NgbActiveModal,
@@ -57,15 +64,6 @@ export class TaskCreazioneModifica {
         else {
             this.isLoading = false;
         }
-
-        this.form = new FormGroup({
-            codiceTask: this.codiceTaskCtrl,
-            descrizione: this.descrizioneCtrl,
-            dataInizio: this.dataInizioCtrl,
-            dataFine: this.dataFineCtrl,
-            giorniPrevisti: this.giorniPrevistiCtrl,
-            attivitaObbligatoria: this.attivitaObbligatoriaCtrl
-        });
     }
 
     initCtrlValues() {
