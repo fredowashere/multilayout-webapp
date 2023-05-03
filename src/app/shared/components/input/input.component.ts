@@ -212,7 +212,7 @@ export class InputComponent {
       else
         return searchObs$;
     };
-  };
+  }
 
   setAutocompleteDefaultValue() {
     if (this.ngControl.value)

@@ -22,7 +22,8 @@ export class TableComponent {
   @Input("tfoot") tfoot!: TemplateRef<any>;
   @Input("items") items!: any[];
   @Input("trackByFn") trackByFn = (index: number, item: any): any => item;
-  @Input("emptyMessage") emptyMessage: string | boolean = "No results to display";
+  @Input("emptyTemplate") emptyTemplate?: TemplateRef<any>;
+  @Input("emptyMessage") emptyMessage: string = "No results to display";
   @Input("stickyHead") stickyHead = false;
   @Input("maxHeight") maxHeight: string | boolean = false; 
 
@@ -110,15 +111,16 @@ export class TableComponent {
 
     this.filteredItems = this.items.filter(item => {
 
-      const term = this.lastTerm.toLocaleLowerCase();
+      const term = this.lastTerm.toLowerCase();
 
       if (this.searchable && Array.isArray(this.searchable) && this.searchable.length)
-        return this.searchable.some(path =>
-          (resolve(path, item) || '').toLocaleLowerCase().includes(term)
-        );
+        return this.searchable.some(path => {
+          const resolved = resolve(path, item) || '';
+          return (resolved + '').toLowerCase().includes(term)
+        });
 
       // Global hacky search
-      const serialized = JSON.stringify(item).toLocaleLowerCase();
+      const serialized = JSON.stringify(item).toLowerCase();
       return serialized.includes(term);
     });
 
