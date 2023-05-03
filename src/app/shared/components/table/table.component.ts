@@ -111,15 +111,16 @@ export class TableComponent {
 
     this.filteredItems = this.items.filter(item => {
 
-      const term = this.lastTerm.toLocaleLowerCase();
+      const term = this.lastTerm.toLowerCase();
 
       if (this.searchable && Array.isArray(this.searchable) && this.searchable.length)
-        return this.searchable.some(path =>
-          (resolve(path, item) || '').toLocaleLowerCase().includes(term)
-        );
+        return this.searchable.some(path => {
+          const resolved = resolve(path, item) || '';
+          return (resolved + '').toLowerCase().includes(term)
+        });
 
       // Global hacky search
-      const serialized = JSON.stringify(item).toLocaleLowerCase();
+      const serialized = JSON.stringify(item).toLowerCase();
       return serialized.includes(term);
     });
 

@@ -25,7 +25,11 @@ export class EventoCreazioneModifica {
     dataCtrl = new FormControl<string | null>(null, [Validators.required]);
     descrizioneCtrl = new FormControl<string | null>(null, [Validators.required]);
 
-    form!: FormGroup;
+    form = new FormGroup({
+        data: this.dataCtrl,
+        tipoEvento: this.tipoEventoCtrl,
+        descrizione: this.descrizioneCtrl
+    });
 
 	constructor(
         public activeModal: NgbActiveModal,
@@ -34,12 +38,6 @@ export class EventoCreazioneModifica {
     ) { }
 
     ngOnInit() {
-
-        this.form = new FormGroup({
-            data: this.dataCtrl,
-            tipoEvento: this.tipoEventoCtrl,
-            descrizione: this.descrizioneCtrl
-        });
 
         this.dialogMode = this.evento
             ? DIALOG_MODE.Update

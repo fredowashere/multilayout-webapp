@@ -30,29 +30,18 @@ export class DashboardSidebarComponent {
   rlaList!: QueryList<RouterLinkActive>;
 
   sidebarItems: SidebarItem[] = [
-    // {
-    //   isActive: false,
-    //   title: 'Attività',
-    //   icon: 'bi bi-activity',
-    //   path: '/attivita',
-    // },
+    {
+      isActive: false,
+      title: 'Attività',
+      icon: 'bi bi-activity',
+      path: '/attivita',
+    },
     {
       isActive: false,
       title: 'Stato Avanzamento',
       icon: 'fa fa-tasks',
       path: '/stato-avanzamento',
-    },
-    // {
-    //   isActive: false,
-    //   title: 'Demos',
-    //   icon: 'bi bi-grid',
-    //   children: [
-    //     {
-    //       path: '/dashboard/demos/accordion',
-    //       title: 'Accordion'
-    //     },
-    //   ]
-    // },
+    }
   ];
 
   username$: Observable<string | undefined>; 

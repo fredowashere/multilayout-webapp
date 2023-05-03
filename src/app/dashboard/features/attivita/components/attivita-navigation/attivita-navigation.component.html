@@ -155,7 +155,7 @@
             Ordini
         </a>
 		<ng-template ngbNavContent>
-			<app-ordini></app-ordini>
+			<app-ordini [idCommessa]="idCommessa"></app-ordini>
 		</ng-template>
 	</li>
 
@@ -165,7 +165,7 @@
             Fatture
         </a>
 		<ng-template ngbNavContent>
-			<app-fatture></app-fatture>
+			<app-fatture [idCommessa]="idCommessa"></app-fatture>
 		</ng-template>
 	</li>
 </ul>

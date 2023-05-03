@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { GetAttoreResponse } from '../models/get-attore-response';
+import { GetUtentiPerReferenteResponse } from '../models/get-utenti-per-referente-response';
+import { GetUtentiResponse } from '../models/get-utenti-response';
 import { UtentiAnagrafica } from '../models/utenti-anagrafica';
 
 @Injectable({
@@ -41,15 +43,15 @@ export class UtentiService extends BaseService {
     Nome?: string;
     IsPm?: boolean;
     IsBm?: boolean;
-    idReferente?: number;
     idBusinessManager?: number;
+    idReferente?: number;
     idCliente?: number;
     idCommessa?: number;
     idSottoCommessa?: number;
   },
   context?: HttpContext
 
-): Observable<StrictHttpResponse<Array<UtentiAnagrafica>>> {
+): Observable<StrictHttpResponse<Array<GetUtentiResponse>>> {
 
     const rb = new RequestBuilder(this.rootUrl, UtentiService.GetUtentiPath, 'get');
     if (params) {
@@ -59,8 +61,8 @@ export class UtentiService extends BaseService {
       rb.query('Nome', params.Nome, {});
       rb.query('IsPm', params.IsPm, {});
       rb.query('IsBm', params.IsBm, {});
-      rb.query('idReferente', params.idReferente, {});
       rb.query('idBusinessManager', params.idBusinessManager, {});
+      rb.query('idReferente', params.idReferente, {});
       rb.query('idCliente', params.idCliente, {});
       rb.query('idCommessa', params.idCommessa, {});
       rb.query('idSottoCommessa', params.idSottoCommessa, {});
@@ -73,7 +75,7 @@ export class UtentiService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<UtentiAnagrafica>>;
+        return r as StrictHttpResponse<Array<GetUtentiResponse>>;
       })
     );
   }
@@ -91,18 +93,18 @@ export class UtentiService extends BaseService {
     Nome?: string;
     IsPm?: boolean;
     IsBm?: boolean;
-    idReferente?: number;
     idBusinessManager?: number;
+    idReferente?: number;
     idCliente?: number;
     idCommessa?: number;
     idSottoCommessa?: number;
   },
   context?: HttpContext
 
-): Observable<Array<UtentiAnagrafica>> {
+): Observable<Array<GetUtentiResponse>> {
 
     return this.getUtenti$Response(params,context).pipe(
-      map((r: StrictHttpResponse<Array<UtentiAnagrafica>>) => r.body as Array<UtentiAnagrafica>)
+      map((r: StrictHttpResponse<Array<GetUtentiResponse>>) => r.body as Array<GetUtentiResponse>)
     );
   }
 
@@ -160,25 +162,25 @@ export class UtentiService extends BaseService {
   }
 
   /**
-   * Path part for operation getPm
+   * Path part for operation getProjectManager
    */
-  static readonly GetPmPath = '/utenti/azienda/{idAzienda}/pm';
+  static readonly GetProjectManagerPath = '/utenti/azienda/{idAzienda}/pm';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getPm()` instead.
+   * To access only the response body, use `getProjectManager()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getPm$Response(params: {
+  getProjectManager$Response(params: {
     idAzienda: number;
     IdUtente?: number;
     Cognome?: string;
     Nome?: string;
     IsPm?: boolean;
     IsBm?: boolean;
-    idReferente?: number;
     idBusinessManager?: number;
+    idReferente?: number;
     idCliente?: number;
     idCommessa?: number;
     idSottoCommessa?: number;
@@ -187,7 +189,7 @@ export class UtentiService extends BaseService {
 
 ): Observable<StrictHttpResponse<Array<UtentiAnagrafica>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UtentiService.GetPmPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, UtentiService.GetProjectManagerPath, 'get');
     if (params) {
       rb.path('idAzienda', params.idAzienda, {});
       rb.query('IdUtente', params.IdUtente, {});
@@ -195,8 +197,8 @@ export class UtentiService extends BaseService {
       rb.query('Nome', params.Nome, {});
       rb.query('IsPm', params.IsPm, {});
       rb.query('IsBm', params.IsBm, {});
-      rb.query('idReferente', params.idReferente, {});
       rb.query('idBusinessManager', params.idBusinessManager, {});
+      rb.query('idReferente', params.idReferente, {});
       rb.query('idCliente', params.idCliente, {});
       rb.query('idCommessa', params.idCommessa, {});
       rb.query('idSottoCommessa', params.idSottoCommessa, {});
@@ -216,19 +218,19 @@ export class UtentiService extends BaseService {
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getPm$Response()` instead.
+   * To access the full response (for headers, for example), `getProjectManager$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getPm(params: {
+  getProjectManager(params: {
     idAzienda: number;
     IdUtente?: number;
     Cognome?: string;
     Nome?: string;
     IsPm?: boolean;
     IsBm?: boolean;
-    idReferente?: number;
     idBusinessManager?: number;
+    idReferente?: number;
     idCliente?: number;
     idCommessa?: number;
     idSottoCommessa?: number;
@@ -237,7 +239,7 @@ export class UtentiService extends BaseService {
 
 ): Observable<Array<UtentiAnagrafica>> {
 
-    return this.getPm$Response(params,context).pipe(
+    return this.getProjectManager$Response(params,context).pipe(
       map((r: StrictHttpResponse<Array<UtentiAnagrafica>>) => r.body as Array<UtentiAnagrafica>)
     );
   }
@@ -259,7 +261,7 @@ export class UtentiService extends BaseService {
   },
   context?: HttpContext
 
-): Observable<StrictHttpResponse<Array<UtentiAnagrafica>>> {
+): Observable<StrictHttpResponse<Array<GetUtentiPerReferenteResponse>>> {
 
     const rb = new RequestBuilder(this.rootUrl, UtentiService.GetUtentiPerReferentePath, 'get');
     if (params) {
@@ -274,7 +276,7 @@ export class UtentiService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<UtentiAnagrafica>>;
+        return r as StrictHttpResponse<Array<GetUtentiPerReferenteResponse>>;
       })
     );
   }
@@ -291,10 +293,10 @@ export class UtentiService extends BaseService {
   },
   context?: HttpContext
 
-): Observable<Array<UtentiAnagrafica>> {
+): Observable<Array<GetUtentiPerReferenteResponse>> {
 
     return this.getUtentiPerReferente$Response(params,context).pipe(
-      map((r: StrictHttpResponse<Array<UtentiAnagrafica>>) => r.body as Array<UtentiAnagrafica>)
+      map((r: StrictHttpResponse<Array<GetUtentiPerReferenteResponse>>) => r.body as Array<GetUtentiPerReferenteResponse>)
     );
   }
 

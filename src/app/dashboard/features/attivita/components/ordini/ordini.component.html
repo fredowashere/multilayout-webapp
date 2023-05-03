@@ -1,1 +1,72 @@
-<p>ordini works!</p>
+<div class="card pt-3 shadow">
+
+    <div class="table-plus">
+
+        <h5 class="table-plus__title">Tabella ordini</h5>
+
+        <button
+            type="button"
+            class="table-plus__action btn btn-success shadow"
+            (click)="downloadExcel()"
+        >
+            <i class="bi bi-download"></i>
+            Scarica ordini & fatture
+        </button>
+    </div>
+
+    <ng-template #emptyTmpl>
+        <div style="
+            display: grid;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 300px;
+            padding: 3rem 1rem;
+            text-align: center;
+        ">
+
+            <img class="img-fluid" src="assets/images/no-results.png" alt="nessun risultato trovato">
+
+            <div class="lead">Nessun ordine trovato.</div>
+
+            <button
+                class="btn btn-outline-success"
+                (click)="refresh$.next()"
+            >
+                Rinfresca
+            </button>
+        </div>
+    </ng-template>
+    
+    <app-table
+        #dt
+        [thead]="thead"
+        [tbody]="tbody"
+        [items]="ordini"
+        [searchable]="['protocolloOrdine']"
+        [paginated]="true"
+        [pageSize]="5"
+        [emptyTemplate]="emptyTmpl"
+    >
+    
+        <ng-template #thead>
+            <th sortable="tipoOrdine" (sort)="dt.sort($any($event))">Tipo</th>
+            <th sortable="company" (sort)="dt.sort($any($event))">Company</th>
+            <th sortable="protocolloOrdine" (sort)="dt.sort($any($event))">Protoc.</th>
+            <th sortable="riferimentoOrdine" (sort)="dt.sort($any($event))">Rif. ordine</th>
+            <th sortable="dataOrdine" (sort)="dt.sort($any($event))">Data ordine</th>
+            <th sortable="codiceCommessa" (sort)="dt.sort($any($event))">Codice commessa</th>
+            <th sortable="totaleImponibile" (sort)="dt.sort($any($event))">Totale imponibile</th>
+        </ng-template>
+    
+        <ng-template #tbody let-item let-term$="term$">
+            <td>{{ item.tipoOrdine === "V" ? "Validata" : "Annullata" }}</td>
+            <td>{{ item.company }}</td>
+            <td>{{ item.protocolloOrdine }}</td>
+            <td>{{ item.riferimentoOrdine }}</td>
+            <td>{{ item.dataOrdine | date:'yyyy-MM' }}</td>
+            <td>{{ item.codiceCommessa }}</td>
+            <td>{{ item.totaleImponibile | currency:"EUR":"symbol" }}</td>
+        </ng-template>
+    </app-table>
+</div>

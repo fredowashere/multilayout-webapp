@@ -12,6 +12,7 @@ import {
   OpportunitaDto,
   UpdateCommessaParam
 } from '../models/commessa';
+import { CommonsService } from 'src/app/api/modulo-attivita/services';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +21,15 @@ export class CommessaService {
 
   constructor(
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private commonsService: CommonsService
   ) { }
 
-  checkAziendaPropria$(idCliente: number) { 
-    const url = `${environment.scaiRoot}/commonservices/terzaparte/checkAziendaPropria?idAzienda=${this.authService.user.idAzienda}&idCliente=${idCliente}`;
-    return this.http.get<boolean>(url);
+  checkAziendaPropria$(idCliente: number) {
+    return this.commonsService.getTerzaParteCheckAziendaPropria({
+      idCliente,
+      idAzienda: this.authService.user.idAzienda
+    });
   }
 
   getAllCommesse$(input?: GetAllCommesseParam) {

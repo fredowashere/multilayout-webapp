@@ -1,1 +1,75 @@
-<p>fatture works!</p>
+<div class="card pt-3 shadow">
+
+    <div class="table-plus">
+
+        <h5 class="table-plus__title">Tabella fatture</h5>
+
+        <button
+            type="button"
+            class="table-plus__action btn btn-success shadow"
+            (click)="downloadExcel()"
+        >
+            <i class="bi bi-download"></i>
+            Scarica ordini & fatture
+        </button>
+    </div>
+
+    <ng-template #emptyTmpl>
+        <div style="
+            display: grid;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 300px;
+            padding: 3rem 1rem;
+            text-align: center;
+        ">
+
+            <img class="img-fluid" src="assets/images/no-results.png" alt="nessun risultato trovato">
+
+            <div class="lead">Nessuna fattura trovata.</div>
+
+            <button
+                class="btn btn-outline-success"
+                (click)="refresh$.next()"
+            >
+                Rinfresca
+            </button>
+        </div>
+    </ng-template>
+    
+    <app-table
+        #dt
+        [thead]="thead"
+        [tbody]="tbody"
+        [items]="fatture"
+        [searchable]="['numeroFattura']"
+        [paginated]="true"
+        [pageSize]="5"
+        [emptyTemplate]="emptyTmpl"
+    >
+    
+        <ng-template #thead>
+            <th sortable="tipoFattura" (sort)="dt.sort($any($event))">Tipo</th>
+            <th sortable="numeroFattura" (sort)="dt.sort($any($event))">Nr. fattura</th>
+            <th sortable="protocolloFattura" (sort)="dt.sort($any($event))">Protoc.</th>
+            <th sortable="riferimentoOrdine" (sort)="dt.sort($any($event))">Rif. ordine</th>
+            <th sortable="dataFattura" (sort)="dt.sort($any($event))">Data fattura</th>
+            <th sortable="scadenzaFattura" (sort)="dt.sort($any($event))">Scadenza fattura</th>
+            <th sortable="codBP" (sort)="dt.sort($any($event))">Cod. BP</th>
+            <th sortable="totaleImponibile" (sort)="dt.sort($any($event))">Totale imponibile</th>
+        </ng-template>
+    
+        <ng-template #tbody let-item let-term$="term$">
+            <td>{{ item.tipoFattura === "V" ? "Validata" : "Annullata" }}</td>
+            <td>{{ item.numeroFattura }}</td>
+            <td>{{ item.protocolloFattura }}</td>
+            <td>{{ item.riferimentoOrdine }}</td>
+            <td>{{ item.dataFattura | date:'yyyy-MM' }}</td>
+            <td>{{ item.scadenzaFattura | date:'yyyy-MM' }}</td>
+            <td>{{ item.codBP }}</td>
+            <td>{{ item.totaleImponibile | currency:"EUR":"symbol" }}</td>
+        </ng-template>
+    </app-table>
+</div>
+
