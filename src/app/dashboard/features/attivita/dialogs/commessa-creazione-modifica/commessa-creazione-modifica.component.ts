@@ -1,15 +1,15 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { startWith } from "rxjs";
 import { Dettaglio, UtentiAnagrafica } from "src/app/api/modulo-attivita/models";
 import { ToastService } from "src/app/services/toast.service";
-import { InputComponent } from "src/app/shared/components/input/input.component";
 import { jsonCopy } from "src/app/utils/json";
 import { CommessaDto, CreateCommessaParam, SimpleDto, UpdateCommessaParam } from "../../models/commessa";
 import { DIALOG_MODE } from "../../models/dialog";
 import { CommessaService } from "../../services/commessa.service";
 import { MiscDataService } from "../../services/miscData.service";
+import { SEGRETERIA } from "src/app/models/user";
 
 @Component({
 	selector: 'app-commessa-creazione-modifica-dialog',
@@ -19,7 +19,8 @@ import { MiscDataService } from "../../services/miscData.service";
 export class CommessaCreazioneModifica {
 
     @Input("idCommessa") idCommessa!: number;
-
+    
+    SEGRETERIA = SEGRETERIA;
     DIALOG_MODE = DIALOG_MODE;
     dialogMode!: DIALOG_MODE;
     isLoading = false;

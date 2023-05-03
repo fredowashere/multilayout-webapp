@@ -135,7 +135,6 @@ export class SottocommessaCreazioneModifica {
             checkAziendaPropria = await lastValueFrom(
                 this.commessaService
                     .checkAziendaPropria$(this.commessa.idCliente)
-                    // This call fails 50% of the times
             );
         }
         catch(e) {
@@ -154,7 +153,7 @@ export class SottocommessaCreazioneModifica {
                             this.commessa.idCliente,
                             this.commessa.idClienteFinale,
                             this.commessa.idBusinessManager
-                        ) // This call fails 50% of the times
+                        ) // This call might fail sometime
                 );
             }
             catch(e) {
@@ -164,13 +163,12 @@ export class SottocommessaCreazioneModifica {
 
         this.iniziative = iniziative.map(inz => ({ text: inz, value: inz }));
 
-        if (this.iniziative[0].value)
+        if (this.iniziative[0]?.value)
             this.iniziativaCtrl.setValue(this.iniziative[0].value);
 
         try {
             this.tipiFatturazione = await lastValueFrom(
                 this.sottocommessaService.getTipiFatturazione$()
-                // This call fails 50% of the times
             );
         }
         catch(e) {
