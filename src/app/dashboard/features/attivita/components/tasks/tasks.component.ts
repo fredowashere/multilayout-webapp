@@ -162,9 +162,17 @@ export class TasksComponent {
 
   async duplicate(task: TaskDto) {
 
-    await this.sottocommessaService
-      .duplicateTask(this.idSottocommessa, task);
-    
+    const _task = task as any;
+
+    try {
+      _task._duplicating = true;
+      await this.sottocommessaService
+        .duplicateTask(this.idSottocommessa, task);
+    }
+    finally {
+      _task.duplicating = false;
+    }
+
     this.refresh$.next();
   }
 }

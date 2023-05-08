@@ -27,6 +27,8 @@ export class SottocommesseComponent {
   activeTabId!: number;
   tabs: Tab[] = [];
 
+  duplicating = false;
+
   sottocommesse: CommessaDto[] = [];
 
   constructor(
@@ -157,8 +159,16 @@ export class SottocommesseComponent {
 
   async duplicate(sottocommessa: CommessaDto) {
 
-    await this.sottocommessaService
-      .duplicateSottocommessa(sottocommessa);
+    const _sottocommessa = sottocommessa as any;
+
+    try {
+      _sottocommessa.duplicating = true;
+      await this.sottocommessaService
+        .duplicateSottocommessa(sottocommessa);
+    }
+    finally {
+      _sottocommessa.duplicating = false;
+    }
     
     this.refresh$.next();
   }

@@ -71,9 +71,15 @@
                     <button
                         type="button"
                         class="btn btn-outline-primary shadow"
+                        [disabled]="item._duplicating"
                         (click)="duplicate(item)"
                     >
-                        <i class="bi bi-clipboard"></i>
+                        <ng-container *ngIf="item._duplicating; else notDuplicating">
+                            <span class="spinner-border spinner-border-sm"></span>
+                        </ng-container>
+                        <ng-template #notDuplicating>
+                            <i class="bi bi-clipboard"></i>
+                        </ng-template>
                     </button>
 
                     <button
