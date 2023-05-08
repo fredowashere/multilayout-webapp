@@ -168,6 +168,16 @@
             <app-fatture [idCommessa]="idCommessa"></app-fatture>
         </ng-template>
     </li>
+
+    <li [ngbNavItem]="8" class="attivita-nav__item">
+        <a ngbNavLink>
+            <i class="bi bi-8-square-fill"></i>
+            Straordinario
+        </a>
+        <ng-template ngbNavContent>
+            <app-straordinario [idCommessa]="idCommessa"></app-straordinario>
+        </ng-template>
+    </li>
 </ul>
 
 <div [ngbNavOutlet]="nav" class="mt-2"></div>

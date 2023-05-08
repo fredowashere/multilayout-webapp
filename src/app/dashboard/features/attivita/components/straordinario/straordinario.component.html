@@ -2,7 +2,7 @@
 
     <div class="table-plus">
 
-        <h5 class="table-plus__title">Tabella legami reperibilità</h5>
+        <h5 class="table-plus__title">Tabella legami straordinari</h5>
 
         <button
             type="button"
@@ -10,7 +10,7 @@
             (click)="create()"
         >
             <i class="bi bi-plus"></i>
-            Crea legame reperibilità
+            Crea legame straordinario
         </button>
     </div>
 
@@ -27,13 +27,13 @@
 
             <img class="img-fluid" src="assets/images/not-found.png" alt="nessun risultato trovato">
 
-            <div class="lead">Nessun legame reperibilità trovato.</div>
+            <div class="lead">Nessun legame straordinario trovato.</div>
 
             <button
                 class="btn btn-outline-success"
                 (click)="create()"
             >
-                Crea legame reperibilità
+                Crea legame straordinario
             </button>
         </div>
     </ng-template>
@@ -42,7 +42,7 @@
         #dt
         [thead]="thead"
         [tbody]="tbody"
-        [items]="reperibilita"
+        [items]="straordinari"
         [searchable]="['descrizione']"
         [paginated]="true"
         [pageSize]="5"
@@ -51,7 +51,7 @@
     
         <ng-template #thead>
             <th sortable="descrizione" (sort)="dt.sort($any($event))">Descrizione</th>
-            <th sortable="reperibilitaSenzaAvviso" (sort)="dt.sort($any($event))">Senza avviso</th>
+            <th sortable="autorizzazioneCliente" (sort)="dt.sort($any($event))">Senza avviso</th>
             <th sortable="inizio" (sort)="dt.sort($any($event))">Inizio</th>
             <th sortable="fine" (sort)="dt.sort($any($event))">Fine</th>
             <th style="width: 10rem"></th>
@@ -59,7 +59,7 @@
     
         <ng-template #tbody let-item let-term$="term$">
             <td>{{ item.descrizione }}</td>
-            <td>{{ item.reperibilitaSenzaAvviso ? 'Si' : 'No' }}</td>
+            <td>{{ item.autorizzazioneCliente ? 'Si' : 'No' }}</td>
             <td>{{ item.inizio | date:'yyyy-MM-dd' }}</td>
             <td>{{ item.fine | date:'yyyy-MM-dd' }}</td>
             <td>
