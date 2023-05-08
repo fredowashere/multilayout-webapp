@@ -1,8 +1,9 @@
 <div class="col-md-8 mx-auto">
 
-    <h5 class="mb-4">Creazione/aggiornamento Offerta</h5>
-
-    <p>In questo componente puoi creare o aggiornare l'Offerta legata alla Commessa.<br>Una Commessa di tipo Opportunità necessita di un'Offerta con Data Accettazione valorizzata per permetterti di passare alle Sottocommesse.</p>
+    <div class="text-center mb-5">
+        <h1 class="display-6">Gestione Offerta</h1>
+        <p class="lead">Da questo componente puoi creare/aggiornare l'Offerta legata alla Commessa.</p>
+    </div>
 
     <fieldset class="flexgrid flexgrid--2" [disabled]="!offerta">
 
@@ -56,6 +57,8 @@
             [disabled]="true"
         ></app-input>
     </fieldset>
+
+    <p class="text-muted">L'Opportunità necessita di un'Offerta con Data Accettazione valorizzata per permetterti di passare alle Sottocommesse.</p>
 
     <div class="text-center my-4">
 
