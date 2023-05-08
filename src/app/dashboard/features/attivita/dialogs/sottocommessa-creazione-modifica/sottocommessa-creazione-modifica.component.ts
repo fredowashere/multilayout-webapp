@@ -1,7 +1,7 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { combineLatest, lastValueFrom } from "rxjs";
+import { Subject, combineLatest, lastValueFrom, takeUntil, tap } from "rxjs";
 import { ToastService } from "src/app/services/toast.service";
 import { jsonCopy } from "src/app/utils/json";
 import { euroMask, euroMask2numStr, numStr2euroMask } from "src/app/utils/mask";
@@ -16,7 +16,7 @@ import { SottocommessaService } from "../../services/sottocommessa.service";
 	templateUrl: './sottocommessa-creazione-modifica.component.html',
     styleUrls: ['./sottocommessa-creazione-modifica.component.css']
 })
-export class SottocommessaCreazioneModifica {
+export class SottocommessaCreazioneModifica implements OnInit, OnDestroy {
 
     @Input("idCommessa") idCommessa!: number;
     @Input("idSottocommessa") idSottocommessa!: number;
@@ -77,6 +77,8 @@ export class SottocommessaCreazioneModifica {
 
     form = new FormGroup({
         codiceSottocommessa: this.codiceSottocommessaCtrl,
+        dataInizio: this.dataInizioCtrl,
+        dataFine: this.dataFineCtrl,
         descrizione: this.descrizioneCtrl,
         iniziativa: this.iniziativaCtrl,
         tipoFatturazione: this.tipoFatturazioneCtrl,
@@ -85,6 +87,8 @@ export class SottocommessaCreazioneModifica {
         abilitazioneReperibilita: this.abilitazioneReperibilitaCtrl,
         abilitazioneStraordinario: this.abilitazioneStraordinarioCtrl,
     });
+
+    destroy$ = new Subject<void>();
 
 	constructor(
         public activeModal: NgbActiveModal,
@@ -124,6 +128,34 @@ export class SottocommessaCreazioneModifica {
                     this.isLoading = false;
                 });
         }
+
+        this.form
+            .valueChanges
+            .pipe(
+                takeUntil(this.destroy$),
+                tap(() => {
+
+                    const isoInizio = this.dataInizioCtrl.value || "";
+                    const isoFine = this.dataFineCtrl.value || "";
+
+                    if (isoInizio > isoFine) {
+                        this.dataInizioCtrl.setErrors({ date: "Too big" });
+                        this.dataFineCtrl.setErrors({ date: "Too small" });
+                    }
+                    else {
+                        this.dataInizioCtrl.setErrors(null);
+                        this.dataFineCtrl.setErrors(null);
+                    }
+
+                    this.dataInizioCtrl.markAsTouched();
+                    this.dataFineCtrl.markAsTouched();
+                })
+            )
+            .subscribe();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
     }
 
     async initArrays() {
