@@ -6,6 +6,7 @@ import { CommessaDto, CreateSottocommessaParam } from '../models/commessa';
 import { TipoFatturazione } from '../models/fatturazione';
 import { TaskService } from './task.service';
 import { RisorsaService } from './risorsa.service';
+import { TaskDto } from '../models/task';
 
 @Injectable({
     providedIn: 'root'
@@ -73,20 +74,6 @@ export class SottocommessaService {
 
     async duplicateSottocommessa(sottocommessa: CommessaDto) {
 
-        const tasks = await lastValueFrom(
-            this.taskService.getTasksByIdSottocommessa$(sottocommessa.id)
-        );
-
-        const matriceRisorse = [];
-        for (let i = 0; i < tasks.length; i++) {
-
-            const risorse = await lastValueFrom(
-                this.risorsaService.getLegamiByIdTask$(tasks[i].id)
-            );
-
-            matriceRisorse.push(risorse);
-        }
-
         const idSottocommessa = await lastValueFrom(
             this.createSottocommessa$({
                 idCommessaPadre: sottocommessa.idCommessaPadre,
@@ -101,36 +88,48 @@ export class SottocommessaService {
             })
         );
 
+        const tasks = await lastValueFrom(
+            this.taskService.getTasksByIdSottocommessa$(sottocommessa.id)
+        );
+
         for (let i = 0; i < tasks.length; i++) {
+            this.duplicateTask(idSottocommessa, tasks[i])
+        }
+    }
 
-            const idTask = await lastValueFrom(
-                this.taskService
-                    .createTask$({
-                        attivitaObbligatoria: tasks[i].attivitaObbligatoria,
-                        codiceTask: tasks[i].codiceTask,
-                        dataFine: tasks[i].dataFine,
-                        dataInizio: tasks[i].dataInizio,
-                        descrizione: tasks[i].descrizione,
-                        giorniPrevisti: tasks[i].giorniPrevisti,
-                        idCommessa: idSottocommessa,
-                        percentualeAvanzamento: tasks[i].percentualeAvanzamento,
-                        stimaGiorniAFinire: tasks[i].stimaGiorniAFinire,
-                        visualizzataInRapportini: tasks[i].visualizzataInRapportini,
+    async duplicateTask(idSottocommessa: number, task: TaskDto) {
+
+        const risorse = await lastValueFrom(
+            this.risorsaService.getLegamiByIdTask$(task.id)
+        );
+
+        const idTask = await lastValueFrom(
+            this.taskService
+                .createTask$({
+                    attivitaObbligatoria: task.attivitaObbligatoria,
+                    codiceTask: `Copia di ${task.codiceTask || "task senza codice"}`,
+                    dataFine: task.dataFine,
+                    dataInizio: task.dataInizio,
+                    descrizione: task.descrizione,
+                    giorniPrevisti: task.giorniPrevisti,
+                    idCommessa: idSottocommessa,
+                    percentualeAvanzamento: task.percentualeAvanzamento,
+                    stimaGiorniAFinire: task.stimaGiorniAFinire,
+                    visualizzataInRapportini: task.visualizzataInRapportini,
+                })
+        );
+
+        for (let j = 0; j < risorse.length; j++) {
+
+            await lastValueFrom(
+                this.risorsaService
+                    .createLegame$({
+                        inizioAllocazione: risorse[j].inizioAllocazione,
+                        fineAllocazione: risorse[j].fineAllocazione,
+                        idTask: idTask,
+                        idUtente: risorse[j].idUtente,
                     })
-            );
-
-            for (let j = 0; j < matriceRisorse[i].length; j++) {
-
-                await lastValueFrom(
-                    this.risorsaService
-                        .createLegame$({
-                            inizioAllocazione: matriceRisorse[i][j].inizioAllocazione,
-                            fineAllocazione: matriceRisorse[i][j].fineAllocazione,
-                            idTask: idTask,
-                            idUtente: matriceRisorse[i][j].idUtente,
-                        })
-                )
-            }
+            )
         }
     }
 

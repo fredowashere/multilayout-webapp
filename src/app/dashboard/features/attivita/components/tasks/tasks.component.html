@@ -72,6 +72,14 @@
 
                     <button
                         type="button"
+                        class="btn btn-outline-primary shadow"
+                        (click)="duplicate(item)"
+                    >
+                        <i class="bi bi-clipboard"></i>
+                    </button>
+
+                    <button
+                        type="button"
                         class="btn btn-primary shadow"
                         (click)="addTab(item.id, item.codiceTask)"
                     >

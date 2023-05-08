@@ -7,6 +7,7 @@ import { EliminazioneDialog } from '../../dialogs/eliminazione.dialog';
 import { ToastService } from 'src/app/services/toast.service';
 import { Subject, startWith, switchMap } from 'rxjs';
 import { TaskCreazioneModifica } from '../../dialogs/task-creazione-modifica/task-creazione-modifica.component';
+import { SottocommessaService } from '../../services/sottocommessa.service';
 
 interface Tab {
   id: number;
@@ -31,6 +32,7 @@ export class TasksComponent {
   tasks: TaskDto[] = [];
 
   constructor(
+    private sottocommessaService: SottocommessaService,
     private taskService: TaskService,
     private modalService: NgbModal,
     private toaster: ToastService
@@ -156,5 +158,13 @@ export class TasksComponent {
           this.toaster.show(ex.error, { classname: 'bg-danger text-white' });
         }
       );
+  }
+
+  async duplicate(task: TaskDto) {
+
+    await this.sottocommessaService
+      .duplicateTask(this.idSottocommessa, task);
+    
+    this.refresh$.next();
   }
 }
