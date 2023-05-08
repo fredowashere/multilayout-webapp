@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FaseEventoDto } from '../models/offerta';
-import { EventoDto, UpsertEventoParam } from '../models/opportunita';
+import { EventoDto, UpsertEventoParam } from '../models/evento';
 
 @Injectable({
     providedIn: 'root'
 })
-export class OpportunitaService {
+export class EventoService {
 
     constructor(
         private http: HttpClient

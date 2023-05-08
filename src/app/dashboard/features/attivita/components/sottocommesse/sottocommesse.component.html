@@ -114,14 +114,12 @@
                 <span class="btn-close ms-2 fw-light" (click)="closeTab(tab.id, $event)"></span>
             </a>
             <ng-template ngbNavContent>
-
-                <app-tasks
+                <app-sottocommessa-navigation
                     [id]="'sottocommessa-' + tab.id"
                     [idCommessa]="idCommessa"
                     [idSottocommessa]="tab.id"
                     (sottocommessaUpdate)="refresh$.next()"
-                ></app-tasks>
-
+                ></app-sottocommessa-navigation>
             </ng-template>
         </li>
     </ul>

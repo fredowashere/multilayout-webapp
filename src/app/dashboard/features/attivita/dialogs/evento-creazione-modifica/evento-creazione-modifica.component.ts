@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastService } from "src/app/services/toast.service";
 import { DIALOG_MODE } from "../../models/dialog";
-import { EventoDto } from "../../models/opportunita";
-import { OpportunitaService } from "../../services/opportunita.service";
+import { EventoDto } from "../../models/evento";
+import { EventoService } from "../../services/evento.service";
 
 @Component({
 	selector: 'app-evento-creazione-modifica-dialog',
@@ -33,7 +33,7 @@ export class EventoCreazioneModifica {
 
 	constructor(
         public activeModal: NgbActiveModal,
-        private opportunitaService: OpportunitaService,
+        private eventoService: EventoService,
         private toaster: ToastService
     ) { }
 
@@ -43,7 +43,7 @@ export class EventoCreazioneModifica {
             ? DIALOG_MODE.Update
             : DIALOG_MODE.Create;
 
-        this.opportunitaService
+        this.eventoService
             .getTipiEvento$()
             .subscribe(tipiEvento =>
                 this.tipiEvento = tipiEvento
@@ -66,7 +66,7 @@ export class EventoCreazioneModifica {
 
     create() {
 
-        this.opportunitaService
+        this.eventoService
             .createEvento$({
                 idOpportunita: this.idCommessa,
                 dataEvento: this.dataCtrl.value as string,
@@ -90,7 +90,7 @@ export class EventoCreazioneModifica {
 
     update() {
 
-        this.opportunitaService
+        this.eventoService
             .updateEvento$(
                 this.evento.id,
                 {

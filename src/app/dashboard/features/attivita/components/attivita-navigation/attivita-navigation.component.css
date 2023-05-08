@@ -1,0 +1,8 @@
+:host {
+    --attivita-nav-background: var(--app-blue_100);
+    --attivita-nav-color: var(--app-gray_100);
+    --attivita-nav__item-background: var(--app-gray_0);
+    --attivita-nav__item-color: var(--app-blue_100);
+    --attivita-nav__link-background: var(--app-gray_0);
+    --attivita-nav__link-color: var(--app-gray_0);
+}

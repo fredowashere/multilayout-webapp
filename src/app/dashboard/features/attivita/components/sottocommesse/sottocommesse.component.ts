@@ -36,7 +36,6 @@ export class SottocommesseComponent {
   ) {}
 
   ngOnInit() {
-
     this.refresh$
       .pipe(
         startWith(null),

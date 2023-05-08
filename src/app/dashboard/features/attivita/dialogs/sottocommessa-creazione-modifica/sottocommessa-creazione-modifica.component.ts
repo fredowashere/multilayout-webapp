@@ -83,9 +83,7 @@ export class SottocommessaCreazioneModifica implements OnInit, OnDestroy {
         iniziativa: this.iniziativaCtrl,
         tipoFatturazione: this.tipoFatturazioneCtrl,
         importo: this.importoCtrl,
-        trafertaRibaltabileCliente: this.trasfertaRibaltabileClienteCtrl,
-        abilitazioneReperibilita: this.abilitazioneReperibilitaCtrl,
-        abilitazioneStraordinario: this.abilitazioneStraordinarioCtrl,
+        trafertaRibaltabileCliente: this.trasfertaRibaltabileClienteCtrl
     });
 
     destroy$ = new Subject<void>();

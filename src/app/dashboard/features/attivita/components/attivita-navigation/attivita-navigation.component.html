@@ -76,10 +76,10 @@
     >
         <a ngbNavLink>
             <i class="bi bi-1-square-fill"></i>
-            Opportunità
+            Eventi
         </a>
         <ng-template ngbNavContent>
-            <app-opportunita [idCommessa]="idCommessa"></app-opportunita>
+            <app-evento [idCommessa]="idCommessa"></app-evento>
         </ng-template>
     </li>
 
@@ -88,7 +88,7 @@
         class="attivita-nav__item"
         [disabled]="commessa?.tipoAttivita?.id == 2"
     >
-        <a ngbNavLink class="attivita-nav__link">
+        <a ngbNavLink>
             <i class="bi bi-2-square-fill"></i>
             Offerta
         </a>
@@ -104,7 +104,7 @@
         [ngbNavItem]="3" class="attivita-nav__item"
         [disabled]="this.commessa?.tipoAttivita?.id == 1 && !this.offerta?.dataAccettazione"
     >
-        <a ngbNavLink class="attivita-nav__link">
+        <a ngbNavLink>
             <i class="bi bi-3-square-fill"></i>
             Sottocommesse
         </a>
@@ -120,7 +120,7 @@
         class="attivita-nav__item"
         [disabled]="!hasSottocommesse"
     >
-        <a ngbNavLink class="attivita-nav__link">
+        <a ngbNavLink>
             <i class="bi bi-4-square-fill"></i>
             Costi
         </a>
@@ -137,7 +137,7 @@
         class="attivita-nav__item"
         [disabled]="!hasSottocommesse"
     >
-        <a ngbNavLink class="attivita-nav__link">
+        <a ngbNavLink>
             <i class="bi bi-5-square-fill"></i>
             Ricavi
         </a>
@@ -150,7 +150,7 @@
     </li>
 
     <li [ngbNavItem]="6" class="attivita-nav__item">
-        <a ngbNavLink class="attivita-nav__link">
+        <a ngbNavLink>
             <i class="bi bi-6-square-fill"></i>
             Ordini
         </a>
@@ -160,7 +160,7 @@
     </li>
 
     <li [ngbNavItem]="7" class="attivita-nav__item">
-        <a ngbNavLink class="attivita-nav__link">
+        <a ngbNavLink>
             <i class="bi bi-7-square-fill"></i>
             Fatture
         </a>
