@@ -71,7 +71,7 @@
         </ng-template>
     </li>
 
-    <!-- <li
+    <li
         [ngbNavItem]="2"
         class="attivita-nav__item"
     >
@@ -85,7 +85,23 @@
                 [idSottocommessa]="idSottocommessa"
             ></app-reperibilita>
         </ng-template>
-    </li> -->
+    </li>
+
+    <li
+        [ngbNavItem]="3"
+        class="attivita-nav__item"
+    >
+        <a ngbNavLink>
+            <i class="bi bi-3-square-fill"></i>
+            Straordinari
+        </a>
+        <ng-template ngbNavContent>
+            <app-straordinario
+                [idCommessa]="idCommessa"
+                [idSottocommessa]="idSottocommessa"
+            ></app-straordinario>
+        </ng-template>
+    </li>
 </ul>
 
 <div [ngbNavOutlet]="nav" class="mt-2"></div>

@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 export class StraordinarioComponent {
 
   @Input("idCommessa") idCommessa!: number;
+  @Input("idSottocommessa") idSottocommessa!: number;
 
   refresh$ = new Subject<void>();
 
