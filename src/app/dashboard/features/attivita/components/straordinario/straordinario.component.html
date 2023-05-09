@@ -7,7 +7,7 @@
 
     <div class="table-plus">
 
-        <h5 class="table-plus__title">Tabella legami straordinari</h5>
+        <h5 class="table-plus__title">Tabella straordinari</h5>
 
         <button
             type="button"
@@ -15,7 +15,7 @@
             (click)="create()"
         >
             <i class="bi bi-plus"></i>
-            Crea legame straordinario
+            Crea straordinario
         </button>
     </div>
 
@@ -30,15 +30,15 @@
             text-align: center;
         ">
 
-            <img class="img-fluid" src="assets/images/not-found.png" alt="nessun risultato trovato">
+            <img class="img-fluid" src="assets/images/results-not-found.jpg" alt="nessun risultato trovato">
 
-            <div class="lead">Nessun legame straordinario trovato.</div>
+            <div class="lead">Nessun straordinario trovato.</div>
 
             <button
                 class="btn btn-outline-success"
                 (click)="create()"
             >
-                Crea legame straordinario
+                Crea straordinario
             </button>
         </div>
     </ng-template>
@@ -56,7 +56,7 @@
     
         <ng-template #thead>
             <th sortable="descrizione" (sort)="dt.sort($any($event))">Descrizione</th>
-            <th sortable="autorizzazioneCliente" (sort)="dt.sort($any($event))">Senza avviso</th>
+            <th sortable="autorizzazioneCliente" (sort)="dt.sort($any($event))">Autorizzazione</th>
             <th sortable="inizio" (sort)="dt.sort($any($event))">Inizio</th>
             <th sortable="fine" (sort)="dt.sort($any($event))">Fine</th>
             <th style="width: 10rem"></th>

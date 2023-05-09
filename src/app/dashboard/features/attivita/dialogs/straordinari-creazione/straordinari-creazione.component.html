@@ -1,0 +1,78 @@
+
+<div class="modal-header">
+
+    <h4 class="modal-title" id="modal-title">
+        Creazione straordinario
+    </h4>
+
+    <button
+        type="button"
+        class="btn-close" 
+        (click)="activeModal.dismiss('Cross click')"
+    ></button>
+</div>
+
+<div class="modal-body">
+    <form novalidate>
+
+        <div class="flexgrid flexgrid--2">
+    
+            <app-input
+                type="date"
+                name="dataInizio"
+                label="Data inizio *"
+                [max]="dataFineCtrl.value"
+                [ngControl]="dataInizioCtrl"
+                [floatingLabel]="true"
+            ></app-input>
+    
+            <app-input
+                type="date"
+                name="dataFine"
+                label="Data fine *"
+                [min]="dataInizioCtrl.value"
+                [ngControl]="dataFineCtrl"
+                [floatingLabel]="true"
+            ></app-input>
+        </div>
+
+        <div class="flexgrid flexgrid--1">
+            <app-input
+                type="textarea"
+                name="descrizione"
+                label="Descrizione *"
+                [ngControl]="descrizioneCtrl"
+                [floatingLabel]="true"
+            ></app-input>
+        </div>
+
+        <div class="flexgrid flexgrid--1">
+            <app-input
+                type="checkbox"
+                name="autorizzazioneCliente"
+                label="Autorizzazione cliente"
+                [ngControl]="autorizzazioneClienteCtrl"
+            ></app-input>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+
+    <button
+        type="button"
+        class="btn btn-outline-secondary ms-auto"
+        (click)="activeModal.dismiss('Cancel')"
+    >
+        Cancella
+    </button>
+
+    <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="form.invalid"
+        (click)="create()"
+    >
+        Salva
+    </button>
+</div>

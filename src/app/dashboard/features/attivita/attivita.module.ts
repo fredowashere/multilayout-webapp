@@ -22,6 +22,8 @@ import { ForzaturaCreazioneModifica } from './dialogs/forzatura-creazione-modifi
 import { SottocommessaNavigationComponent } from './components/sottocommessa-navigation/sottocommessa-navigation.component';
 import { ReperibilitaComponent } from './components/reperibilita/reperibilita.component';
 import { StraordinarioComponent } from './components/straordinario/straordinario.component';
+import { ReperibilitaCreazioneComponent } from './dialogs/reperibilita-creazione/reperibilita-creazione.component';
+import { StraordinariCreazioneComponent } from './dialogs/straordinari-creazione/straordinari-creazione.component';
 
 
 const routes: Routes = [
@@ -49,7 +51,9 @@ const routes: Routes = [
     ForzaturaCreazioneModifica,
     SottocommessaNavigationComponent,
     ReperibilitaComponent,
-    StraordinarioComponent
+    StraordinarioComponent,
+    ReperibilitaCreazioneComponent,
+    StraordinariCreazioneComponent
   ],
   imports: [
     CommonModule,

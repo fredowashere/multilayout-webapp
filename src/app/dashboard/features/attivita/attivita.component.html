@@ -330,7 +330,7 @@
                     <li *ngFor="let tab of tabs" [ngbNavItem]="tab.id">
                         <a ngbNavLink>
                             {{ tab.codiceCommessa }}
-                            <span class="btn-close ms-2 fw-light" (click)="closeTab(tab.id, $event)"></span>
+                            <span class="btn-close p-2 ms-3 fw-light" (click)="closeTab(tab.id, $event)"></span>
                         </a>
                         <ng-template ngbNavContent>
 

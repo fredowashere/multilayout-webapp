@@ -31,7 +31,7 @@ export class SegreteriaService extends BaseService {
   /**
    * Path part for operation getReperibilitaCommesseTotali
    */
-  static readonly GetReperibilitaCommesseTotaliPath = '/segreteria/azienda/{idAzienda}/reperibilita';
+  static readonly GetReperibilitaCommesseTotaliPath = '/segreteria/azienda/{idAzienda}/reperibilita/{IdSottoCommessa}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -41,6 +41,7 @@ export class SegreteriaService extends BaseService {
    */
   getReperibilitaCommesseTotali$Response(params: {
     idAzienda: number;
+    IdSottoCommessa: number;
   },
   context?: HttpContext
 
@@ -49,6 +50,7 @@ export class SegreteriaService extends BaseService {
     const rb = new RequestBuilder(this.rootUrl, SegreteriaService.GetReperibilitaCommesseTotaliPath, 'get');
     if (params) {
       rb.path('idAzienda', params.idAzienda, {});
+      rb.path('IdSottoCommessa', params.IdSottoCommessa, {});
     }
 
     return this.http.request(rb.build({
@@ -71,6 +73,7 @@ export class SegreteriaService extends BaseService {
    */
   getReperibilitaCommesseTotali(params: {
     idAzienda: number;
+    IdSottoCommessa: number;
   },
   context?: HttpContext
 
@@ -84,7 +87,7 @@ export class SegreteriaService extends BaseService {
   /**
    * Path part for operation getStraordinariTerzePartiTotali
    */
-  static readonly GetStraordinariTerzePartiTotaliPath = '/segreteria/azienda/{idAzienda}/straordinari';
+  static readonly GetStraordinariTerzePartiTotaliPath = '/segreteria/azienda/{idAzienda}/straordinari/{IdSottoCommessa}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -94,6 +97,7 @@ export class SegreteriaService extends BaseService {
    */
   getStraordinariTerzePartiTotali$Response(params: {
     idAzienda: number;
+    IdSottoCommessa: number;
   },
   context?: HttpContext
 
@@ -102,6 +106,7 @@ export class SegreteriaService extends BaseService {
     const rb = new RequestBuilder(this.rootUrl, SegreteriaService.GetStraordinariTerzePartiTotaliPath, 'get');
     if (params) {
       rb.path('idAzienda', params.idAzienda, {});
+      rb.path('IdSottoCommessa', params.IdSottoCommessa, {});
     }
 
     return this.http.request(rb.build({
@@ -124,6 +129,7 @@ export class SegreteriaService extends BaseService {
    */
   getStraordinariTerzePartiTotali(params: {
     idAzienda: number;
+    IdSottoCommessa: number;
   },
   context?: HttpContext
 
