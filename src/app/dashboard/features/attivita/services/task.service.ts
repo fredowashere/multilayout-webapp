@@ -20,12 +20,13 @@ export class TaskService {
 
     getTasksByIdSottocommessa$(idSottoCommessa: number) {
         const url = `${environment.scaiRoot}/modulo-attivita-be/tasks/by-sottocommessa/id/${idSottoCommessa}`;
-        return this.http.get<TaskDto[]>(url)
+        return this.http
+            .get<TaskDto[]>(url)
             .pipe(
                 map(tasks =>
                     tasks.sort((a, b) =>
                         (b.dataInizio || "1970-01-01").localeCompare(a.dataInizio || "1970-01-01")
-                )
+                    )
                 )
             );
     }

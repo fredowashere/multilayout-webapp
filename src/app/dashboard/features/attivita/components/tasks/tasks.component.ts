@@ -1,17 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UtentiAnagrafica } from 'src/app/api/modulo-attivita/models';
 import { delayedScrollTo } from 'src/app/utils/dom';
-import { SottocommessaCreazioneModifica } from '../../dialogs/sottocommessa-creazione-modifica/sottocommessa-creazione-modifica.component';
-import { CommessaDto } from '../../models/commessa';
 import { TaskDto } from '../../models/task';
-import { MiscDataService } from '../../services/miscData.service';
-import { SottocommessaService } from '../../services/sottocommessa.service';
 import { TaskService } from '../../services/task.service';
 import { EliminazioneDialog } from '../../dialogs/eliminazione.dialog';
 import { ToastService } from 'src/app/services/toast.service';
 import { Subject, startWith, switchMap } from 'rxjs';
 import { TaskCreazioneModifica } from '../../dialogs/task-creazione-modifica/task-creazione-modifica.component';
+import { SottocommessaService } from '../../services/sottocommessa.service';
 
 interface Tab {
   id: number;
@@ -27,12 +23,8 @@ export class TasksComponent {
 
   @Input("idCommessa") idCommessa!: number;
   @Input("idSottocommessa") idSottocommessa!: number;
-  @Output("sottocommessaUpdate") sottocommessaUpdateEmitter = new EventEmitter<CommessaDto>();
-  sottocommessa?: CommessaDto;
 
   refresh$ = new Subject<void>();
-
-	pm?: UtentiAnagrafica;
 
   activeTabId!: number;
   tabs: Tab[] = [];
@@ -41,30 +33,21 @@ export class TasksComponent {
 
   constructor(
     private sottocommessaService: SottocommessaService,
-    private miscDataService: MiscDataService,
     private taskService: TaskService,
     private modalService: NgbModal,
     private toaster: ToastService
   ) {}
 
   ngOnInit() {
-
-    this.sottocommessaService
-      .getSottocommessaById$(this.idSottocommessa)
-      .subscribe(sottocommessa => {
-        this.sottocommessa = sottocommessa;
-        this.pm = this.miscDataService.idUtenteUtente[sottocommessa?.idProjectManager];
-      });
-
-      this.refresh$
-        .pipe(
-          startWith(null),
-          switchMap(() =>
-            this.taskService
-              .getTasksByIdSottocommessa$(this.idSottocommessa)
-          )
+    this.refresh$
+      .pipe(
+        startWith(null),
+        switchMap(() =>
+          this.taskService
+            .getTasksByIdSottocommessa$(this.idSottocommessa)
         )
-        .subscribe(tasks => this.tasks = tasks);
+      )
+      .subscribe(tasks => this.tasks = tasks);
   }
 
   addTab(id: number, codiceTask: string) {
@@ -103,31 +86,6 @@ export class TasksComponent {
       evt.preventDefault();
       evt.stopImmediatePropagation();
     }
-	}
-
-  async updateSottocommessa() {
-
-		const modalRef = this.modalService
-		  .open(
-        SottocommessaCreazioneModifica,
-        {
-          size: 'lg',
-          centered: true,
-          scrollable: true
-        }
-		  );
-		modalRef.componentInstance.idCommessa = this.idCommessa;
-		modalRef.componentInstance.idSottocommessa = this.idSottocommessa;
-	
-		await modalRef.result;
-
-		this.sottocommessaService
-			.getSottocommessaById$(this.idSottocommessa)
-			.subscribe(sottocommessa => {
-				this.sottocommessa = sottocommessa;
-        this.pm = this.miscDataService.idUtenteUtente[sottocommessa?.idProjectManager];
-        this.sottocommessaUpdateEmitter.emit(sottocommessa);
-			});
 	}
 
   async create() {
@@ -200,5 +158,21 @@ export class TasksComponent {
           this.toaster.show(ex.error, { classname: 'bg-danger text-white' });
         }
       );
+  }
+
+  async duplicate(task: TaskDto) {
+
+    const _task = task as any;
+
+    try {
+      _task._duplicating = true;
+      await this.sottocommessaService
+        .duplicateTask(this.idSottocommessa, task);
+    }
+    finally {
+      _task.duplicating = false;
+    }
+
+    this.refresh$.next();
   }
 }

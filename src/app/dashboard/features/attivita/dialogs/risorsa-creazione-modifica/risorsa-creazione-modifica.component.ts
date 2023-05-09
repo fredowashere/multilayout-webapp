@@ -1,7 +1,7 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { catchError, combineLatest, lastValueFrom, map, of } from 'rxjs';
+import { Subject, catchError, combineLatest, lastValueFrom, map, of, takeUntil, tap } from 'rxjs';
 import { ToastService } from "src/app/services/toast.service";
 import { DIALOG_MODE } from "../../models/dialog";
 import { TaskService } from "../../services/task.service";
@@ -17,7 +17,7 @@ import { dedupe, intersection } from "src/app/utils/array";
 	templateUrl: './risorsa-creazione-modifica.component.html',
     styleUrls: ['./risorsa-creazione-modifica.component.css']
 })
-export class RisorsaCreazioneModifica {
+export class RisorsaCreazioneModifica implements OnInit, OnDestroy {
 
     @Input("idCommessa") idCommessa!: number;
     @Input("idSottocommessa") idSottocommessa!: number;
@@ -44,6 +44,8 @@ export class RisorsaCreazioneModifica {
         dataInizio: this.dataInizioCtrl,
         dataFine: this.dataFineCtrl
     });
+
+    destroy$ = new Subject<void>();
 
 	constructor(
         public activeModal: NgbActiveModal,
@@ -84,6 +86,34 @@ export class RisorsaCreazioneModifica {
                     this.isLoading = false;
                 });
         }
+
+        this.form
+            .valueChanges
+            .pipe(
+                takeUntil(this.destroy$),
+                tap(() => {
+
+                    const isoInizio = this.dataInizioCtrl.value || "";
+                    const isoFine = this.dataFineCtrl.value || "";
+
+                    if (isoInizio > isoFine) {
+                        this.dataInizioCtrl.setErrors({ date: "Too big" });
+                        this.dataFineCtrl.setErrors({ date: "Too small" });
+                    }
+                    else {
+                        this.dataInizioCtrl.setErrors(null);
+                        this.dataFineCtrl.setErrors(null);
+                    }
+
+                    this.dataInizioCtrl.markAsTouched();
+                    this.dataFineCtrl.markAsTouched();
+                })
+            )
+            .subscribe();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
     }
 
     initCtrlValues() {
@@ -102,9 +132,11 @@ export class RisorsaCreazioneModifica {
             
             if (!this.legame) return;
 
-            this.utentiCtrl.setValue([this.legame.utente]);
-            this.dataInizioCtrl.setValue(this.legame.inizioAllocazione && this.legame.inizioAllocazione.slice(0, 10));
-            this.dataFineCtrl.setValue(this.legame.fineAllocazione && this.legame.fineAllocazione.slice(0, 10));
+            this.form.patchValue({
+                utente: [this.legame.utente],
+                dataInizio: this.legame.inizioAllocazione && this.legame.inizioAllocazione.slice(0, 10),
+                dataFine: this.legame.fineAllocazione && this.legame.fineAllocazione.slice(0, 10)
+            });
         }
     }
 

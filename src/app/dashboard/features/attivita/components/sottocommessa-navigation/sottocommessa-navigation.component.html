@@ -1,0 +1,91 @@
+<div class="col-md-8 p-3 mt-3 mb-5 mx-auto">
+
+    <h5 class="mb-3">Dettaglio sottocommessa</h5>
+
+    <div class="ag-parent-resume app-callout app-callout--orange">
+    
+        <div class="flexgrid flexgrid--3">
+
+            <div>
+                <div class="small text-muted">Tipo attivita</div>
+                <div>{{ sottocommessa?.tipoFatturazione?.text }}</div>
+            </div>
+    
+            <div>
+                <div class="small text-muted">Data inizio</div>
+                <div>{{ sottocommessa?.dataInizio | date:'yyyy-MM-dd' }}</div>
+            </div>
+
+            <div>
+                <div class="small text-muted">Data fine</div>
+                <div>{{ sottocommessa?.dataFine | date:'yyyy-MM-dd' }}</div>
+            </div>
+    
+            <div>
+                <div class="small text-muted">Codice sottocommessa</div>
+                <div>{{ sottocommessa?.codiceCommessa }}</div>
+            </div>
+    
+            <div>
+                <div class="small text-muted">Descrizione</div>
+                <div>{{ sottocommessa?.descrizione }}</div>
+            </div>
+    
+            <div>
+                <div class="small text-muted">Project manager</div>
+                <div>{{ pm?.cognome + ' ' + pm?.nome }}</div>
+            </div>
+        </div>
+    
+        <button
+            type="button"
+            class="btn btn-warning btn-lg shadow"
+            (click)="updateSottocommessa()"
+        >
+            <i class="bi bi-pencil"></i>
+        </button>
+    </div>
+</div>
+
+<ul
+    class="attivita-nav mb-5"
+    ngbNav
+    #nav="ngbNav"
+    [destroyOnHide]="false"
+    [(activeId)]="activeTabId"
+>
+
+    <li
+        [ngbNavItem]="1"
+        class="attivita-nav__item"
+    >
+        <a ngbNavLink>
+            <i class="bi bi-1-square-fill"></i>
+            Tasks
+        </a>
+        <ng-template ngbNavContent>
+            <app-tasks
+                [idCommessa]="idCommessa"
+                [idSottocommessa]="idSottocommessa"
+            ></app-tasks>
+        </ng-template>
+    </li>
+
+    <!-- <li
+        [ngbNavItem]="2"
+        class="attivita-nav__item"
+    >
+        <a ngbNavLink>
+            <i class="bi bi-2-square-fill"></i>
+            Reperibilità
+        </a>
+        <ng-template ngbNavContent>
+            <app-reperibilita
+                [idCommessa]="idCommessa"
+                [idSottocommessa]="idSottocommessa"
+            ></app-reperibilita>
+        </ng-template>
+    </li> -->
+</ul>
+
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

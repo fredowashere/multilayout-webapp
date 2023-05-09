@@ -2,15 +2,15 @@ import { Component, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { startWith, Subject } from 'rxjs';
 import { EventoCreazioneModifica } from '../../dialogs/evento-creazione-modifica/evento-creazione-modifica.component';
-import { EventoDto } from '../../models/opportunita';
-import { OpportunitaService } from '../../services/opportunita.service';
+import { EventoDto } from '../../models/evento';
+import { EventoService } from '../../services/evento.service';
 
 @Component({
-  selector: 'app-opportunita',
-  templateUrl: './opportunita.component.html',
-  styleUrls: ['./opportunita.component.css']
+  selector: 'app-evento',
+  templateUrl: './evento.component.html',
+  styleUrls: ['./evento.component.css']
 })
-export class OpportunitaComponent {
+export class EventoComponent {
 
   @Input("idCommessa") idCommessa!: number;
 
@@ -19,16 +19,15 @@ export class OpportunitaComponent {
   eventi: EventoDto[] = [];
 
   constructor(
-    private opportunitaService: OpportunitaService,
+    private eventoService: EventoService,
     private modalService: NgbModal
   ) { }
 
   ngOnInit() {
-
     this.refresh$
       .pipe(startWith(null))
       .subscribe(() =>
-        this.opportunitaService
+        this.eventoService
           .getAllEventiByIdCommessa$(this.idCommessa)
           .subscribe(eventi => this.eventi = eventi)
       );

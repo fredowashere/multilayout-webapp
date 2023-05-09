@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastService } from "src/app/services/toast.service";
@@ -6,13 +6,14 @@ import { DIALOG_MODE } from "../../models/dialog";
 import { TaskService } from "../../services/task.service";
 import { CreateTaskParam, TaskDto } from "../../models/task";
 import { jsonCopy } from "src/app/utils/json";
+import { Subject, takeUntil, tap } from "rxjs";
 
 @Component({
 	selector: 'app-task-creazione-modifica-dialog',
 	templateUrl: './task-creazione-modifica.component.html',
     styleUrls: ['./task-creazione-modifica.component.css']
 })
-export class TaskCreazioneModifica {
+export class TaskCreazioneModifica implements OnInit, OnDestroy {
 
     @Input("idCommessa") idCommessa!: number;
     @Input("idSottocommessa") idSottocommessa!: number;
@@ -39,6 +40,8 @@ export class TaskCreazioneModifica {
         attivitaObbligatoria: this.attivitaObbligatoriaCtrl
     });
 
+    destroy$ = new Subject<void>();
+
 	constructor(
         public activeModal: NgbActiveModal,
         private toaster: ToastService,
@@ -64,6 +67,34 @@ export class TaskCreazioneModifica {
         else {
             this.isLoading = false;
         }
+
+        this.form
+            .valueChanges
+            .pipe(
+                takeUntil(this.destroy$),
+                tap(() => {
+
+                    const isoInizio = this.dataInizioCtrl.value || "";
+                    const isoFine = this.dataFineCtrl.value || "";
+
+                    if (isoInizio > isoFine) {
+                        this.dataInizioCtrl.setErrors({ date: "Too big" });
+                        this.dataFineCtrl.setErrors({ date: "Too small" });
+                    }
+                    else {
+                        this.dataInizioCtrl.setErrors(null);
+                        this.dataFineCtrl.setErrors(null);
+                    }
+
+                    this.dataInizioCtrl.markAsTouched();
+                    this.dataFineCtrl.markAsTouched();
+                })
+            )
+            .subscribe();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
     }
 
     initCtrlValues() {

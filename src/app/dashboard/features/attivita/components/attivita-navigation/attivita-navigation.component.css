@@ -1,72 +1,8 @@
-.nav,
-.nav-item,
-.nav-link,
-.attivita-nav,
-.attivita-nav__item {
-    all: unset;
-}
-
-.attivita-nav {
-    background: rgba(var(--app-primary_500), 1);
-    box-shadow: 0 -12px 16px 0 #0002;
-    display: flex;
-    color: rgba(var(--app-gray_100), 1);
-    margin: 0 -1rem;
-    padding: 0.5rem;
-    padding-bottom: 0;
-    overflow: auto;
-}
-
-.attivita-nav__item {
-    background: rgba(var(--app-gray_0), 1);
-    cursor: pointer;
-    min-width: max-content;
-}
-
-.attivita-nav__item:first-child {
-    margin-left: auto;
-}
-.attivita-nav__item:last-child {
-    margin-right: auto;
-}
-
-.attivita-nav__item:has(.nav-link.active) {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    overflow: hidden;
-}
-
-.attivita-nav__item > .nav-link {
-    background: rgba(var(--app-primary_500), 1);
-    display: inline-block;
-    padding: 1rem;
-    padding-top: 0.75rem;
-    position: relative;
-}
-
-.attivita-nav__item > .nav-link.active::after {
-    background: rgba(var(--app-gray_0), 1);
-    content: '';
-    height: 4px;
-    position: absolute;
-    bottom: 0.5rem;
-    left: 0.5rem;
-    right: 0.5rem;
-}
-
-.attivita-nav__item:has(+ .attivita-nav__item > .nav-link.active) > .nav-link {
-    border-bottom-right-radius: 25px;
-}
-
-.attivita-nav__item:has(.nav-link.active) + .attivita-nav__item > .nav-link {
-    border-bottom-left-radius: 25px;
-}
-
-.attivita-nav__item:has(.nav-link.active) > .nav-link {
-    background: rgba(var(--app-gray_0), 1);
-    color: rgba(var(--app-primary_500), 1);
-}
-
-.attivita-nav__item > .nav-link.disabled {
-    color: rgba(var(--app-gray_0), 0.5);
+:host {
+    --attivita-nav-background: var(--app-blue_100);
+    --attivita-nav-color: var(--app-gray_100);
+    --attivita-nav__item-background: var(--app-gray_0);
+    --attivita-nav__item-color: var(--app-blue_100);
+    --attivita-nav__link-background: var(--app-gray_0);
+    --attivita-nav__link-color: var(--app-gray_0);
 }

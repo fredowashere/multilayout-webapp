@@ -28,7 +28,6 @@ export class ForzatureComponent {
   ) { }
 
   ngOnInit() {
-
     this.refresh$
       .pipe(startWith(null))
       .subscribe(() =>

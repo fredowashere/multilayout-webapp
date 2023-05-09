@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { AttivitaComponent } from './attivita.component';
-import { OpportunitaComponent } from './components/opportunita/opportunita.component';
+import { EventoComponent } from './components/evento/evento.component';
 import { OffertaComponent } from './components/offerta/offerta.component';
 import { SottocommesseComponent } from './components/sottocommesse/sottocommesse.component';
 import { TasksComponent } from './components/tasks/tasks.component';
@@ -19,6 +19,9 @@ import { TaskCreazioneModifica } from './dialogs/task-creazione-modifica/task-cr
 import { RisorsaCreazioneModifica } from './dialogs/risorsa-creazione-modifica/risorsa-creazione-modifica.component';
 import { ForzatureComponent } from './components/forzature/forzature.component';
 import { ForzaturaCreazioneModifica } from './dialogs/forzatura-creazione-modifica/forzatura-creazione-modifica.component';
+import { SottocommessaNavigationComponent } from './components/sottocommessa-navigation/sottocommessa-navigation.component';
+import { ReperibilitaComponent } from './components/reperibilita/reperibilita.component';
+import { StraordinarioComponent } from './components/straordinario/straordinario.component';
 
 
 const routes: Routes = [
@@ -28,7 +31,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AttivitaComponent,
-    OpportunitaComponent,
+    EventoComponent,
     OffertaComponent,
     SottocommesseComponent,
     TasksComponent,
@@ -43,7 +46,10 @@ const routes: Routes = [
     TaskCreazioneModifica,
     RisorsaCreazioneModifica,
     ForzatureComponent,
-    ForzaturaCreazioneModifica
+    ForzaturaCreazioneModifica,
+    SottocommessaNavigationComponent,
+    ReperibilitaComponent,
+    StraordinarioComponent
   ],
   imports: [
     CommonModule,

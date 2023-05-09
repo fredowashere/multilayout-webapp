@@ -1,3 +1,8 @@
+<div class="text-center mb-5">
+    <h1 class="display-6">Gestione Sottocommesse</h1>
+    <p class="lead">Da questo componente puoi creare/modificare le sottocommessa.</p>
+</div>
+
 <div class="card app-callout app-callout--orange pt-3 shadow">
 
     <div class="table-plus">
@@ -66,9 +71,15 @@
                     <button
                         type="button"
                         class="btn btn-outline-primary shadow"
+                        [disabled]="item._duplicating"
                         (click)="duplicate(item)"
                     >
-                        <i class="bi bi-clipboard"></i>
+                        <ng-container *ngIf="item._duplicating; else notDuplicating">
+                            <span class="spinner-border spinner-border-sm"></span>
+                        </ng-container>
+                        <ng-template #notDuplicating>
+                            <i class="bi bi-clipboard"></i>
+                        </ng-template>
                     </button>
 
                     <button
@@ -114,14 +125,12 @@
                 <span class="btn-close ms-2 fw-light" (click)="closeTab(tab.id, $event)"></span>
             </a>
             <ng-template ngbNavContent>
-
-                <app-tasks
+                <app-sottocommessa-navigation
                     [id]="'sottocommessa-' + tab.id"
                     [idCommessa]="idCommessa"
                     [idSottocommessa]="tab.id"
                     (sottocommessaUpdate)="refresh$.next()"
-                ></app-tasks>
-
+                ></app-sottocommessa-navigation>
             </ng-template>
         </li>
     </ul>

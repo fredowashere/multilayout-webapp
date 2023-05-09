@@ -69,21 +69,21 @@
     [(activeId)]="activeTabId"
 >
 
-	<li
+    <li
         [ngbNavItem]="1"
         class="attivita-nav__item"
         [disabled]="commessa?.tipoAttivita?.id == 2"
     >
         <a ngbNavLink>
             <i class="bi bi-1-square-fill"></i>
-            Opportunità
+            Eventi
         </a>
-		<ng-template ngbNavContent>
-			<app-opportunita [idCommessa]="idCommessa"></app-opportunita>
-		</ng-template>
-	</li>
+        <ng-template ngbNavContent>
+            <app-evento [idCommessa]="idCommessa"></app-evento>
+        </ng-template>
+    </li>
 
-	<li
+    <li
         [ngbNavItem]="2"
         class="attivita-nav__item"
         [disabled]="commessa?.tipoAttivita?.id == 2"
@@ -92,15 +92,15 @@
             <i class="bi bi-2-square-fill"></i>
             Offerta
         </a>
-		<ng-template ngbNavContent>
-			<app-offerta
+        <ng-template ngbNavContent>
+            <app-offerta
                 [idCommessa]="idCommessa"
                 (offertaUpsert)="onOffertaUpsert($event)"
             ></app-offerta>
-		</ng-template>
-	</li>
+        </ng-template>
+    </li>
 
-	<li
+    <li
         [ngbNavItem]="3" class="attivita-nav__item"
         [disabled]="this.commessa?.tipoAttivita?.id == 1 && !this.offerta?.dataAccettazione"
     >
@@ -108,14 +108,14 @@
             <i class="bi bi-3-square-fill"></i>
             Sottocommesse
         </a>
-		<ng-template ngbNavContent>
-			<app-sottocommesse
+        <ng-template ngbNavContent>
+            <app-sottocommesse
                 [idCommessa]="idCommessa"
             ></app-sottocommesse>
-		</ng-template>
-	</li>
+        </ng-template>
+    </li>
 
-	<li
+    <li
         [ngbNavItem]="4"
         class="attivita-nav__item"
         [disabled]="!hasSottocommesse"
@@ -124,13 +124,13 @@
             <i class="bi bi-4-square-fill"></i>
             Costi
         </a>
-		<ng-template ngbNavContent>
-			<app-forzature
+        <ng-template ngbNavContent>
+            <app-forzature
                 [idCommessa]="idCommessa"
                 categoria="costo"
             ></app-forzature>
-		</ng-template>
-	</li>
+        </ng-template>
+    </li>
 
     <li
         [ngbNavItem]="5"
@@ -141,33 +141,43 @@
             <i class="bi bi-5-square-fill"></i>
             Ricavi
         </a>
-		<ng-template ngbNavContent>
-			<app-forzature
+        <ng-template ngbNavContent>
+            <app-forzature
                 [idCommessa]="idCommessa"
                 categoria="ricavo"
             ></app-forzature>
-		</ng-template>
-	</li>
+        </ng-template>
+    </li>
 
     <li [ngbNavItem]="6" class="attivita-nav__item">
         <a ngbNavLink>
             <i class="bi bi-6-square-fill"></i>
             Ordini
         </a>
-		<ng-template ngbNavContent>
-			<app-ordini [idCommessa]="idCommessa"></app-ordini>
-		</ng-template>
-	</li>
+        <ng-template ngbNavContent>
+            <app-ordini [idCommessa]="idCommessa"></app-ordini>
+        </ng-template>
+    </li>
 
     <li [ngbNavItem]="7" class="attivita-nav__item">
         <a ngbNavLink>
             <i class="bi bi-7-square-fill"></i>
             Fatture
         </a>
-		<ng-template ngbNavContent>
-			<app-fatture [idCommessa]="idCommessa"></app-fatture>
-		</ng-template>
-	</li>
+        <ng-template ngbNavContent>
+            <app-fatture [idCommessa]="idCommessa"></app-fatture>
+        </ng-template>
+    </li>
+
+    <!-- <li [ngbNavItem]="8" class="attivita-nav__item">
+        <a ngbNavLink>
+            <i class="bi bi-8-square-fill"></i>
+            Straordinari
+        </a>
+        <ng-template ngbNavContent>
+            <app-straordinario [idCommessa]="idCommessa"></app-straordinario>
+        </ng-template>
+    </li> -->
 </ul>
 
 <div [ngbNavOutlet]="nav" class="mt-2"></div>

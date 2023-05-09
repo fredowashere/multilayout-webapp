@@ -1,0 +1,83 @@
+<div class="text-center mb-5">
+    <h1 class="display-6">Abilitazione Straordinari</h1>
+    <p class="lead">Da questo componente puoi abilitare gli straordinari alla commessa.</p>
+</div>
+
+<div class="card pt-3 shadow">
+
+    <div class="table-plus">
+
+        <h5 class="table-plus__title">Tabella legami straordinari</h5>
+
+        <button
+            type="button"
+            class="table-plus__action btn btn-success shadow"
+            (click)="create()"
+        >
+            <i class="bi bi-plus"></i>
+            Crea legame straordinario
+        </button>
+    </div>
+
+    <ng-template #emptyTmpl>
+        <div style="
+            display: grid;
+            gap: 0.75rem;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 300px;
+            padding: 3rem 1rem;
+            text-align: center;
+        ">
+
+            <img class="img-fluid" src="assets/images/not-found.png" alt="nessun risultato trovato">
+
+            <div class="lead">Nessun legame straordinario trovato.</div>
+
+            <button
+                class="btn btn-outline-success"
+                (click)="create()"
+            >
+                Crea legame straordinario
+            </button>
+        </div>
+    </ng-template>
+    
+    <app-table
+        #dt
+        [thead]="thead"
+        [tbody]="tbody"
+        [items]="straordinari"
+        [searchable]="['descrizione']"
+        [paginated]="true"
+        [pageSize]="5"
+        [emptyTemplate]="emptyTmpl"
+    >
+    
+        <ng-template #thead>
+            <th sortable="descrizione" (sort)="dt.sort($any($event))">Descrizione</th>
+            <th sortable="autorizzazioneCliente" (sort)="dt.sort($any($event))">Senza avviso</th>
+            <th sortable="inizio" (sort)="dt.sort($any($event))">Inizio</th>
+            <th sortable="fine" (sort)="dt.sort($any($event))">Fine</th>
+            <th style="width: 10rem"></th>
+        </ng-template>
+    
+        <ng-template #tbody let-item let-term$="term$">
+            <td>{{ item.descrizione }}</td>
+            <td>{{ item.autorizzazioneCliente ? 'Si' : 'No' }}</td>
+            <td>{{ item.inizio | date:'yyyy-MM-dd' }}</td>
+            <td>{{ item.fine | date:'yyyy-MM-dd' }}</td>
+            <td>
+                <div class="d-flex gap-2 justify-content-center">
+                    <button
+                        type="button"
+                        class="btn btn-danger shadow"
+                        (click)="delete(item)"
+                    >
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </div>
+            </td>
+        </ng-template>
+    </app-table>
+</div>

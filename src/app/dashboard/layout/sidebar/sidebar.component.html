@@ -2,7 +2,11 @@
     
         <a routerLink="/home" class="app-brand">
             <img class="pic" src="assets/logos/scai-bianco-64x64.png">
-            <div>SCAI</div>
+            <div *ngIf="(authService.user$ | async) as user">
+                <span *ngIf="user.idAzienda">
+                    {{ miscData.idAziendaAzienda[user.idAzienda]?.descrizione }}
+                </span>
+            </div>
         </a>
         
         <label class="menu-toggle" (click)="sidebarService.toggle()">✕</label>

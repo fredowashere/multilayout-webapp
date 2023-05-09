@@ -3,6 +3,7 @@ import { RouterLinkActive } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
+import { MiscDataService } from '../../features/attivita/services/miscData.service';
 
 interface SidebarSubitem {
   title: string;
@@ -48,7 +49,8 @@ export class DashboardSidebarComponent {
 
   constructor(
     public sidebarService: SidebarService,
-    public authService: AuthService
+    public authService: AuthService,
+    public miscData: MiscDataService
   ) {
 
     this.username$ = this.authService.user$.pipe(map(user => user.cognome + ' ' + user.nome))
