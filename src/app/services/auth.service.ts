@@ -32,7 +32,9 @@ export class AuthService {
   constructor(
     private utentiService: UtentiService
   ) {
-    this.autoLogin();
+    const segments = window.location.pathname.split("/");
+    const isSplash = "splash" === segments.pop();
+    if (!isSplash) this.autoLogin();
   }
 
   login(token: string, idAzienda: number) {
@@ -43,7 +45,8 @@ export class AuthService {
 
     this.loggedInElseLogout();
 
-    return this.utentiService.getAttore({ idAzienda })
+    return this.utentiService
+      .getAttore({ idAzienda })
       .pipe(
         tap((u: GetAttoreResponse) => {
 

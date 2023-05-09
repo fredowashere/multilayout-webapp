@@ -26,12 +26,9 @@ export class SottocommessaService {
 
     getSottocommesseByIdCommessa$(idCommessa: number) {
         const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/by-padre/id/${idCommessa}`;
-        return this.http.get<CommessaDto[]>(url)
-            .pipe(
-                map(sottocommesse =>
-                    sottocommesse.reverse()
-                )
-            )
+        return this.http
+            .get<CommessaDto[]>(url)
+            .pipe(map(sottocommesse => sottocommesse.reverse()))
     }
 
     getSottocommessaById$(idSottocommessa: number) {
