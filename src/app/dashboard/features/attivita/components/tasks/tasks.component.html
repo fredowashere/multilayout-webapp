@@ -63,14 +63,14 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>
+            <td data-label="Codice task">
                 <ngb-highlight [result]="item.codiceTask" [term]="$any(term$ | async)"/>
             </td>
-            <td>
+            <td data-label="Descrizione">
                 <ngb-highlight [result]="item.descrizione" [term]="$any(term$ | async)"/>
             </td>
-            <td>{{ item.dataInizio | date:'yyyy-MM-dd' }}</td>
-            <td>{{ item.dataFine | date:'yyyy-MM-dd' }}</td>
+            <td data-label="Inizio">{{ item.dataInizio | date:'yyyy-MM-dd' }}</td>
+            <td data-label="Fine">{{ item.dataFine | date:'yyyy-MM-dd' }}</td>
             <td>
                 <div class="d-flex gap-2 justify-content-center">
 

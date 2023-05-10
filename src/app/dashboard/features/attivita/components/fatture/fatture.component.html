@@ -66,16 +66,16 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.tipoFattura === "V" ? "Validata" : "Annullata" }}</td>
-            <td>
+            <td data-label="Tipo fattura">{{ item.tipoFattura === "V" ? "Validata" : "Annullata" }}</td>
+            <td data-label="Nr. fattura">
                 <ngb-highlight [result]="item.numeroFattura" [term]="$any(term$ | async)"/>
             </td>
-            <td>{{ item.protocolloFattura }}</td>
-            <td>{{ item.riferimentoOrdine }}</td>
-            <td>{{ item.dataFattura | date:'yyyy-MM' }}</td>
-            <td>{{ item.scadenzaFattura | date:'yyyy-MM' }}</td>
-            <td>{{ item.codBP }}</td>
-            <td>{{ item.totaleImponibile | currency:"EUR":"symbol" }}</td>
+            <td data-label="Protocollo">{{ item.protocolloFattura }}</td>
+            <td data-label="Rif. ordine">{{ item.riferimentoOrdine }}</td>
+            <td data-label="Data fattura">{{ item.dataFattura | date:'yyyy-MM' }}</td>
+            <td data-label="Scadenza fattura">{{ item.scadenzaFattura | date:'yyyy-MM' }}</td>
+            <td data-label="Cod. BP">{{ item.codBP }}</td>
+            <td data-label="Totale imponibile">{{ item.totaleImponibile | currency:"EUR":"symbol" }}</td>
         </ng-template>
     </app-table>
 </div>

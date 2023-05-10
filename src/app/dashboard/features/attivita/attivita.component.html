@@ -194,27 +194,6 @@
                             <img class="img-fluid" src="assets/images/no-results.svg" alt="nessun risultato trovato">
 
                             <div class="lead">Nessuna commessa trovata.</div>
-
-                            <!-- <button
-                                class="btn btn-outline-primary"
-                                (click)="searchClick$.next()"
-                            >
-                                <ng-container *ngIf="isLoading; else searchIcon">
-                                    <span class="spinner-border spinner-border-sm"></span> Cercando...
-                                </ng-container>
-                                <ng-template #searchIcon>
-                                    Cerca commesse
-                                </ng-template>
-                            </button>
-
-                            <div class="lead fw-bold">- oppure -</div>
-
-                            <button
-                                class="btn btn-outline-success"
-                                (click)="create()"
-                            >
-                                Crea commessa
-                            </button> -->
                         </ng-container>
                         <ng-template #abc>
                             <ng-container *ngIf="isLoading">
@@ -256,30 +235,30 @@
                     </ng-template>
     
                     <ng-template #tbody let-item let-term$="term$">
-                        <td>
+                        <td data-label="Cliente">
                             <ngb-highlight [result]="item.descrizioneCliente" [term]="$any(term$ | async)"/>
                         </td>
-                        <td>{{ item.tipoAttivita.id === 1 ? 'Opportunità' : 'Commessa int.' }}</td>
-                        <td>{{ item.valido ? 'Valida' : 'Annullata' }}</td>
-                        <td>
+                        <td data-label="Tipo attività">{{ item.tipoAttivita.id === 1 ? 'Opportunità' : 'Commessa int.' }}</td>
+                        <td data-label="Stato">{{ item.valido ? 'Valida' : 'Annullata' }}</td>
+                        <td data-label="Commessa">
                             <div class="small fw-bold">
                                 <ngb-highlight [result]="item.codiceCommessa"  [term]="$any(term$ | async)"/>
                             </div>
                             <ngb-highlight [result]="item.descrizione" [term]="$any(term$ | async)"/>
                         </td>
-                        <td>
+                        <td data-label="Project manager">
                             <ngb-highlight
                                 [result]="(item.cognomeProjectManager || '') + ' ' + (item.nomeProjectManager || '')"
                                 [term]="$any(term$ | async)"
                             />
                         </td>
-                        <td>
+                        <td data-label="Business manager">
                             <ngb-highlight
                                 [result]="(item.cognomeBusinessManager || '') + ' ' + (item.nomeBusinessManager || '')"
                                 [term]="$any(term$ | async)"
                             />
                         </td>
-                        <td>{{ item.data | date:'yyyy-MM-dd' }}</td>
+                        <td data-label="Data">{{ item.data | date:'yyyy-MM-dd' }}</td>
                         <td>
                             <div
                                 *ngIf="item.valido; else annullatoActions"

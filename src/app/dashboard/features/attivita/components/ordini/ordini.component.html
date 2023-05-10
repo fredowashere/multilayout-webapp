@@ -65,15 +65,15 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.tipoOrdine === "V" ? "Validata" : "Annullata" }}</td>
-            <td>{{ item.company }}</td>
-            <td>
+            <td data-label="Tipo ordine">{{ item.tipoOrdine === "V" ? "Validata" : "Annullata" }}</td>
+            <td data-label="Company">{{ item.company }}</td>
+            <td data-label="Protocollo">
                 <ngb-highlight [result]="item.protocolloOrdine" [term]="$any(term$ | async)"/>
             </td>
-            <td>{{ item.riferimentoOrdine }}</td>
-            <td>{{ item.dataOrdine | date:'yyyy-MM' }}</td>
-            <td>{{ item.codiceCommessa }}</td>
-            <td>{{ item.totaleImponibile | currency:"EUR":"symbol" }}</td>
+            <td data-label="Rif. ordine">{{ item.riferimentoOrdine }}</td>
+            <td data-label="Data ordine">{{ item.dataOrdine | date:'yyyy-MM' }}</td>
+            <td data-label="Codice commessa">{{ item.codiceCommessa }}</td>
+            <td data-label="Totale imponibile">{{ item.totaleImponibile | currency:"EUR":"symbol" }}</td>
         </ng-template>
     </app-table>
 </div>

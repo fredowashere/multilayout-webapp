@@ -62,11 +62,11 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.dataEvento | date:'yyyy-MM-dd' }}</td>
-            <td>
+            <td data-label="Data">{{ item.dataEvento | date:'yyyy-MM-dd' }}</td>
+            <td data-label="Tipo evento">
                 <ngb-highlight [result]="item.faseEvento.descrizione" [term]="$any(term$ | async)"/>
             </td>
-            <td>
+            <td data-label="Descrizione">
                 <ngb-highlight [result]="item.descrizione" [term]="$any(term$ | async)"/>
             </td>
             <td>
