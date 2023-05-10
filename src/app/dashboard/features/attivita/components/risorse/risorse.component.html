@@ -102,8 +102,12 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.utente?.cognome }}</td>
-            <td>{{ item.utente?.nome }}</td>
+            <td>
+                <ngb-highlight [result]="item.utente?.cognome" [term]="$any(term$ | async)"/>
+            </td>
+            <td>
+                <ngb-highlight [result]="item.utente?.nome" [term]="$any(term$ | async)"/>
+            </td>
             <td>{{ item.inizioAllocazione | date:'yyyy-MM-dd' }}</td>
             <td>{{ item.fineAllocazione | date:'yyyy-MM-dd' }}</td>
             <td>

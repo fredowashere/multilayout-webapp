@@ -63,7 +63,9 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.descrizione }}</td>
+            <td>
+                <ngb-highlight [result]="item.descrizione" [term]="$any(term$ | async)"/>
+            </td>
             <td>{{ item.reperibilitaSenzaAvviso ? 'Si' : 'No' }}</td>
             <td>{{ item.inizio | date:'yyyy-MM-dd' }}</td>
             <td>{{ item.fine | date:'yyyy-MM-dd' }}</td>

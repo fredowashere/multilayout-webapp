@@ -67,7 +67,9 @@
         <ng-template #tbody let-item let-term$="term$">
             <td>{{ item.tipoOrdine === "V" ? "Validata" : "Annullata" }}</td>
             <td>{{ item.company }}</td>
-            <td>{{ item.protocolloOrdine }}</td>
+            <td>
+                <ngb-highlight [result]="item.protocolloOrdine" [term]="$any(term$ | async)"/>
+            </td>
             <td>{{ item.riferimentoOrdine }}</td>
             <td>{{ item.dataOrdine | date:'yyyy-MM' }}</td>
             <td>{{ item.codiceCommessa }}</td>

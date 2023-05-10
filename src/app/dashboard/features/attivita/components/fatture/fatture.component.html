@@ -67,7 +67,9 @@
     
         <ng-template #tbody let-item let-term$="term$">
             <td>{{ item.tipoFattura === "V" ? "Validata" : "Annullata" }}</td>
-            <td>{{ item.numeroFattura }}</td>
+            <td>
+                <ngb-highlight [result]="item.numeroFattura" [term]="$any(term$ | async)"/>
+            </td>
             <td>{{ item.protocolloFattura }}</td>
             <td>{{ item.riferimentoOrdine }}</td>
             <td>{{ item.dataFattura | date:'yyyy-MM' }}</td>

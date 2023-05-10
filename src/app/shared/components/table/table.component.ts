@@ -42,7 +42,7 @@ export class TableComponent {
 
   @Input("searchable") searchable: string[] | boolean = false;
   searchInput = new FormControl('', { nonNullable: true });
-  lastTerm = '';
+  lastTerm$ = new BehaviorSubject('');
   filteredItems: any[] = [];
 
   @Output("rowSelected") rowSelected = new EventEmitter<any>();
@@ -79,9 +79,9 @@ export class TableComponent {
     this.searchInput.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        startWith(this.lastTerm),
+        startWith(this.lastTerm$.getValue()),
         tap(term => {
-          this.lastTerm = term;
+          this.lastTerm$.next(term);
           this.search();
         }),
       )
@@ -111,7 +111,7 @@ export class TableComponent {
 
     this.filteredItems = this.items.filter(item => {
 
-      const term = this.lastTerm.toLowerCase();
+      const term = this.lastTerm$.getValue().toLowerCase();
 
       if (this.searchable && Array.isArray(this.searchable) && this.searchable.length)
         return this.searchable.some(path => {

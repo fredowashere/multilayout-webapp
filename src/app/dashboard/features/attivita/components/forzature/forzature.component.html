@@ -67,8 +67,12 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.note }}</td>
-            <td>{{ item.commessa.text }}</td>
+            <td>
+                <ngb-highlight [result]="item.note" [term]="$any(term$ | async)"/>
+            </td>
+            <td>
+                <ngb-highlight [result]="item.commessa.text" [term]="$any(term$ | async)"/>
+            </td>
             <td>{{ item.inizioPeriodo | date:'yyyy-MM' }}</td>
             <td>{{ item.finePeriodo | date:'yyyy-MM' }}</td>
 

@@ -48,7 +48,7 @@
         [thead]="thead"
         [tbody]="tbody"
         [items]="sottocommesse"
-        [searchable]="['codice', 'descrizione', 'tipoFatturazione.text']"
+        [searchable]="['codiceCommessa', 'descrizione', 'tipoFatturazione.text']"
         [paginated]="true"
         [pageSize]="5"
         [emptyTemplate]="emptyTmpl"
@@ -62,9 +62,15 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.codiceCommessa }}</td>
-            <td>{{ item.descrizione }}</td>
-            <td>{{ item.tipoFatturazione.text }}</td>
+            <td>
+                <ngb-highlight [result]="item.codiceCommessa" [term]="$any(term$ | async)"/>
+            </td>
+            <td>
+                <ngb-highlight [result]="item.descrizione" [term]="$any(term$ | async)"/>
+            </td>
+            <td>
+                <ngb-highlight [result]="item.tipoFatturazione.text" [term]="$any(term$ | async)"/>
+            </td>
             <td>
                 <div class="d-flex gap-2 justify-content-center">
 
