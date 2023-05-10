@@ -45,3 +45,19 @@ tfoot {
     top: 0;
     z-index: 1;
 }
+
+@media (max-width: 650px) {
+
+    thead {
+        display: none;
+    }
+    
+    ::ng-deep td {
+        display: grid;
+    }
+
+    ::ng-deep td::before {
+        content: attr(data-label);
+        font-weight: bold;
+    }
+}
