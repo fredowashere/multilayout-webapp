@@ -19,7 +19,6 @@ export class SearchRouterComponent {
 
   cmpControl = new FormControl();
   cmpFormatter = (cmp: any) => cmp.title;
-  cmpFilter = (term: string, cmp: any) => cmp.title.toLowerCase().indexOf(term.toLowerCase()) > -1;
 
   constructor(
     private router: Router
