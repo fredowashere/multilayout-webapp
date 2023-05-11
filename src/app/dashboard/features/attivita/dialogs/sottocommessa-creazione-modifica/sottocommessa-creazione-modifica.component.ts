@@ -40,8 +40,6 @@ export class SottocommessaCreazioneModifica implements OnInit, OnDestroy {
         return { id, text };
     }
     tipoFatturazioneFormatter = (tf: TipoFatturazione) => tf.descrizione;
-    tipoFatturazioneFilter = (term: string, tf: TipoFatturazione) =>
-        (tf.descrizione as string).toLowerCase().includes(term.toLowerCase());
     tipiFatturazione: TipoFatturazione[] = [];
 
     commessaRendicontazioneCtrl = new FormControl<Commessa | null>(null);
@@ -54,8 +52,6 @@ export class SottocommessaCreazioneModifica implements OnInit, OnDestroy {
     }
     commesse: Commessa[] = [];
     commesseFormatter = (sc: Commessa) => sc?.codice + ' ' + sc?.descrizione;
-    commesseFilter = (term: string, sc: Commessa) =>
-        (sc?.codice + ' ' + sc?.descrizione).toLowerCase().includes(term.toLowerCase());
 
     dataInizioCtrl = new FormControl();
     dataFineCtrl = new FormControl();

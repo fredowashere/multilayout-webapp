@@ -49,9 +49,7 @@ export class AttivitaComponent {
   }
   clientiDiretti: Dettaglio[] = [];
   clienteFormatter = (c: Dettaglio) => c.descrizione;
-  clienteFilter = (term: string, c: Dettaglio) =>
-    (c.descrizione as string).toLowerCase().includes(term.toLowerCase());
-
+  
   clienteFinaleCtrl = new FormControl<Dettaglio | null>(null);
   get idClienteFinale() {
     return this.clienteFinaleCtrl.value?.id;
@@ -67,9 +65,6 @@ export class AttivitaComponent {
   }
   commesse: Commessa[] = [];
   commesseFormatter = (sc: Commessa) => sc?.codice + ' ' + sc?.descrizione;
-  commesseFilter = (term: string, sc: Commessa) =>
-    (sc?.codice + ' ' + sc?.descrizione).toLowerCase().includes(term.toLowerCase());
-
   descrizioneCtrl = new FormControl<string | null>(null);
 
   tipoAttivitaCtrl = new FormControl<number | null>(null);
@@ -95,12 +90,10 @@ export class AttivitaComponent {
   }
   pmList: UtentiAnagrafica[] = [];
   pmFormatter = (pm: UtentiAnagrafica) => pm.cognome + ' ' + pm.nome;
-  pmFilter = (term: string, pm: UtentiAnagrafica) =>
-    (pm.cognome + ' ' + pm.nome).toLowerCase().includes(term.toLowerCase());
 
   bmCtrl = new FormControl<UtentiAnagrafica | null>(null);
   get idBm() {
-      return this.bmCtrl.value?.idUtente;
+    return this.bmCtrl.value?.idUtente;
   }
   bmList: UtentiAnagrafica[] = [];
 

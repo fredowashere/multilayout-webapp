@@ -46,8 +46,6 @@ export class StatoAvanzamentoComponent {
   }
   pmList: UtentiAnagrafica[] = [];
   pmFormatter = (pm: UtentiAnagrafica) => pm.cognome + ' ' + pm.nome;
-  pmFilter = (term: string, pm: UtentiAnagrafica) =>
-    (pm.cognome + ' ' + pm.nome).toLowerCase().includes(term.toLowerCase());
 
   bmCtrl = new FormControl<UtentiAnagrafica | null>(null);
   get idBm() {
@@ -61,8 +59,6 @@ export class StatoAvanzamentoComponent {
   }
   sottocommesse: GetSottoCommessePerReferenteResponse[] = [];
   sottocommesseFormatter = (sc: GetSottoCommessePerReferenteResponse) => sc.sottoCommessa?.codice + ' ' + sc.sottoCommessa?.descrizione;
-  sottocommesseFilter = (term: string, sc: GetSottoCommessePerReferenteResponse) =>
-    (sc.sottoCommessa?.codice + ' ' + sc.sottoCommessa?.descrizione).toLowerCase().includes(term.toLowerCase());
 
   clienteCtrl = new FormControl<Dettaglio | null>(null);
   get idCliente() {
@@ -70,8 +66,6 @@ export class StatoAvanzamentoComponent {
   }
   clienti: Dettaglio[] = [];
   clienteFormatter = (c: Dettaglio) => c.descrizione;
-  clienteFilter = (term: string, c: Dettaglio) =>
-    (c.descrizione as string).toLowerCase().includes(term.toLowerCase());
 
   statoCtrl = new FormControl<number>(0);
   stati = [

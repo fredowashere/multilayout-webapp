@@ -45,8 +45,6 @@ export class ForzaturaCreazioneModifica {
     }
     sottocommesse: CommessaDto[] = [];
     sottocommessaFormatter = (sc: CommessaDto) => sc?.codiceCommessa + ' ' + sc?.descrizione;
-    sottocommessaFilter = (term: string, sc: CommessaDto) =>
-        (sc?.codiceCommessa + ' ' + sc?.descrizione).toLowerCase().includes(term.toLowerCase());
 
     descrizioneCtrl = new FormControl<string | null>(null, [Validators.required]);
 
@@ -56,8 +54,6 @@ export class ForzaturaCreazioneModifica {
     }
     fornitori: Dettaglio[] = [];
     fornitoreFormatter = (c: Dettaglio) => c.descrizione;
-    fornitoreFilter = (term: string, c: Dettaglio) =>
-        (c.descrizione as string).toLowerCase().includes(term.toLowerCase());
 
     categoriaForzaturaCtrl = new FormControl<number>(1);
     categorieForzatura: { text: string, value: any }[] = [];

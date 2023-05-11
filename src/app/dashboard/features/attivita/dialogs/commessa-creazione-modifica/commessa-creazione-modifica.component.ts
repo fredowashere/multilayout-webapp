@@ -33,9 +33,7 @@ export class CommessaCreazioneModifica {
     }
     clientiDiretti: Dettaglio[] = [];
     clienteFormatter = (c: Dettaglio) => c.descrizione;
-    clienteFilter = (term: string, c: Dettaglio) =>
-        (c.descrizione as string).toLowerCase().includes(term.toLowerCase());
-    
+
     clienteFinaleCtrl = new FormControl<Dettaglio | null>(null, [Validators.required]);
     get idClienteFinale() {
         return this.clienteFinaleCtrl.value?.id;
@@ -48,8 +46,6 @@ export class CommessaCreazioneModifica {
     }
     pmList: UtentiAnagrafica[] = [];
     pmFormatter = (pm: UtentiAnagrafica) => pm.cognome + ' ' + pm.nome;
-    pmFilter = (term: string, pm: UtentiAnagrafica) =>
-        (pm.cognome + ' ' + pm.nome).toLowerCase().includes(term.toLowerCase());
     
     bmCtrl = new FormControl<UtentiAnagrafica | null>(null, [Validators.required]);
     get idBm() {

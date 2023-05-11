@@ -33,8 +33,6 @@ export class RisorsaCreazioneModifica implements OnInit, OnDestroy {
     utentiCtrl = new FormControl<UtentiAnagrafica[] | null>(null, [Validators.required]);
     utenti: UtentiAnagrafica[] = [];
     utenteFormatter = (u: UtentiAnagrafica) => u.cognome + ' ' + u.nome;
-    utenteFilter = (term: string, u: UtentiAnagrafica) =>
-        (u.cognome + ' ' + u.nome).toLowerCase().includes(term.toLowerCase());
 
     dataInizioCtrl = new FormControl<string | null>(null, [Validators.required]);
     dataFineCtrl = new FormControl<string | null>(null, [Validators.required]);

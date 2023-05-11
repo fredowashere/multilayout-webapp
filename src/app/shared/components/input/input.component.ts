@@ -4,8 +4,28 @@ import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-boot
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, takeUntil, tap } from 'rxjs';
 import { guid } from 'src/app/utils/uuid';
 
-const defaultFormatter = (item: any) => item; 
-const defaultFilter = (term: string, item: any) => true;
+const defaultFormatter = (item: any): any => {
+  if (typeof item === "object") {
+    return Object.values(item).join(" ");
+  }
+  else if (typeof item === "string") {
+    return item;
+  }
+  return "";
+};
+
+const defaultFilter = (term: string, item: any) => {
+  if (typeof item === "object") {
+    const stringifiedValues = JSON.stringify(Object.values(item)).toLowerCase();
+    return stringifiedValues.includes(term.toLowerCase());
+  }
+  else if (typeof item === "string") {
+    return item.toLowerCase().includes(term.toLowerCase());
+  }
+  else {
+    return true;
+  }
+};
 
 @Component({
   selector: 'app-input',
@@ -172,7 +192,7 @@ export class InputComponent {
         tap(options => {
           if (options && Array.isArray(options))
             options.forEach(opt =>
-              opt._id = this.name + '-' + guid()
+              Object.setPrototypeOf(opt, { _id: this.name + '-' + guid() })
             );
         })
       )
