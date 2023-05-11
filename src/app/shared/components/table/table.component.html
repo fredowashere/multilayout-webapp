@@ -65,7 +65,7 @@
 			<ng-container *ngFor="let item of paginatedItems$ | async; let i = index; trackBy: trackByFn">
 				<ng-container *ngLet="{ collapsed: true } as _row">
 					
-					<tr>
+					<tr [class.animated]="animated">
 			
 						<td *ngIf="selectable">
 							<div class="form-check">
