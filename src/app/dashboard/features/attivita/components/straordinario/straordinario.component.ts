@@ -5,6 +5,7 @@ import { StraordinariCreazioneComponent } from '../../dialogs/straordinari-creaz
 import { AuthService } from 'src/app/services/auth.service';
 import { SegreteriaService } from 'src/app/api/modulo-attivita/services';
 import { GetStraordinariTerzePartiTotaliResponse } from 'src/app/api/modulo-attivita/models';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-straordinario',
@@ -23,7 +24,8 @@ export class StraordinarioComponent {
   constructor(
     private authService: AuthService,
     private segreteriaService: SegreteriaService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toaster: ToastService
   ) { }
 
   ngOnInit() {
@@ -56,5 +58,25 @@ export class StraordinarioComponent {
     this.refresh$.next();
   }
 
-  async delete(straordinario: any) { }
+  async delete(straordinario: GetStraordinariTerzePartiTotaliResponse) {
+    this.segreteriaService
+      .postStraordinariTerzeParti({
+        idAzienda: this.authService.user.idAzienda as number,
+        idLegameStraordinari: straordinario.idLegameStraordinari as number,
+        body: {
+          attivo: false
+        }
+      })
+      .subscribe(
+        () => {
+          const txt = "Straordinario eliminato con successo!";
+          this.toaster.show(txt, { classname: 'bg-success text-white' });
+          this.refresh$.next();
+        },
+        () => {
+          const txt = "Non è stato possibile eliminare lo straordinario. Contattare il supporto tecnico.";
+          this.toaster.show(txt, { classname: 'bg-danger text-white' });
+        }
+      )
+  }
 }

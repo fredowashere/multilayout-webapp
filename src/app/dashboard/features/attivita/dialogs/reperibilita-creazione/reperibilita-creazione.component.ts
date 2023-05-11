@@ -75,6 +75,8 @@ export class ReperibilitaCreazioneComponent implements OnInit, OnDestroy {
                 idAzienda: this.authService.user.idAzienda as number,
                 idLegameReperibilita: 0,
                 body: {
+                    inizio: this.dataInizioCtrl.value,
+                    fine: this.dataFineCtrl.value,
                     idSottoCommessa: this.idSottocommessa,
                     descrizione: this.descrizioneCtrl.value,
                     reperibilitaSenzaAvviso: this.reperibilitaSenzaAvvisoCtrl.value ? 1 : 0,

@@ -18,6 +18,7 @@ export class TableComponent {
 
   @Input("thead") thead!: TemplateRef<any>;
 	@Input("tbody") tbody!: TemplateRef<any>;
+  @Input("animated") animated = false;
   @Input("rowExpand") rowExpand!: TemplateRef<any>;
   @Input("tfoot") tfoot!: TemplateRef<any>;
   @Input("items") items!: any[];

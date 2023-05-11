@@ -71,7 +71,9 @@ export class StraordinariCreazioneComponent {
                 idAzienda: this.authService.user.idAzienda as number,
                 idLegameStraordinari: 0,
                 body: {
-                    idTerzeParti: this.idSottocommessa,
+                    inizio: this.dataInizioCtrl.value as string, // Why it does complain if it's undefined while for fine does not? Blame the BE!
+                    fine: this.dataFineCtrl.value,
+                    idSottoCommessa: this.idSottocommessa,
                     descrizione: this.descrizioneCtrl.value,
                     autorizzazioneCliente: this.autorizzazioneClienteCtrl.value ? 1 : 0,
                     attivo: true

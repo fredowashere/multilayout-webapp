@@ -5,6 +5,7 @@ import { ReperibilitaCreazioneComponent } from '../../dialogs/reperibilita-creaz
 import { SegreteriaService } from 'src/app/api/modulo-attivita/services';
 import { AuthService } from 'src/app/services/auth.service';
 import { GetReperibilitaCommesseTotaliResponse } from 'src/app/api/modulo-attivita/models';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-reperibilita',
@@ -23,7 +24,8 @@ export class ReperibilitaComponent {
   constructor(
     private authService: AuthService,
     private segreteriaService: SegreteriaService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toaster: ToastService
   ) { }
 
   ngOnInit() {
@@ -56,5 +58,25 @@ export class ReperibilitaComponent {
     this.refresh$.next();
   }
 
-  async delete(reperibilita: any) { }
+  async delete(reperibilita: GetReperibilitaCommesseTotaliResponse) {
+    this.segreteriaService
+      .postReperibilitaCommesse({
+        idAzienda: this.authService.user.idAzienda as number,
+        idLegameReperibilita: reperibilita.idLegameReperibilita as number,
+        body: {
+          attivo: false
+        }
+      })
+      .subscribe(
+        () => {
+          const txt = "Reperibilità eliminata con successo!";
+          this.toaster.show(txt, { classname: 'bg-success text-white' });
+          this.refresh$.next();
+        },
+        () => {
+          const txt = "Non è stato possibile eliminare la reperibilità. Contattare il supporto tecnico.";
+          this.toaster.show(txt, { classname: 'bg-danger text-white' });
+        }
+      )
+  }
 }
