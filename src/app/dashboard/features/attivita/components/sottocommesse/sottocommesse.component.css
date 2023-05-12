@@ -1,0 +1,6 @@
+.app-tabbable.nav-tabs .nav-link.active,
+.app-tabbable.nav-tabs .nav-item.show .nav-link {
+    color: rgba(var(--app-gray_1000), 1);
+    background-color: rgba(var(--app-orange_500), 1);
+    border-color: rgba(var(--app-orange_500), 0.5);
+}

@@ -107,6 +107,7 @@ body {
   overflow-x: auto;
   overflow-y: hidden;
   flex-wrap: nowrap;
+  border: none;
 }
 
 .app-tabbable.nav-tabs .nav-link {
@@ -255,7 +256,7 @@ th[sortable].desc::before {
 }
 
 .app-callout--green {
-  border-left-color: rgba(var(--app-green_500), 1);
+  border-left-color: rgba(var(--app-green_600), 1);
 }
 
 .app-callout--teal {

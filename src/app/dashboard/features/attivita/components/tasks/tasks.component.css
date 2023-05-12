@@ -1,0 +1,10 @@
+.app-tabbable.nav-tabs .nav-link.active,
+.app-tabbable.nav-tabs .nav-item.show .nav-link {
+    color: rgba(var(--app-gray_0), 1);
+    background-color: rgba(var(--app-green_600), 1);
+    border-color: rgba(var(--app-green_600), 0.5);
+}
+
+.app-tabbable.nav-tabs .nav-link.active .btn-close {
+    filter: invert(1);
+}
