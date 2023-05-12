@@ -83,6 +83,17 @@
                         [floatingLabel]="true"
                     ></app-input>
                 </div>
+
+                <div
+                    *ngIf="
+                        dataInizioCtrl.touched
+                     && dataFineCtrl.touched
+                     && form.errors?.dates
+                    "
+                    class="alert alert-danger"
+                >
+                    Range di date invalido.
+                </div>
             </form>
         </div>
 

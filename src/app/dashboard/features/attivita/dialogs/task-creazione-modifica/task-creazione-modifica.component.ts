@@ -31,14 +31,28 @@ export class TaskCreazioneModifica implements OnInit, OnDestroy {
     dataFineCtrl = new FormControl<string | null>(null, [Validators.required]);
     attivitaObbligatoriaCtrl = new FormControl<boolean>(false);
 
-    form = new FormGroup({
-        codiceTask: this.codiceTaskCtrl,
-        descrizione: this.descrizioneCtrl,
-        dataInizio: this.dataInizioCtrl,
-        dataFine: this.dataFineCtrl,
-        giorniPrevisti: this.giorniPrevistiCtrl,
-        attivitaObbligatoria: this.attivitaObbligatoriaCtrl
-    });
+    datesValidator = () => {
+
+        const isoInizio = this.dataInizioCtrl.value || "";
+        const isoFine = this.dataFineCtrl.value || "";
+
+        if (isoInizio > isoFine)
+            return { dates: "Invalid range." };
+        
+        return null;
+    };
+
+    form = new FormGroup(
+        {
+            codiceTask: this.codiceTaskCtrl,
+            descrizione: this.descrizioneCtrl,
+            dataInizio: this.dataInizioCtrl,
+            dataFine: this.dataFineCtrl,
+            giorniPrevisti: this.giorniPrevistiCtrl,
+            attivitaObbligatoria: this.attivitaObbligatoriaCtrl
+        },
+        [ this.datesValidator ]
+    );
 
     destroy$ = new Subject<void>();
 
@@ -67,30 +81,6 @@ export class TaskCreazioneModifica implements OnInit, OnDestroy {
         else {
             this.isLoading = false;
         }
-
-        this.form
-            .valueChanges
-            .pipe(
-                takeUntil(this.destroy$),
-                tap(() => {
-
-                    const isoInizio = this.dataInizioCtrl.value || "";
-                    const isoFine = this.dataFineCtrl.value || "";
-
-                    if (isoInizio > isoFine) {
-                        this.dataInizioCtrl.setErrors({ date: "Too big" });
-                        this.dataFineCtrl.setErrors({ date: "Too small" });
-                    }
-                    else {
-                        this.dataInizioCtrl.setErrors(null);
-                        this.dataFineCtrl.setErrors(null);
-                    }
-
-                    this.dataInizioCtrl.markAsTouched();
-                    this.dataFineCtrl.markAsTouched();
-                })
-            )
-            .subscribe();
     }
 
     ngOnDestroy() {

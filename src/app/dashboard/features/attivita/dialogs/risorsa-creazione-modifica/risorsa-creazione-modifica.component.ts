@@ -37,11 +37,25 @@ export class RisorsaCreazioneModifica implements OnInit, OnDestroy {
     dataInizioCtrl = new FormControl<string | null>(null, [Validators.required]);
     dataFineCtrl = new FormControl<string | null>(null, [Validators.required]);
 
-    form = new FormGroup({
-        utente: this.utentiCtrl,
-        dataInizio: this.dataInizioCtrl,
-        dataFine: this.dataFineCtrl
-    });
+    datesValidator = () => {
+
+        const isoInizio = this.dataInizioCtrl.value || "";
+        const isoFine = this.dataFineCtrl.value || "";
+
+        if (isoInizio > isoFine)
+            return { dates: "Invalid range." };
+        
+        return null;
+    };
+
+    form = new FormGroup(
+        {
+            utente: this.utentiCtrl,
+            dataInizio: this.dataInizioCtrl,
+            dataFine: this.dataFineCtrl
+        },
+        [ this.datesValidator ]
+    );
 
     destroy$ = new Subject<void>();
 
@@ -84,30 +98,6 @@ export class RisorsaCreazioneModifica implements OnInit, OnDestroy {
                     this.isLoading = false;
                 });
         }
-
-        this.form
-            .valueChanges
-            .pipe(
-                takeUntil(this.destroy$),
-                tap(() => {
-
-                    const isoInizio = this.dataInizioCtrl.value || "";
-                    const isoFine = this.dataFineCtrl.value || "";
-
-                    if (isoInizio > isoFine) {
-                        this.dataInizioCtrl.setErrors({ date: "Too big" });
-                        this.dataFineCtrl.setErrors({ date: "Too small" });
-                    }
-                    else {
-                        this.dataInizioCtrl.setErrors(null);
-                        this.dataFineCtrl.setErrors(null);
-                    }
-
-                    this.dataInizioCtrl.markAsTouched();
-                    this.dataFineCtrl.markAsTouched();
-                })
-            )
-            .subscribe();
     }
 
     ngOnDestroy() {

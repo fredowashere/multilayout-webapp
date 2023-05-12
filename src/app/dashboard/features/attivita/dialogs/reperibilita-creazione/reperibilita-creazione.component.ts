@@ -20,12 +20,26 @@ export class ReperibilitaCreazioneComponent implements OnInit, OnDestroy {
     descrizioneCtrl = new FormControl<string | null>(null, [Validators.required]);
     reperibilitaSenzaAvvisoCtrl = new FormControl<boolean>(false);
 
-    form = new FormGroup({
-        dataInizio: this.dataInizioCtrl,
-        dataFine: this.dataFineCtrl,
-        descrizione: this.descrizioneCtrl,
-        reperibilitaSenzaAvviso: this.reperibilitaSenzaAvvisoCtrl
-    });
+    datesValidator = () => {
+
+        const isoInizio = this.dataInizioCtrl.value || "";
+        const isoFine = this.dataFineCtrl.value || "";
+
+        if (isoInizio > isoFine)
+            return { dates: "Invalid range." };
+        
+        return null;
+    };
+
+    form = new FormGroup(
+        {
+            dataInizio: this.dataInizioCtrl,
+            dataFine: this.dataFineCtrl,
+            descrizione: this.descrizioneCtrl,
+            reperibilitaSenzaAvviso: this.reperibilitaSenzaAvvisoCtrl
+        },
+        [ this.datesValidator ]
+    );
 
     destroy$ = new Subject<void>();
 
@@ -36,31 +50,7 @@ export class ReperibilitaCreazioneComponent implements OnInit, OnDestroy {
         private toaster: ToastService
     ) { }
 
-    ngOnInit() {
-        this.form
-            .valueChanges
-            .pipe(
-                takeUntil(this.destroy$),
-                tap(() => {
-
-                    const isoInizio = this.dataInizioCtrl.value || "";
-                    const isoFine = this.dataFineCtrl.value || "";
-
-                    if (isoInizio > isoFine) {
-                        this.dataInizioCtrl.setErrors({ date: "Too big" });
-                        this.dataFineCtrl.setErrors({ date: "Too small" });
-                    }
-                    else {
-                        this.dataInizioCtrl.setErrors(null);
-                        this.dataFineCtrl.setErrors(null);
-                    }
-
-                    this.dataInizioCtrl.markAsTouched();
-                    this.dataFineCtrl.markAsTouched();
-                })
-            )
-            .subscribe();
-    }
+    ngOnInit() { }
 
     ngOnDestroy() {
         this.destroy$.next();
