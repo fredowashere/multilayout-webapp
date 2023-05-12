@@ -43,14 +43,14 @@
                         label="Commessa"
                         [options]="commesse"
                         [limit]="25"
-                        [formatter]="commesseFormatter"
+                        [formatter]="commessaFormatter"
                         [template]="cTmpl"
                         [ngControl]="commessaCtrl"
                         [floatingLabel]="true"
                     ></app-input>
                     <ng-template #cTmpl let-r="result" let-t="term">
                         <div class="my-1">
-                            <div class="small">{{ r?.codice }}</div>
+                            <div class="small">{{ r?.codiceCommessa }}</div>
                             <ngb-highlight [result]="r?.descrizione" [term]="t"></ngb-highlight>
                         </div>
                     </ng-template>

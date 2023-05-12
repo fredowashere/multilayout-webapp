@@ -245,9 +245,9 @@ export class RisorsaCreazioneModifica implements OnInit, OnDestroy {
 
                 const legameTaskRisorsa: UpsertLegameParam = {
                     idTask: this.idTask,
-                    idUtente: u.idUtente as number,
-                    inizioAllocazione: this.dataInizioCtrl.value as string,
-                    fineAllocazione: this.dataFineCtrl.value as string
+                    idUtente: u.idUtente!,
+                    inizioAllocazione: this.dataInizioCtrl.value!,
+                    fineAllocazione: this.dataFineCtrl.value!
                 };
 
                 return this.risorsaService
@@ -294,8 +294,8 @@ export class RisorsaCreazioneModifica implements OnInit, OnDestroy {
         const legameTaskRisorsa: UpsertLegameParam = {
             idTask: this.idTask,
             idUtente: this.legame.idUtente,
-            inizioAllocazione: this.dataInizioCtrl.value as string,
-            fineAllocazione: this.dataFineCtrl.value as string
+            inizioAllocazione: this.dataInizioCtrl.value!,
+            fineAllocazione: this.dataFineCtrl.value!
         };
 
         this.risorsaService

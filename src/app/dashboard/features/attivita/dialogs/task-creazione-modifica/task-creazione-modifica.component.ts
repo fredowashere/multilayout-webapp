@@ -152,12 +152,12 @@ export class TaskCreazioneModifica implements OnInit, OnDestroy {
         if (this.form.invalid) return;
 
         const createObj: CreateTaskParam = {
-            attivitaObbligatoria: this.attivitaObbligatoriaCtrl.value as boolean,
-            codiceTask: this.codiceTaskCtrl.value as string,
-            dataFine: this.dataFineCtrl.value as string,
-            dataInizio: this.dataInizioCtrl.value as string,
-            descrizione: this.descrizioneCtrl.value as string,
-            giorniPrevisti: this.giorniPrevistiCtrl.value as number,
+            attivitaObbligatoria: this.attivitaObbligatoriaCtrl.value!,
+            codiceTask: this.codiceTaskCtrl.value!,
+            dataFine: this.dataFineCtrl.value!,
+            dataInizio: this.dataInizioCtrl.value!,
+            descrizione: this.descrizioneCtrl.value!,
+            giorniPrevisti: this.giorniPrevistiCtrl.value!,
             idCommessa: this.idSottocommessa,
             percentualeAvanzamento: 0,
             stimaGiorniAFinire: 0,
@@ -208,12 +208,12 @@ export class TaskCreazioneModifica implements OnInit, OnDestroy {
 
         const copyOfTask: TaskDto = jsonCopy(this.task);
 
-        copyOfTask.attivitaObbligatoria = this.attivitaObbligatoriaCtrl.value as boolean;
-        copyOfTask.codiceTask = this.codiceTaskCtrl.value as string;
-        copyOfTask.dataFine = this.dataFineCtrl.value as string;
-        copyOfTask.dataInizio = this.dataInizioCtrl.value as string;
-        copyOfTask.descrizione = this.descrizioneCtrl.value as string;
-        copyOfTask.giorniPrevisti = this.giorniPrevistiCtrl.value as number;
+        copyOfTask.attivitaObbligatoria = this.attivitaObbligatoriaCtrl.value!;
+        copyOfTask.codiceTask = this.codiceTaskCtrl.value!
+        copyOfTask.dataFine = this.dataFineCtrl.value!
+        copyOfTask.dataInizio = this.dataInizioCtrl.value!
+        copyOfTask.descrizione = this.descrizioneCtrl.value!
+        copyOfTask.giorniPrevisti = this.giorniPrevistiCtrl.value!;
 
         this.taskService
             .updateTask$(this.idTask, copyOfTask)

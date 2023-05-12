@@ -137,31 +137,31 @@ export class CommessaCreazioneModifica {
 
         if (this.dialogMode === DIALOG_MODE.Update) {
 
-            const clienteDiretto = this.miscDataService.idClienteCliente[this.commessa?.idCliente as number];
+            const clienteDiretto = this.miscDataService.idClienteCliente[this.commessa?.idCliente!];
             this.clienteDirettoCtrl.setValue(clienteDiretto);
 
-            const clienteFinale = this.miscDataService.idClienteCliente[this.commessa?.idClienteFinale as number];
+            const clienteFinale = this.miscDataService.idClienteCliente[this.commessa?.idClienteFinale!];
             this.clienteFinaleCtrl.setValue(clienteFinale);
 
-            this.codiceCommessaCtrl.setValue(this.commessa?.codiceCommessa as string);
-            this.descrizioneCtrl.setValue(this.commessa?.descrizione as string);
-            this.tagCtrl.setValue(this.commessa?.tag as string);
+            this.codiceCommessaCtrl.setValue(this.commessa?.codiceCommessa!);
+            this.descrizioneCtrl.setValue(this.commessa?.descrizione!);
+            this.tagCtrl.setValue(this.commessa?.tag!);
 
-            const pm = this.miscDataService.idPmPm[this.commessa?.idProjectManager as number];
+            const pm = this.miscDataService.idPmPm[this.commessa?.idProjectManager!];
             this.pmCtrl.setValue(pm);
 
-            const bm = this.miscDataService.idUtenteUtente[this.commessa?.idBusinessManager as number];
+            const bm = this.miscDataService.idUtenteUtente[this.commessa?.idBusinessManager!];
             this.bmCtrl.setValue(bm);
 
-            const tipoAttivita = this.commessa?.tipoAttivita as SimpleDto;
+            const tipoAttivita = this.commessa?.tipoAttivita!;
             this.tipoAttivitaCtrl.setValue(tipoAttivita.id);
 
             this.dataCreazioneCtrl.setValue(
-                this.commessa?.dataInserimento?.slice(0, 10) as string
+                this.commessa?.dataInserimento?.slice(0, 10)!
             );
 
             this.dataDecorrenzaCtrl.setValue(
-                this.commessa?.decorrenzaAttivita?.slice(0, 10) as string
+                this.commessa?.decorrenzaAttivita?.slice(0, 10)!
             );
         }
     }
@@ -176,14 +176,14 @@ export class CommessaCreazioneModifica {
     create() {
 
         const createObj: CreateCommessaParam = {
-            idCliente: this.idClienteDiretto as number,
-            idClienteFinale: this.idClienteFinale as number,
-            idProjectManager: this.idPm as number,
-            idBusinessManager: this.idBm as number,
-            idTipoAttivita: this.tipoAttivitaCtrl.value as number,
+            idCliente: this.idClienteDiretto!,
+            idClienteFinale: this.idClienteFinale!,
+            idProjectManager: this.idPm!,
+            idBusinessManager: this.idBm!,
+            idTipoAttivita: this.tipoAttivitaCtrl.value!,
             dataDecorrenza: this.dataDecorrenzaCtrl.value,
-            protocollo: this.codiceCommessaCtrl.value as string,
-            descrizione: this.descrizioneCtrl.value as string,
+            protocollo: this.codiceCommessaCtrl.value,
+            descrizione: this.descrizioneCtrl.value!,
             tag: this.tagCtrl.value,
         };
         
@@ -213,13 +213,13 @@ export class CommessaCreazioneModifica {
     update() {
 
         const updateObj: UpdateCommessaParam = {
-            id: this.commessa?.id as number,
-            idCliente: this.idClienteDiretto as number,
-            idClienteFinale: this.idClienteFinale as number,
-            idProjectManager: this.idPm as number,
-            idBusinessManager: this.idBm as number,
-            codiceCommessa: this.codiceCommessaCtrl.value as string,
-            descrizione: this.descrizioneCtrl.value as string,
+            id: this.commessa?.id!,
+            idCliente: this.idClienteDiretto!,
+            idClienteFinale: this.idClienteFinale!,
+            idProjectManager: this.idPm!,
+            idBusinessManager: this.idBm!,
+            codiceCommessa: this.codiceCommessaCtrl.value!,
+            descrizione: this.descrizioneCtrl.value!,
             tag: this.tagCtrl.value,
         };
 

@@ -68,10 +68,10 @@ export class StraordinariCreazioneComponent {
 
         this.segreteriaService
             .postStraordinariTerzeParti({
-                idAzienda: this.authService.user.idAzienda as number,
+                idAzienda: this.authService.user.idAzienda!,
                 idLegameStraordinari: 0,
                 body: {
-                    inizio: this.dataInizioCtrl.value as string, // Why it does complain if it's undefined while for fine does not? Blame the BE!
+                    inizio: this.dataInizioCtrl.value!, // Why it does complain if it's undefined while for fine does not? Blame the BE!
                     fine: this.dataFineCtrl.value,
                     idSottoCommessa: this.idSottocommessa,
                     descrizione: this.descrizioneCtrl.value,

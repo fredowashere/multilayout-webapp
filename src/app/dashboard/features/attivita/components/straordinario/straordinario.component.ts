@@ -34,7 +34,7 @@ export class StraordinarioComponent {
       .subscribe(() =>
         this.segreteriaService
           .getStraordinariTerzePartiTotali({
-            idAzienda: this.authService.user.idAzienda as number,
+            idAzienda: this.authService.user.idAzienda!,
             IdSottoCommessa: this.idSottocommessa
           })
           .subscribe(straordinari => this.straordinari = straordinari)
@@ -61,8 +61,8 @@ export class StraordinarioComponent {
   async delete(straordinario: GetStraordinariTerzePartiTotaliResponse) {
     this.segreteriaService
       .postStraordinariTerzeParti({
-        idAzienda: this.authService.user.idAzienda as number,
-        idLegameStraordinari: straordinario.idLegameStraordinari as number,
+        idAzienda: this.authService.user.idAzienda!,
+        idLegameStraordinari: straordinario.idLegameStraordinari!,
         body: {
           attivo: false
         }

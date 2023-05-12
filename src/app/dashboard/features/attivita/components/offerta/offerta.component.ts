@@ -59,7 +59,7 @@ export class OffertaComponent {
       this.codDocumentoCtrl.setValue(offerta.codiceDocumento);
       this.codIdentificativoCtrl.setValue(offerta.codiceIdentificativo);
       this.dataOffertaCtrl.setValue(offerta.dataOfferta);
-      this.dataAccettazioneCtrl.setValue(offerta.dataAccettazione as string);
+      this.dataAccettazioneCtrl.setValue(offerta.dataAccettazione!);
     });
   }
 
@@ -67,10 +67,10 @@ export class OffertaComponent {
     this.offertaService
       .upsertOfferta$({
         idAttivita: this.idCommessa,
-        idTipoOfferta: this.tipologiaCtrl.value as number,
-        dataOfferta: this.dataOffertaCtrl.value as string,
-        numeroOrdine: this.nrOrdineCtrl.value as string,
-        dataAccettazione: this.dataAccettazioneCtrl.value as string,
+        idTipoOfferta: this.tipologiaCtrl.value!,
+        dataOfferta: this.dataOffertaCtrl.value!,
+        numeroOrdine: this.nrOrdineCtrl.value!,
+        dataAccettazione: this.dataAccettazioneCtrl.value!,
       })
       .subscribe(
         (offerta) => {

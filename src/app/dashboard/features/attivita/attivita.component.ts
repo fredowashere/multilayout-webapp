@@ -6,7 +6,6 @@ import { Dettaglio, UtentiAnagrafica } from 'src/app/api/modulo-attivita/models'
 import { ToastService } from 'src/app/services/toast.service';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
 import { delayedScrollTo } from 'src/app/utils/dom';
-import { jsonCopy } from 'src/app/utils/json';
 import { StatoAvanzamentoWrapService } from '../stato-avanzamento/services/stato-avanzamento-wrap.service';
 import { CommessaCreazioneModifica } from './dialogs/commessa-creazione-modifica/commessa-creazione-modifica.component';
 import { EliminazioneDialog } from './dialogs/eliminazione.dialog';
@@ -44,33 +43,30 @@ export class AttivitaComponent {
   tabs: Tab[] = [];
 
   clienteDirettoCtrl = new FormControl<Dettaglio | null>(null);
-  get idClienteDiretto() {
+  get idCliDir() {
     return this.clienteDirettoCtrl.value?.id;
   }
   clientiDiretti: Dettaglio[] = [];
   clienteFormatter = (c: Dettaglio) => c.descrizione;
   
   clienteFinaleCtrl = new FormControl<Dettaglio | null>(null);
-  get idClienteFinale() {
+  get idCliFin() {
     return this.clienteFinaleCtrl.value?.id;
   }
   clientiFinali: Dettaglio[] = [];
 
-  commessaCtrl = new FormControl<Commessa | null>(null);
-  get idCommessa() {
+  commessaCtrl = new FormControl<CommessaSearchDto | null>(null);
+  get idComm() {
     return this.commessaCtrl.value?.id;
   }
-  get codiceCommessa() {
-    return this.commessaCtrl.value?.codice;
+  get codComm() {
+    return this.commessaCtrl.value?.codiceCommessa;
   }
-  commesse: Commessa[] = [];
-  commesseFormatter = (sc: Commessa) => sc?.codice + ' ' + sc?.descrizione;
+  commesse: CommessaSearchDto[] = [];
+  commessaFormatter = (c: CommessaSearchDto) => c?.codiceCommessa + ' ' + c?.descrizione;
   descrizioneCtrl = new FormControl<string | null>(null);
 
   tipoAttivitaCtrl = new FormControl<number | null>(null);
-  get tipoAttivita() {
-    return this.tipoAttivitaCtrl.value;
-  }
   tipiAttivita = [
     { text: 'Tutte', value: null },
     { text: 'Opportunità', _descr: "optn", value: 1 },
@@ -97,13 +93,11 @@ export class AttivitaComponent {
   }
   bmList: UtentiAnagrafica[] = [];
 
-  // dataInizioDef = `${currMonth > 1 ? currYear : currYear - 1}-${('' + (currMonth > 1 ? currMonth - 1 : 12)).padStart(2, '0')}-01`;
   dataInizioCtrl = new FormControl();
   get dataInizio() {
     return this.dataInizioCtrl.value;
   }
 
-  // dataFineDef = `${currMonth < 12 ? currYear : currYear + 1}-${('' + (currMonth < 12 ? currMonth + 1 : 1)).padStart(2, '0')}-01`;
   dataFineCtrl = new FormControl();
   get dataFine() {
     return this.dataFineCtrl.value;
@@ -134,18 +128,19 @@ export class AttivitaComponent {
         switchMap(() =>
           this.commessaService
             .getAllCommesse$({
-              idCliente: this.idClienteDiretto,
-              idClienteFinale: this.idClienteFinale,
-              codiceCommessa: this.codiceCommessa,
+              idCliente: this.idCliDir,
+              idClienteFinale: this.idCliFin,
+              codiceCommessa: this.codComm,
               idProjectManager: this.idPm,
               idBusinessManager: this.idBm,
-              idFase: this.tipoAttivita as number,
-              valido: this.statoCtrl.value as string,
+              idFase: this.tipoAttivitaCtrl.value!,
+              valido: this.statoCtrl.value!,
               dataInizio: this.dataInizio,
               dataFine: this.dataFine
             })
         ),
         tap(commesseResults => {
+
           this.isLoading = false;
           this.commesseResults = commesseResults;
 
@@ -157,10 +152,13 @@ export class AttivitaComponent {
       )
       .subscribe();
 
-    // When adding a new commessa
+    // When adding a new commessa refresh commesse autocomplete
     this.refresh$
+      .pipe(
+        takeUntil(this.destroy$)
+      )
       .subscribe(() =>
-        this.initializeAutocompleteValues(false, true, false) // only refresh commesse
+        this.miscDataService.refresh({ utenti: false, commesse: true, clienti: false })
       );
   }
 
@@ -168,35 +166,12 @@ export class AttivitaComponent {
     this.destroy$.next();
   }
 
-  initializeAutocompleteValues(
-    refreshUtenti = true,
-    refreshCommesse = true,
-    refreshClienti = true
-  ) {
-
-    if (refreshUtenti) {
-
-      this.statoAvanzamentoWrap
-        .getUtenti$({ IsPm: true, IsBm: false })
-        .subscribe(pmList => this.pmList = pmList);
-
-      this.statoAvanzamentoWrap
-        .getUtenti$({ IsPm: false, IsBm: true })
-        .subscribe(bmList => this.bmList = bmList);
-    }
-
-    if (refreshCommesse)
-      this.commessaService
-        .getCommesseAutocomplete$()
-        .subscribe(commesse => this.commesse = commesse);
-
-    if (refreshClienti)
-      this.statoAvanzamentoWrap
-        .getClienti$({ totali: true })
-        .subscribe(clienti => {
-          this.clientiDiretti = jsonCopy(clienti);
-          this.clientiFinali = jsonCopy(clienti);
-        });
+  initializeAutocompleteValues() {
+    this.pmList = this.miscDataService.pmList;
+    this.bmList = this.miscDataService.bmList;
+    this.commesse = this.miscDataService.commesse;
+    this.clientiDiretti = this.miscDataService.clienti;
+    this.clientiFinali = this.miscDataService.clienti;
   }
 
   attachAutocompleteListeners() {
@@ -207,19 +182,19 @@ export class AttivitaComponent {
         .getUtenti$({
           IsPm: true,
           IsBm: false,
-          idCliente: this.idClienteDiretto,
-          idCommessa: this.idCommessa
+          idCliente: this.idCliDir,
+          idCommessa: this.idComm
         }),
       this.statoAvanzamentoWrap
         .getUtenti$({
           IsPm: false,
           IsBm: true,
-          idCliente: this.idClienteDiretto,
-          idCommessa: this.idCommessa
+          idCliente: this.idCliDir,
+          idCommessa: this.idComm
         }),
       this.commessaService
-        .getCommesseAutocomplete$({
-          idCliente: this.idClienteDiretto,
+        .getAllCommesse$({
+          idCliente: this.idCliDir,
           idProjectManager: this.idPm,
           idBusinessManager: this.idBm
         })
@@ -237,21 +212,21 @@ export class AttivitaComponent {
         .getUtenti$({
           IsPm: true,
           IsBm: false,
-          idCliente: this.idClienteDiretto,
-          idCommessa: this.idCommessa
+          idCliente: this.idCliDir,
+          idCommessa: this.idComm
         }),
       this.statoAvanzamentoWrap
         .getUtenti$({
           IsPm: false,
           IsBm: true,
-          idCliente: this.idClienteDiretto,
-          idCommessa: this.idCommessa
+          idCliente: this.idCliDir,
+          idCommessa: this.idComm
         }),
       this.statoAvanzamentoWrap
         .getClienti$({
           idReferente: this.idPm,
           idBusinessManager: this.idBm,
-          idCommessa: this.idCommessa,
+          idCommessa: this.idComm,
           totali: true
         }),
     ])
@@ -268,12 +243,12 @@ export class AttivitaComponent {
         .getClienti$({
           idReferente: this.idPm,
           idBusinessManager: this.idBm,
-          idCommessa: this.idCommessa,
+          idCommessa: this.idComm,
           totali: true
         }),
       this.commessaService
-        .getCommesseAutocomplete$({
-          idCliente: this.idClienteDiretto,
+        .getAllCommesse$({
+          idCliente: this.idCliDir,
           idProjectManager: this.idPm
         })
     ])
@@ -289,12 +264,12 @@ export class AttivitaComponent {
         .getClienti$({
           idReferente: this.idPm,
           idBusinessManager: this.idBm,
-          idCommessa: this.idCommessa,
+          idCommessa: this.idComm,
           totali: true
         }),
       this.commessaService
-        .getCommesseAutocomplete$({
-          idCliente: this.idClienteDiretto,
+        .getAllCommesse$({
+          idCliente: this.idCliDir,
           idProjectManager: this.idPm
         })
     ])
@@ -339,10 +314,10 @@ export class AttivitaComponent {
     this.pmAutocomplete._autocompleteChoice = null;
     this.bmAutocomplete._autocompleteChoice = null;
 
-    this.initializeAutocompleteValues();
-
-    this.statoCtrl.setValue('true');
+    this.statoCtrl.setValue("true");
     this.tipoAttivitaCtrl.setValue(null);
+
+    this.refresh$.next();
   }
 
   addTab(id: number, codiceCommessa: string) {

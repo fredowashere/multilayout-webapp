@@ -72,7 +72,7 @@ export class ReperibilitaCreazioneComponent implements OnInit, OnDestroy {
 
         this.segreteriaService
             .postReperibilitaCommesse({
-                idAzienda: this.authService.user.idAzienda as number,
+                idAzienda: this.authService.user.idAzienda!,
                 idLegameReperibilita: 0,
                 body: {
                     inizio: this.dataInizioCtrl.value,

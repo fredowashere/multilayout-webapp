@@ -77,7 +77,7 @@ export class ForzaturaCreazioneModifica {
 
     costoCtrl = new FormControl("0");
     get costo() {
-        const masked = this.costoCtrl.value as string;
+        const masked = this.costoCtrl.value!;
         return euroMask2numStr(masked);
     }
     set costo(unmasked: string) {
@@ -88,7 +88,7 @@ export class ForzaturaCreazioneModifica {
     // Only ricavo
     ricavoCtrl = new FormControl("0");
     get ricavo() {
-        const masked = this.ricavoCtrl.value as string;
+        const masked = this.ricavoCtrl.value!;
         return euroMask2numStr(masked);
     }
     set ricavo(unmasked: string) {
@@ -118,7 +118,7 @@ export class ForzaturaCreazioneModifica {
                 this.commessaService
                     .getCommessaById(this.idCommessa),
                 this.forzaturaService
-                    .getForzaturaById$(this.idForzatura as number, this.categoria)
+                    .getForzaturaById$(this.idForzatura!, this.categoria)
             ])
             .subscribe(async ([ commessa, forzatura ]) => {
                 this.commessa = commessa;
@@ -197,7 +197,7 @@ export class ForzaturaCreazioneModifica {
                 startWith(null),
                 tap(() => {
 
-                    const risconto = this.riscontoCtrl.value as number;
+                    const risconto = this.riscontoCtrl.value;
 
                     if (risconto === 2) {
                         this.inizioCompetenzaGiornalieroCtrl.setValidators([Validators.required]);
@@ -255,11 +255,11 @@ export class ForzaturaCreazioneModifica {
 
             const sottocommessa = this.sottocommesse
                 .find(sc => sc.id === this.forzatura?.commessa.id);
-            this.sottocommessaCtrl.setValue(sottocommessa as CommessaDto);
+            this.sottocommessaCtrl.setValue(sottocommessa!);
 
             const fornitore = this.fornitori
                 .find(f => f.id === this.forzatura?.idFornitore);
-            this.fornitoreCtrl.setValue(fornitore as Dettaglio);
+            this.fornitoreCtrl.setValue(fornitore!);
 
             this.categoriaForzaturaCtrl.setValue(this.forzatura.categoriaForzatura.id);
 
@@ -286,11 +286,11 @@ export class ForzaturaCreazioneModifica {
             this.descrizioneCtrl.setValue(this.forzatura.note);
 
             if (this.categoria === "costo") {
-                this.costo = this.forzatura.costoTotale as string;
-                this.classificazioneCostoCtrl.setValue(this.forzatura.classificazioneDiCosto?.id as number);
+                this.costo = this.forzatura.costoTotale!;
+                this.classificazioneCostoCtrl.setValue(this.forzatura.classificazioneDiCosto?.id!);
             }
             else {
-                this.ricavo = this.forzatura.ricavoTotale as string;
+                this.ricavo = this.forzatura.ricavoTotale!;
             }
         }
     }
@@ -320,12 +320,12 @@ export class ForzaturaCreazioneModifica {
         let inizioCompetenza: string;
         let fineCompetenza: string;
         if (this.riscontoCtrl.value === 2) {
-            inizioCompetenza = this.inizioCompetenzaGiornalieroCtrl.value as string;
-            fineCompetenza = this.fineCompetenzaGiornalieroCtrl.value as string;
+            inizioCompetenza = this.inizioCompetenzaGiornalieroCtrl.value!;
+            fineCompetenza = this.fineCompetenzaGiornalieroCtrl.value!;
         }
         else {
-            inizioCompetenza = structToIso(this.inizioCompetenzaMensileCtrl.value as MonthpickerStruct) as string;
-            fineCompetenza = structToIso(this.fineCompetenzaMensileCtrl.value as MonthpickerStruct) as string;
+            inizioCompetenza = structToIso(this.inizioCompetenzaMensileCtrl.value!)!;
+            fineCompetenza = structToIso(this.fineCompetenzaMensileCtrl.value!)!;
         }
 
         let createObj: ForzaturaDto;
@@ -354,23 +354,23 @@ export class ForzaturaCreazioneModifica {
             // }
 
             createObj = {
-                note: this.descrizioneCtrl.value as string,
+                note: this.descrizioneCtrl.value!,
                 costoTotale: this.costo,
                 inizioPeriodo: inizioCompetenza,
                 finePeriodo: fineCompetenza,
                 commessa: {
-                    id: this.idSottocommessa as number
+                    id: this.idSottocommessa!
                 },
                 categoriaForzatura: {
-                    id: this.categoriaForzaturaCtrl.value as number
+                    id: this.categoriaForzaturaCtrl.value!
                 },
                 classificazioneDiCosto: {
-                    id: this.classificazioneCostoCtrl.value as number
+                    id: this.classificazioneCostoCtrl.value!
                 },
                 idCliente: this.commessa.idCliente,
-                idFornitore: this.idFornitore as number,
-                riscontoMensile: riscontoMensile as boolean,
-                riscontoGiornaliero: riscontoGiornaliero as boolean
+                idFornitore: this.idFornitore!,
+                riscontoMensile: riscontoMensile,
+                riscontoGiornaliero: riscontoGiornaliero
             };
         }
         else {
@@ -395,25 +395,25 @@ export class ForzaturaCreazioneModifica {
             // }
 
             createObj = {
-                note: this.descrizioneCtrl.value as string,
+                note: this.descrizioneCtrl.value!,
                 ricavoTotale: this.ricavo,
                 inizioPeriodo: inizioCompetenza,
                 finePeriodo: fineCompetenza,
                 commessa: {
-                    id: this.idSottocommessa as number
+                    id: this.idSottocommessa!
                 },
                 categoriaForzatura: {
-                    id: this.categoriaForzaturaCtrl.value as number
+                    id: this.categoriaForzaturaCtrl.value!
                 },
                 idCliente: this.commessa.idCliente,
-                idFornitore: this.idFornitore as number,
-                riscontoMensile: riscontoMensile as boolean,
-                riscontoGiornaliero: riscontoGiornaliero as boolean
+                idFornitore: this.idFornitore!,
+                riscontoMensile: riscontoMensile,
+                riscontoGiornaliero: riscontoGiornaliero
             };
         }
         
         this.forzaturaService
-            .createForzatura$(createObj as ForzaturaDto)
+            .createForzatura$(createObj)
             .subscribe(
                 (idForzatura) => {
 
@@ -439,24 +439,21 @@ export class ForzaturaCreazioneModifica {
         if (!this.forzatura || this.form.invalid) return;
 
         const copyOfForzatura: ForzaturaDto = jsonCopy(this.forzatura);
-        copyOfForzatura.note = this.descrizioneCtrl.value as string;
-        copyOfForzatura.commessa.id = this.idSottocommessa as number;
-        copyOfForzatura.categoriaForzatura.id = this.categoriaForzaturaCtrl.value as number;
-        copyOfForzatura.idFornitore = this.idFornitore as number;
+        copyOfForzatura.note = this.descrizioneCtrl.value!;
+        copyOfForzatura.commessa.id = this.idSottocommessa!;
+        copyOfForzatura.categoriaForzatura.id = this.categoriaForzaturaCtrl.value!;
+        copyOfForzatura.idFornitore = this.idFornitore!;
 
         if (this.categoria === "costo") {
             copyOfForzatura.costoTotale = this.costo;
-            copyOfForzatura.classificazioneDiCosto!.id = this.classificazioneCostoCtrl.value as number;
+            copyOfForzatura.classificazioneDiCosto!.id = this.classificazioneCostoCtrl.value!;
         }
         else {
             copyOfForzatura.ricavoTotale = this.ricavo;
         }
 
         this.forzaturaService
-            .updateForzatura$(
-                this.idForzatura as number,
-                copyOfForzatura
-            )
+            .updateForzatura$(this.idForzatura!, copyOfForzatura)
             .subscribe(
                 () => {
                     const txt = `Forzatura di ${this.categoria} modificata con successo!`;

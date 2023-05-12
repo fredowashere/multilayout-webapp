@@ -5,7 +5,7 @@ import { Subject, combineLatest, lastValueFrom, takeUntil, tap } from "rxjs";
 import { ToastService } from "src/app/services/toast.service";
 import { jsonCopy } from "src/app/utils/json";
 import { euroMask, euroMask2numStr, numStr2euroMask } from "src/app/utils/mask";
-import { Commessa, CommessaDto, CreateSottocommessaParam, SimpleDto } from "../../models/commessa";
+import { Commessa, CommessaDto, CommessaSearchDto, CreateSottocommessaParam, SimpleDto } from "../../models/commessa";
 import { DIALOG_MODE } from "../../models/dialog";
 import { TipoFatturazione } from "../../models/fatturazione";
 import { CommessaService } from "../../services/commessa.service";
@@ -36,29 +36,29 @@ export class SottocommessaCreazioneModifica implements OnInit, OnDestroy {
 
     tipoFatturazioneCtrl = new FormControl<TipoFatturazione | null>(null, [Validators.required]);
     get tipoFatturazione(): SimpleDto {
-        const { id, descrizione: text } = this.tipoFatturazioneCtrl.value as TipoFatturazione;
+        const { id, descrizione: text } = this.tipoFatturazioneCtrl.value!;
         return { id, text };
     }
     tipoFatturazioneFormatter = (tf: TipoFatturazione) => tf.descrizione;
     tipiFatturazione: TipoFatturazione[] = [];
 
-    commessaRendicontazioneCtrl = new FormControl<Commessa | null>(null);
+    commessaRendicontazioneCtrl = new FormControl<CommessaSearchDto | null>(null);
     get idCommessaRendicontazione() {
         return this.commessaRendicontazioneCtrl.value?.id;
     }
-    commessaFatturazioneCtrl = new FormControl<Commessa | null>(null);
+    commessaFatturazioneCtrl = new FormControl<CommessaSearchDto | null>(null);
     get idCommessaFatturazione() {
         return this.commessaFatturazioneCtrl.value?.id;
     }
-    commesse: Commessa[] = [];
-    commesseFormatter = (sc: Commessa) => sc?.codice + ' ' + sc?.descrizione;
+    commesse: CommessaSearchDto[] = [];
+    commessaFormatter = (sc: CommessaSearchDto) => sc?.codiceCommessa + ' ' + sc?.descrizione;
 
     dataInizioCtrl = new FormControl();
     dataFineCtrl = new FormControl();
 
     euroMask = euroMask;
     get importo() {
-        const masked = this.importoCtrl.value as string;
+        const masked = this.importoCtrl.value!;
         return euroMask2numStr(masked);
     }
     set importo(unmasked: string) {
@@ -202,7 +202,7 @@ export class SottocommessaCreazioneModifica implements OnInit, OnDestroy {
         }
 
         this.commesse = await lastValueFrom(
-            this.commessaService.getCommesseAutocomplete$()
+            this.commessaService.getAllCommesse$()
         );
     }
 
@@ -228,19 +228,19 @@ export class SottocommessaCreazioneModifica implements OnInit, OnDestroy {
             const tipoFatturazione = this.tipiFatturazione.find(tf =>
                 tf.id === idTipoFatturazione
             )
-            this.tipoFatturazioneCtrl.setValue(tipoFatturazione as TipoFatturazione);
+            this.tipoFatturazioneCtrl.setValue(tipoFatturazione!);
 
             const idCommessaRendicontazione = this.sottocommessa.idCommessaCollegata;
             const commessaRendicontazione = this.commesse.find(c =>
                 c.id === idCommessaRendicontazione   
             );
-            this.commessaRendicontazioneCtrl.setValue(commessaRendicontazione as Commessa);
+            this.commessaRendicontazioneCtrl.setValue(commessaRendicontazione!);
 
             const idCommessaFatturazione = this.sottocommessa.idCommessaFatturazione;
             const commessaFatturazione = this.commesse.find(c =>
                 c.id === idCommessaFatturazione   
             );
-            this.commessaFatturazioneCtrl.setValue(commessaFatturazione as Commessa);
+            this.commessaFatturazioneCtrl.setValue(commessaFatturazione!);
 
             this.dataInizioCtrl.setValue(this.sottocommessa.dataInizio);
             this.dataFineCtrl.setValue(this.sottocommessa.dataFine);
@@ -264,9 +264,11 @@ export class SottocommessaCreazioneModifica implements OnInit, OnDestroy {
 
         const createObj: CreateSottocommessaParam = {
             idCommessaPadre: this.idCommessa,
-            codiceCommessa: this.codiceSottocommessaCtrl.value as string,
-            descrizione: this.descrizioneCtrl.value as string,
-            iniziativa: this.iniziativaCtrl.value as string,
+            codiceCommessa: this.codiceSottocommessaCtrl.value!,
+            idCommessaCollegata: this.idCommessaRendicontazione,
+            idCommessaFatturazione: this.idCommessaFatturazione,
+            descrizione: this.descrizioneCtrl.value!,
+            iniziativa: this.iniziativaCtrl.value!,
             tipoFatturazione: this.tipoFatturazione,
             dataInizio: this.dataInizioCtrl.value,
             dataFine: this.dataInizioCtrl.value,
@@ -303,9 +305,9 @@ export class SottocommessaCreazioneModifica implements OnInit, OnDestroy {
 
         const copyOfSottocommessa: CommessaDto = jsonCopy(this.sottocommessa);
         
-        copyOfSottocommessa.codiceCommessa = this.codiceSottocommessaCtrl.value as string;
-        copyOfSottocommessa.descrizione = this.descrizioneCtrl.value as string;
-        copyOfSottocommessa.iniziativa = this.iniziativaCtrl.value as string;
+        copyOfSottocommessa.codiceCommessa = this.codiceSottocommessaCtrl.value!;
+        copyOfSottocommessa.descrizione = this.descrizioneCtrl.value!;
+        copyOfSottocommessa.iniziativa = this.iniziativaCtrl.value!;
         copyOfSottocommessa.tipoFatturazione = this.tipoFatturazione;
         copyOfSottocommessa.idCommessaCollegata = this.idCommessaRendicontazione;
         copyOfSottocommessa.idCommessaFatturazione = this.idCommessaFatturazione;

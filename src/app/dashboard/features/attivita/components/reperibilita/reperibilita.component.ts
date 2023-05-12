@@ -34,7 +34,7 @@ export class ReperibilitaComponent {
       .subscribe(() =>
         this.segreteriaService
           .getReperibilitaCommesseTotali({
-            idAzienda: this.authService.user.idAzienda as number,
+            idAzienda: this.authService.user.idAzienda!,
             IdSottoCommessa: this.idSottocommessa
           })
           .subscribe(reperibilita => this.reperibilita = reperibilita)
@@ -61,8 +61,8 @@ export class ReperibilitaComponent {
   async delete(reperibilita: GetReperibilitaCommesseTotaliResponse) {
     this.segreteriaService
       .postReperibilitaCommesse({
-        idAzienda: this.authService.user.idAzienda as number,
-        idLegameReperibilita: reperibilita.idLegameReperibilita as number,
+        idAzienda: this.authService.user.idAzienda!,
+        idLegameReperibilita: reperibilita.idLegameReperibilita!,
         body: {
           attivo: false
         }

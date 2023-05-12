@@ -18,28 +18,28 @@ export class StatoAvanzamentoWrapService {
 
   getUtenti$(input?: GetUtentiParam) {
     input = input || {}; // all users by default?
-    input.idAzienda = this.authService.user.idAzienda as number;
+    input.idAzienda = this.authService.user.idAzienda;
     return this.utentiService
       .getUtenti(input as any);
   }
 
   getSottocommesse$(input?: GetSottocommesseParam) {
     input = input || {};
-    input.idAzienda = this.authService.user.idAzienda as number;
+    input.idAzienda = this.authService.user.idAzienda;
     return this.statoAvanzamentoService
       .getSottoCommesse(input as any);
   }
 
   getClienti$(input?: GetClientiParam) {
     input = input || {};
-    input.idAzienda = this.authService.user.idAzienda as number;
+    input.idAzienda = this.authService.user.idAzienda;
     return this.statoAvanzamentoService
       .getClienti(input as any);
   }
 
   getAvanzamento$(input: GetAvanzamentoParam) {
     input = input || {};
-    input.idAzienda = this.authService.user.idAzienda as number;
+    input.idAzienda = this.authService.user.idAzienda;
     return this.statoAvanzamentoService
       .getSottoCommesseAvanzamento(input as any)
       .pipe(
@@ -52,14 +52,14 @@ export class StatoAvanzamentoWrapService {
   postAvanzamento$(dettaglio: SottocommessaAvanzamentoDettaglio) {
     return this.statoAvanzamentoService
       .postCommesseAvanzamento({
-        idAzienda: this.authService.user.idAzienda as number,
+        idAzienda: this.authService.user.idAzienda!,
         IdAvanzamento: dettaglio.idcommessaAvanzamentiMensili,
         body: {
           idSottoCommessa: dettaglio.sottoCommessa.id,
           avanzamento: dettaglio.avanzamentoTotale,
           descrizione: "Modulo Attività - Stato Avanzamento",
           statoValidazione: dettaglio.statoValidazione.id,
-          idAzienda: this.authService.user.idAzienda as number,
+          idAzienda: this.authService.user.idAzienda,
           idProjectManager: dettaglio.idProjectManager,
           ricavoCompetenza: dettaglio.ricavoCompetenza,
           dataAggiornamento: dettaglio.dataAggiornamento,
