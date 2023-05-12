@@ -118,9 +118,9 @@
     </app-table>
 </div>
 
-<div *ngIf="tasks.length" class="mt-5">
+<div *ngIf="tasks.length" class="mt-4">
     <ul
-        class="app-tabbable nav-tabs"
+        class="app-tabbable nav-tabs ms-1"
         ngbNav
         #nav="ngbNav"
         [destroyOnHide]="false"
@@ -145,13 +145,7 @@
         </li>
     </ul>
     
-    <div
-        class="border p-3 pb-4 shadow"
-        style="
-            border-color: rgba(var(--app-green_600), 0.5) !important;
-            border-radius: 0 0 5px 5px
-        "
-    >
+    <div class="app-callout app-callout--green p-3 pb-4 shadow">
         
         <div [ngbNavOutlet]="nav"></div>
 

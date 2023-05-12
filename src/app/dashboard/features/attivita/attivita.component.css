@@ -2,7 +2,7 @@
 .app-tabbable.nav-tabs .nav-item.show .nav-link {
     color: rgba(var(--app-gray_0), 1);
     background-color: rgba(var(--app-blue_100), 1);
-    border-color: rgba(var(--app-blue_100), 0.5);
+    border-color: rgba(var(--app-blue_100), 1);
 }
 
 .app-tabbable.nav-tabs .nav-link.active .btn-close {
