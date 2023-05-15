@@ -33,17 +33,29 @@ export class RisorsaCreazioneModifica implements OnInit, OnDestroy {
     utentiCtrl = new FormControl<UtentiAnagrafica[] | null>(null, [Validators.required]);
     utenti: UtentiAnagrafica[] = [];
     utenteFormatter = (u: UtentiAnagrafica) => u.cognome + ' ' + u.nome;
-    utenteFilter = (term: string, u: UtentiAnagrafica) =>
-        (u.cognome + ' ' + u.nome).toLowerCase().includes(term.toLowerCase());
 
     dataInizioCtrl = new FormControl<string | null>(null, [Validators.required]);
     dataFineCtrl = new FormControl<string | null>(null, [Validators.required]);
 
-    form = new FormGroup({
-        utente: this.utentiCtrl,
-        dataInizio: this.dataInizioCtrl,
-        dataFine: this.dataFineCtrl
-    });
+    datesValidator = () => {
+
+        const isoInizio = this.dataInizioCtrl.value || "";
+        const isoFine = this.dataFineCtrl.value || "";
+
+        if (isoInizio > isoFine)
+            return { dates: "Invalid range." };
+        
+        return null;
+    };
+
+    form = new FormGroup(
+        {
+            utente: this.utentiCtrl,
+            dataInizio: this.dataInizioCtrl,
+            dataFine: this.dataFineCtrl
+        },
+        [ this.datesValidator ]
+    );
 
     destroy$ = new Subject<void>();
 
@@ -86,30 +98,6 @@ export class RisorsaCreazioneModifica implements OnInit, OnDestroy {
                     this.isLoading = false;
                 });
         }
-
-        this.form
-            .valueChanges
-            .pipe(
-                takeUntil(this.destroy$),
-                tap(() => {
-
-                    const isoInizio = this.dataInizioCtrl.value || "";
-                    const isoFine = this.dataFineCtrl.value || "";
-
-                    if (isoInizio > isoFine) {
-                        this.dataInizioCtrl.setErrors({ date: "Too big" });
-                        this.dataFineCtrl.setErrors({ date: "Too small" });
-                    }
-                    else {
-                        this.dataInizioCtrl.setErrors(null);
-                        this.dataFineCtrl.setErrors(null);
-                    }
-
-                    this.dataInizioCtrl.markAsTouched();
-                    this.dataFineCtrl.markAsTouched();
-                })
-            )
-            .subscribe();
     }
 
     ngOnDestroy() {
@@ -247,9 +235,9 @@ export class RisorsaCreazioneModifica implements OnInit, OnDestroy {
 
                 const legameTaskRisorsa: UpsertLegameParam = {
                     idTask: this.idTask,
-                    idUtente: u.idUtente as number,
-                    inizioAllocazione: this.dataInizioCtrl.value as string,
-                    fineAllocazione: this.dataFineCtrl.value as string
+                    idUtente: u.idUtente!,
+                    inizioAllocazione: this.dataInizioCtrl.value!,
+                    fineAllocazione: this.dataFineCtrl.value!
                 };
 
                 return this.risorsaService
@@ -296,8 +284,8 @@ export class RisorsaCreazioneModifica implements OnInit, OnDestroy {
         const legameTaskRisorsa: UpsertLegameParam = {
             idTask: this.idTask,
             idUtente: this.legame.idUtente,
-            inizioAllocazione: this.dataInizioCtrl.value as string,
-            fineAllocazione: this.dataFineCtrl.value as string
+            inizioAllocazione: this.dataInizioCtrl.value!,
+            fineAllocazione: this.dataFineCtrl.value!
         };
 
         this.risorsaService

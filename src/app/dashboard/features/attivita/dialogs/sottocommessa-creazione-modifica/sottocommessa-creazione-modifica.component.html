@@ -54,7 +54,6 @@
                         label="Tipo fatturazione *"
                         [options]="tipiFatturazione"
                         [formatter]="tipoFatturazioneFormatter"
-                        [filter]="tipoFatturazioneFilter"
                         [ngControl]="tipoFatturazioneCtrl"
                         [floatingLabel]="true"
                     ></app-input>
@@ -65,8 +64,7 @@
                         label="Commessa rendicontazione"
                         [options]="commesse"
                         [limit]="25"
-                        [formatter]="commesseFormatter"
-                        [filter]="commesseFilter"
+                        [formatter]="commessaFormatter"
                         [ngControl]="commessaRendicontazioneCtrl"
                         [floatingLabel]="true"
                     ></app-input>
@@ -77,8 +75,7 @@
                         label="Commessa fatturazione"
                         [options]="commesse"
                         [limit]="25"
-                        [formatter]="commesseFormatter"
-                        [filter]="commesseFilter"
+                        [formatter]="commessaFormatter"
                         [ngControl]="commessaFatturazioneCtrl"
                         [floatingLabel]="true"
                     ></app-input>

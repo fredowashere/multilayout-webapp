@@ -47,6 +47,7 @@
         #dt
         [thead]="thead"
         [tbody]="tbody"
+        [animated]="true"
         [items]="forzature"
         [searchable]="['commessa.text', 'note']"
         [paginated]="true"
@@ -67,14 +68,17 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.note }}</td>
-            <td>{{ item.commessa.text }}</td>
-            <td>{{ item.inizioPeriodo | date:'yyyy-MM' }}</td>
-            <td>{{ item.finePeriodo | date:'yyyy-MM' }}</td>
+            <td data-label="Descrizione">
+                <ngb-highlight [result]="item.note" [term]="$any(term$ | async)"/>
+            </td>
+            <td data-label="Sottocommessa">
+                <ngb-highlight [result]="item.commessa.text" [term]="$any(term$ | async)"/>
+            </td>
+            <td data-label="Inizio">{{ item.inizioPeriodo | date:'yyyy-MM' }}</td>
+            <td data-label="Fine">{{ item.finePeriodo | date:'yyyy-MM' }}</td>
 
-            <td *ngIf="categoria === 'costo'">€ {{ item.costoTotale }}</td>
-            <td *ngIf="categoria === 'ricavo'">€ {{ item.ricavoTotale }}</td>
-
+            <td data-label="Costo" *ngIf="categoria === 'costo'">€ {{ item.costoTotale }}</td>
+            <td data-label="Ricavo" *ngIf="categoria === 'ricavo'">€ {{ item.ricavoTotale }}</td>
             <td>
                 <div class="d-flex gap-2 justify-content-center">
 

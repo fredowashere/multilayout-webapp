@@ -50,11 +50,7 @@
 						<input
 							class="form-check-input"
 							type="checkbox"
-							(change)="
-								$any($event.currentTarget).checked
-									? onEveryRowSelect()
-									: onEveryRowDeselect()
-							"
+							(change)="$any($event.currentTarget).checked ? onEveryRowSelect() : onEveryRowDeselect()"
 						>
 					</div>
 				</th>
@@ -66,16 +62,10 @@
 		</thead>
 	
 		<tbody>
-			<ng-container
-				*ngFor="
-					let item of paginatedItems$ | async;
-					let i = index;
-					trackBy: trackByFn
-				"
-			>
+			<ng-container *ngFor="let item of paginatedItems$ | async; let i = index; trackBy: trackByFn">
 				<ng-container *ngLet="{ collapsed: true } as _row">
 					
-					<tr>
+					<tr [class.animated]="animated">
 			
 						<td *ngIf="selectable">
 							<div class="form-check">
@@ -83,11 +73,7 @@
 									class="form-check-input"
 									type="checkbox"
 									[(ngModel)]="item._selected"
-									(change)="
-										$any($event.currentTarget).checked
-											? onRowSelect(item)
-											: onRowDeselect(item)
-									"
+									(change)="$any($event.currentTarget).checked ? onRowSelect(item) : onRowDeselect(item)"
 								>
 							</div>
 						</td>
@@ -102,27 +88,13 @@
 							></button>
 						</td>
 			
-						<ng-container *ngTemplateOutlet="
-							tbody;
-							context: {
-								$implicit: item,
-								term$: searchInput.valueChanges
-							}
-						"></ng-container>
+						<ng-container *ngTemplateOutlet="tbody; context: { $implicit: item, term$: lastTerm$ }"></ng-container>
 					</tr>
 	
 					<tr *ngIf="rowExpand">
 						<td class="row-expand" colspan="99">
 							<div #collapse="ngbCollapse" [(ngbCollapse)]="_row.collapsed">
-								<ng-container
-									*ngTemplateOutlet="
-										rowExpand;
-										context: {
-											$implicit: item,
-											term$: searchInput.valueChanges
-										}
-									"
-								></ng-container>
+								<ng-container *ngTemplateOutlet="rowExpand; context: { $implicit: item, term$: searchInput.valueChanges }"></ng-container>
 							</div>
 						</td>
 					</tr>

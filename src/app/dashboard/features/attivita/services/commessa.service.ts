@@ -45,17 +45,6 @@ export class CommessaService {
       );
   }
 
-  getCommesseAutocomplete$(input?: GetAllCommesseParam): Observable<Commessa[]> {
-    return this.getAllCommesse$(input)
-      .pipe(
-        map(commesse =>
-          commesse.map(({ id, codiceCommessa: codice, descrizione }) =>
-            ({ id, codice, descrizione })
-          )
-        )
-      );
-  }
-
   getCommessaById(idCommessa: number) {
     const url = `${environment.scaiRoot}/modulo-attivita-be/commesse/id/${idCommessa}/id-azienda/${this.authService.user.idAzienda}`;
     return this.http.get<CommessaDto>(url);

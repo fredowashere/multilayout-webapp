@@ -69,10 +69,10 @@ export class EventoCreazioneModifica {
         this.eventoService
             .createEvento$({
                 idOpportunita: this.idCommessa,
-                dataEvento: this.dataCtrl.value as string,
-                descrizione: this.descrizioneCtrl.value as string,
+                dataEvento: this.dataCtrl.value!,
+                descrizione: this.descrizioneCtrl.value!,
                 faseEvento: {
-                    id: this.tipoEventoCtrl.value as number
+                    id: this.tipoEventoCtrl.value!
                 }
             })
             .subscribe(
@@ -95,10 +95,10 @@ export class EventoCreazioneModifica {
                 this.evento.id,
                 {
                     idOpportunita: this.idCommessa,
-                    dataEvento: this.dataCtrl.value as string,
-                    descrizione: this.descrizioneCtrl.value as string,
+                    dataEvento: this.dataCtrl.value!,
+                    descrizione: this.descrizioneCtrl.value!,
                     faseEvento: {
-                        id: this.tipoEventoCtrl.value as number
+                        id: this.tipoEventoCtrl.value!
                     }
                 }
             )

@@ -31,14 +31,28 @@ export class TaskCreazioneModifica implements OnInit, OnDestroy {
     dataFineCtrl = new FormControl<string | null>(null, [Validators.required]);
     attivitaObbligatoriaCtrl = new FormControl<boolean>(false);
 
-    form = new FormGroup({
-        codiceTask: this.codiceTaskCtrl,
-        descrizione: this.descrizioneCtrl,
-        dataInizio: this.dataInizioCtrl,
-        dataFine: this.dataFineCtrl,
-        giorniPrevisti: this.giorniPrevistiCtrl,
-        attivitaObbligatoria: this.attivitaObbligatoriaCtrl
-    });
+    datesValidator = () => {
+
+        const isoInizio = this.dataInizioCtrl.value || "";
+        const isoFine = this.dataFineCtrl.value || "";
+
+        if (isoInizio > isoFine)
+            return { dates: "Invalid range." };
+        
+        return null;
+    };
+
+    form = new FormGroup(
+        {
+            codiceTask: this.codiceTaskCtrl,
+            descrizione: this.descrizioneCtrl,
+            dataInizio: this.dataInizioCtrl,
+            dataFine: this.dataFineCtrl,
+            giorniPrevisti: this.giorniPrevistiCtrl,
+            attivitaObbligatoria: this.attivitaObbligatoriaCtrl
+        },
+        [ this.datesValidator ]
+    );
 
     destroy$ = new Subject<void>();
 
@@ -67,30 +81,6 @@ export class TaskCreazioneModifica implements OnInit, OnDestroy {
         else {
             this.isLoading = false;
         }
-
-        this.form
-            .valueChanges
-            .pipe(
-                takeUntil(this.destroy$),
-                tap(() => {
-
-                    const isoInizio = this.dataInizioCtrl.value || "";
-                    const isoFine = this.dataFineCtrl.value || "";
-
-                    if (isoInizio > isoFine) {
-                        this.dataInizioCtrl.setErrors({ date: "Too big" });
-                        this.dataFineCtrl.setErrors({ date: "Too small" });
-                    }
-                    else {
-                        this.dataInizioCtrl.setErrors(null);
-                        this.dataFineCtrl.setErrors(null);
-                    }
-
-                    this.dataInizioCtrl.markAsTouched();
-                    this.dataFineCtrl.markAsTouched();
-                })
-            )
-            .subscribe();
     }
 
     ngOnDestroy() {
@@ -152,12 +142,12 @@ export class TaskCreazioneModifica implements OnInit, OnDestroy {
         if (this.form.invalid) return;
 
         const createObj: CreateTaskParam = {
-            attivitaObbligatoria: this.attivitaObbligatoriaCtrl.value as boolean,
-            codiceTask: this.codiceTaskCtrl.value as string,
-            dataFine: this.dataFineCtrl.value as string,
-            dataInizio: this.dataInizioCtrl.value as string,
-            descrizione: this.descrizioneCtrl.value as string,
-            giorniPrevisti: this.giorniPrevistiCtrl.value as number,
+            attivitaObbligatoria: this.attivitaObbligatoriaCtrl.value!,
+            codiceTask: this.codiceTaskCtrl.value!,
+            dataFine: this.dataFineCtrl.value!,
+            dataInizio: this.dataInizioCtrl.value!,
+            descrizione: this.descrizioneCtrl.value!,
+            giorniPrevisti: this.giorniPrevistiCtrl.value!,
             idCommessa: this.idSottocommessa,
             percentualeAvanzamento: 0,
             stimaGiorniAFinire: 0,
@@ -208,12 +198,12 @@ export class TaskCreazioneModifica implements OnInit, OnDestroy {
 
         const copyOfTask: TaskDto = jsonCopy(this.task);
 
-        copyOfTask.attivitaObbligatoria = this.attivitaObbligatoriaCtrl.value as boolean;
-        copyOfTask.codiceTask = this.codiceTaskCtrl.value as string;
-        copyOfTask.dataFine = this.dataFineCtrl.value as string;
-        copyOfTask.dataInizio = this.dataInizioCtrl.value as string;
-        copyOfTask.descrizione = this.descrizioneCtrl.value as string;
-        copyOfTask.giorniPrevisti = this.giorniPrevistiCtrl.value as number;
+        copyOfTask.attivitaObbligatoria = this.attivitaObbligatoriaCtrl.value!;
+        copyOfTask.codiceTask = this.codiceTaskCtrl.value!
+        copyOfTask.dataFine = this.dataFineCtrl.value!
+        copyOfTask.dataInizio = this.dataInizioCtrl.value!
+        copyOfTask.descrizione = this.descrizioneCtrl.value!
+        copyOfTask.giorniPrevisti = this.giorniPrevistiCtrl.value!;
 
         this.taskService
             .updateTask$(this.idTask, copyOfTask)

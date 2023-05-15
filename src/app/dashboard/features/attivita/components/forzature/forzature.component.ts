@@ -91,7 +91,7 @@ export class ForzatureComponent {
     await modalRef.result;
 
     this.forzatureService
-      .deleteForzatura$(forzatura.id as number, this.categoria)
+      .deleteForzatura$(forzatura.id!, this.categoria)
       .subscribe(
         () => {
           const txt = "Forzatura eliminata con successo!";

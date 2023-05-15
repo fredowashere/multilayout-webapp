@@ -7,7 +7,7 @@
 
     <div class="table-plus">
 
-        <h5 class="table-plus__title">Tabella legami straordinari</h5>
+        <h5 class="table-plus__title">Tabella straordinari</h5>
 
         <button
             type="button"
@@ -15,7 +15,7 @@
             (click)="create()"
         >
             <i class="bi bi-plus"></i>
-            Crea legame straordinario
+            Crea straordinario
         </button>
     </div>
 
@@ -30,15 +30,15 @@
             text-align: center;
         ">
 
-            <img class="img-fluid" src="assets/images/not-found.png" alt="nessun risultato trovato">
+            <img class="img-fluid" src="assets/images/results-not-found.jpg" alt="nessun risultato trovato">
 
-            <div class="lead">Nessun legame straordinario trovato.</div>
+            <div class="lead">Nessun straordinario trovato.</div>
 
             <button
                 class="btn btn-outline-success"
                 (click)="create()"
             >
-                Crea legame straordinario
+                Crea straordinario
             </button>
         </div>
     </ng-template>
@@ -47,6 +47,7 @@
         #dt
         [thead]="thead"
         [tbody]="tbody"
+        [animated]="true"
         [items]="straordinari"
         [searchable]="['descrizione']"
         [paginated]="true"
@@ -56,17 +57,19 @@
     
         <ng-template #thead>
             <th sortable="descrizione" (sort)="dt.sort($any($event))">Descrizione</th>
-            <th sortable="autorizzazioneCliente" (sort)="dt.sort($any($event))">Senza avviso</th>
+            <th sortable="autorizzazioneCliente" (sort)="dt.sort($any($event))">Autorizzazione</th>
             <th sortable="inizio" (sort)="dt.sort($any($event))">Inizio</th>
             <th sortable="fine" (sort)="dt.sort($any($event))">Fine</th>
             <th style="width: 10rem"></th>
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.descrizione }}</td>
-            <td>{{ item.autorizzazioneCliente ? 'Si' : 'No' }}</td>
-            <td>{{ item.inizio | date:'yyyy-MM-dd' }}</td>
-            <td>{{ item.fine | date:'yyyy-MM-dd' }}</td>
+            <td data-label="Descrizione">
+                <ngb-highlight [result]="item.descrizione" [term]="$any(term$ | async)"/>
+            </td>
+            <td data-label="Autorizzazione">{{ item.autorizzazioneCliente ? 'Si' : 'No' }}</td>
+            <td data-label="Inizio">{{ item.inizio | date:'yyyy-MM-dd' }}</td>
+            <td data-label="Fine">{{ item.fine | date:'yyyy-MM-dd' }}</td>
             <td>
                 <div class="d-flex gap-2 justify-content-center">
                     <button

@@ -130,6 +130,8 @@ export interface OpportunitaDto {
 export interface CreateSottocommessaParam {
 	idCommessaPadre: number;
 	codiceCommessa: string;
+	idCommessaCollegata?: number | null;
+	idCommessaFatturazione?: number | null;
 	descrizione: string;
 	iniziativa: string | null;
 	tipoFatturazione: SimpleDto;

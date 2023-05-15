@@ -36,7 +36,7 @@ export class ForzaturaService {
     }
 
     createForzatura$(input: ForzaturaDto) {
-        input.idAzienda = this.authService.user.idAzienda as number;
+        input.idAzienda = this.authService.user.idAzienda;
         input.valido = 1;
         const idUtente = this.authService.user.idUtente;
         const url = `${environment.scaiRoot}/modulo-attivita-be/forzature/save/id-utente/${idUtente}`;
@@ -44,7 +44,7 @@ export class ForzaturaService {
     }
 
     updateForzatura$(idForzatura: number, input: ForzaturaDto) {
-        input.idAzienda = this.authService.user.idAzienda as number;
+        input.idAzienda = this.authService.user.idAzienda;
         input.valido = 1;
         const idUtente = this.authService.user.idUtente;
         const url = `${environment.scaiRoot}/modulo-attivita-be/forzature/update/id/${idForzatura}/id-utente/${idUtente}`;

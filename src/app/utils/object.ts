@@ -20,10 +20,29 @@ export function lookmap<V>(key: string | number, array: V[]): { [key: string | n
 }
 
 export function singlifyLookmap<V>(input: { [key: string | number]: V[] }): { [key: string | number]: V } {
-
     const result = {} as { [key: string | number]: V };
-
     Object.keys(input).forEach(key => result[key] = input[key][0]);
-
     return result;
+}
+
+export function emptyObject(object: any) {
+
+    if (typeof object !== "object")
+        throw new Error("Argument object of emptyObject is not an object.");
+    
+    for (const key in object) {
+        delete object[key];
+    }
+    return object;
+}
+
+export function replaceProps(object: any, props: any) {
+
+    if (typeof object !== "object")
+        throw new Error("Argument object of replaceProps is not an object.");
+
+    if (typeof props !== "object")
+        throw new Error("Argument props of replaceProps is not an object.");
+
+    return Object.assign(object, props);
 }

@@ -1,39 +1,41 @@
-<div class="col-md-7 p-3 mt-3 mb-5 mx-auto">
+<div class="mt-3 mb-5 mx-auto" style="max-width: 500px">
+    <div class="app-callout app-callout--green shadow ag-top-grad-green">
 
-    <h5 class="mb-3">Dettaglio task</h5>
+        <h2 class="display-6 m-3 mb-0 ag-text-green">Task {{ task?.codiceTask }}</h2>
 
-    <div class="ag-parent-resume app-callout app-callout--green">
+        <div class="ag-parent-resume">
 
-        <div class="flexgrid flexgrid--2">
-
-            <div>
-                <div class="small text-muted">Codice task</div>
-                <div>{{ task?.codiceTask }}</div>
+            <div class="flexgrid flexgrid--2">
+    
+                <div>
+                    <div class="small text-muted">Codice task</div>
+                    <div>{{ task?.codiceTask }}</div>
+                </div>
+    
+                <div>
+                    <div class="small text-muted">Descrizione</div>
+                    <div>{{ task?.descrizione }}</div>
+                </div>
+    
+                <div>
+                    <div class="small text-muted">Data inizio</div>
+                    <div>{{ task?.dataInizio | date:'yyyy-MM-dd' }}</div>
+                </div>
+    
+                <div>
+                    <div class="small text-muted">Data fine</div>
+                    <div>{{ task?.dataFine | date:'yyyy-MM-dd' }}</div>
+                </div>
             </div>
-
-            <div>
-                <div class="small text-muted">Descrizione</div>
-                <div>{{ task?.descrizione }}</div>
-            </div>
-
-            <div>
-                <div class="small text-muted">Data inizio</div>
-                <div>{{ task?.dataInizio | date:'yyyy-MM-dd' }}</div>
-            </div>
-
-            <div>
-                <div class="small text-muted">Data fine</div>
-                <div>{{ task?.dataFine | date:'yyyy-MM-dd' }}</div>
-            </div>
+    
+            <button
+                type="button"
+                class="btn btn-warning btn-lg shadow"
+                (click)="updateTask()"
+            >
+                <i class="bi bi-pencil"></i>
+            </button>
         </div>
-
-        <button
-            type="button"
-            class="btn btn-warning btn-lg shadow"
-            (click)="updateTask()"
-        >
-            <i class="bi bi-pencil"></i>
-        </button>
     </div>
 </div>
 
@@ -86,6 +88,7 @@
         #dt
         [thead]="thead"
         [tbody]="tbody"
+        [animated]="true"
         [items]="risorseTask"
         [searchable]="['utente.cognome', 'utente.nome']"
         [paginated]="true"
@@ -102,10 +105,14 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.utente?.cognome }}</td>
-            <td>{{ item.utente?.nome }}</td>
-            <td>{{ item.inizioAllocazione | date:'yyyy-MM-dd' }}</td>
-            <td>{{ item.fineAllocazione | date:'yyyy-MM-dd' }}</td>
+            <td data-label="Cognome">
+                <ngb-highlight [result]="item.utente?.cognome" [term]="$any(term$ | async)"/>
+            </td>
+            <td data-label="Nome">
+                <ngb-highlight [result]="item.utente?.nome" [term]="$any(term$ | async)"/>
+            </td>
+            <td data-label="Inizio">{{ item.inizioAllocazione | date:'yyyy-MM-dd' }}</td>
+            <td data-label="Fine">{{ item.fineAllocazione | date:'yyyy-MM-dd' }}</td>
             <td>
                 <div class="d-flex gap-2 justify-content-center">
 

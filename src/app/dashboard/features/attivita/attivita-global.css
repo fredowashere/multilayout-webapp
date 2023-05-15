@@ -11,6 +11,30 @@
     --attivita-nav__link-color: var(--app-gray_0);
 }
 
+.ag-top-grad-blue {
+    background: linear-gradient(180deg, rgba(var(--app-blue_100), 0.0777), #0000 56px, #0000);
+}
+
+.ag-top-grad-orange {
+    background: linear-gradient(180deg, rgba(var(--app-orange_500), 0.0777), #0000 56px, #0000);
+}
+
+.ag-top-grad-green {
+    background: linear-gradient(180deg, rgba(var(--app-green_600), 0.0777), #0000 56px, #0000);
+}
+
+.ag-text-blue {
+    color: rgba(var(--app-blue_100), 1);
+}
+
+.ag-text-orange {
+    color: rgba(var(--app-orange_500), 1);
+}
+
+.ag-text-green {
+    color: rgba(var(--app-green_600), 1);
+}
+
 .ag-parent-resume {
     display: grid;
     align-items: end;

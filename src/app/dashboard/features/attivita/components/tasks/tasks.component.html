@@ -47,6 +47,7 @@
         #dt
         [thead]="thead"
         [tbody]="tbody"
+        [animated]="true"
         [items]="tasks"
         [searchable]="['codiceTask', 'descrizione']"
         [paginated]="true"
@@ -63,10 +64,14 @@
         </ng-template>
     
         <ng-template #tbody let-item let-term$="term$">
-            <td>{{ item.codiceTask }}</td>
-            <td>{{ item.descrizione }}</td>
-            <td>{{ item.dataInizio | date:'yyyy-MM-dd' }}</td>
-            <td>{{ item.dataFine | date:'yyyy-MM-dd' }}</td>
+            <td data-label="Codice task">
+                <ngb-highlight [result]="item.codiceTask" [term]="$any(term$ | async)"/>
+            </td>
+            <td data-label="Descrizione">
+                <ngb-highlight [result]="item.descrizione" [term]="$any(term$ | async)"/>
+            </td>
+            <td data-label="Inizio">{{ item.dataInizio | date:'yyyy-MM-dd' }}</td>
+            <td data-label="Fine">{{ item.dataFine | date:'yyyy-MM-dd' }}</td>
             <td>
                 <div class="d-flex gap-2 justify-content-center">
 
@@ -113,9 +118,9 @@
     </app-table>
 </div>
 
-<div *ngIf="tasks.length" class="mt-5">
+<div *ngIf="tasks.length" class="mt-4">
     <ul
-        class="app-tabbable nav-tabs"
+        class="app-tabbable nav-tabs ms-1"
         ngbNav
         #nav="ngbNav"
         [destroyOnHide]="false"
@@ -124,7 +129,7 @@
         <li *ngFor="let tab of tabs" [ngbNavItem]="tab.id">
             <a ngbNavLink>
                 {{ tab.codiceTask || 'ND' }}
-                <span class="btn-close ms-2 fw-light" (click)="closeTab(tab.id, $event)"></span>
+                <span class="btn-close p-2 ms-3 fw-light" (click)="closeTab(tab.id, $event)"></span>
             </a>
             <ng-template ngbNavContent>
 
@@ -140,7 +145,7 @@
         </li>
     </ul>
     
-    <div class="border p-3 pb-4 shadow" style="border-top: none !important; border-radius: 0 0 5px 5px">
+    <div class="app-callout app-callout--green p-3 pb-4 shadow">
         
         <div [ngbNavOutlet]="nav"></div>
 

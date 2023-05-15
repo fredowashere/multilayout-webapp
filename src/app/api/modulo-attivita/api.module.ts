@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { CommonsService } from './services/commons.service';
+import { DatiOperativiService } from './services/dati-operativi.service';
 import { OrdiniService } from './services/ordini.service';
 import { SegreteriaService } from './services/segreteria.service';
 import { StatoAvanzamentoService } from './services/stato-avanzamento.service';
@@ -20,6 +21,7 @@ import { UtentiService } from './services/utenti.service';
   declarations: [],
   providers: [
     CommonsService,
+    DatiOperativiService,
     OrdiniService,
     SegreteriaService,
     StatoAvanzamentoService,

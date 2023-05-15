@@ -26,11 +26,8 @@ export class LoginComponent {
   idAziendaUtenti: { [key: string]: { idUtente: number, nome: string, cognome: string }[] } = {};
   utenti: { idUtente: number, nome: string, cognome: string }[] = [];
   utentiFormatter = (user: any) => user.cognome + ' ' + user.nome;
-  utentiFilter = (term: string, utente: any) =>
-    (utente.cognome + ' ' + utente.nome).toLowerCase().includes(term.toLowerCase());
 
   rolesFormatter = (role: any) => role.name?.split('-').pop().trim();
-  rolesFilter = (term: string, role: any) => role.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
   roles = ROLES.map(role => ({ text: role, name: role }));
 
   fakeLoginForm!: FormGroup;

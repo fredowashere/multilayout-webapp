@@ -13,3 +13,13 @@ export function dedupe<T>(a: T[], key: string) {
 
     return Object.values(freqMap);
 }
+
+export function emptyArray(array: any[]) {
+    array.splice(0, array.length);
+    return array;
+}
+
+export function replaceItems(array: any[], newItems: any[]) {
+    emptyArray(array).push(...newItems);
+    return array;
+}

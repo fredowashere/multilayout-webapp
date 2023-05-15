@@ -1,63 +1,65 @@
-<div class="col-md-9 p-3 mt-3 mb-5 mx-auto">
+<div class="mt-3 mb-5 mx-auto" style="max-width: 900px">
+    <div class="app-callout app-callout--blue shadow ag-top-grad-blue">
 
-    <h5 class="mb-3">Dettaglio commessa</h5>
+        <h2 class="display-6 m-3 mb-0 ag-text-blue">Commessa {{ commessa?.codiceCommessa }}</h2>
 
-    <div class="ag-parent-resume app-callout app-callout--blue">
-    
-        <div class="flexgrid flexgrid--4">
-    
-            <div>
-                <div class="small text-muted">Cliente diretto</div>
+        <div class="ag-parent-resume">
+
+            <div class="flexgrid flexgrid--4">
+        
                 <div>
-                    {{ clienteDiretto?.descrizione }}
+                    <div class="small text-muted">Cliente diretto</div>
+                    <div>
+                        {{ clienteDiretto?.descrizione }}
+                    </div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Cliente finale</div>
+                    <div>
+                        {{ clienteFinale?.descrizione }}
+                    </div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Tipo attivita</div>
+                    <div>{{ commessa?.tipoAttivita?.id === 1 ? 'Opportunità' : 'Commessa interna' }}</div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Data inserimento</div>
+                    <div>{{ commessa?.dataInserimento | date:'yyyy-MM-dd' }}</div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Codice commessa</div>
+                    <div>{{ commessa?.codiceCommessa }}</div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Descrizione</div>
+                    <div>{{ commessa?.descrizione }}</div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Project manager</div>
+                    <div>{{ pm?.cognome + ' ' + pm?.nome }}</div>
+                </div>
+        
+                <div>
+                    <div class="small text-muted">Business manager</div>
+                    <div>{{ bm?.cognome + ' ' + bm?.nome }}</div>
                 </div>
             </div>
-    
-            <div>
-                <div class="small text-muted">Cliente finale</div>
-                <div>
-                    {{ clienteFinale?.descrizione }}
-                </div>
-            </div>
-    
-            <div>
-                <div class="small text-muted">Tipo attivita</div>
-                <div>{{ commessa?.tipoAttivita?.id === 1 ? 'Opportunità' : 'Commessa interna' }}</div>
-            </div>
-    
-            <div>
-                <div class="small text-muted">Data inserimento</div>
-                <div>{{ commessa?.dataInserimento | date:'yyyy-MM-dd' }}</div>
-            </div>
-    
-            <div>
-                <div class="small text-muted">Codice commessa</div>
-                <div>{{ commessa?.codiceCommessa }}</div>
-            </div>
-    
-            <div>
-                <div class="small text-muted">Descrizione</div>
-                <div>{{ commessa?.descrizione }}</div>
-            </div>
-    
-            <div>
-                <div class="small text-muted">Project manager</div>
-                <div>{{ pm?.cognome + ' ' + pm?.nome }}</div>
-            </div>
-    
-            <div>
-                <div class="small text-muted">Business manager</div>
-                <div>{{ bm?.cognome + ' ' + bm?.nome }}</div>
-            </div>
+        
+            <button
+                type="button"
+                class="btn btn-warning btn-lg shadow"
+                (click)="update()"
+            >
+                <i class="bi bi-pencil"></i>
+            </button>
         </div>
-    
-        <button
-            type="button"
-            class="btn btn-warning btn-lg shadow"
-            (click)="update()"
-        >
-            <i class="bi bi-pencil"></i>
-        </button>
     </div>
 </div>
 
@@ -168,16 +170,6 @@
             <app-fatture [idCommessa]="idCommessa"></app-fatture>
         </ng-template>
     </li>
-
-    <!-- <li [ngbNavItem]="8" class="attivita-nav__item">
-        <a ngbNavLink>
-            <i class="bi bi-8-square-fill"></i>
-            Straordinari
-        </a>
-        <ng-template ngbNavContent>
-            <app-straordinario [idCommessa]="idCommessa"></app-straordinario>
-        </ng-template>
-    </li> -->
 </ul>
 
 <div [ngbNavOutlet]="nav" class="mt-2"></div>

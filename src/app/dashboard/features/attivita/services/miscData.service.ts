@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import { BehaviorSubject, filter, switchMap, tap } from 'rxjs';
 import { Dettaglio, UtentiAnagrafica } from 'src/app/api/modulo-attivita/models';
-import { lookmap, singlifyLookmap } from 'src/app/utils/object';
+import { lookmap, replaceProps, singlifyLookmap } from 'src/app/utils/object';
 import { StatoAvanzamentoWrapService } from '../../stato-avanzamento/services/stato-avanzamento-wrap.service';
+import { CommessaService } from './commessa.service';
+import { CommessaSearchDto } from '../models/commessa';
+import { replaceItems } from 'src/app/utils/array';
 
 const idAziendaAzienda: Record<string, any> = {
     "1": { "acronimo": "S", "descrizione": "SCAI SPA", "idAzienda": 1 },
@@ -38,69 +41,121 @@ const idAziendaAzienda: Record<string, any> = {
     "33": { "acronimo": "META", "descrizione": "M.E.T.A. S.R.L.", "idAzienda": 33 }
 };
 
+interface RefreshState { utenti: boolean, commesse: boolean, clienti: boolean };
+
 @Injectable({
     providedIn: 'root'
 })
 export class MiscDataService {
+    
+    private refresh$ = new BehaviorSubject<RefreshState>({ utenti: true, commesse: true, clienti: true });
 
     // Lists plus lookmaps
-    clienti!: Dettaglio[];
-    idClienteCliente!: { [key: number]: Dettaglio };
+    utenti: UtentiAnagrafica[] = [];
+    idUtenteUtente: { [key: number]: UtentiAnagrafica } = {}; 
 
-    utenti!: UtentiAnagrafica[];
-    idUtenteUtente!: { [key: number]: UtentiAnagrafica }; 
+    pmList: UtentiAnagrafica[] = [];
+    idPmPm: { [key: number]: UtentiAnagrafica } = {};
 
-    pmList!: UtentiAnagrafica[];
-    idPmPm!: { [key: number]: UtentiAnagrafica };
+    bmList: UtentiAnagrafica[] = [];
+    idBmBm: { [key: number]: UtentiAnagrafica } = {};
 
-    bmList!: UtentiAnagrafica[];
-    idBmBm!: { [key: number]: UtentiAnagrafica };
+    commesse: CommessaSearchDto[] = [];
+    idCommessaCommessa: { [key: number]: CommessaSearchDto } = {};
+
+    clienti: Dettaglio[] = [];
+    idClienteCliente: { [key: number]: Dettaglio } = {};
 
     idAziendaAzienda = idAziendaAzienda;
 
     constructor(
-        private statoAvanzamentoWrap: StatoAvanzamentoWrapService
+        private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
+        private commesseService: CommessaService
     ) {
 
-        statoAvanzamentoWrap
-            .getClienti$({ totali: true })
+        this.refresh$
             .pipe(
-                tap(clienti => {
-                    this.clienti = clienti;
-                    this.idClienteCliente = singlifyLookmap(lookmap("id", clienti));
-                })
-            )
-            .subscribe();
-
-        statoAvanzamentoWrap
-            .getUtenti$()
-            .pipe(
+                filter(rs => rs.utenti),
+                switchMap(() =>
+                    statoAvanzamentoWrap.getUtenti$()
+                ),
                 tap(utenti => {
-                    this.utenti = utenti;
-                    this.idUtenteUtente = singlifyLookmap(lookmap("idUtente", utenti));
+                    replaceItems(this.utenti, utenti);
+                    replaceProps(
+                        this.idUtenteUtente,
+                        singlifyLookmap(lookmap("idUtente", utenti))
+                    );
                 })
             )
             .subscribe();
 
-        statoAvanzamentoWrap
-            .getUtenti$({ IsPm: true, IsBm: false })
+        this.refresh$
             .pipe(
+                filter(rs => rs.utenti),
+                switchMap(() =>
+                    statoAvanzamentoWrap.getUtenti$({ IsPm: true, IsBm: false })
+                ),
                 tap(pmList => {
-                    this.pmList = pmList;
-                    this.idPmPm = singlifyLookmap(lookmap("idUtente", pmList));
+                    replaceItems(this.pmList, pmList);
+                    replaceProps(
+                        this.idPmPm,
+                        singlifyLookmap(lookmap("idUtente", pmList))
+                    );
                 })
             )
             .subscribe();
 
-        statoAvanzamentoWrap
-            .getUtenti$({ IsPm: false, IsBm: true })
+        this.refresh$
             .pipe(
+                filter(rs => rs.utenti),
+                switchMap(() =>
+                    statoAvanzamentoWrap.getUtenti$({ IsPm: false, IsBm: true })
+                ),
                 tap(bmList => {
-                    this.bmList = bmList;
-                    this.idBmBm = singlifyLookmap(lookmap("idUtente", bmList));
+                    replaceItems(this.bmList, bmList);
+                    replaceProps(
+                        this.idBmBm,
+                        singlifyLookmap(lookmap("idUtente", bmList))
+                    );
                 })
             )
             .subscribe();
+
+        this.refresh$
+            .pipe(
+                filter(rs => rs.commesse),
+                switchMap(() =>
+                    commesseService.getAllCommesse$()
+                ),
+                tap(commesse => {
+                    replaceItems(this.commesse, commesse);
+                    replaceProps(
+                        this.idCommessaCommessa,
+                        singlifyLookmap(lookmap("id", commesse))
+                    );
+                })
+            )
+            .subscribe();
+
+        this.refresh$
+            .pipe(
+                filter(rs => rs.clienti),
+                switchMap(() =>
+                    statoAvanzamentoWrap.getClienti$({ totali: true })
+                ),
+                tap(clienti => {
+                    replaceItems(this.clienti, clienti);
+                    replaceProps(
+                        this.idClienteCliente,
+                        singlifyLookmap(lookmap("id", clienti))
+                    );
+                })
+            )
+            .subscribe();
+    }
+
+    refresh(state: RefreshState) {
+        this.refresh$.next(state);
     }
 
 }
