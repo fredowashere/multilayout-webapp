@@ -26,6 +26,7 @@ export class MonthpickerComponent {
   @Input("placeholder") placeholder = "yyyy-mm";
   @Input("helper") helper?: string;
   @Input("disabled") disabled = false;
+  @Input("floatingLabel") floatingLabel = false;
 
   minDate?: MonthpickerStruct | null;
   @Input("minDate")
