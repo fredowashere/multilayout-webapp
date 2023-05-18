@@ -12,14 +12,14 @@
                 min="2018-01-01"
                 max="2018-12-31"
                 helper="Min 2018-01-01, max 2018-12-31"
-                [ngControl]="date"
+                [ngControl]="date1"
             ></app-input>
 
             <app-input
                 type="time"
                 name="date"
                 label="Time"
-                [ngControl]="date"
+                [ngControl]="date2"
             ></app-input>
 
             <app-input
@@ -29,12 +29,30 @@
                 min="2018-06-07T00:00"
                 max="2018-06-14T00:00"
                 helper="Min 2018-06-07 00:00, max 2018-06-14 00:00"
-                [ngControl]="date"
+                [ngControl]="date3"
             ></app-input>
+
+            <div>
+
+                <app-monthpicker
+                    name="monthpicker"
+                    label="Monthpicker"
+                    helper="minDate = { year: 2020, month: 6 }, maxDate = { year: 2026, month: 6 }"
+                    [minDate]="{ year: 2020, month: 6 }"
+                    [maxDate]="{ year: 2026, month: 6 }"
+                    [ngControl]="month"
+                ></app-monthpicker>
+            
+                <div class="card my-2" style="border-color: #eee;">
+                    <div class="card-body">
+                        {{ month.value | json }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div>
+    <div class="mb-5">
         <h5 class="mb-3">Floating labels</h5>
 
         <div class="flexgrid flexgrid--3">
@@ -46,7 +64,7 @@
                 min="2018-01-01"
                 max="2018-12-31"
                 helper="Min 2018-01-01, max 2018-12-31"
-                [ngControl]="date"
+                [ngControl]="dateFloating1"
                 [floatingLabel]="true"
             ></app-input>
 
@@ -54,7 +72,7 @@
                 type="time"
                 name="date"
                 label="Time"
-                [ngControl]="date"
+                [ngControl]="dateFloating2"
                 [floatingLabel]="true"
             ></app-input>
 
@@ -65,29 +83,28 @@
                 min="2018-06-07T00:00"
                 max="2018-06-14T00:00"
                 helper="Min 2018-06-07 00:00, max 2018-06-14 00:00"
-                [ngControl]="date"
+                [ngControl]="dateFloating3"
                 [floatingLabel]="true"
             ></app-input>
-        </div>
-    </div>
 
-    <div>
+            <div>
 
-        <app-monthpicker
-            name="monthpicker"
-            label="Monthpicker"
-            helper="minDate = { year: 2020, month: 6 }, maxDate = { year: 2026, month: 6 }"
-            [minDate]="{ year: 2020, month: 6 }"
-            [maxDate]="{ year: 2026, month: 6 }"
-            [ngControl]="month"
-        ></app-monthpicker>
-
-        <div class="card my-2">
-            <div class="card-body">
-                {{ month.value | json }}
+                <app-monthpicker
+                    name="monthpicker"
+                    label="Monthpicker"
+                    helper="minDate = { year: 2020, month: 6 }, maxDate = { year: 2026, month: 6 }"
+                    [minDate]="{ year: 2020, month: 6 }"
+                    [maxDate]="{ year: 2026, month: 6 }"
+                    [ngControl]="monthFloating"
+                    [floatingLabel]="true"
+                ></app-monthpicker>
+            
+                <div class="card my-2" style="border-color: #eee;">
+                    <div class="card-body">
+                        {{ monthFloating.value | json }}
+                    </div>
+                </div>
             </div>
         </div>
-
-        <p>For the time being <code>app-monthpicker</code> doesn't support the <code>floatingLabel</code> attribute</p>
     </div>
 </div>

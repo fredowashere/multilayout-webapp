@@ -1,7 +1,23 @@
+<ng-template #mpInputTemplate>
+    <input
+        #mp
+        class="app-month-picker__input form-control"
+        (focus)="openDropdown($event); blur()"
+        (keypress)="$event.preventDefault()"
+        [class.form-control-sm]="size === 'sm'"
+        [class.form-control-lg]="size === 'lg'"
+        [class.pseudo-disabled]="disabled"
+        [class.is-invalid]="touched && ngControl.errors"
+        [name]="name"
+        [placeholder]="placeholder"
+        [formControl]="ngControl"
+    >
+</ng-template>
+
 <div #dd="ngbDropdown" ngbDropdown>
 
     <label
-        *ngIf="label"
+        *ngIf="label && !floatingLabel"
         class="form-label"
         (click)="openDropdown($event)"
     >
@@ -15,21 +31,17 @@
             class="app-monthpicker__toggle"
             ngbDropdownToggle
         ></div>
-    
-        <input
-            #mp
-            class="app-month-picker__input form-control"
-            (focus)="openDropdown($event); blur()"
-            (keypress)="$event.preventDefault()"
-            [class.form-control-sm]="size === 'sm'"
-            [class.form-control-lg]="size === 'lg'"
-            [class.pseudo-disabled]="disabled"
-            [class.is-invalid]="touched && ngControl.errors"
-            [name]="name"
-            [placeholder]="placeholder"
-            [formControl]="ngControl"
-        >
 
+        <ng-container *ngIf="floatingLabel; else fixedLabel">
+            <div class="form-floating">
+                <ng-container *ngTemplateOutlet="mpInputTemplate"></ng-container>
+                <label>{{ label }}</label>
+            </div>
+        </ng-container>
+        <ng-template #fixedLabel>
+            <ng-container *ngTemplateOutlet="mpInputTemplate"></ng-container>
+        </ng-template>
+    
         <i
             *ngIf="ngControl.value"
             class="app-monthpicker__reset-icon bi bi-x-lg"

@@ -11,9 +11,17 @@ import { SharedModule } from 'src/app/shared/shared.module';
 })
 export class AppdDate {
 
-    date = new FormControl();
+    date1 = new FormControl();
+    date2 = new FormControl();
+    date3 = new FormControl();
+
+	dateFloating1 = new FormControl();
+    dateFloating2 = new FormControl();
+    dateFloating3 = new FormControl();
 
 	month = new FormControl(null, [Validators.required]);
+
+	monthFloating = new FormControl(null, [Validators.required]);
 }
 
 
