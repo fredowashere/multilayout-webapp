@@ -9,6 +9,8 @@ import { enforceMinMax } from 'src/app/utils/input';
 import { BUSINESS_MANAGER } from 'src/app/models/user';
 import { jsonCopy } from 'src/app/utils/json';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
+import { MonthpickerStruct } from 'src/app/shared/components/monthpicker/monthpicker.component';
+import { structToIso } from 'src/app/utils/date';
 
 interface Tab {
   id: number;
@@ -91,6 +93,11 @@ export class StatoAvanzamentoComponent {
     return this.dataFineCtrl.value;
   }
 
+  meseCtrl = new FormControl<MonthpickerStruct | null>(null);
+  get mese() {
+    return this.meseCtrl.value;
+  }
+
   constructor(
     private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
     private toastService: ToastService
@@ -114,7 +121,8 @@ export class StatoAvanzamentoComponent {
             stato: this.statoCtrl.value || undefined,
             avanzamento: this.statoAvanzamentoCtrl.value || undefined,
             dataInizio: this.dataInizio,
-            dataFine: this.dataFine
+            dataFine: this.dataFine,
+            mese: this.mese ? structToIso(this.mese) : undefined
           })
         ),
         tap(searchParam =>
@@ -306,6 +314,7 @@ export class StatoAvanzamentoComponent {
     this.statoAvanzamentoCtrl.setValue("");
     this.dataInizioCtrl.reset();
     this.dataFineCtrl.reset();
+    this.meseCtrl.reset();
   }
 
   updateResults(avanzamento: SottocommessaAvanzamento[]) {
@@ -387,16 +396,6 @@ export class StatoAvanzamentoComponent {
         )
       )
     );
-  }
-
-  salvaDettagliSelezionati(dettagli: SottocommessaAvanzamentoDettaglio[]) {
-    console.log(dettagli);
-    this.toastService.show("Non implementato", { classname: 'bg-warning' });
-  }
-
-  chiudiDettagliSelezionati(dettagli: SottocommessaAvanzamentoDettaglio[]) {
-    console.log(dettagli);
-    this.toastService.show("Non implementato", { classname: 'bg-warning' });
   }
 
   salvaDettaglio(dettaglio: SottocommessaAvanzamentoDettaglio) {

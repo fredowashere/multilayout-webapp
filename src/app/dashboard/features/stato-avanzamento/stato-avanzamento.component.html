@@ -6,7 +6,7 @@
 
             <div class="col-md-8 mx-auto">
 
-                <div class="flexgrid flexgrid--3">
+                <div class="flexgrid flexgrid--2">
 
                     <app-input
                         #clienteAutocomplete
@@ -28,6 +28,16 @@
                         [options]="stati"
                         [floatingLabel]="true"
                     ></app-input>
+                    
+                </div>
+                
+                <div class="flexgrid flexgrid--3">
+                    <app-monthpicker
+                        name="mese"
+                        label="Mese"                        
+                        [ngControl]="meseCtrl"  
+                        [floatingLabel]="true"        
+                    ></app-monthpicker>
 
                     <app-input
                         type="select"
@@ -36,9 +46,9 @@
                         [ngControl]="statoAvanzamentoCtrl"
                         [options]="statiAvanzamento"
                         [floatingLabel]="true"
-                    ></app-input>
+                    ></app-input>                   
                 </div>
-                
+
                 <div class="flexgrid flexgrid--3">
 
                     <app-input
@@ -86,26 +96,6 @@
                         [formatter]="pmFormatter"
                         [template]="pmTmpl"
                         [ngControl]="bmCtrl"
-                        [floatingLabel]="true"
-                    ></app-input>
-                </div>
-
-                <div class="flexgrid flexgrid--3">
-                    <app-input
-                        type="date"
-                        name="dataInizio"
-                        label="Data inizio"
-                        [max]="dataFine"
-                        [ngControl]="dataInizioCtrl"
-                        [floatingLabel]="true"
-                    ></app-input>
-
-                    <app-input
-                        type="date"
-                        name="dataFine"
-                        label="Data fine"
-                        [min]="dataInizio"
-                        [ngControl]="dataFineCtrl"
                         [floatingLabel]="true"
                     ></app-input>
                 </div>
@@ -199,38 +189,12 @@
 
                             <ng-template #rowExpand let-avanzamento>
                                 <div class="bg-white py-5 px-4" style="box-shadow: inset 0 0 9px 3px #0001;">
-
-                                    <div
-                                        *ngIf="avanzamento.dettaglio.length"
-                                        class="d-flex gap-3 mb-3"
-                                    >
-
-                                        <button
-                                            class="btn btn-primary shadow"
-                                            [disabled]="dt2.selectedRows.length === 0"
-                                            (click)="salvaDettagliSelezionati(dt2.selectedRows)"
-                                        >
-                                            <i class="bi bi-save pe-2"></i>
-                                            Salva selezionate
-                                        </button>
-            
-                                        <button
-                                            class="btn btn-danger shadow"
-                                            [disabled]="dt2.selectedRows.length === 0"
-                                            (click)="chiudiDettagliSelezionati(dt2.selectedRows)"
-                                        >
-                                            <i class="bi bi-x-circle pe-2"></i>
-                                            Chiudi selezionate
-                                        </button>
-                                    </div>
-
                                     <app-table
                                         #dt2
                                         class="shadow"
                                         [thead]="thead2"
                                         [tbody]="tbody2"
                                         [items]="avanzamento.dettaglio"
-                                        [selectable]="true"
                                         maxHeight="65vh"
                                         [stickyHead]="true"
                                     >
@@ -239,6 +203,7 @@
                                             <th sortable="meseValidazione" (sort)="dt2.sort($any($event))">Mese</th>
                                             <th class="text-end" sortable="avanzamentoTotale" (sort)="dt2.sort($any($event))">Mese %</th>
                                             <th class="text-end" sortable="avanzamentoSommatorio" (sort)="dt2.sort($any($event))">Totale %</th>
+                                            <th class="text-end" sortable="costoCompetenza" (sort)="dt2.sort($any($event))">Costo Competenza</th>
                                             <th class="text-end" sortable="ricavoCompetenza" (sort)="dt2.sort($any($event))">Ricavo Competenza</th>
                                             <th class="text-center" sortable="statoValidazione.id" (sort)="dt2.sort($any($event))">Stato</th>
                                             <th class="text-center"></th>
@@ -283,7 +248,8 @@
                                                 </div>
                                             </td>
                                             <td class="text-end">{{ dettaglio.avanzamentoSommatorio | percent }}</td>
-                                            <td class="text-end">{{ dettaglio.ricavoCompetenza | currency:"EUR":"symbol" }}</td>
+                                            <td class="text-end">{{ dettaglio.costoCompetenza | currency:"EUR" }}</td>
+                                            <td class="text-end">{{ dettaglio.ricavoCompetenza | currency:"EUR" }}</td>
                                             <td class="text-center">
                                                 <fieldset
                                                     class="d-flex flex-wrap justify-content-center gap-2"
