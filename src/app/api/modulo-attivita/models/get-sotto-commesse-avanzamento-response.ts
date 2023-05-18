@@ -3,6 +3,7 @@
 import { Commessa } from './commessa';
 import { Dettaglio } from './dettaglio';
 import { DettaglioAvanzamento } from './dettaglio-avanzamento';
+import { SottoCommessa } from './sotto-commessa';
 import { UtentiAnagrafica } from './utenti-anagrafica';
 export interface GetSottoCommesseAvanzamentoResponse {
   businessManager?: UtentiAnagrafica;
@@ -13,6 +14,6 @@ export interface GetSottoCommesseAvanzamentoResponse {
   dataInizio?: null | string;
   dettaglioAvanzamento?: null | Array<DettaglioAvanzamento>;
   referente?: UtentiAnagrafica;
-  sottoCommessa?: Commessa;
-  stato?: number;
+  sottoCommessa?: SottoCommessa;
+  stato?: null | number;
 }

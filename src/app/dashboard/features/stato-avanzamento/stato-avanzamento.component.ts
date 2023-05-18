@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { catchError, combineLatest, filter, map, startWith, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
-import { Dettaglio, EnumStatiChiusura, GetSottoCommessePerReferenteResponse, UtentiAnagrafica } from 'src/app/api/modulo-attivita/models';
+import { Dettaglio, EnumAvanzamento, EnumStatiChiusura, GetSottoCommessePerReferenteResponse, UtentiAnagrafica } from 'src/app/api/modulo-attivita/models';
 import { StatoAvanzamentoWrapService } from 'src/app/dashboard/features/stato-avanzamento/services/stato-avanzamento-wrap.service';
 import { GetAvanzamentoParam, SottocommessaAvanzamento, SottocommessaAvanzamentoDettaglio } from 'src/app/dashboard/features/stato-avanzamento/models/stato-avanzamento.models';
 import { ToastService } from 'src/app/services/toast.service';
@@ -77,13 +77,27 @@ export class StatoAvanzamentoComponent {
     { text: 'Vistato', value: 3 },
   ];
 
+  statoAvanzamentoCtrl = new FormControl<string>("");
+  statiAvanzamento = [["", "Tutti"], ...Object.entries(EnumAvanzamento)]
+    .map(([value, text]) => ({text, value}));
+  
+  dataInizioCtrl = new FormControl();
+  get dataInizio() {
+    return this.dataInizioCtrl.value;
+  }
+
+  dataFineCtrl = new FormControl();
+  get dataFine() {
+    return this.dataFineCtrl.value;
+  }
+
   constructor(
     private statoAvanzamentoWrap: StatoAvanzamentoWrapService,
     private toastService: ToastService
   ) { }
   
   ngOnInit() {
-
+    
     this.initializeAutocompleteValues();
 
     this.setupAutocompletes();
@@ -97,7 +111,10 @@ export class StatoAvanzamentoComponent {
             idBusinessManager: this.idBm,
             idSottoCommessa: this.idSottocommessa,
             idCliente: this.idCliente,
-            stato: this.statoCtrl.value!
+            stato: this.statoCtrl.value || undefined,
+            avanzamento: this.statoAvanzamentoCtrl.value || undefined,
+            dataInizio: this.dataInizio,
+            dataFine: this.dataFine
           })
         ),
         tap(searchParam =>
@@ -286,6 +303,9 @@ export class StatoAvanzamentoComponent {
     this.initializeAutocompleteValues();
     
     this.statoCtrl.setValue(0);
+    this.statoAvanzamentoCtrl.setValue("");
+    this.dataInizioCtrl.reset();
+    this.dataFineCtrl.reset();
   }
 
   updateResults(avanzamento: SottocommessaAvanzamento[]) {

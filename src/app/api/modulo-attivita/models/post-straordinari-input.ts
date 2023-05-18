@@ -9,4 +9,8 @@ export interface PostStraordinariInput {
   idTerzeParti?: null | number;
   inizio?: string;
   note?: null | string;
+  straordinarioFestivoCliente?: null | number;
+  straordinarioNotturnoCliente?: null | number;
+  straordinarioOrdinarioCliente?: null | number;
+  straordinarioSabatoCliente?: null | number;
 }

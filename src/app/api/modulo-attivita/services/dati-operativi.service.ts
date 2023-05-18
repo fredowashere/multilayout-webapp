@@ -9,11 +9,10 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { GetDiariaUtenteResponse } from '../models/get-diaria-utente-response';
+import { GetDiarieUtentiResponse } from '../models/get-diarie-utenti-response';
 import { GetReperibilitaOperativiStoricoResponse } from '../models/get-reperibilita-operativi-storico-response';
 import { GetStraordinariOperativiStoricoResponse } from '../models/get-straordinari-operativi-storico-response';
-import { PostDiarieUtentiBody } from '../models/post-diarie-utenti-body';
-import { PostDiarieUtentiResponse } from '../models/post-diarie-utenti-response';
+import { PostDiariaUtentiInput } from '../models/post-diaria-utenti-input';
 import { PostReperibilitaOperativiStoricoBody } from '../models/post-reperibilita-operativi-storico-body';
 import { PostReperibilitaOperativiStoricoResponse } from '../models/post-reperibilita-operativi-storico-response';
 import { PostStraordinariOperativiStoricoBody } from '../models/post-straordinari-operativi-storico-body';
@@ -261,27 +260,29 @@ export class DatiOperativiService extends BaseService {
   }
 
   /**
-   * Path part for operation getDiariaUtente
+   * Path part for operation getDiarieUtenti
    */
-  static readonly GetDiariaUtentePath = '/dati-operativi/utente/{idUtente}/diaria-persona/attivita/{idAttivita}';
+  static readonly GetDiarieUtentiPath = '/dati-operativi/azienda/{idAzienda}/utente/{idUtente}/attivita/{idAttivita}/diarie';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getDiariaUtente()` instead.
+   * To access only the response body, use `getDiarieUtenti()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getDiariaUtente$Response(params: {
+  getDiarieUtenti$Response(params: {
     idUtente: number;
+    idAzienda: number;
     idAttivita: number;
   },
   context?: HttpContext
 
-): Observable<StrictHttpResponse<Array<GetDiariaUtenteResponse>>> {
+): Observable<StrictHttpResponse<Array<GetDiarieUtentiResponse>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, DatiOperativiService.GetDiariaUtentePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, DatiOperativiService.GetDiarieUtentiPath, 'get');
     if (params) {
       rb.path('idUtente', params.idUtente, {});
+      rb.path('idAzienda', params.idAzienda, {});
       rb.path('idAttivita', params.idAttivita, {});
     }
 
@@ -292,34 +293,35 @@ export class DatiOperativiService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<GetDiariaUtenteResponse>>;
+        return r as StrictHttpResponse<Array<GetDiarieUtentiResponse>>;
       })
     );
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getDiariaUtente$Response()` instead.
+   * To access the full response (for headers, for example), `getDiarieUtenti$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getDiariaUtente(params: {
+  getDiarieUtenti(params: {
     idUtente: number;
+    idAzienda: number;
     idAttivita: number;
   },
   context?: HttpContext
 
-): Observable<Array<GetDiariaUtenteResponse>> {
+): Observable<Array<GetDiarieUtentiResponse>> {
 
-    return this.getDiariaUtente$Response(params,context).pipe(
-      map((r: StrictHttpResponse<Array<GetDiariaUtenteResponse>>) => r.body as Array<GetDiariaUtenteResponse>)
+    return this.getDiarieUtenti$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Array<GetDiarieUtentiResponse>>) => r.body as Array<GetDiarieUtentiResponse>)
     );
   }
 
   /**
    * Path part for operation postDiarieUtenti
    */
-  static readonly PostDiarieUtentiPath = '/dati-operativi/utente/{idUtente}/diaria-persona/attivita/{idAttivita}';
+  static readonly PostDiarieUtentiPath = '/dati-operativi/azienda/{idAzienda}/utente/{idUtente}/attivita/{idAttivita}/diaria/{idDiaria}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -328,18 +330,22 @@ export class DatiOperativiService extends BaseService {
    * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
   postDiarieUtenti$Response(params: {
+    idAzienda: number;
     idUtente: number;
     idAttivita: number;
-    body?: PostDiarieUtentiBody
+    idDiaria: number;
+    body?: PostDiariaUtentiInput
   },
   context?: HttpContext
 
-): Observable<StrictHttpResponse<PostDiarieUtentiResponse>> {
+): Observable<StrictHttpResponse<any>> {
 
     const rb = new RequestBuilder(this.rootUrl, DatiOperativiService.PostDiarieUtentiPath, 'post');
     if (params) {
+      rb.path('idAzienda', params.idAzienda, {});
       rb.path('idUtente', params.idUtente, {});
       rb.path('idAttivita', params.idAttivita, {});
+      rb.path('idDiaria', params.idDiaria, {});
       rb.body(params.body, 'application/*+json');
     }
 
@@ -350,7 +356,7 @@ export class DatiOperativiService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<PostDiarieUtentiResponse>;
+        return r as StrictHttpResponse<any>;
       })
     );
   }
@@ -362,16 +368,18 @@ export class DatiOperativiService extends BaseService {
    * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
   postDiarieUtenti(params: {
+    idAzienda: number;
     idUtente: number;
     idAttivita: number;
-    body?: PostDiarieUtentiBody
+    idDiaria: number;
+    body?: PostDiariaUtentiInput
   },
   context?: HttpContext
 
-): Observable<PostDiarieUtentiResponse> {
+): Observable<any> {
 
     return this.postDiarieUtenti$Response(params,context).pipe(
-      map((r: StrictHttpResponse<PostDiarieUtentiResponse>) => r.body as PostDiarieUtentiResponse)
+      map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }
 

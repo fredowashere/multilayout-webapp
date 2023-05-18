@@ -31,7 +31,7 @@ export class SegreteriaService extends BaseService {
   /**
    * Path part for operation getReperibilitaCommesseTotali
    */
-  static readonly GetReperibilitaCommesseTotaliPath = '/segreteria/azienda/{idAzienda}/reperibilita/{IdSottoCommessa}';
+  static readonly GetReperibilitaCommesseTotaliPath = '/segreteria/azienda/{idAzienda}/reperibilita/{idSottoCommessa}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -41,7 +41,7 @@ export class SegreteriaService extends BaseService {
    */
   getReperibilitaCommesseTotali$Response(params: {
     idAzienda: number;
-    IdSottoCommessa: number;
+    idSottoCommessa: number;
   },
   context?: HttpContext
 
@@ -50,7 +50,7 @@ export class SegreteriaService extends BaseService {
     const rb = new RequestBuilder(this.rootUrl, SegreteriaService.GetReperibilitaCommesseTotaliPath, 'get');
     if (params) {
       rb.path('idAzienda', params.idAzienda, {});
-      rb.path('IdSottoCommessa', params.IdSottoCommessa, {});
+      rb.path('idSottoCommessa', params.idSottoCommessa, {});
     }
 
     return this.http.request(rb.build({
@@ -73,7 +73,7 @@ export class SegreteriaService extends BaseService {
    */
   getReperibilitaCommesseTotali(params: {
     idAzienda: number;
-    IdSottoCommessa: number;
+    idSottoCommessa: number;
   },
   context?: HttpContext
 
@@ -81,6 +81,69 @@ export class SegreteriaService extends BaseService {
 
     return this.getReperibilitaCommesseTotali$Response(params,context).pipe(
       map((r: StrictHttpResponse<Array<GetReperibilitaCommesseTotaliResponse>>) => r.body as Array<GetReperibilitaCommesseTotaliResponse>)
+    );
+  }
+
+  /**
+   * Path part for operation postReperibilitaCommesse
+   */
+  static readonly PostReperibilitaCommessePath = '/segreteria/azienda/{idAzienda}/reperibilita/{idLegameReperibilita}';
+
+  /**
+   * Abilitazione delle reperibilità.
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postReperibilitaCommesse()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  postReperibilitaCommesse$Response(params: {
+    idAzienda: number;
+    idLegameReperibilita: number;
+    body?: PostReperibilitaCommesseInput
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<number>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SegreteriaService.PostReperibilitaCommessePath, 'post');
+    if (params) {
+      rb.path('idAzienda', params.idAzienda, {});
+      rb.path('idLegameReperibilita', params.idLegameReperibilita, {});
+      rb.body(params.body, 'application/*+json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: parseFloat(String((r as HttpResponse<any>).body)) }) as StrictHttpResponse<number>;
+      })
+    );
+  }
+
+  /**
+   * Abilitazione delle reperibilità.
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `postReperibilitaCommesse$Response()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  postReperibilitaCommesse(params: {
+    idAzienda: number;
+    idLegameReperibilita: number;
+    body?: PostReperibilitaCommesseInput
+  },
+  context?: HttpContext
+
+): Observable<number> {
+
+    return this.postReperibilitaCommesse$Response(params,context).pipe(
+      map((r: StrictHttpResponse<number>) => r.body as number)
     );
   }
 
@@ -141,70 +204,13 @@ export class SegreteriaService extends BaseService {
   }
 
   /**
-   * Path part for operation postReperibilitaCommesse
-   */
-  static readonly PostReperibilitaCommessePath = '/segreteria/azienda/{idAzienda}/reperibilita/{idLegameReperibilita}';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postReperibilitaCommesse()` instead.
-   *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
-   */
-  postReperibilitaCommesse$Response(params: {
-    idLegameReperibilita: number;
-    idAzienda: number;
-    body?: PostReperibilitaCommesseInput
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<number>> {
-
-    const rb = new RequestBuilder(this.rootUrl, SegreteriaService.PostReperibilitaCommessePath, 'post');
-    if (params) {
-      rb.path('idLegameReperibilita', params.idLegameReperibilita, {});
-      rb.path('idAzienda', params.idAzienda, {});
-      rb.body(params.body, 'application/*+json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json',
-      context: context
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: parseFloat(String((r as HttpResponse<any>).body)) }) as StrictHttpResponse<number>;
-      })
-    );
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `postReperibilitaCommesse$Response()` instead.
-   *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
-   */
-  postReperibilitaCommesse(params: {
-    idLegameReperibilita: number;
-    idAzienda: number;
-    body?: PostReperibilitaCommesseInput
-  },
-  context?: HttpContext
-
-): Observable<number> {
-
-    return this.postReperibilitaCommesse$Response(params,context).pipe(
-      map((r: StrictHttpResponse<number>) => r.body as number)
-    );
-  }
-
-  /**
    * Path part for operation postStraordinariTerzeParti
    */
   static readonly PostStraordinariTerzePartiPath = '/segreteria/azienda/{idAzienda}/straordinari/{idLegameStraordinari}';
 
   /**
+   * Abilitazione straordinari.
+   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postStraordinariTerzeParti()` instead.
    *
@@ -239,6 +245,8 @@ export class SegreteriaService extends BaseService {
   }
 
   /**
+   * Abilitazione straordinari.
+   *
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `postStraordinariTerzeParti$Response()` instead.
    *
@@ -272,8 +280,8 @@ export class SegreteriaService extends BaseService {
   getGiorniPerUtente$Response(params: {
     idAzienda: number;
     idSottoCommessa: number;
-    IdUtente?: number;
-    Nome?: string;
+    idUtente?: number;
+    nome?: string;
     Page?: number;
     PageSize?: number;
   },
@@ -285,8 +293,8 @@ export class SegreteriaService extends BaseService {
     if (params) {
       rb.path('idAzienda', params.idAzienda, {});
       rb.path('idSottoCommessa', params.idSottoCommessa, {});
-      rb.query('IdUtente', params.IdUtente, {});
-      rb.query('Nome', params.Nome, {});
+      rb.query('idUtente', params.idUtente, {});
+      rb.query('nome', params.nome, {});
       rb.query('Page', params.Page, {});
       rb.query('PageSize', params.PageSize, {});
     }
@@ -312,8 +320,8 @@ export class SegreteriaService extends BaseService {
   getGiorniPerUtente(params: {
     idAzienda: number;
     idSottoCommessa: number;
-    IdUtente?: number;
-    Nome?: string;
+    idUtente?: number;
+    nome?: string;
     Page?: number;
     PageSize?: number;
   },

@@ -6,7 +6,7 @@
 
             <div class="col-md-8 mx-auto">
 
-                <div class="flexgrid flexgrid--2">
+                <div class="flexgrid flexgrid--3">
 
                     <app-input
                         #clienteAutocomplete
@@ -26,6 +26,15 @@
                         label="Stato"
                         [ngControl]="statoCtrl"
                         [options]="stati"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="select"
+                        name="statoAvanzamento"
+                        label="Stato avanzamento"
+                        [ngControl]="statoAvanzamentoCtrl"
+                        [options]="statiAvanzamento"
                         [floatingLabel]="true"
                     ></app-input>
                 </div>
@@ -77,6 +86,26 @@
                         [formatter]="pmFormatter"
                         [template]="pmTmpl"
                         [ngControl]="bmCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+                </div>
+
+                <div class="flexgrid flexgrid--3">
+                    <app-input
+                        type="date"
+                        name="dataInizio"
+                        label="Data inizio"
+                        [max]="dataFine"
+                        [ngControl]="dataInizioCtrl"
+                        [floatingLabel]="true"
+                    ></app-input>
+
+                    <app-input
+                        type="date"
+                        name="dataFine"
+                        label="Data fine"
+                        [min]="dataInizio"
+                        [ngControl]="dataFineCtrl"
                         [floatingLabel]="true"
                     ></app-input>
                 </div>

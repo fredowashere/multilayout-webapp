@@ -11,6 +11,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { AvanzamentiMensili } from '../models/avanzamenti-mensili';
 import { Dettaglio } from '../models/dettaglio';
+import { EnumAvanzamento } from '../models/enum-avanzamento';
 import { GetSottoCommesseAvanzamentoResponse } from '../models/get-sotto-commesse-avanzamento-response';
 import { GetSottoCommessePerReferenteResponse } from '../models/get-sotto-commesse-per-referente-response';
 import { GetSottoCommesseResponse } from '../models/get-sotto-commesse-response';
@@ -116,14 +117,16 @@ export class StatoAvanzamentoService extends BaseService {
    */
   getSottoCommesseAvanzamento$Response(params: {
     idAzienda: number;
+    dataInizio?: string;
+    dataFine?: string;
+    stato?: number;
+    avanzamento?: EnumAvanzamento;
+    mese?: string;
     idReferente?: number;
     idBusinessManager?: number;
     idCliente?: number;
     idCommessa?: number;
     idSottoCommessa?: number;
-    dataInizio?: string;
-    dataFine?: string;
-    stato?: number;
   },
   context?: HttpContext
 
@@ -132,14 +135,16 @@ export class StatoAvanzamentoService extends BaseService {
     const rb = new RequestBuilder(this.rootUrl, StatoAvanzamentoService.GetSottoCommesseAvanzamentoPath, 'get');
     if (params) {
       rb.path('idAzienda', params.idAzienda, {});
+      rb.query('dataInizio', params.dataInizio, {});
+      rb.query('dataFine', params.dataFine, {});
+      rb.query('stato', params.stato, {});
+      rb.query('avanzamento', params.avanzamento, {});
+      rb.query('mese', params.mese, {});
       rb.query('idReferente', params.idReferente, {});
       rb.query('idBusinessManager', params.idBusinessManager, {});
       rb.query('idCliente', params.idCliente, {});
       rb.query('idCommessa', params.idCommessa, {});
       rb.query('idSottoCommessa', params.idSottoCommessa, {});
-      rb.query('dataInizio', params.dataInizio, {});
-      rb.query('dataFine', params.dataFine, {});
-      rb.query('stato', params.stato, {});
     }
 
     return this.http.request(rb.build({
@@ -162,14 +167,16 @@ export class StatoAvanzamentoService extends BaseService {
    */
   getSottoCommesseAvanzamento(params: {
     idAzienda: number;
+    dataInizio?: string;
+    dataFine?: string;
+    stato?: number;
+    avanzamento?: EnumAvanzamento;
+    mese?: string;
     idReferente?: number;
     idBusinessManager?: number;
     idCliente?: number;
     idCommessa?: number;
     idSottoCommessa?: number;
-    dataInizio?: string;
-    dataFine?: string;
-    stato?: number;
   },
   context?: HttpContext
 

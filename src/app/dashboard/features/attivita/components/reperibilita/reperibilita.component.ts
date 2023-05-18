@@ -35,7 +35,7 @@ export class ReperibilitaComponent {
         this.segreteriaService
           .getReperibilitaCommesseTotali({
             idAzienda: this.authService.user.idAzienda!,
-            IdSottoCommessa: this.idSottocommessa
+            idSottoCommessa: this.idSottocommessa
           })
           .subscribe(reperibilita => this.reperibilita = reperibilita)
       );
