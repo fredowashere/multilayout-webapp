@@ -33,7 +33,7 @@
         ></div>
 
         <ng-container *ngIf="floatingLabel; else fixedLabel">
-            <div class="form-floating mb-3">
+            <div class="form-floating">
                 <ng-container *ngTemplateOutlet="mpInputTemplate"></ng-container>
                 <label>{{ label }}</label>
             </div>
