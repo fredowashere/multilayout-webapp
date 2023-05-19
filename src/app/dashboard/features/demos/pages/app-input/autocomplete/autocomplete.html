@@ -1,4 +1,4 @@
-<div class="d-grid gap-5 pt-4">
+<div class="d-grid gap-4 pt-4">
 
     <div>
         <h5 class="mb-3">Autocomplete</h5>
@@ -42,7 +42,7 @@
             </ng-template>
         </div>
 
-        <div class="card mt-3">
+        <div class="card mt-2">
             <div class="card-body">
                 {{ state.value | json }}
             </div>
@@ -95,8 +95,10 @@
             [ngControl]="flavors"
         ></app-input>
 
-        <div class="my-3">
-            {{ flavors.value | json }}
+        <div class="card mt-2">
+            <div class="card-body">
+                {{ flavors.value | json }}
+            </div>
         </div>
     </div>
 </div>

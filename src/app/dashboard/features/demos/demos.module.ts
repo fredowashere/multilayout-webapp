@@ -24,6 +24,7 @@ import { routes as tooltipRoutes } from './pages/tooltip/tooltip.routes';
 import { routes as typeaheadRoutes } from './pages/typeahead/typeahead.routes';
 import { routes as appInputRoutes } from './pages/app-input/app-input.routes';
 import { routes as appTableRoutes } from './pages/app-table/app-table.routes';
+import { routes as wizardRoutes } from './pages/wizard/wizard.routes';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'accordion', pathMatch: 'full' },
@@ -47,6 +48,7 @@ export const routes: Routes = [
   { path: 'typeahead', children: typeaheadRoutes },
   { path: 'app-input', children: appInputRoutes },
   { path: 'app-table', children: appTableRoutes },
+  { path: 'wizard', children: wizardRoutes },
 ];
 
 @NgModule({

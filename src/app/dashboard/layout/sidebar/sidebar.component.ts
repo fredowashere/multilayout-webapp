@@ -50,6 +50,12 @@ export class DashboardSidebarComponent {
     },
     {
       isActive: false,
+      title: 'Wizard',
+      icon: 'bi-eyeglasses',
+      path: '/dashboard/demos/wizard',
+    },
+    {
+      isActive: false,
       title: 'Demos',
       icon: 'bi-grid',
       children: [

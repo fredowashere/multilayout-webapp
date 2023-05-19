@@ -7,7 +7,8 @@ import hljs from 'highlight.js';
 export class HighlightPipe implements PipeTransform {
 
   transform(value: string, ...args: unknown[]): unknown {
-    return hljs.highlightAuto(value).value;
+    const clean = value.replaceAll(/ {4}/g, " ").replaceAll(/\t/g, " ");
+    return hljs.highlightAuto(clean).value;
   }
 
 }
