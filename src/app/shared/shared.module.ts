@@ -17,6 +17,7 @@ import { AppSortableHeader } from './directives/sortable-header';
 import { RbacAllowDirective } from './directives/role-based-access-allow';
 import { LetDirective } from './directives/ng-let';
 import { MonthpickerComponent } from './components/monthpicker/monthpicker.component';
+import { LinearLoadingIndicator } from './components/linear-loading-indicator.component';
 
 
 
@@ -42,7 +43,8 @@ import { MonthpickerComponent } from './components/monthpicker/monthpicker.compo
     NgbModule,
     TextMaskModule,
     AppSortableHeader,
-    RbacAllowDirective
+    RbacAllowDirective,
+    LinearLoadingIndicator
   ],
   exports: [
     HttpClientModule,
@@ -62,7 +64,8 @@ import { MonthpickerComponent } from './components/monthpicker/monthpicker.compo
     AppSortableHeader,
     RbacAllowDirective,
     LetDirective,
-    MonthpickerComponent
+    MonthpickerComponent,
+    LinearLoadingIndicator
   ]
 })
 export class SharedModule { }
