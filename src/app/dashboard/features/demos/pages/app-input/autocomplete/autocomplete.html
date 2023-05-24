@@ -55,21 +55,33 @@
         <app-input
             type="autocomplete"
             name="book"
-            placeholder="Search among the best books"
+            label="Search among the books"
             [formatter]="booksFormatter"
             [customSearch]="customBookSearch"
             [template]="bt"
             [ngControl]="book"
+            [floatingLabel]="true"
         ></app-input>
         <ng-template #bt let-r="result" let-t="term">
             <div class="d-flex position-relative">
+
                 <div class="flex-shrink-0">
                     <img height="64" [src]="'assets/images/books/' + r.image" [alt]="r.title + ' cover'">
                 </div>
-                <div class="flex-grow-1 ms-3">
-                    <a [href]="r.link" target="_blank" class="stretched-link text-reset text-decoration-none">
-                        <ngb-highlight [result]="r.title" [term]="t"></ngb-highlight>
+
+                <div class="d-grid flex-grow-1 ms-3" style="justify-items: start">
+
+                    <ngb-highlight [result]="r.title" [term]="t"></ngb-highlight>
+
+                    <a
+                        class="fst-italic text-reset"
+                        target="_blank"
+                        [href]="r.link"
+                        (click)="$event.stopPropagation()"
+                    >
+                        Go to Wikipedia
                     </a>
+
                     <div class="small">Pages {{ r.pages }}</div>
                 </div>
             </div>

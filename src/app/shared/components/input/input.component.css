@@ -1,3 +1,26 @@
 :host {
     display: block;
 }
+
+.reset-field {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    line-height: 1;
+}
+
+.invalid-feedback:not(:empty) ~ .reset-field {
+    right: 2rem;
+}
+
+.reset-field:has(~ .invalid-feedback:not(:empty)) {
+    right: 2rem;
+}
+
+.reset-field.reset-field--floating {
+    top: 1.325rem;
+}
+
+.reset-field.reset-field--fixed {
+    top: 0.675rem;
+}

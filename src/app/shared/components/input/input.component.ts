@@ -44,7 +44,6 @@ export class InputComponent {
   @Input("disabled") disabled = false;
   @Input("type") type = "text";
   @Input("placeholder") placeholder = ' ';
-  @Input("size") size: 'sm' | 'md' | 'lg' = 'md';
 
   @Input("min") min?: any;
   @Input("max") max?: any;
