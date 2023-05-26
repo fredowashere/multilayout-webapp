@@ -88,13 +88,13 @@
 							></button>
 						</td>
 			
-						<ng-container *ngTemplateOutlet="tbody; context: { $implicit: item, term$: lastTerm$ }"></ng-container>
+						<ng-container *ngTemplateOutlet="tbody; context: { $implicit: item, index: i, term$: lastTerm$ }"></ng-container>
 					</tr>
 	
 					<tr *ngIf="rowExpand">
 						<td class="row-expand" colspan="99">
 							<div #collapse="ngbCollapse" [(ngbCollapse)]="_row.collapsed">
-								<ng-container *ngTemplateOutlet="rowExpand; context: { $implicit: item, term$: searchInput.valueChanges }"></ng-container>
+								<ng-container *ngTemplateOutlet="rowExpand; context: { $implicit: item, index: i, term$: lastTerm$ }"></ng-container>
 							</div>
 						</td>
 					</tr>
