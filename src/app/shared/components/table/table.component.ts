@@ -112,12 +112,12 @@ export class TableComponent {
 
     this.filteredItems = this.items.filter(item => {
 
-      const term = this.lastTerm$.getValue().toLowerCase();
+      const term = (this.lastTerm$.getValue() || "").toLowerCase();
 
       if (this.searchable && Array.isArray(this.searchable) && this.searchable.length)
         return this.searchable.some(path => {
-          const resolved = resolve(path, item) || '';
-          return (resolved + '').toLowerCase().includes(term)
+          const resolved = resolve(path, item) || "";
+          return (resolved + "").toLowerCase().includes(term);
         });
 
       // Global hacky search
