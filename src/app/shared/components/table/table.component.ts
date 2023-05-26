@@ -161,7 +161,10 @@ export class TableComponent {
 
   paginate() {
 
-    this.sortedItems.forEach(item => Object.getPrototypeOf(item)._selected = false);
+    this.sortedItems.forEach(item => {
+      const newPrototype = { _selected: false, ...Object.getPrototypeOf(item) };
+      Object.setPrototypeOf(item, newPrototype);
+    });
 
 		const sliceOfItems = this.sortedItems.slice(
       (this.page - 1) * this.pageSize,
