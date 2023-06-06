@@ -16,47 +16,55 @@
 <div class="sb-links">
 
     <ng-container *ngFor="let item of sidebarItems">
+        <ng-container *ngLet="(authService.user$ | async) as user">
+            <ng-container *ngIf="!item.roles || intersection(user.roles, item.roles).length">
 
-        <div
-            *ngIf="item.children"
-            routerLinkActive
-            #rla="routerLinkActive"
-        >
-            <div
-                class="sb-link clickable"
-                (click)="item.isActive = !item.isActive"
-            >
+                <div
+                    *ngIf="item.children"
+                    routerLinkActive
+                    #rla="routerLinkActive"
+                >
+                    <div
+                        class="sb-link clickable"
+                        (click)="item.isActive = !item.isActive"
+                    >
 
-                <i [ngClass]="item.icon" class="pe-3 bi"></i> 
+                        <i [ngClass]="item.icon" class="pe-3"></i> 
 
-                <span class="me-auto">{{ item.title }}</span>
+                        <span class="me-auto">{{ item.title }}</span>
 
-                <i *ngIf="!item.isActive" class="bi bi-caret-up-fill"></i>
-                <i *ngIf="item.isActive" class="bi bi-caret-down-fill"></i>
-            </div>
+                        <i *ngIf="!item.isActive" class="bi bi-caret-up-fill"></i>
+                        <i *ngIf="item.isActive" class="bi bi-caret-down-fill"></i>
+                    </div>
 
-            <div #collapse="ngbCollapse" [(ngbCollapse)]="!item.isActive" class="sb-sublinks">
+                    <div #collapse="ngbCollapse" [(ngbCollapse)]="!item.isActive" class="sb-sublinks">
+                        <ng-container *ngFor="let subitem of item.children">
+                            <ng-container *ngIf="!subitem.roles || intersection(user.roles, subitem.roles).length">
+                                <a
+                                    routerLinkActive="is-active"
+                                    [routerLink]="subitem.path"
+                                    class="sb-link text-reset text-decoration-none"
+                                >
+                                    <i *ngIf="subitem.icon" [ngClass]="subitem.icon" class="pe-3 bi"></i> 
+                                    {{ subitem.title }}
+                                </a>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
+
+            
                 <a
-                    *ngFor="let subitem of item.children"
+                    *ngIf="!item.children"
                     routerLinkActive="is-active"
-                    [routerLink]="subitem.path"
+                    #rla="routerLinkActive"
+                    [routerLink]="item.path"
                     class="sb-link text-reset text-decoration-none"
                 >
-                    <i *ngIf="subitem.icon" [ngClass]="subitem.icon" class="pe-3 bi"></i> 
-                    {{ subitem.title }}
+                    <i [ngClass]="item.icon" class="pe-3"></i> 
+                    {{ item.title }}
                 </a>
-            </div>
-        </div>
-
-        <a
-            *ngIf="!item.children"
-            routerLinkActive="is-active"
-            #rla="routerLinkActive"
-            [routerLink]="item.path"
-            class="sb-link text-reset text-decoration-none"
-        >
-            <i [ngClass]="item.icon" class="pe-3 bi"></i> 
-            {{ item.title }}
-        </a>
+            </ng-container>
+        </ng-container>
     </ng-container>
 </div>

@@ -3,11 +3,13 @@ import { RouterLinkActive } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
+import { intersection } from 'src/app/utils/array';
 
 interface SidebarSubitem {
   title: string;
   path: string;
   icon?: string;
+  roles?: string[];
 }
 
 interface SidebarItem {
@@ -16,6 +18,7 @@ interface SidebarItem {
   path?: string;
   icon?: string;
   children?: SidebarSubitem[];
+  roles?: string[];
 }
 
 @Component({
@@ -28,6 +31,8 @@ export class DashboardSidebarComponent {
   // Get all view children with #rla applied
   @ViewChildren('rla')
   rlaList!: QueryList<RouterLinkActive>;
+  
+  intersection = intersection;
 
   sidebarItems: SidebarItem[] = [
     {
@@ -52,7 +57,7 @@ export class DashboardSidebarComponent {
       isActive: false,
       title: 'Wizard',
       icon: 'bi-eyeglasses',
-      path: '/dashboard/demos/wizard',
+      path: '/dashboard/demos/wizard'
     },
     {
       isActive: false,
@@ -66,8 +71,8 @@ export class DashboardSidebarComponent {
         {
           path: '/dashboard/demos/alert',
           title: 'Alert'
-        },
-        {
+    },
+    {
           path: '/dashboard/demos/carousel',
           title: 'Carousel'
         },
@@ -141,8 +146,8 @@ export class DashboardSidebarComponent {
     public sidebarService: SidebarService,
     public authService: AuthService
   ) {
-
-    this.username$ = this.authService.user$.pipe(map(user => user.username))
+    this.username$ = this.authService.user$
+      .pipe(map(user => user.username));
   }
 
   ngAfterViewInit(): void {
