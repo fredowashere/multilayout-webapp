@@ -102,9 +102,9 @@ export class InputComponent {
     return this._autocompleteChoice;
   }
   
-  options$ = new BehaviorSubject<any[]>([]);
+  options$ = new BehaviorSubject<any[] | null>(null);
   @Input("options")
-  set options(options: any[]) {
+  set options(options: any[] | null) {
     this.options$.next(options);
   };
   get options() {
@@ -231,9 +231,14 @@ export class InputComponent {
       else {
         searchObs$ = combined$
           .pipe(
-            map((term: string) =>
-              this.options.filter(value => this.filter(term, value))
-            )
+            map((term: string) => {
+
+              if (this.options) {
+                return this.options.filter(value => this.filter(term, value));
+              }
+
+              return [];
+            })
           );
       }
 
