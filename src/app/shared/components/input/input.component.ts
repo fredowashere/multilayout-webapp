@@ -47,7 +47,7 @@ const defaultFilter = (term: string, item: any) => {
 };
 
 export interface SelectOption {
-  value: number | string,
+  value: any,
   text: string
 }
 
