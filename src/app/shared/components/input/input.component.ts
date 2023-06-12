@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, takeUntil, tap } from 'rxjs';
@@ -54,9 +54,9 @@ export interface SelectOption {
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.css'],
+  styleUrls: ['./input.component.css']
 })
-export class InputComponent {
+export class InputComponent implements OnInit, OnDestroy {
 
   destroy$ = new Subject<void>();
 
@@ -71,6 +71,7 @@ export class InputComponent {
 
   @Input("min") min?: any;
   @Input("max") max?: any;
+  @Input("minlength") minLength?: any;
   @Input("maxlength") maxLength?: any;
 
   @Input("name") name!: string;

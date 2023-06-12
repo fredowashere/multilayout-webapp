@@ -1,25 +1,32 @@
 <ng-template #invalidFeedback let-ngControl>
     <div class="invalid-feedback">
+
         <div *ngIf="ngControl.errors?.min">
-            Minimo {{ ngControl.errors?.min.min }}
+            Minimum {{ ngControl.errors?.min.min }}
         </div>
+
         <div *ngIf="ngControl.errors?.max">
-            Massimo {{ ngControl.errors?.max.max }}
+            Maximum {{ ngControl.errors?.max.max }}
         </div>
+
         <div *ngIf="ngControl.errors?.required">
-            Richiesto
+            Required
         </div>
+
         <div *ngIf="ngControl.errors?.email">
-            Email invalida
+            Invalid email
         </div>
+
         <div *ngIf="ngControl.errors?.minlength">
-            Lunghezza minima {{ ngControl.errors?.minlength.requiredLength }}
+            Minimum length {{ ngControl.errors?.minlength.requiredLength }}
         </div>
+
         <div *ngIf="ngControl.errors?.maxlength">
-            Lunghezza massima {{ ngControl.errors?.maxlength.requiredLength }}
+            Maximum length {{ ngControl.errors?.maxlength.requiredLength }}
         </div>
+
         <div *ngIf="ngControl.errors?.pattern">
-            Non corrisponde al pattern regolare {{ ngControl.errors?.pattern.requiredPattern }}
+            Invalid format
         </div>
     </div>
 </ng-template>
@@ -39,6 +46,7 @@
                 class="form-control"
                 [id]="_name"
                 [placeholder]="placeholder"
+                [minlength]="minLength"
                 [maxlength]="maxLength"
             >
         </ng-container>
@@ -52,6 +60,7 @@
                 class="form-control"
                 [id]="_name"
                 [placeholder]="placeholder"
+                [minlength]="minLength"
                 [maxlength]="maxLength"
             >
         </ng-template>
@@ -78,6 +87,7 @@
             class="form-control"
             [id]="_name"
             [placeholder]="placeholder"
+            [minlength]="minLength"
             [maxlength]="maxLength"
         >
 
@@ -122,6 +132,7 @@
             class="form-control"
             [id]="_name"
             [placeholder]="placeholder"
+            [minlength]="minLength"
             [maxlength]="maxLength"
             style="height: 100px"
         ></textarea>
@@ -231,7 +242,6 @@
             [resultTemplate]="template"
             [editable]="false"
             [disabled]="disabled"
-            [maxlength]="maxLength"
             [(ngModel)]="autocompleteChoice"
             (focus)="focus$.next($any($event).target.value)"
             (click)="onAutocompleteClick(instance, $event)"
@@ -271,6 +281,7 @@
                     class="form-control"
                     [id]="_name"
                     [placeholder]="placeholder"
+                    [minlength]="minLength"
                     [maxlength]="maxLength"
                 >
             </ng-container>
@@ -284,6 +295,7 @@
                     class="form-control"
                     [id]="_name"
                     [placeholder]="placeholder"
+                    [minlength]="minLength"
                     [maxlength]="maxLength"
                 >
             </ng-template>
@@ -313,6 +325,7 @@
                 class="form-control"
                 [id]="_name"
                 [placeholder]="placeholder"
+                [minlength]="minLength"
                 [maxlength]="maxLength"
             >
 
@@ -358,6 +371,7 @@
             class="form-control"
             [id]="_name"
             [placeholder]="placeholder"
+            [minlength]="minLength"
             [maxlength]="maxLength"
             rows="3"
         ></textarea>
@@ -469,7 +483,6 @@
                 [resultTemplate]="template"
                 [editable]="false"
                 [disabled]="disabled"
-                [maxlength]="maxLength"
                 [(ngModel)]="autocompleteChoice"
                 (focus)="focus$.next($any($event).target.value)"
                 (click)="onAutocompleteClick(instance, $event)"
@@ -562,7 +575,6 @@
         [resultTemplate]="template"
         [editable]="false"
         [disabled]="disabled"
-        [maxlength]="maxLength"
         [(ngModel)]="autocompleteChoice"
         (focus)="focus$.next($any($event).target.value)"
         (click)="onAutocompleteClick(instance, $event)"
