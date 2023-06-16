@@ -1,33 +1,38 @@
 <ng-template #invalidFeedback let-ngControl>
     <div class="invalid-feedback">
 
-        <div *ngIf="ngControl.errors?.min">
-            Minimum {{ ngControl.errors?.min.min }}
-        </div>
+        <ng-container *ngIf="!onlyCustomErrors">
 
-        <div *ngIf="ngControl.errors?.max">
-            Maximum {{ ngControl.errors?.max.max }}
-        </div>
+            <div *ngIf="ngControl.errors?.min">
+                Minimum {{ ngControl.errors?.min.min }}
+            </div>
+    
+            <div *ngIf="ngControl.errors?.max">
+                Maximum {{ ngControl.errors?.max.max }}
+            </div>
+    
+            <div *ngIf="ngControl.errors?.required">
+                Required
+            </div>
+    
+            <div *ngIf="ngControl.errors?.email">
+                Invalid email
+            </div>
+    
+            <div *ngIf="ngControl.errors?.minlength">
+                Minimum length {{ ngControl.errors?.minlength.requiredLength }}
+            </div>
+    
+            <div *ngIf="ngControl.errors?.maxlength">
+                Maximum length {{ ngControl.errors?.maxlength.requiredLength }}
+            </div>
+    
+            <div *ngIf="ngControl.errors?.pattern">
+                Invalid format
+            </div>
+        </ng-container>
 
-        <div *ngIf="ngControl.errors?.required">
-            Required
-        </div>
-
-        <div *ngIf="ngControl.errors?.email">
-            Invalid email
-        </div>
-
-        <div *ngIf="ngControl.errors?.minlength">
-            Minimum length {{ ngControl.errors?.minlength.requiredLength }}
-        </div>
-
-        <div *ngIf="ngControl.errors?.maxlength">
-            Maximum length {{ ngControl.errors?.maxlength.requiredLength }}
-        </div>
-
-        <div *ngIf="ngControl.errors?.pattern">
-            Invalid format
-        </div>
+        <ng-content select="[customErrors]"></ng-content>
     </div>
 </ng-template>
 

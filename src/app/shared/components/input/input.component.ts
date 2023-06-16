@@ -68,6 +68,7 @@ export class InputComponent implements OnInit, OnDestroy {
   @Input("disabled") disabled = false;
   @Input("type") type = "text";
   @Input("placeholder") placeholder = ' ';
+  @Input("onlyCustomErrors") onlyCustomErrors = false;
 
   @Input("min") min?: any;
   @Input("max") max?: any;

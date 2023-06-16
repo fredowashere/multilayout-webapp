@@ -11,6 +11,7 @@ import { AppdForm } from './form/form';
 import { AppdDate } from './date/date';
 import { AppdTextFloating } from './text-floating/text-floating';
 import { AppdLayout } from './layout/layout';
+import { AppdCustomValidation } from './custom-validation/custom-validation';
 
 declare var require: any;
 
@@ -32,6 +33,12 @@ const demos = {
 		code: require('!raw-loader!./text-floating/text-floating').default,
 		markup: require('!raw-loader!./text-floating/text-floating.html').default,
 		type: AppdTextFloating,
+	},
+	customValidation: {
+		title: 'Custom validation',
+		code: require('!raw-loader!./custom-validation/custom-validation').default,
+		markup: require('!raw-loader!./custom-validation/custom-validation.html').default,
+		type: AppdCustomValidation,
 	},
 	textMasking: {
 		title: 'Text masking',
