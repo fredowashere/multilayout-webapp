@@ -70,12 +70,12 @@ app-table th {
 @media (min-width: 600px) {
 
   app-table .table > thead > tr > th:first-child,
-  app-table .table > tbody > tr > td:first-child {
+  app-table .table > tbody > tr > td:not(.row-expand):first-child {
     padding-left: 1.5rem !important;
   }
 
   app-table .table > thead > tr > th:last-child,
-  app-table .table > tbody > tr > td:last-child {
+  app-table .table > tbody > tr > td:not(.row-expand):last-child {
     padding-right: 1.5rem !important;
   }
 }
