@@ -10,6 +10,5 @@ import { countries } from '../mock';
 	templateUrl: './table-row-expand.html',
 })
 export class AppdTableRowExpand {
-
 	countries: any[] = countries;
 }

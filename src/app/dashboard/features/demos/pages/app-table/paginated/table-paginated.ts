@@ -10,6 +10,5 @@ import { countries } from '../mock';
 	templateUrl: './table-paginated.html',
 })
 export class AppdTablePaginated {
-
 	countries = countries;
 }

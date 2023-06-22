@@ -11,6 +11,7 @@ import { AppdTableSearchable } from './searchable/table-searchable';
 import { AppdTableSelectable } from './selectable/table-selectable';
 import { AppdTableSorted } from './sorted/table-sorted';
 import { AppdTableStickyHead } from './sticky-head/table-sticky-head';
+import { AppdTableDuplicatedControls } from './duplicated-controls/table-duplicated-controls';
 
 declare var require: any;
 
@@ -44,6 +45,12 @@ const demos = {
 		code: require('!raw-loader!./paginated/table-paginated').default,
 		markup: require('!raw-loader!./paginated/table-paginated.html').default,
 		type: AppdTablePaginated,
+	},
+	duplicatedControls: {
+		title: 'Duplicated controls',
+		code: require('!raw-loader!./duplicated-controls/table-duplicated-controls').default,
+		markup: require('!raw-loader!./duplicated-controls/table-duplicated-controls.html').default,
+		type: AppdTableDuplicatedControls,
 	},
 	sorted: {
 		title: 'Sorted',

@@ -1,6 +1,6 @@
-import { Component, ContentChildren, EventEmitter, Input, Output, QueryList, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, ContentChildren, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, startWith, Subject, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, merge, startWith, Subject, takeUntil, tap } from 'rxjs';
 import { resolve } from 'src/app/utils/object';
 import { guid } from 'src/app/utils/uuid';
 import { AppSortableHeader, compare, SortDirection, SortEvent } from '../../directives/sortable-header';
@@ -10,7 +10,7 @@ import { AppSortableHeader, compare, SortDirection, SortEvent } from '../../dire
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent {
+export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
   destroy$ = new Subject<void>();
 
@@ -28,8 +28,11 @@ export class TableComponent {
   @Input("stickyHead") stickyHead = false;
   @Input("maxHeight") maxHeight: string | boolean = false; 
 
+  @Input("searchable") searchable: string[] | boolean = false;
   @Input("paginated") paginated = false;
   @Input("pageSize") pageSize!: number;
+  @Input("pageSizes") pageSizes = [ 5, 10, 25, 50 ];
+  @Input("duplicateControls") duplicateControls = false;
 
   paginatedItems$ = new BehaviorSubject<any[]>([]);
 	collectionSize!: number;
@@ -41,8 +44,8 @@ export class TableComponent {
   lastDirection: SortDirection = '';
   sortedItems: any[] = [];
 
-  @Input("searchable") searchable: string[] | boolean = false;
   searchInput = new FormControl('', { nonNullable: true });
+  searchInputRelay = new FormControl('', { nonNullable: true });
   lastTerm$ = new BehaviorSubject('');
   filteredItems: any[] = [];
 
@@ -77,10 +80,20 @@ export class TableComponent {
     if (!this.paginated)
       this.pageSize = this.items.length;
 
-    this.searchInput.valueChanges
+    // Double controls needs to keep the two search inputs in-sync
+    const [ a, b ] = [ this.searchInput, this.searchInputRelay ];
+    const opt = {
+      onlySelf: true,
+      emitEvent: false,
+      emitModelToViewChange: true
+    };
+    a.valueChanges.subscribe(v => b.setValue(v, opt));
+    b.valueChanges.subscribe(v => a.setValue(v, opt));
+
+    merge(a.valueChanges, b.valueChanges)
       .pipe(
         takeUntil(this.destroy$),
-        startWith(this.lastTerm$.getValue()),
+        startWith(''),
         tap(term => {
           this.lastTerm$.next(term);
           this.search();
@@ -90,8 +103,9 @@ export class TableComponent {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.items.currentValue !== changes.items.previousValue)
+    if (changes.items.currentValue !== changes.items.previousValue) {
       this.search();
+    }
   }
 
   ngOnDestroy() {
@@ -99,13 +113,8 @@ export class TableComponent {
   }
 
   search() {
-
     this.filter();
-
-    this.sort({
-      column: this.lastColumn,
-      direction: this.lastDirection
-    });
+    this.sort({ column: this.lastColumn, direction: this.lastDirection });
   }
 
   filter() {
@@ -137,13 +146,13 @@ export class TableComponent {
     }
     
 		this.headers.forEach(header => {
-      if (header.sortable !== column)
-        header.direction = '';
+      if (header.sortable !== column) header.direction = '';
     });
 
-		if (direction === '' || column === '')
+		if (direction === '' || column === '') {
 			this.sortedItems = this.filteredItems;
-    else
+    }
+    else {
 			this.sortedItems = [ ...this.filteredItems ]
         .sort((a, b) => {
           const res = compare(
@@ -152,6 +161,7 @@ export class TableComponent {
           );
           return direction === 'asc' ? res : -res;
         });
+    }
 
     this.lastColumn = column;
     this.lastDirection = direction;
@@ -161,10 +171,7 @@ export class TableComponent {
 
   paginate() {
 
-    this.sortedItems.forEach(item => {
-      const newPrototype = { _selected: false, ...Object.getPrototypeOf(item) };
-      Object.setPrototypeOf(item, newPrototype);
-    });
+    this.sortedItems.forEach(item => item._selected = false);
 
 		const sliceOfItems = this.sortedItems.slice(
       (this.page - 1) * this.pageSize,

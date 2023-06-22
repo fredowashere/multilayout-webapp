@@ -10,6 +10,5 @@ import { countries } from '../mock';
 	templateUrl: './table-basic.html',
 })
 export class AppdTableBasic {
-
 	countries: any[] = countries;
 }

@@ -10,6 +10,5 @@ import { countries } from '../mock';
 	templateUrl: './table-sorted.html',
 })
 export class AppdTableSorted {
-
 	countries = countries;
 }

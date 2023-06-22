@@ -10,6 +10,5 @@ import { countries } from '../mock';
 	templateUrl: './table-sticky-head.html',
 })
 export class AppdTableStickyHead {
-
 	countries: any[] = countries;
 }

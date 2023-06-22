@@ -10,6 +10,5 @@ import { countries } from '../mock';
 	templateUrl: './table-searchable.html',
 })
 export class AppdTableSearchable {
-
 	countries = countries;
 }

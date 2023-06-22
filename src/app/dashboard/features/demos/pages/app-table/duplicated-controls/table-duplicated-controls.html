@@ -4,7 +4,8 @@
     [items]="countries"
     [paginated]="true"
     [pageSize]="5"
-    [pageSizes]="[ 5, 10, 15, 30, 55 ]"
+    [searchable]="true"
+    [duplicateControls]="true"
 >
 
     <ng-template #thead>
@@ -13,14 +14,14 @@
         <th>Population</th>
     </ng-template>
 
-    <ng-template #tbody let-country let-st$="searchTerm$">
+    <ng-template #tbody let-country let-st$="term$">
         <td>
             <img
                 [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
                 class="me-2"
                 style="width: 20px"
             />
-            {{ country.name }}
+            <ngb-highlight [result]="country.name" [term]="(st$ | async) || ''"></ngb-highlight>
         </td>
         <td>{{ country.area | number }}</td>
         <td>{{ country.population | number }}</td>
