@@ -1,6 +1,6 @@
 import { Component, ContentChildren, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, debounceTime, merge, startWith, Subject, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, merge, Subject, takeUntil, tap } from 'rxjs';
 import { resolve } from 'src/app/utils/object';
 import { guid } from 'src/app/utils/uuid';
 import { AppSortableHeader, compare, SortDirection, SortEvent } from '../../directives/sortable-header';
@@ -14,7 +14,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
   destroy$ = new Subject<void>();
 
-  _guid = 'app-table-' + guid();
+  _guid = "app-table-" + guid();
 
   @Input("thead") thead!: TemplateRef<any>;
 	@Input("tbody") tbody!: TemplateRef<any>;
@@ -28,9 +28,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   @Input("stickyHead") stickyHead = false;
   @Input("maxHeight") maxHeight: string | boolean = false; 
 
+  // Search and pagination fields
   @Input("searchable") searchable: string[] | boolean = false;
   @Input("paginated") paginated = false;
-  @Input("pageSize") pageSize!: number;
+  @Input("pageSize") pageSize = 5;
   @Input("pageSizes") pageSizes = [ 5, 10, 25, 50 ];
   @Input("duplicateControls") duplicateControls = false;
 
@@ -38,47 +39,40 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 	collectionSize!: number;
   page = 1;
 
-  @ContentChildren(AppSortableHeader)
-  private headers!: QueryList<AppSortableHeader>;
-  lastColumn = '';
-  lastDirection: SortDirection = '';
-  sortedItems: any[] = [];
-
-  searchInput = new FormControl('', { nonNullable: true });
-  searchInputRelay = new FormControl('', { nonNullable: true });
-  lastTerm$ = new BehaviorSubject('');
+  searchInput = new FormControl("", { nonNullable: true });
+  searchInputRelay = new FormControl("", { nonNullable: true });
+  lastTerm$ = new BehaviorSubject("");
   filteredItems: any[] = [];
 
-  @Output("rowSelected") rowSelected = new EventEmitter<any>();
-  @Output("rowDeselected") rowDeselected = new EventEmitter<any>();
+  // Sorting fields
+  @ContentChildren(AppSortableHeader) headers!: QueryList<AppSortableHeader>;
+  lastColumn = "";
+  lastDirection: SortDirection = "";
+  sortedItems: any[] = [];
 
+  // Selectable fields
   @Input("selectable") selectable = false;
   get selectedRows() {
     return this.paginatedItems$.getValue()
       .filter(item => item._selected);
   }
-  
+
+  @Output("rowSelected") rowSelected = new EventEmitter<any>();
+  @Output("rowDeselected") rowDeselected = new EventEmitter<any>();
+
   ngOnInit() {
 
-    if (!this.thead)
+    if (!this.thead) {
       throw Error("AppTable needs a thead template");
+    }
 
-    if (!this.tbody)
+    if (!this.tbody) {
       throw Error("AppTable needs a tbody template");
+    }
 
-    if (!this.items)
+    if (!this.items || this.items && !Array.isArray(this.items)) {
       throw Error("AppTable needs the items array");
-
-    if (this.items && !Array.isArray(this.items))
-      throw Error("AppTable items must to be an array");
-
-    this.collectionSize = this.items.length;
-
-    if (this.paginated && !this.pageSize)
-      throw Error("AppTable needs pageSize when paginated");
-
-    if (!this.paginated)
-      this.pageSize = this.items.length;
+    }
 
     // Double controls needs to keep the two search inputs in-sync
     const [ a, b ] = [ this.searchInput, this.searchInputRelay ];
@@ -90,10 +84,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     a.valueChanges.subscribe(v => b.setValue(v, opt));
     b.valueChanges.subscribe(v => a.setValue(v, opt));
 
+    // Set reactive search on both search controls
     merge(a.valueChanges, b.valueChanges)
       .pipe(
         takeUntil(this.destroy$),
-        startWith(''),
         tap(term => {
           this.lastTerm$.next(term);
           this.search();
@@ -103,8 +97,19 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+
+    // As soon as items is setted and everytime its reference changes
     if (changes.items.currentValue !== changes.items.previousValue) {
-      this.search();
+      if (this.items && Array.isArray(this.items)) {
+
+        // If not paginated then pageSize is the entire collection length
+        if (!this.paginated) {
+          this.pageSize = this.items.length;
+        }
+
+        this.collectionSize = this.items.length;
+        this.search();
+      }
     }
   }
 
@@ -114,7 +119,10 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
   search() {
     this.filter();
-    this.sort({ column: this.lastColumn, direction: this.lastDirection });
+    this.sort({
+      column: this.lastColumn,
+      direction: this.lastDirection
+    });
   }
 
   filter() {
@@ -123,11 +131,12 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
       const term = (this.lastTerm$.getValue() || "").toLowerCase();
 
-      if (this.searchable && Array.isArray(this.searchable) && this.searchable.length)
-        return this.searchable.some(path => {
-          const resolved = resolve(path, item) || "";
-          return (resolved + "").toLowerCase().includes(term);
-        });
+      // Targeted search by fields provided in searchable array
+      if (this.searchable && Array.isArray(this.searchable) && this.searchable.length) {
+        return this.searchable.some(path =>
+          ((resolve(path, item) || "") + "").toLowerCase().includes(term)
+        );
+      }
 
       // Global hacky search
       const serialized = JSON.stringify(item).toLowerCase();
@@ -145,21 +154,26 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
     
+    // Reset others column direction
 		this.headers.forEach(header => {
-      if (header.sortable !== column) header.direction = '';
+      if (header.sortable !== column) {
+        header.direction = "";
+      }
     });
 
-		if (direction === '' || column === '') {
+		if (column === "" || direction === "") {
 			this.sortedItems = this.filteredItems;
     }
     else {
 			this.sortedItems = [ ...this.filteredItems ]
         .sort((a, b) => {
-          const res = compare(
+
+          const compared = compare(
             resolve(column, a),
             resolve(column, b)
           );
-          return direction === 'asc' ? res : -res;
+
+          return direction === "asc" ? compared : -compared;
         });
     }
 
@@ -171,14 +185,15 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
   paginate() {
 
+    // Deselect items (to prevent keeping items not in view selected)
     this.sortedItems.forEach(item => item._selected = false);
 
-		const sliceOfItems = this.sortedItems.slice(
+		const slice = this.sortedItems.slice(
       (this.page - 1) * this.pageSize,
       (this.page - 1) * this.pageSize + this.pageSize,
     );
 
-    this.paginatedItems$.next(sliceOfItems);
+    this.paginatedItems$.next(slice);
 	}
 
   onRowSelect(item: any) {
