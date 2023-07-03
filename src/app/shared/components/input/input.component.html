@@ -265,6 +265,48 @@
             (click)="ngControl.setValue(null)"
         ></i>
     </div>
+
+    <div *ngIf="type === 'tagger'">
+
+        <div class="tagger-array">
+            <span
+                *ngFor="let tag of tags"
+                class="badge d-flex align-items-center fs-6 rounded-pill bg-secondary"
+            >
+                <div>{{ formatter(tag) }}</div>
+                <button class="btn p-0 lh-0 fs-6 text-white" (click)="removeTag(tag)"><i class="bi bi-x"></i></button>
+            </span>
+        </div>
+    
+        <div class="form-floating position-relative">
+    
+            <input
+                type="text"
+                class="form-control"
+                [ngClass]="'autocomplete-' + guid"
+                #instance="ngbTypeahead"
+                [id]="_name"
+                [class.is-invalid]="isInvalid()"
+                [placeholder]="placeholder"
+                [ngbTypeahead]="search"
+                [inputFormatter]="formatter"
+                [resultFormatter]="formatter"
+                [resultTemplate]="template"
+                [editable]="false"
+                [disabled]="disabled"
+                [(ngModel)]="autocompleteChoice"
+                (focus)="focus$.next($any($event).target.value)"
+                (click)="onAutocompleteClick(instance, $event)"
+                (change)="markAsTouched()"
+                (blur)="markAsTouched()"
+                (selectItem)="taggerChoiceSelected($event)"
+            />
+    
+            <label [for]="_name">{{ label }}</label>
+        
+            <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
+        </div>
+    </div>
 </ng-container>
 
 <ng-template #fixedLabel>
@@ -505,6 +547,45 @@
             ></i>
         </div>
     </div>
+
+    <div *ngIf="type === 'tagger'">
+
+        <label class="form-label" *ngIf="label" [for]="_name">{{ label }}</label>
+    
+        <div class="tagger-array">
+            <span
+                *ngFor="let tag of tags"
+                class="badge d-flex align-items-center fs-6 rounded-pill bg-secondary"
+            >
+                <div>{{ formatter(tag) }}</div>
+                <button class="btn p-0 lh-0 fs-6 text-white" (click)="removeTag(tag)"><i class="bi bi-x"></i></button>
+            </span>
+        </div>
+    
+        <input
+            type="text"
+            class="form-control"
+            [ngClass]="'autocomplete-' + guid"
+            #instance="ngbTypeahead"
+            [id]="_name"
+            [class.is-invalid]="isInvalid()"
+            [placeholder]="placeholder"
+            [ngbTypeahead]="search"
+            [inputFormatter]="formatter"
+            [resultFormatter]="formatter"
+            [resultTemplate]="template"
+            [editable]="false"
+            [disabled]="disabled"
+            [(ngModel)]="autocompleteChoice"
+            (focus)="focus$.next($any($event).target.value)"
+            (click)="onAutocompleteClick(instance, $event)"
+            (change)="markAsTouched()"
+            (blur)="markAsTouched()"
+            (selectItem)="taggerChoiceSelected($event)"
+        />
+    
+        <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
+    </div>
 </ng-template>
 
 <div *ngIf="type === 'checkbox'" class="form-check">
@@ -550,45 +631,6 @@
           {{ opt.text }}
         </label>
     </div>
-</div>
-
-<div *ngIf="type === 'tagger'">
-
-    <label class="form-label" *ngIf="label" [for]="_name">{{ label }}</label>
-
-    <div class="d-flex flex-wrap gap-2 mb-2">
-        <span
-            *ngFor="let tag of tags"
-            class="badge d-flex align-items-center fs-6 rounded-pill bg-secondary"
-        >
-            <div>{{ formatter(tag) }}</div>
-            <button class="btn p-0 lh-0 fs-6 text-white" (click)="removeTag(tag)"><i class="bi bi-x"></i></button>
-        </span>
-    </div>
-
-    <input
-        type="text"
-        class="form-control"
-        [ngClass]="'autocomplete-' + guid"
-        #instance="ngbTypeahead"
-        [id]="_name"
-        [class.is-invalid]="isInvalid()"
-        [placeholder]="placeholder"
-        [ngbTypeahead]="search"
-        [inputFormatter]="formatter"
-        [resultFormatter]="formatter"
-        [resultTemplate]="template"
-        [editable]="false"
-        [disabled]="disabled"
-        [(ngModel)]="autocompleteChoice"
-        (focus)="focus$.next($any($event).target.value)"
-        (click)="onAutocompleteClick(instance, $event)"
-        (change)="markAsTouched()"
-        (blur)="markAsTouched()"
-        (selectItem)="taggerChoiceSelected($event)"
-    />
-
-    <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
 </div>
 
 <div *ngIf="helper" class="form-text ps-2">{{ helper }}</div>
