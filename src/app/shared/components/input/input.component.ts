@@ -1,8 +1,14 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output, Self, SkipSelf } from '@angular/core';
+import { ControlContainer, ControlValueAccessor, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, takeUntil, tap } from 'rxjs';
 import { guid } from 'src/app/utils/uuid';
+
+export const DUMMY_VALUE_ACCESSOR: ControlValueAccessor = {
+  writeValue() {},
+  registerOnChange() {},
+  registerOnTouched() {}
+};
 
 const supportedTypes = [
   "text",
@@ -54,7 +60,11 @@ export interface SelectOption {
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.css']
+  styleUrls: ['./input.component.css'],
+  providers: [{
+    provide: ControlContainer, 
+    useExisting: FormGroupDirective
+  }]
 })
 export class InputComponent implements OnInit, OnDestroy {
 
@@ -115,7 +125,18 @@ export class InputComponent implements OnInit, OnDestroy {
 
   tags: any[] = [];
 
+  constructor(@Self() @Optional() private formControlName: NgControl) {
+    if (this.formControlName) {
+      this.formControlName.valueAccessor = DUMMY_VALUE_ACCESSOR;
+    }
+  }
+
   ngOnInit() {
+
+    // Try to take the control from formControlName directive if possible
+    if (!this.ngControl && this.formControlName) {
+      this.ngControl = this.formControlName.control as FormControl;
+    }
 
     this.handleErrors();
 

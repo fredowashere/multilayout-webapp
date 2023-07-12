@@ -1,13 +1,13 @@
 <div class="d-grid pt-4">
         
     <div class="card">
-        <div class="card-body">
+        <form class="card-body" [formGroup]="form">
             <div class="flexgrid flexgrid--3">
 
                 <app-input
                     name="firstName"
                     label="First name"
-                    [ngControl]="firstName"
+                    formControlName="firstName"
                     [disabled]="true"
                     [floatingLabel]="true"
                 ></app-input>
@@ -15,7 +15,7 @@
                 <app-input
                     name="lastName"
                     label="Last name"
-                    [ngControl]="lastName"
+                    formControlName="lastName"
                     [disabled]="true"
                     [floatingLabel]="true"
                 ></app-input>
@@ -23,7 +23,7 @@
                 <app-input
                     name="email"
                     label="Email address"
-                    [ngControl]="email"
+                    formControlName="email"
                     [floatingLabel]="true"
                 ></app-input>
             </div>
@@ -32,7 +32,7 @@
                 <app-input
                     name="city"
                     label="City"
-                    [ngControl]="city"
+                    formControlName="city"
                     [floatingLabel]="true"
                 ></app-input>
 
@@ -40,11 +40,11 @@
                     type="autocomplete"
                     name="state"
                     label="State"
+                    formControlName="state"
                     [options]="states"
                     [formatter]="statesFormatter"
                     [template]="rt"
                     [filter]="statesFilter"
-                    [ngControl]="state"
                     [floatingLabel]="true"
                 ></app-input>
                 <ng-template #rt let-r="result" let-t="term">
@@ -56,7 +56,7 @@
                     type="number"
                     name="zip"
                     label="ZIP"
-                    [ngControl]="zip"
+                    formControlName="zip"
                     [floatingLabel]="true"
                 ></app-input>
             </div>
@@ -66,10 +66,10 @@
                     type="tagger"
                     name="flavors"
                     label="Ice-cream flavors"
+                    formControlName="flavors"
                     [options]="flavorList"
                     [formatter]="flavorsFormatter"
                     [filter]="flavorsFilter"
-                    [ngControl]="flavors"
                     [floatingLabel]="true"
                 ></app-input>
             </div>
@@ -79,14 +79,14 @@
                     type="checkbox"
                     name="agree"
                     label="Agree to terms and conditions"
-                    [ngControl]="agree"
+                    formControlName="agree"
                 ></app-input>
             </div>
     
             <div class="text-center">
                 <button class="btn btn-primary" [disabled]="form.invalid" (click)="submit()">Submit</button>
             </div>
-        </div>
+        </form>
     </div>
     
     <div class="card mt-2">

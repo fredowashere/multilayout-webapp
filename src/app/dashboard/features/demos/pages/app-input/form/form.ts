@@ -7,21 +7,10 @@ import { flavorList, states } from '../autocomplete/mock';
 @Component({
     selector: 'appd-form',
     standalone: true,
-    imports: [SharedModule, JsonPipe],
+    imports: [ SharedModule, JsonPipe ],
     templateUrl: './form.html',
 })
 export class AppdForm {
-
-    form: FormGroup;
-
-    firstName: FormControl;
-    lastName: FormControl;
-    email: FormControl;
-    city: FormControl;
-    state: FormControl;
-    zip: FormControl;
-    flavors: FormControl;
-    agree: FormControl;
 
     statesFormatter = (state: any) => state.name;
     statesFilter = (term: string, state: any) => state.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
@@ -31,34 +20,22 @@ export class AppdForm {
     flavorsFilter = (term: string, flavor: any) => flavor.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
     flavorList = flavorList; // imported from autocomplete/mock
 
-    constructor() {
-
-        this.firstName = new FormControl('Fredo');
-        this.lastName = new FormControl('Corleone');
-        this.email = new FormControl(null, [ Validators.required, Validators.email ]);
-        this.city = new FormControl(null, [ Validators.required ]);
-        this.state = new FormControl(
-            { name: 'Hawaii', flag: 'e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png' },
+    form = new FormGroup({
+        firstName: new FormControl("Fredo"),
+        lastName: new FormControl("Corleone"),
+        email: new FormControl(undefined, [ Validators.required, Validators.email ]),
+        city: new FormControl(undefined, [ Validators.required ]),
+        state: new FormControl(
+            { name: "Hawaii", flag: "e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png" },
             [ Validators.required ]
-        );
-        this.zip = new FormControl(null, [ Validators.required ]);
-        this.flavors = new FormControl([{ id: 0, name: 'Banana' } ]);
-        this.agree = new FormControl(null, [ Validators.requiredTrue ]);
-
-        this.form = new FormGroup({
-            firstName: this.firstName,
-            lastName: this.lastName,
-            email: this.email,
-            city: this.city,
-            state: this.state,
-            zip: this.zip,
-            flavors: this.flavors,
-            agree: this.agree
-        });
-    }
+        ),
+        zip: new FormControl(undefined, [ Validators.required ]),
+        flavors: new FormControl([{ id: 0, name: "Banana" } ]),
+        agree: new FormControl(undefined, [ Validators.requiredTrue ])
+    });
 
     submit() {
-        alert('Submitted!');
+        alert("Submitted!");
     }
 }
 
