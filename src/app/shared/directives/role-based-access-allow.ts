@@ -1,4 +1,4 @@
-import { Directive, Input, OnDestroy, TemplateRef, ViewContainerRef } from "@angular/core";
+import { Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
 import { Subscription } from "rxjs";
 import { User } from "src/app/models/user";
 import { AuthService } from "src/app/services/auth.service";
@@ -8,7 +8,7 @@ import { intersection } from "src/app/utils/array";
     selector:"[rbacAllow]",
     standalone: true,
 })
-export class RbacAllowDirective implements OnDestroy {
+export class RbacAllowDirective implements OnInit, OnDestroy {
 
     @Input()
     set rbacAllow(allowedRoles: string[]) {
@@ -16,17 +16,19 @@ export class RbacAllowDirective implements OnDestroy {
         this.showIfUserAllowed();
     }
 
-    allowedRoles!: string[];
+    initialized = false;
+    sub!: Subscription;
     user!: User;
-    sub: Subscription;
+    allowedRoles!: string[];
 
     constructor(
+        private authService: AuthService,
         private templateRef: TemplateRef<any>,
-        private viewContainer: ViewContainerRef,
-        private authService: AuthService
-    ) {
+        private viewContainer: ViewContainerRef
+    ) { }
 
-        this.sub = authService.user$
+    ngOnInit() {
+        this.sub = this.authService.user$
             .subscribe(user => {
                 this.user = user;
                 this.showIfUserAllowed();
@@ -39,17 +41,20 @@ export class RbacAllowDirective implements OnDestroy {
 
     showIfUserAllowed() {
 
-        if (!this.allowedRoles || this.allowedRoles.length === 0 || !this.user) {
+        if (this.initialized) this.viewContainer.clear();
+
+        if (
+            !this.user
+         || !this.allowedRoles
+         ||  this.allowedRoles.length === 0
+         || !(intersection(this.allowedRoles, this.user.roles).length > 0)
+        ) {
             this.viewContainer.clear();
-            return;
         }
-
-        const isUserAllowed = intersection(this.allowedRoles, this.user.roles).length > 0;
-
-        if (isUserAllowed)
+        else {
             this.viewContainer.createEmbeddedView(this.templateRef);
-        else
-            this.viewContainer.clear();
+            this.initialized = true;
+        }
     }
 
 }
