@@ -136,7 +136,7 @@
 			</ng-container>
 		</tbody>
 
-		<tfoot *ngIf="tfoot">
+		<tfoot *ngIf="tfoot && items?.length">
 			<tr>
 				<ng-container *ngTemplateOutlet="tfoot"></ng-container>
 			</tr>
