@@ -1,6 +1,10 @@
 export function resolve(path: string, obj = self, separator = '.') {
-    const properties = path.split(separator);
-    return properties.reduce((prev: any, curr: any) => prev?.[curr], obj);
+    return path
+        .split(separator)
+        .reduce((prev: any, curr: any) =>
+            prev?.[curr],
+            obj
+        );
 };
 
 export function lookmap<V>(key: string | number, array: V[]): { [key: string | number]: V[] }  {

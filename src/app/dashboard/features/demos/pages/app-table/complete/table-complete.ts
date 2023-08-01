@@ -29,8 +29,14 @@ export class AppdTableComplete {
 	) {}
 
 	ngOnInit() {
-		this.totArea = this.countries.reduce((a, b) => a + b.area, 0);
-		this.totPopulation = this.countries.reduce((a, b) => a + b.population, 0);
+		this.totArea = this.countries.reduce(
+			(a, b) => a + (b.area || 0),
+			0
+		);
+		this.totPopulation = this.countries.reduce(
+			(a, b) => a + (b.population || 0),
+			0
+		);
 	}
 
 	selectedToast(row: any) {

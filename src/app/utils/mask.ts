@@ -1,22 +1,35 @@
 import createNumberMask from "../shared/directives/dependencies/text2mask/createNumberMask";
 
 export const euroMask = createNumberMask({
-    prefix: '€ ',
+    prefix: "€ ",
     allowDecimal: true,
-    thousandsSeparatorSymbol: '.',
-    decimalSymbol: ','
+    thousandsSeparatorSymbol: ".",
+    decimalSymbol: ","
 });
 
+export const euroMaskAllowNegative = createNumberMask({
+    prefix: "€ ",
+    allowDecimal: true,
+    thousandsSeparatorSymbol: ".",
+    decimalSymbol: ",",
+    allowNegative: true
+});
+
+export function numStr2euroMask(unmasked: string) {
+    return (unmasked.indexOf("-") > -1 ? "-" : "") + "€ " + unmasked.replace(".", ",");
+}
+
 export function euroMask2numStr(masked: string) {
-    const unmasked = masked
+    return masked
         .replace("€ ", "")
         .replaceAll(".", "")
         .replace(",", ".");
-    return unmasked;
 }
 
-export function numStr2euroMask(unmasked: string) {
-    const _unmasked = unmasked + "";
-    const masked = "€ " + _unmasked.replace(".", ",");
-    return masked;
+export function num2euroMask(v?: number | null) {
+    return numStr2euroMask(!v ? "0" : (v + "")); 
+}
+
+export function euroMask2num(v?: string | null) {
+    return parseFloat(euroMask2numStr(!v ? "€ 0" : v));
 }

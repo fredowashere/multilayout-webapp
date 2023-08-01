@@ -80,6 +80,7 @@ export class InputComponent implements OnInit, OnDestroy {
   @Input("placeholder") placeholder = ' ';
   @Input("onlyCustomErrors") onlyCustomErrors = false;
 
+  @Input("step") step?: any;
   @Input("min") min?: any;
   @Input("max") max?: any;
   @Input("minlength") minLength?: any;
