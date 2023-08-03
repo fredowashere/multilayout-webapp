@@ -1,35 +1,61 @@
 import createNumberMask from "../shared/directives/dependencies/text2mask/createNumberMask";
 
-export const euroMask = createNumberMask({
-    prefix: "€ ",
-    allowDecimal: true,
-    thousandsSeparatorSymbol: ".",
-    decimalSymbol: ","
-});
-
-export const euroMaskAllowNegative = createNumberMask({
-    prefix: "€ ",
-    allowDecimal: true,
-    thousandsSeparatorSymbol: ".",
-    decimalSymbol: ",",
-    allowNegative: true
-});
-
-export function numStr2euroMask(unmasked: string) {
-    return (unmasked.indexOf("-") > -1 ? "-" : "") + "€ " + unmasked.replace(".", ",");
+export interface NumberMaskOptions {
+    prefix?: string;
+    allowDecimal?: boolean;
+    allowNegative?: boolean;
+    integerLimit?: number;
+    decimalLimit?: number;
 }
 
-export function euroMask2numStr(masked: string) {
-    return masked
-        .replace("€ ", "")
-        .replaceAll(".", "")
-        .replace(",", ".");
+export interface NumberMaskConfig extends NumberMaskOptions {
+    prefix: string;
 }
 
-export function num2euroMask(v?: number | null) {
-    return numStr2euroMask(!v ? "0" : (v + "")); 
-}
+export class NumberMask {
 
-export function euroMask2num(v?: string | null) {
-    return parseFloat(euroMask2numStr(!v ? "€ 0" : v));
+    private config: NumberMaskConfig;
+    private numberMask: any;
+
+    constructor(opts?: NumberMaskOptions) {
+
+        this.config = {
+            prefix:        opts?.prefix        || "",
+            allowNegative: opts?.allowNegative || false,
+            allowDecimal:  opts?.allowDecimal  || true,
+            integerLimit:  opts?.integerLimit  || 6,
+            decimalLimit:  opts?.decimalLimit  || 2,
+        };
+
+        this.numberMask = createNumberMask({
+            ...this.config,
+            thousandsSeparatorSymbol: ".", // Do not touch this
+            decimalSymbol: "," // Do not touch this
+        });
+    }
+
+    getMask() {
+        return this.numberMask;
+    }
+
+    numberToMask(num?: number | null) {
+        const numStr = num ? (num + "") : "0"; // cast number to string or "0"
+        return this.numStrToMask(numStr);
+    }
+
+    numStrToMask(unmasked: string) {
+        const isNegative = unmasked.indexOf("-") > -1;
+        return (isNegative ? "-" : "") + this.config.prefix + unmasked.replace(".", ",");
+    }
+
+    maskToNumber(numStr?: string | null) {
+        return parseFloat(this.maskToNumStr(numStr || (this.config.prefix + "0")));
+    }
+
+    maskToNumStr(masked: string) {
+        return masked
+            .replace(this.config.prefix, "") // replace prefix with empty string       
+            .replace(/\./g, "")              // replace dots with empty string
+            .replace(",", ".");              // replace comma with dot
+    }
 }
