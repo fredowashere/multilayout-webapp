@@ -1,14 +1,14 @@
 export function enforceMinMax(el: HTMLInputElement, minOverride?: number, maxOverride?: number) {
 
-  const min = (minOverride !== undefined) ? minOverride : parseInt(el.min);
-  const max = (maxOverride !== undefined) ? maxOverride : parseInt(el.max);
+  const min = (minOverride !== undefined) ? minOverride : parseFloat(el.min);
+  const max = (maxOverride !== undefined) ? maxOverride : parseFloat(el.max);
 
   if (el.value !== "") {
 
-    if (parseInt(el.value) < min)
+    if (parseFloat(el.value) < min)
       el.value = min.toString();
 
-    if (parseInt(el.value) > max)
+    if (parseFloat(el.value) > max)
       el.value = max.toString();
   }
 }
