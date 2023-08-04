@@ -72,6 +72,7 @@
 		</thead>
 	
 		<tbody>
+
 			<ng-container *ngFor="let item of paginatedItems$ | async; let i = index; trackBy: trackByFn">
 				<ng-container *ngLet="{ collapsed: true } as _row">
 					
@@ -134,26 +135,24 @@
 					<tr *ngIf="rowExpand" class="hidden"></tr>
 				</ng-container>
 			</ng-container>
+
+			<td *ngIf="!items?.length" colspan="99">
+				<ng-container *ngIf="emptyTemplate; else emptyMessage">
+					<ng-container *ngTemplateOutlet="emptyTemplate"></ng-container>
+				</ng-container>
+				<ng-template #emptyMessage>
+					<div class="p-3 text-center">{{ emptyMessage }}</div>
+				</ng-template>
+			</td>
 		</tbody>
 
-		<tfoot *ngIf="tfoot && items?.length">
+		<tfoot *ngIf="tfoot && (showFootIfEmpty || items?.length)">
 			<tr>
 				<ng-container *ngTemplateOutlet="tfoot"></ng-container>
 			</tr>
 		</tfoot>
 	</table>
 </div>
-
-<ng-container *ngIf="emptyTemplate; else empty">
-	<ng-container *ngIf="!items.length">
-		<ng-container *ngTemplateOutlet="emptyTemplate"></ng-container>
-	</ng-container>
-</ng-container>
-<ng-template #empty>
-	<div class="p-3 text-center" *ngIf="!items.length">
-		{{ emptyMessage }}
-	</div>
-</ng-template>
 
 <div
 	*ngIf="duplicateControls && (searchable || paginated)"

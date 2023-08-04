@@ -21,6 +21,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
   @Input("animated") animated = false;
   @Input("rowExpand") rowExpand!: TemplateRef<any>;
   @Input("tfoot") tfoot!: TemplateRef<any>;
+  @Input("showFootIfEmpty") showFootIfEmpty = false;
   @Input("items") items!: any[];
   @Input("trackByFn") trackByFn = (index: number, item: any): any => item;
   @Input("emptyTemplate") emptyTemplate?: TemplateRef<any>;
