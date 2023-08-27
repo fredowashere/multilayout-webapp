@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MonthpickerStruct } from 'src/app/shared/components/monthpicker/monthpicker.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
@@ -19,9 +20,11 @@ export class AppdDate {
     dateFloating2 = new FormControl();
     dateFloating3 = new FormControl();
 
-	month = new FormControl(null, [Validators.required]);
+	startMonth = new FormControl(null, [Validators.required]);
+	endMonth = new FormControl(null, [Validators.required]);
 
-	monthFloating = new FormControl(null, [Validators.required]);
+	startMonthFloating = new FormControl(null, [Validators.required]);
+	endMonthFloating = new FormControl(null, [Validators.required]);
 }
 
 

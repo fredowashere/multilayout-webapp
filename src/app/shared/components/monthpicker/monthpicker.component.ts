@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { blur } from 'src/app/utils/dom';
 
 export interface MonthpickerStruct {
@@ -15,34 +15,6 @@ export interface MonthpickerStruct {
   styleUrls: ['./monthpicker.component.css']
 })
 export class MonthpickerComponent {
-
-  @ViewChild("dd") dropdown!: NgbDropdown;
-  @ViewChild("mp") monthpicker!: ElementRef<HTMLInputElement>;
-
-  @Input("ngControl") ngControl!: FormControl<MonthpickerStruct | null>;
-  @Input("size") size: 'sm' | 'md' | 'lg' = 'md';
-  @Input("name") name!: string;
-  @Input("label") label?: string;
-  @Input("placeholder") placeholder = "yyyy-mm";
-  @Input("helper") helper?: string;
-  @Input("disabled") disabled = false;
-  @Input("floatingLabel") floatingLabel = false;
-
-  minDate?: MonthpickerStruct | null;
-  @Input("minDate")
-  set _minDate(v: MonthpickerStruct | null) {
-    this.minDate = v;
-    this.updateMonthpickerModel();
-  }
-
-  maxDate?: MonthpickerStruct | null;
-  @Input("maxDate")
-  set _maxDate(v: MonthpickerStruct | null) {
-    this.maxDate = v;
-    this.updateMonthpickerModel();
-  }
-
-  @Output("monthSelect") monthSelectEmitter = new EventEmitter<MonthpickerStruct | null>();
 
   years: { selected: boolean, year: number }[] = [];
 
@@ -59,6 +31,44 @@ export class MonthpickerComponent {
 
   blur = blur;
 
+  @ViewChild("dd") dropdown!: NgbDropdown;
+  @ViewChild("mp") monthpicker!: ElementRef<HTMLInputElement>;
+
+  @Input("ngControl") ngControl!: FormControl<MonthpickerStruct | null>;
+  @Input("size") size: "sm" | "md" | "lg" = "md";
+  @Input("name") name!: string;
+  @Input("label") label?: string;
+  @Input("placeholder") placeholder = "yyyy-mm";
+  @Input("helper") helper?: string;
+  @Input("disabled") disabled = false;
+  @Input("floatingLabel") floatingLabel = false;
+  @Input("lookahead") lookahead = 10;
+  @Input("lookbehind") lookbehind = 10;
+
+  minDate?: MonthpickerStruct | null;
+  @Input("minDate")
+  set _minDate(v: MonthpickerStruct | null) {
+
+    // The default year selection when minDate.year is future
+    // is exactly minDate.year therefore this.currYear has to
+    // be moved forward
+    if (v && v.year > this.year) {
+      this.year = v.year;
+    }
+
+    this.minDate = v;
+    this.updateMonthpickerModel();
+  }
+
+  maxDate?: MonthpickerStruct | null;
+  @Input("maxDate")
+  set _maxDate(v: MonthpickerStruct | null) {
+    this.maxDate = v;
+    this.updateMonthpickerModel();
+  }
+
+  @Output("monthSelect") monthSelectEmitter = new EventEmitter<MonthpickerStruct | null>();
+
   ngOnInit() {
     this.handleErrors();
     this.updateMonthpickerModel();
@@ -71,11 +81,8 @@ export class MonthpickerComponent {
     }
 
     this.ngControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(this.setMonthpickerInputValue.bind(this))
-      )
-      .subscribe();
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(value => this.setMonthpickerInputValue(value));
   }
 
   setMonthpickerInputValue(value: MonthpickerStruct | null) {
@@ -96,10 +103,10 @@ export class MonthpickerComponent {
   handleErrors() {
 
     if (!this.ngControl)
-      throw Error('app-monthpicker needs a ngControl');
+      throw Error("app-monthpicker needs a ngControl.");
 
     if (!this.name)
-      throw Error('app-monthpicker needs a name');
+      throw Error("app-monthpicker needs a name.");
   }
 
   updateMonthpickerModel() {
@@ -111,12 +118,12 @@ export class MonthpickerComponent {
 
     this.years = [];
 
-    const start = this.minDate?.year || this.currYear - 20;
-    const end = this.maxDate?.year || this.currYear + 20;
+    const start = this.minDate?.year || this.currYear - this.lookbehind;
+    const end = this.maxDate?.year || this.currYear + this.lookahead;
 
     for (let year = start; year <= end; year++) {
       this.years.push({
-        selected: year === this.currYear,
+        selected: year === this.year,
         year
       });
     }
@@ -129,7 +136,7 @@ export class MonthpickerComponent {
     for (let month = 0; month < 12; month++) {
 
       const date = new Date(this.year, month, 1);
-      const monthName = date.toLocaleString('default', { month: 'short' });
+      const monthName = date.toLocaleString("default", { month: "short" });
 
       const aboveMax = this.maxDate && (this.maxDate.year < this.year || this.maxDate.year === this.year && this.maxDate.month < month + 1) || false;
       const belowMin = this.minDate && (this.minDate.year > this.year || this.minDate.year === this.year && this.minDate.month > month + 1) || false;
@@ -158,22 +165,14 @@ export class MonthpickerComponent {
   }
 
   reset(evt: Event) {
-
     evt.stopPropagation();
-
-    if (this.disabled)
-      return;
-
+    if (this.disabled) return;
     this.ngControl.setValue(null);
   }
 
   openDropdown(evt: Event) {
-
     evt.stopPropagation();
-
-    if (this.disabled)
-      return;
-    
+    if (this.disabled) return;
     this.dropdown.open();
   }
 }

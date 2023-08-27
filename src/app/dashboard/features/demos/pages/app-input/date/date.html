@@ -32,22 +32,35 @@
                 helper="Min 2018-06-07 00:00, max 2018-06-14 00:00"
                 [ngControl]="date3"
             ></app-input>
+        </div>
 
-            <div>
+        <div class="card mt-3">
 
-                <app-monthpicker
-                    name="monthpicker"
-                    label="Monthpicker"
-                    helper="minDate = { year: 2020, month: 6 }, maxDate = { year: 2026, month: 6 }"
-                    [minDate]="{ year: 2020, month: 6 }"
-                    [maxDate]="{ year: 2026, month: 6 }"
-                    [ngControl]="month"
-                ></app-monthpicker>
-            
-                <div class="card mt-2">
-                    <div class="card-body">
-                        {{ month.value | json }}
-                    </div>
+            <div class="card-header">Monthpicker with dynamic min/max</div>
+
+            <div class="card-body">
+
+                <div class="flexgrid flexgrid--2">
+
+                    <app-monthpicker
+                        name="monthpicker"
+                        label="Start month"
+                        [helper]="'maxDate: ' + (endMonth.value | json)"
+                        [maxDate]="endMonth.value"
+                        [ngControl]="startMonth"
+                    ></app-monthpicker>
+
+                    <app-monthpicker
+                        name="monthpicker"
+                        label="End month"
+                        [helper]="'minDate: ' + (startMonth.value | json)"
+                        [minDate]="startMonth.value"
+                        [ngControl]="endMonth"
+                    ></app-monthpicker>
+                </div>
+
+                <div class="my-2 fst-italic text-center">
+                    {{ startMonth.value | json }} - {{ endMonth.value | json }}
                 </div>
             </div>
         </div>
@@ -88,23 +101,37 @@
                 [ngControl]="dateFloating3"
                 [floatingLabel]="true"
             ></app-input>
+        </div>
 
-            <div>
+        <div class="card mt-3">
 
-                <app-monthpicker
-                    name="monthpicker"
-                    label="Monthpicker"
-                    helper="minDate = { year: 2020, month: 6 }, maxDate = { year: 2026, month: 6 }"
-                    [minDate]="{ year: 2020, month: 6 }"
-                    [maxDate]="{ year: 2026, month: 6 }"
-                    [ngControl]="monthFloating"
-                    [floatingLabel]="true"
-                ></app-monthpicker>
-            
-                <div class="card mt-2">
-                    <div class="card-body">
-                        {{ monthFloating.value | json }}
-                    </div>
+            <div class="card-header">Monthpicker with dynamic min/max</div>
+
+            <div class="card-body">
+
+                <div class="flexgrid flexgrid--2">
+
+                    <app-monthpicker
+                        name="monthpicker"
+                        label="Start month"
+                        [helper]="'maxDate: ' + (endMonthFloating.value | json)"
+                        [maxDate]="endMonthFloating.value"
+                        [ngControl]="startMonthFloating"
+                        [floatingLabel]="true"
+                    ></app-monthpicker>
+
+                    <app-monthpicker
+                        name="monthpicker"
+                        label="End month"
+                        [helper]="'minDate: ' + (startMonthFloating.value | json)"
+                        [minDate]="startMonthFloating.value"
+                        [ngControl]="endMonthFloating"
+                        [floatingLabel]="true"
+                    ></app-monthpicker>
+                </div>
+
+                <div class="my-2 fst-italic text-center">
+                    {{ startMonthFloating.value | json }} - {{ endMonthFloating.value | json }}
                 </div>
             </div>
         </div>
