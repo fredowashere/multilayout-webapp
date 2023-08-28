@@ -50,7 +50,7 @@ export class MonthpickerComponent {
   set _minDate(v: MonthpickerStruct | null) {
 
     // The default year selection when minDate.year is future
-    // is exactly minDate.year therefore this.currYear has to
+    // is exactly minDate.year therefore this.year has to
     // be moved forward
     if (v && v.year > this.year) {
       this.year = v.year;
@@ -63,6 +63,14 @@ export class MonthpickerComponent {
   maxDate?: MonthpickerStruct | null;
   @Input("maxDate")
   set _maxDate(v: MonthpickerStruct | null) {
+
+    // The default year selection when maxDate.year is past
+    // is exactly maxDate.year therefore this.year has to
+    // be moved backward
+    if (v && v.year < this.year) {
+      this.year = v.year;
+    }
+
     this.maxDate = v;
     this.updateMonthpickerModel();
   }
