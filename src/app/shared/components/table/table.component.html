@@ -136,17 +136,17 @@
 				</ng-container>
 			</ng-container>
 
-			<td *ngIf="!items?.length" colspan="99">
-				<ng-container *ngIf="emptyTemplate; else emptyMessage">
+			<td *ngIf="!(paginatedItems$ | async)?.length" colspan="99">
+				<ng-container *ngIf="emptyTemplate; else showEmptyMessage">
 					<ng-container *ngTemplateOutlet="emptyTemplate"></ng-container>
 				</ng-container>
-				<ng-template #emptyMessage>
+				<ng-template #showEmptyMessage>
 					<div class="p-3 text-center">{{ emptyMessage }}</div>
 				</ng-template>
 			</td>
 		</tbody>
 
-		<tfoot *ngIf="tfoot && (showFootIfEmpty || items?.length)">
+		<tfoot *ngIf="tfoot && (showFootIfEmpty || (paginatedItems$ | async)?.length)">
 			<tr>
 				<ng-container *ngTemplateOutlet="tfoot"></ng-container>
 			</tr>
