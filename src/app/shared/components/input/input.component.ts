@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output, Self, SkipSelf } from '@angular/core';
 import { ControlContainer, ControlValueAccessor, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import { isEqual } from 'lodash';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, takeUntil, tap } from 'rxjs';
 import { guid } from 'src/app/utils/uuid';
 
@@ -93,6 +94,7 @@ export class InputComponent implements OnInit, OnDestroy {
   @Input("ngControl") ngControl!: FormControl;
   
   // Autocomplete and tagger properties
+  @Input("deduped") deduped = true;
   @Input("limit") limit: false | number = false;
   @Input("limitTextFactory") limitTextMaker = defaultLimitTextFactory;
   @Input("formatter") formatter = defaultFormatter;
@@ -329,11 +331,13 @@ export class InputComponent implements OnInit, OnDestroy {
   }
 
   taggerChoiceSelected(value: any) {
-
-    this.tags = [ ...this.tags, value.item ];
-
-    this.ngControl.setValue(this.tags);
-    
+    if (this.deduped && this.tags.some(tag => isEqual(tag, value.item))) {
+      console.warn("Item already present.");
+    }
+    else {
+      this.tags = [ ...this.tags, value.item ];
+      this.ngControl.setValue(this.tags);
+    }
     setTimeout(() => this._autocompleteChoice = null, 0);
   }
 
