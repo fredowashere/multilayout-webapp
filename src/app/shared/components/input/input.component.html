@@ -161,6 +161,7 @@
             <option
                 *ngFor="let opt of options"
                 [ngValue]="opt.value"
+                [disabled]="opt.disabled"
             >
                 {{ opt.text }}
             </option>
@@ -443,6 +444,7 @@
             <option
                 *ngFor="let opt of options"
                 [ngValue]="opt.value"
+                [disabled]="opt.disabled"
             >
                 {{ opt.text }}
             </option>
