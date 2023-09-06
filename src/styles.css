@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-/* Variables */
 :root {
   --app-body-background: var(--app-gray_100);
   --app-sidebar-gradient: linear-gradient(135deg, rgba(var(--app-blue_400), 1), rgba(var(--app-indigo_400), 1));
@@ -8,7 +7,7 @@
   --flexgrid-gap: 1rem;
 }
 
-/* Scrollbar */
+/* scrollbar start */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -25,8 +24,9 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(var(--app-primary_600), 1);
 }
+/* scrollbar end */
 
-/* Application */
+/* generic start */
 body {
   background: rgba(var(--app-body-background), 1);
   font-family: "Roboto", var(--bs-font-sans-serif);
@@ -58,7 +58,31 @@ ngb-typeahead-window {
   max-height: 300px;
   overflow: auto;
 }
+/* generic end */
 
+/* util start */
+.lh-0 {
+  line-height: 0 !important;
+}
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.not-clickable {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pseudo-disabled {
+  background-color: rgba(var(--app-gray_50), 1);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+/* util end */
+
+/* table stuff start */
 app-table .ngb-highlight {
   background-color: #ff0;
 }
@@ -110,8 +134,36 @@ th[sortable].desc::before {
 .pagination {
   margin-bottom: 0 !important;
 }
+/* table stuff end */
 
-/* Round button */
+/* cdk-drag start */
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+*.cdk-drop-list-dragging *:not(.cdk-drag-placeholder) {
+  transform: translateZ(0);
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-preview {
+  z-index: 9000 !important;
+}
+/* cdk-drag end */
+
+/* app-round-btn start */
 .app-round-btn {
   box-shadow: 0 4px 8px 0 #0005;
   border-radius: 50%;
@@ -127,28 +179,9 @@ th[sortable].desc::before {
 .app-round-btn:hover {
   box-shadow: 0 10px 16px 0 #0004;
 }
+/* app-round-btn end */
 
-/* Utilities */
-.lh-0 {
-  line-height: 0 !important;
-}
-
-.clickable {
-  cursor: pointer;
-  user-select: none;
-}
-
-.not-clickable {
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.pseudo-disabled {
-  background-color: rgba(var(--app-gray_50), 1);
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
+/* flexgrid start */
 .flexgrid {
   display: flex;
   flex-wrap: wrap;
@@ -179,7 +212,9 @@ th[sortable].desc::before {
   flex: 1 1 clamp(var(--flexgrid-col-min-width), 20%, 20%);
   padding: calc(var(--flexgrid-gap) / 2);
 }
+/* flexgrid end */
 
+/* wiz start */
 .wiz {
   width: 100%;
   display: flex;
@@ -251,3 +286,4 @@ th[sortable].desc::before {
     display: none;
   }
 }
+/* wiz end */

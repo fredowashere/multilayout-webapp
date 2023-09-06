@@ -18,6 +18,8 @@ import { RbacAllowDirective } from './directives/role-based-access-allow';
 import { LetDirective } from './directives/ng-let';
 import { MonthpickerComponent } from './components/monthpicker/monthpicker.component';
 import { LinearLoadingIndicator } from './components/linear-loading-indicator.component';
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 
@@ -44,7 +46,10 @@ import { LinearLoadingIndicator } from './components/linear-loading-indicator.co
     TextMaskModule,
     AppSortableHeader,
     RbacAllowDirective,
-    LinearLoadingIndicator
+    LinearLoadingIndicator,
+    CdkDropList,
+    CdkDrag,
+    ScrollingModule
   ],
   exports: [
     HttpClientModule,
@@ -65,7 +70,10 @@ import { LinearLoadingIndicator } from './components/linear-loading-indicator.co
     RbacAllowDirective,
     LetDirective,
     MonthpickerComponent,
-    LinearLoadingIndicator
+    LinearLoadingIndicator,
+    CdkDropList,
+    CdkDrag,
+    ScrollingModule
   ]
 })
 export class SharedModule { }
