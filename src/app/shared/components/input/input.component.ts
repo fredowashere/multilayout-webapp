@@ -157,7 +157,7 @@ export class InputComponent implements OnInit, OnDestroy {
     if (this.type === "tagger") {
       this.setTaggerDefault();
       this.setAutocompleteSearch();
-      this.setupAutocompleteReactivity();
+      this.setupTaggerReactivity();
     }
 
     if (["autocomplete", "tagger"].includes(this.type) && this.limit)
@@ -165,12 +165,20 @@ export class InputComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+
     this.destroy$.next();
 
-    if (["autocomplete", "tagger"].includes(this.type) && this.limit)
+    if (["autocomplete", "tagger"].includes(this.type) && this.limit) {
       this.removeLimitExplainerStylesheet();
+    }
   }
 
+  //  █████╗ ██╗   ██╗████████╗ ██████╗  ██████╗ ██████╗ ███╗   ███╗██████╗ ██╗     ███████╗████████╗███████╗
+  // ██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗██╔════╝██╔═══██╗████╗ ████║██╔══██╗██║     ██╔════╝╚══██╔══╝██╔════╝
+  // ███████║██║   ██║   ██║   ██║   ██║██║     ██║   ██║██╔████╔██║██████╔╝██║     █████╗     ██║   █████╗  
+  // ██╔══██║██║   ██║   ██║   ██║   ██║██║     ██║   ██║██║╚██╔╝██║██╔═══╝ ██║     ██╔══╝     ██║   ██╔══╝  
+  // ██║  ██║╚██████╔╝   ██║   ╚██████╔╝╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ███████╗███████╗   ██║   ███████╗
+  // ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝   ╚═╝   ╚══════╝
   appendLimitExplainerStylesheet() {
 
     const css = `
@@ -287,11 +295,8 @@ export class InputComponent implements OnInit, OnDestroy {
 
   setupAutocompleteReactivity() {
     this.ngControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(value => this._autocompleteChoice = value)
-      )
-      .subscribe();
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(value => this._autocompleteChoice = value);
   }
 
   autocompleteOnChange(value: any) {
@@ -315,10 +320,22 @@ export class InputComponent implements OnInit, OnDestroy {
     this.selectItemEmitter.emit(selectEvent);
   }
 
+  // ████████╗ █████╗  ██████╗  ██████╗ ███████╗██████╗ 
+  // ╚══██╔══╝██╔══██╗██╔════╝ ██╔════╝ ██╔════╝██╔══██╗
+  //    ██║   ███████║██║  ███╗██║  ███╗█████╗  ██████╔╝
+  //    ██║   ██╔══██║██║   ██║██║   ██║██╔══╝  ██╔══██╗
+  //    ██║   ██║  ██║╚██████╔╝╚██████╔╝███████╗██║  ██║
+  //    ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝
   setTaggerDefault() {
     if (this.ngControl.value) {
       this.tags = this.ngControl.value;
     }
+  }
+
+  setupTaggerReactivity() {
+    this.ngControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(tags => this.tags = tags);
   }
 
   isInvalid() {
@@ -331,13 +348,14 @@ export class InputComponent implements OnInit, OnDestroy {
   }
 
   taggerChoiceSelected(value: any) {
+
     if (this.deduped && this.tags.some(tag => isEqual(tag, value.item))) {
       console.warn("Item already present.");
     }
     else {
-      this.tags = [ ...this.tags, value.item ];
-      this.ngControl.setValue(this.tags);
+      this.ngControl.setValue([ ...this.tags, value.item ]);
     }
+
     setTimeout(() => this._autocompleteChoice = null, 0);
   }
 
@@ -347,12 +365,10 @@ export class InputComponent implements OnInit, OnDestroy {
 
     if (itemIndex > -1) {
 
-      this.tags = [
+      this.ngControl.setValue([
         ...this.tags.slice(0, itemIndex),
         ...this.tags.slice(itemIndex + 1)
-      ];
-
-      this.ngControl.setValue(this.tags);
+      ]);
 
       setTimeout(() => this._autocompleteChoice = null, 0);
     }
