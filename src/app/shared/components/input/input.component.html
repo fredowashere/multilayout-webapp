@@ -275,8 +275,16 @@
                 *ngFor="let tag of tags"
                 class="badge d-flex align-items-center fs-6 rounded-pill bg-secondary"
             >
+
                 <div>{{ formatter(tag) }}</div>
-                <button class="btn p-0 lh-0 fs-6 text-white" (click)="removeTag(tag)"><i class="bi bi-x"></i></button>
+
+                <button
+                    type="button"
+                    class="btn p-0 lh-0 fs-6 text-white"
+                    (click)="removeTag(tag)"
+                >
+                    <i class="bi bi-x"></i>
+                </button>
             </span>
         </div>
     
@@ -302,6 +310,7 @@
                 (change)="markAsTouched()"
                 (blur)="markAsTouched()"
                 (selectItem)="taggerChoiceSelected($event)"
+                (keyup.enter)="freeTagOnEnter($event)"
             />
     
             <label [for]="_name">{{ label }}</label>
@@ -561,8 +570,16 @@
                 *ngFor="let tag of tags"
                 class="badge d-flex align-items-center fs-6 rounded-pill bg-secondary"
             >
+
                 <div>{{ formatter(tag) }}</div>
-                <button class="btn p-0 lh-0 fs-6 text-white" (click)="removeTag(tag)"><i class="bi bi-x"></i></button>
+
+                <button
+                    type="button"
+                    class="btn p-0 lh-0 fs-6 text-white"
+                    (click)="removeTag(tag)"
+                >
+                    <i class="bi bi-x"></i>
+                </button>
             </span>
         </div>
     
@@ -586,6 +603,7 @@
             (change)="markAsTouched()"
             (blur)="markAsTouched()"
             (selectItem)="taggerChoiceSelected($event)"
+            (keyup.enter)="freeTagOnEnter($event)"
         />
     
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>

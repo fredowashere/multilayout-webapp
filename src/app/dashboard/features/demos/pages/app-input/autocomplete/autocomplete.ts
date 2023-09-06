@@ -24,6 +24,8 @@ export class AppdAutocomplete {
     flavors = new FormControl();
     flavorList = flavorList; // imported from autocomplete/mock
 
+    freeTagger = new FormControl();
+
     searching = false;
 
     booksFormatter = (book: any) => book.title;

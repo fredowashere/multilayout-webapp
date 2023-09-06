@@ -116,4 +116,25 @@
             </div>
         </div>
     </div>
+
+    <div>
+        
+        <h5 class="mb-3">Tagger with free tagging</h5>
+
+        <p>Apply <code>[freeTag]="true"</code> if you need a tagger that doesn't depend on an array.</p>
+
+        <app-input
+            type="tagger"
+            name="freeTagger"
+            placeholder="Type whatever and use enter to tag"
+            [freeTag]="true"
+            [ngControl]="freeTagger"
+        ></app-input>
+
+        <div class="card mt-2">
+            <div class="card-body">
+                {{ freeTagger.value | json }}
+            </div>
+        </div>
+    </div>
 </div>

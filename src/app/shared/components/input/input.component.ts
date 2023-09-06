@@ -95,6 +95,7 @@ export class InputComponent implements OnInit, OnDestroy {
   
   // Autocomplete and tagger properties
   @Input("deduped") deduped = true;
+  @Input("freeTag") freeTag = false;
   @Input("limit") limit: false | number = false;
   @Input("limitTextFactory") limitTextMaker = defaultLimitTextFactory;
   @Input("formatter") formatter = defaultFormatter;
@@ -123,6 +124,11 @@ export class InputComponent implements OnInit, OnDestroy {
     this.options$.next(options);
   };
   get options() {
+
+    if (this.freeTag) {
+      return [];
+    }
+
     return this.options$.getValue();
   };
 
@@ -160,7 +166,7 @@ export class InputComponent implements OnInit, OnDestroy {
       this.setupTaggerReactivity();
     }
 
-    if (["autocomplete", "tagger"].includes(this.type) && this.limit)
+    if ([ "autocomplete", "tagger" ].includes(this.type) && this.limit)
       this.appendLimitExplainerStylesheet();
   }
 
@@ -168,7 +174,7 @@ export class InputComponent implements OnInit, OnDestroy {
 
     this.destroy$.next();
 
-    if (["autocomplete", "tagger"].includes(this.type) && this.limit) {
+    if ([ "autocomplete", "tagger" ].includes(this.type) && this.limit) {
       this.removeLimitExplainerStylesheet();
     }
   }
@@ -231,6 +237,12 @@ export class InputComponent implements OnInit, OnDestroy {
         throw Error("Autocomplete without a custom search needs the options array");
       }
     }
+
+    if (this.type === "tagger" && !this.freeTag) {
+      if (!this.options || this.options && !Array.isArray(this.options)) {
+        throw Error("Tagger without a free tag needs the options array");
+      }
+    }
   }
 
   addOptionIds() {
@@ -277,10 +289,7 @@ export class InputComponent implements OnInit, OnDestroy {
       }
 
       if (this.limit) {
-        return searchObs$
-          .pipe(
-            map(array => array.slice(0, this.limit as number))
-          );
+        return searchObs$.pipe(map(array => array.slice(0, this.limit as number)));
       }
 
       return searchObs$;
@@ -350,13 +359,38 @@ export class InputComponent implements OnInit, OnDestroy {
   taggerChoiceSelected(value: any) {
 
     if (this.deduped && this.tags.some(tag => isEqual(tag, value.item))) {
-      console.warn("Item already present.");
+      console.warn("Entry already present");
     }
     else {
       this.ngControl.setValue([ ...this.tags, value.item ]);
+      setTimeout(() => this._autocompleteChoice = null, 0);
+    }
+  }
+
+  freeTagOnEnter(event: any) {
+
+    if (!this.freeTag) {
+      return;
     }
 
-    setTimeout(() => this._autocompleteChoice = null, 0);
+    event.preventDefault();
+    event.stopPropagation();
+
+    const value = event.target.value;
+
+    if (value === "") {
+      return;
+    }
+
+    const trimmed = value.trim();
+
+    if (this.deduped && this.tags.some(tag => isEqual(tag, trimmed))) {
+      console.warn("Entry already present");
+    }
+    else {
+      this.ngControl.setValue([ ...this.tags, trimmed ]);
+      setTimeout(() => this._autocompleteChoice = null, 0);
+    }    
   }
 
   removeTag(item: any) {
