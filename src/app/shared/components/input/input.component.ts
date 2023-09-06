@@ -363,8 +363,9 @@ export class InputComponent implements OnInit, OnDestroy {
     }
     else {
       this.ngControl.setValue([ ...this.tags, value.item ]);
-      setTimeout(() => this._autocompleteChoice = null, 0);
     }
+    
+    setTimeout(() => this._autocompleteChoice = null, 0);
   }
 
   freeTagOnEnter(event: any) {
@@ -389,8 +390,9 @@ export class InputComponent implements OnInit, OnDestroy {
     }
     else {
       this.ngControl.setValue([ ...this.tags, trimmed ]);
-      setTimeout(() => this._autocompleteChoice = null, 0);
-    }    
+    }
+
+    setTimeout(() => this._autocompleteChoice = null, 0);
   }
 
   removeTag(item: any) {
