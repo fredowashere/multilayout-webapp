@@ -5,13 +5,13 @@ import { NgbdDemoListService } from '../../services/ngbd-demo-list.service';
 import { AppdText } from './text/text';
 import { AppdTextMasking } from './text-masking/text-masking';
 import { AppdAutocomplete } from './autocomplete/autocomplete';
-import { AppdSelect } from './select/select';
 import { AppdCheckbox } from './checkbox/checkbox';
 import { AppdForm } from './form/form';
 import { AppdDate } from './date/date';
-import { AppdTextFloating } from './text-floating/text-floating';
 import { AppdLayout } from './layout/layout';
-import { AppdCustomValidation } from './custom-validation/custom-validation';
+import { AppdTagger } from './tagger/tagger';
+import { AppdSelectionPatterns } from './selection-patterns/selection-patterns';
+import { AppdValidation } from './validation/validation';
 
 declare var require: any;
 
@@ -28,17 +28,11 @@ const demos = {
 		markup: require('!raw-loader!./text/text.html').default,
 		type: AppdText,
 	},
-	textFloating: {
-		title: 'Floating labels',
-		code: require('!raw-loader!./text-floating/text-floating').default,
-		markup: require('!raw-loader!./text-floating/text-floating.html').default,
-		type: AppdTextFloating,
-	},
-	customValidation: {
-		title: 'Custom validation',
-		code: require('!raw-loader!./custom-validation/custom-validation').default,
-		markup: require('!raw-loader!./custom-validation/custom-validation.html').default,
-		type: AppdCustomValidation,
+	validation: {
+		title: 'Validation',
+		code: require('!raw-loader!./validation/validation').default,
+		markup: require('!raw-loader!./validation/validation.html').default,
+		type: AppdValidation,
 	},
 	textMasking: {
 		title: 'Text masking',
@@ -52,23 +46,23 @@ const demos = {
 		markup: require('!raw-loader!./date/date.html').default,
 		type: AppdDate,
 	},
-	select: {
-		title: 'Select',
-		code: require('!raw-loader!./select/select').default,
-		markup: require('!raw-loader!./select/select.html').default,
-		type: AppdSelect,
-	},
-	checkboxAndRadio: {
-		title: 'Checkbox & radio',
-		code: require('!raw-loader!./checkbox/checkbox').default,
-		markup: require('!raw-loader!./checkbox/checkbox.html').default,
-		type: AppdCheckbox,
+	selectionPatterns: {
+		title: 'Select, radio & checkbox',
+		code: require('!raw-loader!./selection-patterns/selection-patterns').default,
+		markup: require('!raw-loader!./selection-patterns/selection-patterns.html').default,
+		type: AppdSelectionPatterns,
 	},
 	autocomplete: {
-		title: 'Autocompleted inputs',
+		title: 'Autocomplete',
 		code: require('!raw-loader!./autocomplete/autocomplete').default,
 		markup: require('!raw-loader!./autocomplete/autocomplete.html').default,
 		type: AppdAutocomplete,
+	},
+	tagger: {
+		title: 'Tagger',
+		code: require('!raw-loader!./tagger/tagger').default,
+		markup: require('!raw-loader!./tagger/tagger.html').default,
+		type: AppdTagger,
 	},
 	layout: {
 		title: 'Layout',

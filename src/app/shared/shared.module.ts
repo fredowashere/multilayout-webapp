@@ -14,12 +14,13 @@ import { SearchRouterComponent } from './components/search-router/search-router.
 import { TextMaskModule } from './directives/text2mask';
 import { TableComponent } from './components/table/table.component';
 import { AppSortableHeader } from './directives/sortable-header';
-import { RbacAllowDirective } from './directives/role-based-access-allow';
 import { LetDirective } from './directives/ng-let';
 import { MonthpickerComponent } from './components/monthpicker/monthpicker.component';
 import { LinearLoadingIndicator } from './components/linear-loading-indicator.component';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { NgChartistComponent } from './components/ng-chartist.component';
+import { RbacAllowDirective } from './directives/role-based-access-allow';
 
 
 
@@ -34,7 +35,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     SearchRouterComponent,
     TableComponent,
     LetDirective,
-    MonthpickerComponent
+    MonthpickerComponent,
+    NgChartistComponent
   ],
   imports: [
     CommonModule,
@@ -73,7 +75,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     LinearLoadingIndicator,
     CdkDropList,
     CdkDrag,
-    ScrollingModule
+    ScrollingModule,
+    NgChartistComponent
   ]
 })
 export class SharedModule { }

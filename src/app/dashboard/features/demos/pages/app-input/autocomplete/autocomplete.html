@@ -1,8 +1,8 @@
-<div class="d-grid gap-4 pt-4">
+<div class="d-grid gap-5 px-3 py-4">
 
-    <div>
+    <section>
 
-        <h5 class="mb-3">Autocomplete</h5>
+        <h4>Autocomplete</h4>
 
         <p>The <code>type="autocomplete"</code> is a component that you can use to create typehead extremely fast with very little code.</p>
 
@@ -10,14 +10,15 @@
 
             <app-input
                 type="autocomplete"
-                name="state"
-                placeholder="Enter a state"
+                name="s-1"
+                label="All the results"
+                helper="This shows all the results"
                 [options]="states"
                 [formatter]="statesFormatter"
                 [template]="rt"
                 [filter]="statesFilter"
                 [ngControl]="state"
-                helper="This shows all the results"
+                [floatingLabel]="true"
             ></app-input>
             <ng-template #rt let-r="result" let-t="term">
                 <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" />
@@ -26,8 +27,9 @@
 
             <app-input
                 type="autocomplete"
-                name="state"
-                placeholder="Enter a state"
+                name="s-2"
+                label="Limited results"
+                helper="This only shows the first 15 results"
                 [limit]="15"
                 [limitTextFactory]="onlyFewStatesTextFactory"
                 [options]="states"
@@ -35,7 +37,7 @@
                 [template]="rt"
                 [filter]="statesFilter"
                 [ngControl]="state"
-                helper="This only shows the first 15 results"
+                [floatingLabel]="true"
             ></app-input>
             <ng-template #rt let-r="result" let-t="term">
                 <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" />
@@ -48,16 +50,18 @@
                 {{ state.value | json }}
             </div>
         </div>
-    </div>
+    </section>
 
-    <div>
+    <section>
 
-        <h5 class="mb-3">Autocomplete with custom search</h5>
+        <h4>Autocomplete with custom search</h4>
+
+        <p>Use <code>[customSearch]="..."</code> if your autocomplete needs to trigger an asynchronous HTTP search.</p>
 
         <app-input
             type="autocomplete"
             name="book"
-            label="Search among the books"
+            label="Search a book"
             [formatter]="booksFormatter"
             [customSearch]="customBookSearch"
             [template]="bt"
@@ -89,52 +93,13 @@
             </div>
         </ng-template>
 
-        <div *ngIf="searching" class="spinner-border spinner-border-sm my-2">
-            <span class="visually-hidden">Loading...</span>
+        <div class="card card-body mt-2">
+            <ng-container *ngIf="searching; else showResult">
+                <span class="spinner-border spinner-border-sm"></span>
+            </ng-container>
+            <ng-template #showResult>
+                {{ book.value | json }}
+            </ng-template>
         </div>
-    </div>
-
-    <div>
-        
-        <h5 class="mb-3">Tagger</h5>
-
-        <p>The <code>type="tagger"</code> is an opinionated component that merges autocomplete with an array to allows for multiple autocompleted selection.</p>
-
-        <app-input
-            type="tagger"
-            name="flavors"
-            placeholder="Choose your favourite flavors of ice-cream"
-            [options]="flavorList"
-            [formatter]="flavorsFormatter"
-            [filter]="flavorsFilter"
-            [ngControl]="flavors"
-        ></app-input>
-
-        <div class="card mt-2">
-            <div class="card-body">
-                {{ flavors.value | json }}
-            </div>
-        </div>
-    </div>
-
-    <div>
-        
-        <h5 class="mb-3">Tagger with free tagging</h5>
-
-        <p>Apply <code>[freeTag]="true"</code> if you need a tagger that doesn't depend on an array.</p>
-
-        <app-input
-            type="tagger"
-            name="freeTagger"
-            placeholder="Type whatever and use enter to tag"
-            [freeTag]="true"
-            [ngControl]="freeTagger"
-        ></app-input>
-
-        <div class="card mt-2">
-            <div class="card-body">
-                {{ freeTagger.value | json }}
-            </div>
-        </div>
-    </div>
+    </section>
 </div>

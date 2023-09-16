@@ -55,13 +55,19 @@ export class DashboardSidebarComponent {
     },
     {
       isActive: false,
+      title: 'Ng chartist',
+      icon: 'bi-bar-chart-fill',
+      path: '/dashboard/demos/ng-chartist',
+    },
+    {
+      isActive: false,
       title: 'Wizard',
       icon: 'bi-eyeglasses',
       path: '/dashboard/demos/wizard'
     },
     {
       isActive: false,
-      title: 'Demos',
+      title: 'Bootstrap widgets',
       icon: 'bi-grid',
       children: [
         {

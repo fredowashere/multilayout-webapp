@@ -2,7 +2,8 @@ import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { flavorList, states } from '../autocomplete/mock';
+import { states } from '../autocomplete/mock';
+import { flavorList } from '../tagger/mock';
 
 @Component({
     selector: 'appd-form',
@@ -12,13 +13,13 @@ import { flavorList, states } from '../autocomplete/mock';
 })
 export class AppdForm {
 
+    states = states; // imported from autocomplete/mock
     statesFormatter = (state: any) => state.name;
     statesFilter = (term: string, state: any) => state.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
-    states = states; // imported from autocomplete/mock
 
+    flavorList = flavorList; // imported from tagger/mock
     flavorsFormatter = (flavor: any) => flavor.name;
     flavorsFilter = (term: string, flavor: any) => flavor.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
-    flavorList = flavorList; // imported from autocomplete/mock
 
     form = new FormGroup({
         firstName: new FormControl("Fredo"),

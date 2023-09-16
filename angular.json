@@ -27,6 +27,7 @@
             "styles": [
               "src/assets/css/bootstrap-with-vars.css",
               "./node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "./node_modules/chartist/dist/index.css",
               "./node_modules/highlight.js/styles/magula.css",
               "src/assets/css/demos.css",
               "src/styles.css"

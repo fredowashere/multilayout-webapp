@@ -30,7 +30,7 @@ const defaultLimitTextFactory = (limit: number) => {
   return "Limited to " + limit + " items, type for more results.";
 }
 
-const defaultFormatter = (item: any): any => {
+const defaultFormatter = (item: any, index: number): any => {
   if (typeof item === "object") {
     return Object.values(item).join(" ");
   }

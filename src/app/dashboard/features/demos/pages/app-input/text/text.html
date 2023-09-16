@@ -1,6 +1,9 @@
-<div class="d-grid gap-4 pt-4">
+<div class="d-grid gap-5 px-3 py-4">
 
-    <div>
+    <section>
+
+        <h4>Fixed label</h4>
+
         <div class="flexgrid flexgrid--3 mb-3">
 
             <app-input
@@ -36,11 +39,56 @@
             label="Textarea"
             [ngControl]="textarea"
         ></app-input>
-    </div>
+    </section>
 
-    <div>
+    <section>
 
-        <h5 class="mb-3">Disabled</h5>
+        <h4>Floating label</h4>
+
+        <div class="flexgrid flexgrid--3 mb-3">
+
+            <app-input
+                name="text"
+                label="Text"
+                maxlength="6"
+                helper="Maximum 6 characters"
+                [ngControl]="text"
+                [floatingLabel]="true"
+            ></app-input>
+    
+            <app-input
+                type="number"
+                name="number"
+                label="Number"
+                step="0.5"
+                min="3"
+                max="6"
+                helper="Minimum 3, maximum 6"
+                [ngControl]="number"
+                [floatingLabel]="true"
+            ></app-input>
+    
+            <app-input
+                type="password"
+                name="password"
+                label="Password"
+                [ngControl]="password"
+                [floatingLabel]="true"
+            ></app-input>
+        </div>
+
+        <app-input
+            type="textarea"
+            name="textarea"
+            label="Textarea"
+            [ngControl]="textarea"
+            [floatingLabel]="true"
+        ></app-input>
+    </section>
+
+    <section>
+
+        <h4>Disabled</h4>
         
         <div class="flexgrid flexgrid--3 mb-3">
 
@@ -49,6 +97,7 @@
                 label="Text input"
                 [ngControl]="text"
                 [disabled]="true"
+                [floatingLabel]="true"
             ></app-input>
     
             <app-input
@@ -57,6 +106,7 @@
                 label="Number"
                 [ngControl]="number"
                 [disabled]="true"
+                [floatingLabel]="true"
             ></app-input>
     
             <app-input
@@ -65,6 +115,7 @@
                 label="Password"
                 [ngControl]="password"
                 [disabled]="true"
+                [floatingLabel]="true"
             ></app-input>
         </div>
     
@@ -74,18 +125,7 @@
             label="Textarea"
             [ngControl]="textarea"
             [disabled]="true"
+            [floatingLabel]="true"
         ></app-input>
-    </div>
-
-    <div>
-
-        <h5 class="mb-3">Validation</h5>
-
-        <app-input
-            name="text"
-            label="Text input with validation"
-            helper="Type to see validation in action"
-            [ngControl]="textValidation"
-        ></app-input>
-    </div>
+    </section>
 </div>

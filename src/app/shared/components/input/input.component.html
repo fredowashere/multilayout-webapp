@@ -244,8 +244,8 @@
             [class.is-invalid]="isInvalid()" 
             [placeholder]="placeholder" 
             [ngbTypeahead]="search"
-            [inputFormatter]="formatter"
-            [resultFormatter]="formatter"
+            [inputFormatter]="$any(formatter)"
+            [resultFormatter]="$any(formatter)"
             [resultTemplate]="template"
             [editable]="false"
             [disabled]="disabled"
@@ -272,11 +272,11 @@
 
         <div class="tagger-array">
             <span
-                *ngFor="let tag of tags"
+                *ngFor="let tag of tags; let i = index"
                 class="badge d-flex align-items-center fs-6 rounded-pill bg-secondary"
             >
 
-                <div>{{ formatter(tag) }}</div>
+                <div>{{ formatter(tag, i) }}</div>
 
                 <button
                     type="button"
@@ -299,8 +299,8 @@
                 [class.is-invalid]="isInvalid()"
                 [placeholder]="placeholder"
                 [ngbTypeahead]="search"
-                [inputFormatter]="formatter"
-                [resultFormatter]="formatter"
+                [inputFormatter]="$any(formatter)"
+                [resultFormatter]="$any(formatter)"
                 [resultTemplate]="template"
                 [editable]="false"
                 [disabled]="disabled"
@@ -538,8 +538,8 @@
                 [class.is-invalid]="isInvalid()"
                 [placeholder]="placeholder"
                 [ngbTypeahead]="search"
-                [inputFormatter]="formatter"
-                [resultFormatter]="formatter"
+                [inputFormatter]="$any(formatter)"
+                [resultFormatter]="$any(formatter)"
                 [resultTemplate]="template"
                 [editable]="false"
                 [disabled]="disabled"
@@ -567,11 +567,11 @@
     
         <div class="tagger-array">
             <span
-                *ngFor="let tag of tags"
+                *ngFor="let tag of tags; let i = index"
                 class="badge d-flex align-items-center fs-6 rounded-pill bg-secondary"
             >
 
-                <div>{{ formatter(tag) }}</div>
+                <div>{{ formatter(tag, i) }}</div>
 
                 <button
                     type="button"
@@ -592,8 +592,8 @@
             [class.is-invalid]="isInvalid()"
             [placeholder]="placeholder"
             [ngbTypeahead]="search"
-            [inputFormatter]="formatter"
-            [resultFormatter]="formatter"
+            [inputFormatter]="$any(formatter)"
+            [resultFormatter]="$any(formatter)"
             [resultTemplate]="template"
             [editable]="false"
             [disabled]="disabled"

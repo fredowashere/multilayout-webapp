@@ -1,4 +1,4 @@
-<div class="d-grid pt-4">
+<div class="d-grid px-3 py-4">
         
     <div class="card">
         <form class="card-body" [formGroup]="form">
@@ -89,9 +89,7 @@
         </form>
     </div>
     
-    <div class="card mt-2">
-        <div class="card-body">
-            {{ form.value | json }}
-        </div>
+    <div class="card card-body mt-2">
+        {{ form.value | json }}
     </div>
 </div>

@@ -114,7 +114,7 @@
     --app-info_800: var(--app-info_800);
   }
   
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
 
     :root {
       --app-gray_100: 255, 255, 255;
@@ -130,7 +130,7 @@
       --app-gray_50: 35, 35, 35;
       --app-gray_0: 0, 0, 0;
     }
-  }
+  } */
   
   /*!
    * Bootstrap v5.0.2 (https://getbootstrap.com/)

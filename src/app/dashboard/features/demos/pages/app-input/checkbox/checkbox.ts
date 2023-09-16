@@ -11,14 +11,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 })
 export class AppdCheckbox {
 
-    checkbox = new FormControl();
-
-    radio = new FormControl();
-
     choices: SelectOption[] = [
         { text: 'Female', value: 1 },
         { text: 'Male', value: 2 },
         { text: 'Non-binary', value: 3 },
         { text: 'Who knows what', value: 4 },
     ];
+
+    checkbox = new FormControl();
+
+    radio = new FormControl();
 }
