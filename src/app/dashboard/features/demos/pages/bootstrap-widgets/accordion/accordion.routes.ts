@@ -56,6 +56,7 @@ export const routes: Routes = [
 		component: DemosComponent,
 		data: {
 			bootstrap: 'https://getbootstrap.com/docs/%version%/components/collapse/#accordion-example',
+			ngBootstrap: 'https://ng-bootstrap.github.io/releases/%version%/#/components/accordion/overview',
 		},
 		providers: [
 			{

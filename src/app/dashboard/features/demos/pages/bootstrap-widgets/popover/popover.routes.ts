@@ -99,6 +99,7 @@ export const routes: Routes = [
 		component: DemosComponent,
 		data: {
 			bootstrap: 'https://getbootstrap.com/docs/%version%/components/popovers/',
+			ngBootstrap: 'https://ng-bootstrap.github.io/releases/%version%/#/components/popover/examples',
 		},
 		providers: [
 			{

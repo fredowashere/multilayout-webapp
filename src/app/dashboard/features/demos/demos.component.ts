@@ -28,6 +28,7 @@ export class DemosComponent {
 	demos: any = [];
 
   bootstrapUrl?: string;
+  ngBootstrapUrl?: string;
 
   constructor(
     private demoList: NgbdDemoListService,
@@ -35,9 +36,15 @@ export class DemosComponent {
     private router: Router
   ) {
 
-    const bootstrapUrl = this.route.snapshot.data['bootstrap'];
-    if (bootstrapUrl)
-      this.bootstrapUrl = bootstrapUrl.replace('%version%', environment.bootstrap);
+    const bootstrapUrl = this.route.snapshot.data["bootstrap"];
+    if (bootstrapUrl) {
+      this.bootstrapUrl = bootstrapUrl.replace("%version%", environment.bootstrap);
+    }
+
+    const ngBootstrapUrl = this.route.snapshot.data["ngBootstrap"];
+    if (ngBootstrapUrl) {
+      this.ngBootstrapUrl = ngBootstrapUrl.replace("%version%", environment.ngBootstrap);
+    }
 
     this.componentName = route.parent?.snapshot.url[0].path;
 

@@ -50,6 +50,7 @@ export const routes: Routes = [
 		component: DemosComponent,
 		data: {
 			bootstrap: 'https://getbootstrap.com/docs/%version%/components/offcanvas/',
+			ngBootstrap: 'https://ng-bootstrap.github.io/releases/%version%/#/components/offcanvas/examples',
 		},
 		providers: [
 			{

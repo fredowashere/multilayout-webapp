@@ -57,6 +57,7 @@ export const routes: Routes = [
 		component: DemosComponent,
 		data: {
 			bootstrap: 'https://getbootstrap.com/docs/%version%/components/modal/',
+			ngBootstrap: 'https://ng-bootstrap.github.io/releases/%version%/#/components/modal/examples',
 		},
 		providers: [
 			{

@@ -55,6 +55,9 @@ export const routes: Routes = [
 	{
 		path: '',
 		component: DemosComponent,
+		data: {
+			ngBootstrap: 'https://ng-bootstrap.github.io/releases/%version%/#/components/rating/examples',
+		},
 		providers: [
 			{
 				provide: ENVIRONMENT_INITIALIZER,

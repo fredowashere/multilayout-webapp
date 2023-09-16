@@ -43,6 +43,7 @@ export const routes: Routes = [
 		component: DemosComponent,
 		data: {
 			bootstrap: 'https://getbootstrap.com/docs/%version%/components/carousel/',
+			ngBootstrap: 'https://ng-bootstrap.github.io/releases/%version%/#/components/carousel/examples',
 		},
 		providers: [
 			{

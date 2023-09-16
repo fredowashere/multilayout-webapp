@@ -71,6 +71,7 @@ export const routes: Routes = [
 		component: DemosComponent,
 		data: {
 			bootstrap: 'https://getbootstrap.com/docs/%version%/components/dropdowns/',
+			ngBootstrap: 'https://ng-bootstrap.github.io/releases/%version%/#/components/dropdown/examples',
 		},
 		providers: [
 			{

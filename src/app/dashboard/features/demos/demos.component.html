@@ -95,8 +95,8 @@
                         [fragment]="demo.id"
                     >{{ demo.title }}</a>
                 </li>
+                <ng-container *ngIf="bootstrapUrl || ngBootstrapUrl"><hr></ng-container>
                 <ng-container *ngIf="bootstrapUrl">
-                    <hr>
                     <li class="nav-item">
                         <a
                             [attr.href]="bootstrapUrl"
@@ -104,8 +104,19 @@
                             class="nav-link"
                             style="text-transform: capitalize;"
                         >
-                            <i class="bi bi-bootstrap-fill"></i>
-                            {{ componentName }}
+                            <i class="bi bi-box-arrow-in-right"></i> Native Bootstrap {{ componentName }}
+                        </a>
+                    </li>
+                </ng-container>
+                <ng-container *ngIf="ngBootstrapUrl">
+                    <li class="nav-item">
+                        <a
+                            [attr.href]="ngBootstrapUrl"
+                            target="_blank"
+                            class="nav-link"
+                            style="text-transform: capitalize;"
+                        >
+                            <i class="bi bi-box-arrow-in-right"></i> NG Bootstrap {{ componentName }}
                         </a>
                     </li>
                 </ng-container>
