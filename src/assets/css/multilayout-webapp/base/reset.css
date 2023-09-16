@@ -1,0 +1,18 @@
+body {
+    background: rgba(var(--app-body-background), 1);
+    font-family: "Roboto", var(--bs-font-sans-serif);
+}
+
+ngb-typeahead-window {
+    width: clamp(25ch, 100%, 40ch);
+    max-height: 300px;
+    overflow: auto;
+}
+
+ngb-typeahead-window .dropdown-item {
+    white-space: initial;
+}
+
+.pagination {
+    margin-bottom: 0 !important;
+}

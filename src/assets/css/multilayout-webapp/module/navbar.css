@@ -1,0 +1,4 @@
+.app-navbar {
+    min-height: 64px;
+    border-bottom: 1px solid rgba(var(--app-gray_100), 1);
+}
