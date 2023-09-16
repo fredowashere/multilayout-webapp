@@ -31,7 +31,7 @@ export class DashboardSidebarComponent {
   // Get all view children with #rla applied
   @ViewChildren('rla')
   rlaList!: QueryList<RouterLinkActive>;
-  
+
   intersection = intersection;
 
   sidebarItems: SidebarItem[] = [
@@ -55,9 +55,9 @@ export class DashboardSidebarComponent {
     },
     {
       isActive: false,
-      title: 'Ng chartist',
+      title: 'App chart',
       icon: 'bi-bar-chart-fill',
-      path: '/dashboard/demos/ng-chartist',
+      path: '/dashboard/demos/app-chart',
     },
     {
       isActive: false,
@@ -77,8 +77,8 @@ export class DashboardSidebarComponent {
         {
           path: '/dashboard/demos/alert',
           title: 'Alert'
-    },
-    {
+        },
+        {
           path: '/dashboard/demos/carousel',
           title: 'Carousel'
         },
@@ -146,7 +146,7 @@ export class DashboardSidebarComponent {
     },
   ];
 
-  username$: Observable<string | undefined>; 
+  username$: Observable<string | undefined>;
 
   constructor(
     public sidebarService: SidebarService,

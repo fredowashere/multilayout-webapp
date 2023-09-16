@@ -38,7 +38,7 @@ export const routes: Routes = [
 				provide: ENVIRONMENT_INITIALIZER,
 				multi: true,
 				useValue: () =>
-					inject(NgbdDemoListService).register('ng-chartist', demos),
+					inject(NgbdDemoListService).register('app-chart', demos),
 			},
 		],
 	},
