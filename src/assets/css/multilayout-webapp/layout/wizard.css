@@ -16,12 +16,8 @@
     transition: all 400ms ease;
 }
 
-.wiz__step:not(:first-child) {
+.wiz__step {
     clip-path: polygon(0 0, calc(100% - 1rem) 0, 100% 50%, calc(100% - 1rem) 100%, 0 100%, 1rem 50%);
-}
-
-.wiz__step:last-child {
-    clip-path: polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 1rem 50%);
 }
 
 .wiz__step:not(.disabled):hover {
@@ -56,10 +52,11 @@
 
     .wiz {
         display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .wiz__step {
-        padding: 1rem;
+        padding: 0.25rem;
         clip-path: unset !important;
         margin-left: unset !important;
         text-align: center;
