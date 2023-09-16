@@ -1,52 +1,48 @@
 <div class="d-grid gap-5 px-3 py-4">
 
-    <div class="d-grid gap-3">
+    <section>
+
+        <h4>Flexgrid fundamentals</h4>
+
+        <p>
+            The utility class <code>flexgrid</code> lets you define a flexible grid from 1 to 5 columns.
+            <br>
+            The CSS variable <code>--flexgrid-col-min-width</code> lets you control the minimum width at which a flexgrid item wraps to the next line.
+            <br>
+            The CSS variable <code>--flexgrid-gap</code> lets you control the space between flexgrid items.
+        </p>
+
+        <div class="d-grid gap-3 resizeable">
+            <div *ngFor="let qty of [ 5, 4, 3, 2 ]">
+
+                <h6>{{ qty }}-cols layout</h6>
     
-        <div>
-            <h6>Five columns layout</h6>
-
-            <div class="flexgrid flexgrid--5">
-                <div class="input-placeholder"></div>
-                <div class="input-placeholder"></div>
-                <div class="input-placeholder"></div>
-                <div class="input-placeholder"></div>
-                <div class="input-placeholder"></div>
+                <div class="flexgrid" [ngClass]="'flexgrid--' + qty">
+                    <div class="input-placeholder" *ngFor="let n of Array(qty).fill(0)"></div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div>
-            <h6>Four columns layout</h6>
+    <section>
 
-            <div class="flexgrid flexgrid--4">
-                <div class="input-placeholder"></div>
-                <div class="input-placeholder"></div>
-                <div class="input-placeholder"></div>
-                <div class="input-placeholder"></div>
-            </div>
-        </div>
+        <h4>Flexgrid with no-grow</h4>
 
-        <div>
-            <h6>Three columns layout</h6>
+        <p>
+            Apply the class <code>flexgrid--no-grow</code> if you don't want the elements to grow.
+            <br>
+            Tweak the CSS variable <code>--flexgrid-col-min-width</code> to control the minimum width at which a flexgrid item wraps to the next line.
+        </p>
 
-            <div class="flexgrid flexgrid--3">
-                <div class="input-placeholder"></div>
-                <div class="input-placeholder"></div>
-                <div class="input-placeholder"></div>
-            </div>
-        </div>
+        <div class="d-grid gap-3 resizeable">
+            <div *ngFor="let qty of [ 5, 4, 3, 2 ]">
 
-        <div>
-            <h6>Two columns layout</h6>
-
-            <div class="flexgrid flexgrid--2">
-                <div class="input-placeholder"></div>
-                <div class="input-placeholder"></div>
-            </div>
-        </div>
-    </div>
+                <h6>{{ qty }}-cols layout</h6>
     
-    <div>
-        <p>Flexgrid column minimum width is set by the CSS variable <code>--flexgrid-col-min-width</code>.</p>
-        <p>Flexgrid gap is set by the CSS variable <code>--flexgrid-gap</code>.</p>
-    </div>
+                <div class="flexgrid flexgrid--no-grow" [ngClass]="'flexgrid--' + qty">
+                    <div class="input-placeholder" *ngFor="let n of Array(qty).fill(0)"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
