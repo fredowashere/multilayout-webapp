@@ -2,89 +2,62 @@
 
     <section>
 
-        <h4>Simple line chart</h4>
+        <h4>Bi-polar chart</h4>
 
-        <x-chartist [configuration]="simpleLineChart"></x-chartist>
+        <app-chart [configuration]="bipolarChart"></app-chart>
     </section>
 
 
 
     <section>
 
-        <h4>Holes in data</h4>
+        <h4>Overlapping bars</h4>
 
-        <x-chartist [configuration]="holesInData"></x-chartist>
+        <app-chart [configuration]="overlappingBars"></app-chart>
     </section>
 
 
 
     <section>
 
-        <h4>Filled holes in data</h4>
+        <h4>Multi-line labels</h4>
 
-        <x-chartist [configuration]="filledHolesInData"></x-chartist>
+        <app-chart [configuration]="multilineLabels"></app-chart>
     </section>
 
 
 
     <section>
 
-        <h4>Only whole numbers</h4>
+        <h4>Horizontal bars</h4>
 
-        <x-chartist [configuration]="onlyWholeNumbers"></x-chartist>
+        <app-chart [configuration]="horizontalBars"></app-chart>
     </section>
 
 
 
     <section>
 
-        <h4>Line scatter diagram</h4>
+        <h4>Extreme responsive configuration</h4>
 
-        <x-chartist [configuration]="lineScatterDiagram"></x-chartist>
+        <app-chart [configuration]="extremeResponsiveConfiguration"></app-chart>
     </section>
 
 
 
     <section>
 
-        <h4>Line chart with area</h4>
+        <h4>Distributed series</h4>
 
-        <x-chartist [configuration]="lineChartWithArea"></x-chartist>
+        <app-chart [configuration]="distributedSeries"></app-chart>
     </section>
 
 
 
     <section>
 
-        <h4>Bi-polar line chart</h4>
+        <h4>Label placement</h4>
 
-        <x-chartist [configuration]="bipolarLineChart"></x-chartist>
-    </section>
-
-
-
-    <section>
-
-        <h4>Line smoothing</h4>
-
-        <x-chartist [configuration]="lineSmoothing"></x-chartist>
-    </section>
-
-
-
-    <section>
-
-        <h4>Series overrides</h4>
-
-        <x-chartist [configuration]="seriesOverrides"></x-chartist>
-    </section>
-
-
-
-    <section>
-
-        <h4>Time series with date-fns</h4>
-
-        <x-chartist [configuration]="timeSeriesWithDateFns"></x-chartist>
+        <app-chart [configuration]="labelPlacement"></app-chart>
     </section>
 </div>

@@ -52,7 +52,7 @@ export interface ChartEvent {
 }
 
 @Component({
-    selector: "x-chartist",
+    selector: "app-chart",
     template: "",
     styles: [`
         :host {
@@ -60,7 +60,7 @@ export interface ChartEvent {
         }
     `],
 })
-export class NgChartistComponent implements OnInit, OnChanges, OnDestroy {
+export class AppChartComponent implements OnInit, OnChanges, OnDestroy {
     @Input() configuration!: Configuration;
 
     /**

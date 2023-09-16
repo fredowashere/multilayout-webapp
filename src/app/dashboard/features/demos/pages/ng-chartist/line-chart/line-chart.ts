@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FixedScaleAxis, Interpolation } from 'chartist';
 import { format } from 'date-fns';
-import { LineChartConfiguration } from 'src/app/shared/components/ng-chartist.component';
+import { LineChartConfiguration } from 'src/app/shared/components/chart.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
@@ -11,7 +11,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     imports: [SharedModule, NgIf],
 	templateUrl: './line-chart.html',
     styles: [`
-        x-chartist {
+        app-chart {
             height: 50vh;
         }
     `]
@@ -112,10 +112,7 @@ export class AppdLineChart {
 
 
 
-    times(n: number) {
-        return Array.apply(null, new Array(n));
-    };
-
+    times(n: number) { return Array.apply(null, new Array(n)); };
     lineScatterDiagram: LineChartConfiguration = {
         type: "Line",
         data: this.times(52)

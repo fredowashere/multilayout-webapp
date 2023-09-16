@@ -19,7 +19,7 @@ import { MonthpickerComponent } from './components/monthpicker/monthpicker.compo
 import { LinearLoadingIndicator } from './components/linear-loading-indicator.component';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { NgChartistComponent } from './components/ng-chartist.component';
+import { AppChartComponent } from './components/chart.component';
 import { RbacAllowDirective } from './directives/role-based-access-allow';
 
 
@@ -36,7 +36,7 @@ import { RbacAllowDirective } from './directives/role-based-access-allow';
     TableComponent,
     LetDirective,
     MonthpickerComponent,
-    NgChartistComponent
+    AppChartComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +76,7 @@ import { RbacAllowDirective } from './directives/role-based-access-allow';
     CdkDropList,
     CdkDrag,
     ScrollingModule,
-    NgChartistComponent
+    AppChartComponent
   ]
 })
 export class SharedModule { }
