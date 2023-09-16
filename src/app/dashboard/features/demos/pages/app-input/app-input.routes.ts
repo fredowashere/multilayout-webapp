@@ -65,7 +65,7 @@ const demos = {
 		type: AppdTagger,
 	},
 	layout: {
-		title: 'Layout',
+		title: 'Flexgrid',
 		code: require('!raw-loader!./layout/layout').default,
 		markup: require('!raw-loader!./layout/layout.html').default,
 		type: AppdLayout,
