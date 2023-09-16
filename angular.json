@@ -42,11 +42,11 @@
               "src/assets/css/multilayout-webapp/module/table.css",
               "src/assets/css/multilayout-webapp/util/generic.css",
               "src/assets/css/demos.css",
-              "src/stylesheets/base/variables.css",
-              "src/stylesheets/base/reset.css",
-              "src/stylesheets/layout/generic.css",
-              "src/stylesheets/module/generic.css",
-              "src/stylesheets/util/generic.css"
+              "src/styles/base/variables.css",
+              "src/styles/base/reset.css",
+              "src/styles/layout/generic.css",
+              "src/styles/module/generic.css",
+              "src/styles/util/generic.css"
             ],
             "scripts": [
               "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
