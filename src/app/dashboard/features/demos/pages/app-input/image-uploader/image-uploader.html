@@ -1,0 +1,8 @@
+<div class="d-grid px-3 py-4">
+
+    <app-image-uploader-preview (onImageChange)="base64 = $event"></app-image-uploader-preview>
+
+    <div class="card card-body mt-2" style="max-height: 250px; overflow: auto;">
+        {{ base64 }}
+    </div>
+</div>

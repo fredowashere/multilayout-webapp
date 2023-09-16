@@ -5,13 +5,13 @@ import { NgbdDemoListService } from '../../services/ngbd-demo-list.service';
 import { AppdText } from './text/text';
 import { AppdTextMasking } from './text-masking/text-masking';
 import { AppdAutocomplete } from './autocomplete/autocomplete';
-import { AppdCheckbox } from './checkbox/checkbox';
 import { AppdForm } from './form/form';
 import { AppdDate } from './date/date';
 import { AppdLayout } from './layout/layout';
 import { AppdTagger } from './tagger/tagger';
 import { AppdSelectionPatterns } from './selection-patterns/selection-patterns';
 import { AppdValidation } from './validation/validation';
+import { AppdImageUploader } from './image-uploader/image-uploader';
 
 declare var require: any;
 
@@ -63,6 +63,12 @@ const demos = {
 		code: require('!raw-loader!./tagger/tagger').default,
 		markup: require('!raw-loader!./tagger/tagger.html').default,
 		type: AppdTagger,
+	},
+	imageUploader: {
+		title: 'Image uploader',
+		code: require('!raw-loader!./image-uploader/image-uploader').default,
+		markup: require('!raw-loader!./image-uploader/image-uploader.html').default,
+		type: AppdImageUploader,
 	},
 	layout: {
 		title: 'Flexgrid',

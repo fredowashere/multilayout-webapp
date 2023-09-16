@@ -1,30 +1,33 @@
-<div class="d-grid gap-4 pt-4">
+<div class="d-grid px-3 py-4">
     
     <div class="flexgrid flexgrid--3">
 
         <app-input
-            [mask]="phoneMask"
-            [ngControl]="phone"
             name="phone"
             label="Phone number"
+            [mask]="phoneMask"
+            [ngControl]="phone"
+            [floatingLabel]="true"
         ></app-input>
 
         <app-input
-            [mask]="euroMask"
-            [ngControl]="euro"
             name="euro"
             label="Amount of Euros"
+            [mask]="euroMask"
+            [ngControl]="euro"
+            [floatingLabel]="true"
         ></app-input>
 
         <app-input
-            [mask]="emailMask"
-            [ngControl]="email"
             name="email"
             label="Email address"
+            [mask]="emailMask"
+            [ngControl]="email"
+            [floatingLabel]="true"
         ></app-input>
     </div>
 
-    <p>
+    <p class="mt-2">
         Input masking only works on <code>type="text"</code> input due to API limitations.
         <br>
         Mask does not provide an option to unmask the model: <b>you'll have to unmask by yourself</b>.

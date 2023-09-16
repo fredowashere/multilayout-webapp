@@ -21,6 +21,7 @@ import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AppChartComponent } from './components/chart.component';
 import { RbacAllowDirective } from './directives/role-based-access-allow';
+import { ImageUploaderPreviewComponent } from './components/image-uploader-preview/image-uploader-preview.component';
 
 
 
@@ -36,7 +37,8 @@ import { RbacAllowDirective } from './directives/role-based-access-allow';
     TableComponent,
     LetDirective,
     MonthpickerComponent,
-    AppChartComponent
+    AppChartComponent,
+    ImageUploaderPreviewComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +78,8 @@ import { RbacAllowDirective } from './directives/role-based-access-allow';
     CdkDropList,
     CdkDrag,
     ScrollingModule,
-    AppChartComponent
+    AppChartComponent,
+    ImageUploaderPreviewComponent
   ]
 })
 export class SharedModule { }
