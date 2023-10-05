@@ -357,7 +357,10 @@ export class InputComponent implements OnInit, OnDestroy {
   setupTaggerReactivity() {
 
     this.ngControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(tags => Array.isArray(tags))
+      )
       .subscribe(tags => {
         this.tags = tags;
       });
@@ -384,7 +387,7 @@ export class InputComponent implements OnInit, OnDestroy {
 
   taggerChoiceSelected(value: any) {
 
-    if (this.deduped && this.tags.some(tag => isEqual(tag, value.item))) {
+    if (this.deduped && this.tags?.some(tag => isEqual(tag, value.item))) {
       console.warn("Entry already present");
     }
     else {
