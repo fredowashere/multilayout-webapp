@@ -35,6 +35,13 @@ export class AppdForm {
         agree: new FormControl(undefined, [ Validators.requiredTrue ])
     });
 
+    disableForm = new FormControl(false);
+
+    ngOnInit() {
+        this.disableForm.valueChanges
+            .subscribe(d => d ? this.form.disable() : this.form.enable());
+    }
+
     submit() {
         alert("Submitted!");
     }

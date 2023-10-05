@@ -75,11 +75,19 @@
             </div>
     
             <div class="flexgrid">
+
                 <app-input
                     type="checkbox"
                     name="agree"
                     label="Agree to terms and conditions"
                     formControlName="agree"
+                ></app-input>
+
+                <app-input
+                    type="checkbox"
+                    name="disableForm"
+                    label="Disable form"
+                    [ngControl]="disableForm"
                 ></app-input>
             </div>
     

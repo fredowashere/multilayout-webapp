@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output, Se
 import { ControlContainer, ControlValueAccessor, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { isEqual } from 'lodash';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, distinctUntilKeyChanged, filter, map, merge, Observable, OperatorFunction, Subject, takeUntil, tap } from 'rxjs';
 import { guid } from 'src/app/utils/uuid';
 
 export const DUMMY_VALUE_ACCESSOR: ControlValueAccessor = {
@@ -303,9 +303,22 @@ export class InputComponent implements OnInit, OnDestroy {
   }
 
   setupAutocompleteReactivity() {
+
     this.ngControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(value => this._autocompleteChoice = value);
+      .subscribe(value => {
+        this._autocompleteChoice = value;
+      });
+
+    // Sync disabled to ngControl state
+    this.ngControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged(() => this.disabled === this.ngControl.disabled)
+      )
+      .subscribe(() => {
+        this.disabled = this.ngControl.disabled;
+      });
   }
 
   autocompleteOnChange(value: any) {
@@ -342,9 +355,22 @@ export class InputComponent implements OnInit, OnDestroy {
   }
 
   setupTaggerReactivity() {
+
     this.ngControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(tags => this.tags = tags);
+      .subscribe(tags => {
+        this.tags = tags;
+      });
+
+    // Sync disabled to ngControl state
+    this.ngControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged(() => this.disabled === this.ngControl.disabled)
+      )
+      .subscribe(() => {
+        this.disabled = this.ngControl.disabled;
+      });
   }
 
   isInvalid() {
