@@ -45,6 +45,10 @@ export class AppdForm {
     submit() {
         alert("Submitted!");
     }
+
+    formatJSON() {
+        return JSON.stringify(this.form.value, null, 2);
+    }
 }
 
 
