@@ -92,7 +92,13 @@
             </div>
     
             <div class="text-center">
-                <button class="btn btn-primary" [disabled]="form.invalid" (click)="submit()">Submit</button>
+                <button
+                    class="btn btn-primary"
+                    [disabled]="form.disabled ? true : form.invalid"
+                    (click)="submit()"
+                >
+                    Submit
+                </button>
             </div>
         </form>
     </div>
