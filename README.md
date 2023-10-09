@@ -5,7 +5,7 @@
 * [Description](#description)
 * [Technologies](#technologies)
 * [Install](#terminal-commands)
-* [Guidelines](#guidelines)
+* [Styleguide](#styleguide)
 * [How to add your own styles](#how-to-add-your-own-styles)
 * [Reporting Issues](#reporting-issues)
 
@@ -32,26 +32,33 @@ Take a look at the ```package.json``` file to know more about the libraries avai
 6. And: ```npm start```
 7. Navigate to [localhost:4200](localhost:4200)
 
-## Guidelines
+## Styleguide
 
-This is not a religious set of rules to follow no-matter-what, but rather a set of rules guided by Reason.
-I believe in your capabilities no matter who you are, may the force be with you!
+The following is a set of rules that you should follow:
 
-1. Send fewest HTTP requests as possible
-2. Keep CSS selectors flat (might wanna use [BEM](https://getbem.com/))
-3. Minimise blocking content (might wanna use [Service Worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) for expensive operations)
-4. Use lazy loading (for modules and images)
-5. Make sure you have tested your code on a reasonable number of devices
-6. Don't Repeat Yourself (DRY)
-7. Keep CSS, JS and HTML in separate files (you can break the rule for inline styles)
-8. Where appropriate, use CSS rather than Javascript for animations
-9. Write code to be read: 'Keep It Simple, Stupid' (KISS)
-10. Be verbose with your comments but ensure your comments add value and focus on why rather than how
-11. Don't use whitespaces in file names, use hyphens for word separators
-12. Identify technical debt: use code comment annotations to mark parts of your code that require further work (for instance TODO: ...)
-13. Use PascalCase for class names and camelCase for everything else
-14. Use UPPER_CASE for defining constant names
-15. Write comments and commits in English, as a Web Developer you are required to know English (so use it)
+1. Single Responsibility: Define 1 component per file, recommended to be less than 400 LOC.
+Why? One component per file makes it easier to read, maintain and avoid collisions, and promote easier testing.
+2. Small Functions: Define small functions, no more than 75 LOC.
+Why? Easier to read, maintain and test. Small functions help avoid hidden bugs that usually comes with larger functions.
+3. Avoid Name Collisions: Use unique naming conventions, provide a unique prefix.
+Note: Avoid `ng-` as these are reserved for Angular stuff. Also avoid widely used prefixes such as `ion-`, `bs-` etc.
+4. Public Members Up Top: Place public members before private ones, properties before the constructor, methods after the constructor.
+Why? It makes easy to read and helps you locate various parts of your components.
+5. Defer Component Logic to Services: Defer business logic by delegating to services.
+Why? Logic may be reused by multiple components, can be isolated to unit test, removes dependencies from the components.
+6. Services shoud have a single responsibility. Once a service begins to exceed that singular purpose, a new service should be created.
+7. Refactor logic for making data operations into services. Make data services for HTTP calls, localStorage, stashing in memory and any other data operation.
+Why? Component's responsibility is for the presentation and gathering information for the view. It should not care how it gets the data.
+8. Create one directive per file. Name the file for the directive.
+Why? While it's easy to mash all the directives in one file, it's difficult to break those and shared some of them across the apps.
+9. Always handle exceptions from HTTP calls. If you handle HTTP exceptions at service level, then remember to rethrow the error in the `catch` block.
+Why? If you don't rethrow the error, then the caller of the HTTP call will not know an exception occurred.
+10. Use `PascalCase` for class names, use `camelCase` for member names, use `kebab-case` for file names and use `UPPERCASE_SNAKE_CASE` for constant names.
+11. Write comments and commits in English.
+12. Avoid binding to expensive function calls.
+13. Send fewest HTTP requests as possible.
+14. Keep CSS selectors flat (use [BEM](https://getbem.com/)).
+15. Use lazy loading when possible (for modules and images).
 
 ## How to add your own styles
 
@@ -88,6 +95,7 @@ Head over [http://bem.info/](http://bem.info/) to know more.
 
 * [http://smacss.com/](http://smacss.com/)
 * [http://bem.info/](http://bem.info/)
+* [https://www.patterns.dev/posts#design-patterns](https://www.patterns.dev/posts#design-patterns)
 
 ## Reporting Issues
 
