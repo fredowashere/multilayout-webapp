@@ -1,0 +1,47 @@
+app-table .ngb-highlight {
+    background-color: #ff0;
+}
+
+app-table th {
+    white-space: nowrap;
+}
+
+@media (min-width: 600px) {
+
+    app-table .table>thead>tr>th:first-child,
+    app-table .table>tbody>tr>td:not(.row-expand):first-child {
+        padding-left: 1.5rem !important;
+    }
+
+    app-table .table>thead>tr>th:last-child,
+    app-table .table>tbody>tr>td:not(.row-expand):last-child {
+        padding-right: 1.5rem !important;
+    }
+}
+
+th[sortable] {
+    cursor: pointer;
+    user-select: none;
+}
+
+th[sortable]::before {
+    content: '\F3CA';
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    margin-right: 4px;
+    vertical-align: -0.125em;
+}
+
+th[sortable].desc::before,
+th[sortable].asc::before {
+    content: '\F57B';
+}
+
+th[sortable].desc::before {
+    content: '\F575';
+}
