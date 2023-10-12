@@ -15,7 +15,7 @@
                 helper="Min 2018-01-01, max 2018-12-31"
                 [ngControl]="dateFloating1"
                 [floatingLabel]="true"
-            ></app-input>
+            />
 
             <app-input
                 type="time"
@@ -23,7 +23,7 @@
                 label="Time"
                 [ngControl]="dateFloating2"
                 [floatingLabel]="true"
-            ></app-input>
+            />
 
             <app-input
                 type="datetime"
@@ -34,7 +34,7 @@
                 helper="Min 2018-06-07 00:00, max 2018-06-14 00:00"
                 [ngControl]="dateFloating3"
                 [floatingLabel]="true"
-            ></app-input>
+            />
         </div>
     </section>
 
@@ -51,7 +51,7 @@
                 [maxDate]="endMonthFloating.value"
                 [ngControl]="startMonthFloating"
                 [floatingLabel]="true"
-            ></app-monthpicker>
+            />
 
             <app-monthpicker
                 name="monthpicker"
@@ -60,7 +60,7 @@
                 [minDate]="startMonthFloating.value"
                 [ngControl]="endMonthFloating"
                 [floatingLabel]="true"
-            ></app-monthpicker>
+            />
         </div>
 
         <div class="my-2 fst-italic text-center">

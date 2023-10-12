@@ -10,5 +10,7 @@ import { countries } from '../mock';
 	templateUrl: './table-duplicated-controls.html',
 })
 export class AppdTableDuplicatedControls {
+
 	countries = countries;
+	
 }

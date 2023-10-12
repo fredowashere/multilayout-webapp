@@ -40,11 +40,17 @@ export class AppdTableComplete {
 	}
 
 	selectedToast(row: any) {
-		this.toastService.show("Selected " + row.name, { classname: 'bg-success text-light', delay: 4000 });
+		this.toastService.show(
+			"Selected " + row.name,
+			{ classname: 'bg-success text-light', delay: 4000 }
+		);
 	}
 
 	deselectedToast(row: any) {
-		this.toastService.show("Deselected " + row.name, { classname: 'bg-danger text-light', delay: 6000 });
+		this.toastService.show(
+			"Deselected " + row.name,
+			{ classname: 'bg-danger text-light', delay: 6000 }
+		);
 	}
 
 	async confirmDeleteSingle(country: Country) {

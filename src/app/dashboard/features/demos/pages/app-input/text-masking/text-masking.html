@@ -8,7 +8,7 @@
             [mask]="phoneMask"
             [ngControl]="phone"
             [floatingLabel]="true"
-        ></app-input>
+        />
 
         <app-input
             name="euro"
@@ -16,7 +16,7 @@
             [mask]="euroMask"
             [ngControl]="euro"
             [floatingLabel]="true"
-        ></app-input>
+        />
 
         <app-input
             name="email"
@@ -24,12 +24,11 @@
             [mask]="emailMask"
             [ngControl]="email"
             [floatingLabel]="true"
-        ></app-input>
+        />
     </div>
 
     <p class="mt-2">
-        Input masking only works on <code>type="text"</code> input due to API limitations.
-        <br>
+        Input masking only works on <code>type="text"</code> input due to API limitations.<br>
         Mask does not provide an option to unmask the model: <b>you'll have to unmask by yourself</b>.
     </p>
 </div>

@@ -10,7 +10,7 @@
                     formControlName="firstName"
                     [disabled]="true"
                     [floatingLabel]="true"
-                ></app-input>
+                />
     
                 <app-input
                     name="lastName"
@@ -18,14 +18,14 @@
                     formControlName="lastName"
                     [disabled]="true"
                     [floatingLabel]="true"
-                ></app-input>
+                />
     
                 <app-input
                     name="email"
                     label="Email address"
                     formControlName="email"
                     [floatingLabel]="true"
-                ></app-input>
+                />
             </div>
             <div class="flexgrid flexgrid--3">
     
@@ -34,7 +34,7 @@
                     label="City"
                     formControlName="city"
                     [floatingLabel]="true"
-                ></app-input>
+                />
 
                 <app-input
                     type="autocomplete"
@@ -43,11 +43,11 @@
                     formControlName="state"
                     [options]="states"
                     [formatter]="statesFormatter"
-                    [template]="rt"
+                    [template]="autocompleteTemplate"
                     [filter]="statesFilter"
                     [floatingLabel]="true"
-                ></app-input>
-                <ng-template #rt let-r="result" let-t="term">
+                />
+                <ng-template #autocompleteTemplate let-r="result" let-t="term">
                     <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" />
                     <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
                 </ng-template>
@@ -58,7 +58,7 @@
                     label="ZIP"
                     formControlName="zip"
                     [floatingLabel]="true"
-                ></app-input>
+                />
             </div>
     
             <div class="py-3">
@@ -71,7 +71,7 @@
                     [formatter]="flavorsFormatter"
                     [filter]="flavorsFilter"
                     [floatingLabel]="true"
-                ></app-input>
+                />
             </div>
     
             <div class="flexgrid">
@@ -81,14 +81,14 @@
                     name="agree"
                     label="Agree to terms and conditions"
                     formControlName="agree"
-                ></app-input>
+                />
 
                 <app-input
                     type="checkbox"
                     name="disableForm"
                     label="Disable form"
                     [ngControl]="disableForm"
-                ></app-input>
+                />
             </div>
     
             <div class="text-center">

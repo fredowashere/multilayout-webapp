@@ -19,6 +19,5 @@ export class AppdCheckbox {
     ];
 
     checkbox = new FormControl();
-
     radio = new FormControl();
 }

@@ -42,13 +42,17 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
                 type="button"
                 class="btn btn-outline-secondary"
                 (click)="activeModal.dismiss('Cancel click')"
-            >Cancel</button>
+            >
+                Cancel
+            </button>
 
             <button
                 type="button"
                 class="btn btn-danger"
                 (click)="activeModal.close('Ok click')"
-            >Ok</button>
+            >
+                Ok
+            </button>
         </div>
 	`,
 })

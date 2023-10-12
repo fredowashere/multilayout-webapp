@@ -15,15 +15,18 @@
     </ng-template>
 
     <ng-template #tbody let-country let-st$="term$">
+
         <td>
             <img
                 [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
                 class="me-2"
                 style="width: 20px"
             />
-            <ngb-highlight [result]="country.name" [term]="(st$ | async) || ''"></ngb-highlight>
+            <ngb-highlight [result]="country.name" [term]="(st$ | async) || ''"/>
         </td>
+
         <td>{{ country.area | number }}</td>
+
         <td>{{ country.population | number }}</td>
     </ng-template>
 </app-table>

@@ -15,7 +15,7 @@
             [filter]="flavorsFilter"
             [ngControl]="flavors"
             [floatingLabel]="true"
-        ></app-input>
+        />
 
         <div class="card card-body mt-2">
             {{ flavors.value | json }}
@@ -38,7 +38,7 @@
             [filter]="flavorsFilter"
             [ngControl]="flavorsWithDuplicates"
             [floatingLabel]="true"
-        ></app-input>
+        />
 
         <div class="card card-body mt-2">
             {{ flavorsWithDuplicates.value | json }}
@@ -61,7 +61,7 @@
             [filter]="layerNodesFilter"
             [ngControl]="layerNodesCtrl"
             [floatingLabel]="true"
-        ></app-input>
+        />
 
         <div class="card card-body mt-2">
             {{ layerNodesCtrl.value | json }}
@@ -81,7 +81,7 @@
             [freeTag]="true"
             [ngControl]="freeTagger"
             [floatingLabel]="true"
-        ></app-input>
+        />
 
         <div class="card card-body mt-2">
             {{ freeTagger.value | json }}

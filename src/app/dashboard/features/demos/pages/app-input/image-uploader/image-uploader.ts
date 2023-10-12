@@ -11,7 +11,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 	templateUrl: './image-uploader.html',
 })
 export class AppdImageUploader {
+
     base64: string | null = null;
+
 }
-
-

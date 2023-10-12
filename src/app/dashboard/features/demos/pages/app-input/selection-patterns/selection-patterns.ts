@@ -19,9 +19,7 @@ export class AppdSelectionPatterns {
     ];
 
     choice = new FormControl();
-
     radio = new FormControl();
-
     checkbox = new FormControl();
 }
 

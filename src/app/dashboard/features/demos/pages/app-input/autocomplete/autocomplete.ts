@@ -15,8 +15,12 @@ export class AppdAutocomplete {
     
     states = states;
     statesFormatter = (state: any) => state.name;
-    statesFilter = (term: string, state: any) => state.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
-    onlyFewStatesTextFactory = (limit: number) => "I'm only showing " + limit + " results, type for more!";
+    statesFilter = (term: string, state: any) => {
+        return state.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    }
+    onlyFewStatesTextFactory = (limit: number) => {
+        return "I'm only showing " + limit + " results, type for more!";
+    }
     state = new FormControl();
 
     searching = false;
@@ -34,5 +38,3 @@ export class AppdAutocomplete {
     }
     book = new FormControl();
 }
-
-

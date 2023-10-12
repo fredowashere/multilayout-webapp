@@ -59,19 +59,25 @@ import { AppdAreYouSure } from './are-you-sure';
                 type="button"
                 class="btn btn-danger me-auto"
                 (click)="confirmDelete()"
-            >Delete</button>
+            >
+                Delete
+            </button>
 
             <button
                 type="button"
                 class="btn btn-outline-secondary"
                 (click)="activeModal.dismiss('Cancel')"
-            >Cancel</button>
+            >
+                Cancel
+            </button>
 
             <button
                 type="button"
                 class="btn btn-primary"
                 (click)="activeModal.close('Save')"
-            >Save</button>
+            >
+                Save
+            </button>
         </div>
 	`,
 })

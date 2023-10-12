@@ -1,4 +1,4 @@
-import { JsonPipe, NgClass, NgFor } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
@@ -28,7 +28,7 @@ import { Component } from '@angular/core';
     `]
 })
 export class AppdLayout {
+
     Array = Array;
+
 }
-
-

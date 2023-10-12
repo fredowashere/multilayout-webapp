@@ -41,21 +41,27 @@
     </ng-template>
 
     <ng-template #tbody let-country let-term$="term$">
+
         <td>
             <img
                 [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
                 class="me-2"
                 style="width: 20px"
             />
-            <ngb-highlight [result]="country.name" [term]="(term$ | async) || ''"></ngb-highlight>
+            <ngb-highlight [result]="country.name" [term]="(term$ | async) || ''"/>
         </td>
+
         <td>{{ country.area | number }}</td>
+
         <td>{{ country.population | number }}</td>
+        
         <td>
             <div class="d-flex gap-2 justify-content-center">
+
                 <button type="button" class="btn btn-primary" (click)="edit(country)">
                     <i class="bi bi-pencil"></i>
                 </button>
+
                 <button type="button" class="btn btn-danger" (click)="confirmDeleteSingle(country)">
                     <i class="bi bi-trash3"></i>
                 </button>
@@ -72,14 +78,8 @@
 
     <ng-template #tfoot>
         <td colspan="2">Summary</td>
-        <td>
-            Tot. {{ countries.length }}
-        </td>
-        <td>
-            {{ totArea | number }}
-        </td>
-        <td colspan="2">
-            {{ totPopulation | number }}
-        </td>
+        <td>Tot. {{ countries.length }}</td>
+        <td>{{ totArea | number }}</td>
+        <td colspan="2">{{ totPopulation | number }}</td>
     </ng-template>
 </app-table>

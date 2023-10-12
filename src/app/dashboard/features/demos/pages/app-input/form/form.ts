@@ -15,11 +15,15 @@ export class AppdForm {
 
     states = states; // imported from autocomplete/mock
     statesFormatter = (state: any) => state.name;
-    statesFilter = (term: string, state: any) => state.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    statesFilter = (term: string, state: any) => {
+        return state.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    }
 
     flavorList = flavorList; // imported from tagger/mock
     flavorsFormatter = (flavor: any) => flavor.name;
-    flavorsFilter = (term: string, flavor: any) => flavor.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    flavorsFilter = (term: string, flavor: any) => {
+        return flavor.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    }
 
     form = new FormGroup({
         firstName: new FormControl("Fredo"),
@@ -31,7 +35,7 @@ export class AppdForm {
             [ Validators.required ]
         ),
         zip: new FormControl(undefined, [ Validators.required ]),
-        flavors: new FormControl([{ id: 0, name: "Banana" } ]),
+        flavors: new FormControl([ { id: 0, name: "Banana" } ]),
         agree: new FormControl(undefined, [ Validators.requiredTrue ])
     });
 
@@ -47,8 +51,6 @@ export class AppdForm {
     }
 
     formatJSON() {
-        return JSON.stringify(this.form.value, null, 2);
+        return JSON.stringify(this.form.value, null, 4);
     }
 }
-
-

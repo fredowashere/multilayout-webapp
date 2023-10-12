@@ -26,5 +26,3 @@ export class AppdDate {
 	startMonthFloating = new FormControl(null, [Validators.required]);
 	endMonthFloating = new FormControl(null, [Validators.required]);
 }
-
-

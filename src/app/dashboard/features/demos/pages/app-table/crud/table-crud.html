@@ -32,6 +32,7 @@
     </ng-template>
 
     <ng-template #tbody let-country>
+
         <td>
             <img
                 [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
@@ -40,13 +41,18 @@
             />
             {{ country.name }}
         </td>
+
         <td>{{ country.area | number }}</td>
+
         <td>{{ country.population | number }}</td>
+        
         <td>
             <div class="d-flex gap-2 justify-content-center">
+
                 <button type="button" class="btn btn-primary" (click)="edit(country)">
                     <i class="bi bi-pencil"></i>
                 </button>
+
                 <button type="button" class="btn btn-danger" (click)="confirmDeleteSingle(country)">
                     <i class="bi bi-trash3"></i>
                 </button>

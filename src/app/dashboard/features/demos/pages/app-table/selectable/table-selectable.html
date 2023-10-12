@@ -15,6 +15,7 @@
     </ng-template>
 
     <ng-template #tbody let-country>
+
         <td>
             <img
                 [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
@@ -23,7 +24,9 @@
             />
             {{ country.name }}
         </td>
+
         <td>{{ country.area | number }}</td>
+        
         <td>{{ country.population | number }}</td>
     </ng-template>
 </app-table>

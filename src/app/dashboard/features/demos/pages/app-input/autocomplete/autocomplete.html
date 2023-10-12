@@ -15,12 +15,12 @@
                 helper="This shows all the results"
                 [options]="states"
                 [formatter]="statesFormatter"
-                [template]="rt"
+                [template]="autocompleteTemplate1"
                 [filter]="statesFilter"
                 [ngControl]="state"
                 [floatingLabel]="true"
-            ></app-input>
-            <ng-template #rt let-r="result" let-t="term">
+            />
+            <ng-template #autocompleteTemplate1 let-r="result" let-t="term">
                 <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" />
                 <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
             </ng-template>
@@ -34,12 +34,12 @@
                 [limitTextFactory]="onlyFewStatesTextFactory"
                 [options]="states"
                 [formatter]="statesFormatter"
-                [template]="rt"
+                [template]="autocompleteTemplate2"
                 [filter]="statesFilter"
                 [ngControl]="state"
                 [floatingLabel]="true"
-            ></app-input>
-            <ng-template #rt let-r="result" let-t="term">
+            />
+            <ng-template #autocompleteTemplate2 let-r="result" let-t="term">
                 <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" />
                 <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
             </ng-template>
@@ -62,11 +62,11 @@
             label="Search a book"
             [formatter]="booksFormatter"
             [customSearch]="customBookSearch"
-            [template]="bt"
+            [template]="bookTemplate"
             [ngControl]="book"
             [floatingLabel]="true"
-        ></app-input>
-        <ng-template #bt let-r="result" let-t="term">
+        />
+        <ng-template #bookTemplate let-r="result" let-t="term">
             <div class="d-flex position-relative">
 
                 <div class="flex-shrink-0">
