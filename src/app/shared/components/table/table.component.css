@@ -124,11 +124,11 @@ tfoot {
         display: none;
     }
     
-    ::ng-deep td {
+    :host ::ng-deep td {
         display: grid;
     }
 
-    ::ng-deep td::before {
+    :host ::ng-deep td::before {
         content: attr(data-label);
         font-weight: bold;
     }
