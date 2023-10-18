@@ -4,31 +4,31 @@ import { Router } from '@angular/router';
 import { filter, tap } from 'rxjs';
 
 export interface SearchRoute {
-  title: string;
-  path: string;
+    title: string;
+    path: string;
 }
 
 @Component({
-  selector: 'app-search-router',
-  templateUrl: './search-router.component.html',
-  styleUrls: ['./search-router.component.css']
+    selector: 'app-search-router',
+    templateUrl: './search-router.component.html',
+    styleUrls: ['./search-router.component.css']
 })
 export class SearchRouterComponent {
 
-  @Input("searchRoutes") searchRoutes!: SearchRoute[];
+    @Input("searchRoutes") searchRoutes!: SearchRoute[];
 
-  cmpControl = new FormControl();
-  cmpFormatter = (cmp: any) => cmp.title;
+    cmpControl = new FormControl();
+    cmpFormatter = (cmp: any) => cmp.title;
 
-  constructor(
-    private router: Router
-  ) {
+    constructor(
+        private router: Router
+    ) {
 
-    this.cmpControl.valueChanges
-      .pipe(
-        filter(value => !!value),
-        tap(value => this.router.navigateByUrl(value.path))
-      )
-      .subscribe();
-  }
+        this.cmpControl.valueChanges
+            .pipe(
+                filter(value => !!value),
+                tap(value => this.router.navigateByUrl(value.path))
+            )
+            .subscribe();
+    }
 }

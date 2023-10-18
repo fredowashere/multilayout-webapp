@@ -6,212 +6,212 @@ import { guid } from 'src/app/utils/uuid';
 import { AppSortableHeader, compare, SortDirection, SortEvent } from '../../directives/sortable-header';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+    selector: 'app-table',
+    templateUrl: './table.component.html',
+    styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
-  destroy$ = new Subject<void>();
+    destroy$ = new Subject<void>();
 
-  _guid = "app-table-" + guid();
+    _guid = "app-table-" + guid();
 
-  @Input("thead") thead!: TemplateRef<any>;
-	@Input("tbody") tbody!: TemplateRef<any>;
-  @Input("animated") animated = false;
-  @Input("rowExpand") rowExpand!: TemplateRef<any>;
-  @Input("tfoot") tfoot!: TemplateRef<any>;
-  @Input("showFootIfEmpty") showFootIfEmpty = false;
-  @Input("items") items!: any[];
-  @Input("trackByFn") trackByFn = (index: number, item: any): any => item;
-  @Input("emptyTemplate") emptyTemplate?: TemplateRef<any>;
-  @Input("emptyMessage") emptyMessage: string = "No results to display";
-  @Input("stickyHead") stickyHead = false;
-  @Input("maxHeight") maxHeight: string | boolean = false; 
+    @Input("thead") thead!: TemplateRef<any>;
+    @Input("tbody") tbody!: TemplateRef<any>;
+    @Input("animated") animated = false;
+    @Input("rowExpand") rowExpand!: TemplateRef<any>;
+    @Input("tfoot") tfoot!: TemplateRef<any>;
+    @Input("showFootIfEmpty") showFootIfEmpty = false;
+    @Input("items") items!: any[];
+    @Input("trackByFn") trackByFn = (index: number, item: any): any => item;
+    @Input("emptyTemplate") emptyTemplate?: TemplateRef<any>;
+    @Input("emptyMessage") emptyMessage: string = "No results to display";
+    @Input("stickyHead") stickyHead = false;
+    @Input("maxHeight") maxHeight: string | boolean = false;
 
-  // Search and pagination fields
-  @Input("searchable") searchable: string[] | boolean = false;
-  @Input("paginated") paginated = false;
-  @Input("pageSize") pageSize = 5;
-  @Input("pageSizes") pageSizes = [ 5, 10, 25, 50 ];
-  @Input("duplicateControls") duplicateControls = false;
+    // Search and pagination fields
+    @Input("searchable") searchable: string[] | boolean = false;
+    @Input("paginated") paginated = false;
+    @Input("pageSize") pageSize = 5;
+    @Input("pageSizes") pageSizes = [5, 10, 25, 50];
+    @Input("duplicateControls") duplicateControls = false;
 
-  paginatedItems$ = new BehaviorSubject<any[]>([]);
-	collectionSize!: number;
-  page = 1;
+    paginatedItems$ = new BehaviorSubject<any[]>([]);
+    collectionSize!: number;
+    page = 1;
 
-  searchInput = new FormControl("", { nonNullable: true });
-  searchInputRelay = new FormControl("", { nonNullable: true });
-  lastTerm$ = new BehaviorSubject("");
-  filteredItems: any[] = [];
+    searchInput = new FormControl("", { nonNullable: true });
+    searchInputRelay = new FormControl("", { nonNullable: true });
+    lastTerm$ = new BehaviorSubject("");
+    filteredItems: any[] = [];
 
-  // Sorting fields
-  @ContentChildren(AppSortableHeader) headers!: QueryList<AppSortableHeader>;
-  lastColumn = "";
-  lastDirection: SortDirection = "";
-  sortedItems: any[] = [];
+    // Sorting fields
+    @ContentChildren(AppSortableHeader) headers!: QueryList<AppSortableHeader>;
+    lastColumn = "";
+    lastDirection: SortDirection = "";
+    sortedItems: any[] = [];
 
-  // Selectable fields
-  @Input("selectable") selectable = false;
-  get selectedRows() {
-    return this.paginatedItems$.getValue()
-      .filter(item => item._selected);
-  }
-
-  @Output("rowSelected") rowSelected = new EventEmitter<any>();
-  @Output("rowDeselected") rowDeselected = new EventEmitter<any>();
-
-  ngOnInit() {
-
-    if (!this.thead) {
-      throw Error("AppTable needs a thead template");
+    // Selectable fields
+    @Input("selectable") selectable = false;
+    get selectedRows() {
+        return this.paginatedItems$.getValue()
+            .filter(item => item._selected);
     }
 
-    if (!this.tbody) {
-      throw Error("AppTable needs a tbody template");
-    }
+    @Output("rowSelected") rowSelected = new EventEmitter<any>();
+    @Output("rowDeselected") rowDeselected = new EventEmitter<any>();
 
-    if (!this.items || this.items && !Array.isArray(this.items)) {
-      throw Error("AppTable needs the items array");
-    }
+    ngOnInit() {
 
-    // Double controls needs to keep the two search inputs in-sync
-    const [ a, b ] = [ this.searchInput, this.searchInputRelay ];
-    const opt = {
-      onlySelf: true,
-      emitEvent: false,
-      emitModelToViewChange: true
-    };
-    a.valueChanges.subscribe(v => b.setValue(v, opt));
-    b.valueChanges.subscribe(v => a.setValue(v, opt));
-
-    // Set reactive search on both search controls
-    merge(a.valueChanges, b.valueChanges)
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(term => {
-          this.lastTerm$.next(term);
-          this.search();
-        }),
-      )
-      .subscribe();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-
-    // As soon as items is setted and everytime its reference changes
-    if (changes.items.currentValue !== changes.items.previousValue) {
-      if (this.items && Array.isArray(this.items)) {
-
-        // If not paginated then pageSize is the entire collection length
-        if (!this.paginated) {
-          this.pageSize = this.items.length;
+        if (!this.thead) {
+            throw Error("AppTable needs a thead template");
         }
 
-        this.collectionSize = this.items.length;
-        this.search();
-      }
+        if (!this.tbody) {
+            throw Error("AppTable needs a tbody template");
+        }
+
+        if (!this.items || this.items && !Array.isArray(this.items)) {
+            throw Error("AppTable needs the items array");
+        }
+
+        // Double controls needs to keep the two search inputs in-sync
+        const [a, b] = [this.searchInput, this.searchInputRelay];
+        const opt = {
+            onlySelf: true,
+            emitEvent: false,
+            emitModelToViewChange: true
+        };
+        a.valueChanges.subscribe(v => b.setValue(v, opt));
+        b.valueChanges.subscribe(v => a.setValue(v, opt));
+
+        // Set reactive search on both search controls
+        merge(a.valueChanges, b.valueChanges)
+            .pipe(
+                takeUntil(this.destroy$),
+                tap(term => {
+                    this.lastTerm$.next(term);
+                    this.search();
+                }),
+            )
+            .subscribe();
     }
-  }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-  }
+    ngOnChanges(changes: SimpleChanges) {
 
-  search() {
-    this.filter();
-    this.sort({
-      column: this.lastColumn,
-      direction: this.lastDirection
-    });
-  }
+        // As soon as items is setted and everytime its reference changes
+        if (changes.items.currentValue !== changes.items.previousValue) {
+            if (this.items && Array.isArray(this.items)) {
 
-  filter() {
+                // If not paginated then pageSize is the entire collection length
+                if (!this.paginated) {
+                    this.pageSize = this.items.length;
+                }
 
-    this.filteredItems = this.items.filter(item => {
-
-      const term = (this.lastTerm$.getValue() || "").toLowerCase();
-
-      // Targeted search by fields provided in searchable array
-      if (this.searchable && Array.isArray(this.searchable) && this.searchable.length) {
-        return this.searchable.some(path =>
-          ((resolve(path, item) || "") + "").toLowerCase().includes(term)
-        );
-      }
-
-      // Global hacky search
-      const serialized = JSON.stringify(item).toLowerCase();
-      return serialized.includes(term);
-    });
-
-    this.collectionSize = this.filteredItems.length;
-  }
-
-  sort({ column, direction }: SortEvent) {
-
-    if (!this.headers) {
-      this.sortedItems = this.filteredItems;
-      this.paginate();
-      return;
+                this.collectionSize = this.items.length;
+                this.search();
+            }
+        }
     }
-    
-    // Reset others column direction
-		this.headers.forEach(header => {
-      if (header.sortable !== column) {
-        header.direction = "";
-      }
-    });
 
-		if (column === "" || direction === "") {
-			this.sortedItems = this.filteredItems;
+    ngOnDestroy() {
+        this.destroy$.next();
     }
-    else {
-			this.sortedItems = [ ...this.filteredItems ]
-        .sort((a, b) => {
 
-          const compared = compare(
-            resolve(column, a),
-            resolve(column, b)
-          );
-
-          return direction === "asc" ? compared : -compared;
+    search() {
+        this.filter();
+        this.sort({
+            column: this.lastColumn,
+            direction: this.lastDirection
         });
     }
 
-    this.lastColumn = column;
-    this.lastDirection = direction;
+    filter() {
 
-    this.paginate();
-	}
+        this.filteredItems = this.items.filter(item => {
 
-  paginate() {
+            const term = (this.lastTerm$.getValue() || "").toLowerCase();
 
-    // Deselect items (to prevent keeping items not in view selected)
-    this.sortedItems.forEach(item => item._selected = false);
+            // Targeted search by fields provided in searchable array
+            if (this.searchable && Array.isArray(this.searchable) && this.searchable.length) {
+                return this.searchable.some(path =>
+                    ((resolve(path, item) || "") + "").toLowerCase().includes(term)
+                );
+            }
 
-		const slice = this.sortedItems.slice(
-      (this.page - 1) * this.pageSize,
-      (this.page - 1) * this.pageSize + this.pageSize,
-    );
+            // Global hacky search
+            const serialized = JSON.stringify(item).toLowerCase();
+            return serialized.includes(term);
+        });
 
-    this.paginatedItems$.next(slice);
-	}
+        this.collectionSize = this.filteredItems.length;
+    }
 
-  onRowSelect(item: any) {
-    this.rowSelected.emit(item);
-  }
+    sort({ column, direction }: SortEvent) {
 
-  onRowDeselect(item: any) {
-    this.rowDeselected.emit(item);
-  }
+        if (!this.headers) {
+            this.sortedItems = this.filteredItems;
+            this.paginate();
+            return;
+        }
 
-  onEveryRowSelect() {
-    const items = this.paginatedItems$.getValue();
-    items.forEach(item => item._selected = true);
-  }
+        // Reset others column direction
+        this.headers.forEach(header => {
+            if (header.sortable !== column) {
+                header.direction = "";
+            }
+        });
 
-  onEveryRowDeselect() {
-    const items = this.paginatedItems$.getValue();
-    items.forEach(item => item._selected = false);
-  }
+        if (column === "" || direction === "") {
+            this.sortedItems = this.filteredItems;
+        }
+        else {
+            this.sortedItems = [...this.filteredItems]
+                .sort((a, b) => {
+
+                    const compared = compare(
+                        resolve(column, a),
+                        resolve(column, b)
+                    );
+
+                    return direction === "asc" ? compared : -compared;
+                });
+        }
+
+        this.lastColumn = column;
+        this.lastDirection = direction;
+
+        this.paginate();
+    }
+
+    paginate() {
+
+        // Deselect items (to prevent keeping items not in view selected)
+        this.sortedItems.forEach(item => item._selected = false);
+
+        const slice = this.sortedItems.slice(
+            (this.page - 1) * this.pageSize,
+            (this.page - 1) * this.pageSize + this.pageSize,
+        );
+
+        this.paginatedItems$.next(slice);
+    }
+
+    onRowSelect(item: any) {
+        this.rowSelected.emit(item);
+    }
+
+    onRowDeselect(item: any) {
+        this.rowDeselected.emit(item);
+    }
+
+    onEveryRowSelect() {
+        const items = this.paginatedItems$.getValue();
+        items.forEach(item => item._selected = true);
+    }
+
+    onEveryRowDeselect() {
+        const items = this.paginatedItems$.getValue();
+        items.forEach(item => item._selected = false);
+    }
 }
