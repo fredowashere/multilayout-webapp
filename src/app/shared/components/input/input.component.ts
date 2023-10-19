@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output, Self, SimpleChanges, SkipSelf } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output, Self, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { isEqual } from 'lodash';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, takeUntil, interval } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, OperatorFunction, Subject, takeUntil } from 'rxjs';
 import { guid } from 'src/app/utils/uuid';
 import { DUMMY_VALUE_ACCESSOR, defaultFilter, defaultFormatter, defaultLimitTextFactory, supportedTypes } from './constants';
 
