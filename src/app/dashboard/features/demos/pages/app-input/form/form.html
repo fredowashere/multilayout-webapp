@@ -34,6 +34,7 @@
                     label="City"
                     formControlName="city"
                     [floatingLabel]="true"
+                    [disabled]="disableFields.value!"
                 />
 
                 <app-input
@@ -46,6 +47,7 @@
                     [template]="autocompleteTemplate"
                     [filter]="statesFilter"
                     [floatingLabel]="true"
+                    [disabled]="disableFields.value!"
                 />
                 <ng-template #autocompleteTemplate let-r="result" let-t="term">
                     <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" />
@@ -74,7 +76,7 @@
                 />
             </div>
     
-            <div class="flexgrid">
+            <div class="d-flex flex-wrap gap-3 mb-3">
 
                 <app-input
                     type="checkbox"
@@ -86,8 +88,15 @@
                 <app-input
                     type="checkbox"
                     name="disableForm"
-                    label="Disable form"
+                    label="Disable form (reactive approach)"
                     [ngControl]="disableForm"
+                />
+
+                <app-input
+                    type="checkbox"
+                    name="disableFields"
+                    label="Disable fields (template approach)"
+                    [ngControl]="disableFields"
                 />
             </div>
     
@@ -104,6 +113,6 @@
     </div>
     
     <div class="card card-body mt-2">
-        <pre>{{ formatJSON() }}</pre>
+        <pre>{{ getFormattedForm() }}</pre>
     </div>
 </div>

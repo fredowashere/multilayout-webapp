@@ -40,17 +40,22 @@ export class AppdForm {
     });
 
     disableForm = new FormControl(false);
+    disableFields = new FormControl(false);
 
     ngOnInit() {
         this.disableForm.valueChanges
-            .subscribe(d => d ? this.form.disable() : this.form.enable());
+            .subscribe(disabled =>
+                disabled
+                    ? this.form.disable()
+                    : this.form.enable()
+            );
     }
 
     submit() {
         alert("Submitted!");
     }
 
-    formatJSON() {
-        return JSON.stringify(this.form.value, null, 4);
+    getFormattedForm() {
+        return JSON.stringify(this.form.getRawValue(), null, 4);
     }
 }

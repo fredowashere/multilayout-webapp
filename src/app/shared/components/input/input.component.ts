@@ -119,7 +119,19 @@ export class InputComponent implements OnInit, OnDestroy {
             this.appendLimitExplainerStylesheet();
         }
 
-        this.reactivity();
+        // Sync this.disabled value to ngControl status
+        if (this.ngControl.disabled) {
+            this.disabled = true;
+        }
+        this.ngControl.statusChanges
+            .pipe(
+                takeUntil(this.destroy$),
+                map(status => status === "DISABLED"),
+                filter(disabled => this.disabled !== disabled)
+            )
+            .subscribe(disabled => {
+                this.disabled = disabled;
+            });
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -166,19 +178,6 @@ export class InputComponent implements OnInit, OnDestroy {
                 throw Error("Tagger without a free tag needs the options array");
             }
         }
-    }
-
-    reactivity() {
-        // Sync this.disabled value to ngControl stuatus
-        this.ngControl.statusChanges
-            .pipe(
-                takeUntil(this.destroy$),
-                map(status => status === "DISABLED"),
-                filter(disabled => this.disabled !== disabled)
-            )
-            .subscribe(disabled => {
-                this.disabled = disabled;
-            });
     }
 
     isInvalid() {
