@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output, Self, SkipSelf } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Optional, Output, Self, SimpleChanges, SkipSelf } from '@angular/core';
 import { ControlContainer, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { isEqual } from 'lodash';
@@ -118,6 +118,20 @@ export class InputComponent implements OnInit, OnDestroy {
         if (["autocomplete", "tagger"].includes(this.type) && this.limit) {
             this.appendLimitExplainerStylesheet();
         }
+
+        this.reactivity();
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        // Sync ngControl status with this.disabled value
+        if (changes.disabled && this.ngControl) {
+            if (changes.disabled.currentValue) {
+                this.ngControl.disable();
+            }
+            else {
+                this.ngControl.enable();
+            }
+        }
     }
 
     ngOnDestroy() {
@@ -152,6 +166,19 @@ export class InputComponent implements OnInit, OnDestroy {
                 throw Error("Tagger without a free tag needs the options array");
             }
         }
+    }
+
+    reactivity() {
+        // Sync this.disabled value to ngControl stuatus
+        this.ngControl.statusChanges
+            .pipe(
+                takeUntil(this.destroy$),
+                map(status => status === "DISABLED"),
+                filter(disabled => this.disabled !== disabled)
+            )
+            .subscribe(disabled => {
+                this.disabled = disabled;
+            });
     }
 
     isInvalid() {
@@ -235,25 +262,16 @@ export class InputComponent implements OnInit, OnDestroy {
     };
 
     setAutocompleteDefault() {
-        this.disabled = this.ngControl.disabled;
         if (this.ngControl.value) {
             this.autocompleteChoice = this.ngControl.value;
         }
     }
 
     setAutocompleteReactivity() {
-
         this.ngControl.valueChanges
             .pipe(takeUntil(this.destroy$))
             .subscribe(value => {
                 this._autocompleteChoice = value;
-            });
-
-        // Sync disabled to ngControl state
-        this.ngControl.statusChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.disabled = this.ngControl.disabled;
             });
     }
 
@@ -288,14 +306,12 @@ export class InputComponent implements OnInit, OnDestroy {
     //    ██║   ██║  ██║╚██████╔╝╚██████╔╝███████╗██║  ██║
     //    ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝
     setTaggerDefault() {
-        this.disabled = this.ngControl.disabled;
         if (this.ngControl.value) {
             this.tags = this.ngControl.value;
         }
     }
 
     setTaggerReactivity() {
-
         this.ngControl.valueChanges
             .pipe(
                 takeUntil(this.destroy$),
@@ -303,13 +319,6 @@ export class InputComponent implements OnInit, OnDestroy {
             )
             .subscribe(tags => {
                 this.tags = tags;
-            });
-
-        // Sync disabled to ngControl state
-        this.ngControl.statusChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.disabled = this.ngControl.disabled;
             });
     }
 
