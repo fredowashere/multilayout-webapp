@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { createNumberMask, emailMask } from 'src/app/shared/directives/dependencies/text2mask/textMaskAddons';
+import { NumberMask } from 'src/app/utils/mask';
+import { emailMask } from 'src/app/shared/directives/dependencies/text2mask/textMaskAddons';
 
 @Component({
 	selector: 'appd-text-masking',
@@ -11,19 +12,20 @@ import { createNumberMask, emailMask } from 'src/app/shared/directives/dependenc
 })
 export class AppdTextMasking {
 
-	phoneMask = [ '+', /\d/, /\d/, ' ', /[1-9]/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/, /\d/ ];
-	phone = new FormControl();
-
-	euroMask = createNumberMask({
-		prefix: '€ ',
+	euroMask = new NumberMask({
+		suffix: " €",
 		allowDecimal: true,
-		thousandsSeparatorSymbol: '.',
-		decimalSymbol: ','
+		allowNegative: true,
+		thousandsSeparatorSymbol: ".",
+		decimalSymbol: ","
 	});
-	euro = new FormControl();
+	euro = new FormControl(this.euroMask.numberToMask(1234.56));
 
 	emailMask = emailMask;
 	email = new FormControl();
+
+	phoneMask = [ "+", /\d/, /\d/, " ", /[1-9]/, /\d/, /\d/, " ", /\d/, /\d/, " ", /\d/, /\d/, " ", /\d/, /\d/, /\d/ ];
+	phone = new FormControl();
 }
 
 

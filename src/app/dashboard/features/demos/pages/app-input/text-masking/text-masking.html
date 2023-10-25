@@ -3,17 +3,10 @@
     <div class="flexgrid flexgrid--3">
 
         <app-input
-            name="phone"
-            label="Phone number"
-            [mask]="phoneMask"
-            [ngControl]="phone"
-            [floatingLabel]="true"
-        />
-
-        <app-input
             name="euro"
             label="Amount of Euros"
-            [mask]="euroMask"
+            [mask]="euroMask.getMask()"
+            [helper]="'Number ' + euroMask.maskToNumber(euro.value)"
             [ngControl]="euro"
             [floatingLabel]="true"
         />
@@ -22,7 +15,17 @@
             name="email"
             label="Email address"
             [mask]="emailMask"
+            helper="Type an email address"
             [ngControl]="email"
+            [floatingLabel]="true"
+        />
+
+        <app-input
+            name="phone"
+            label="Phone number"
+            [mask]="phoneMask"
+            helper="Type a phone number"
+            [ngControl]="phone"
             [floatingLabel]="true"
         />
     </div>
