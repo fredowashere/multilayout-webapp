@@ -11,6 +11,7 @@ export const supportedTypes = [
     "textarea",
     "password",
     "number",
+    "year",
     "date",
     "time",
     "datetime",

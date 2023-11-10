@@ -13,7 +13,7 @@
                 min="2018-01-01"
                 max="2018-12-31"
                 helper="Min 2018-01-01, max 2018-12-31"
-                [ngControl]="dateFloating1"
+                [ngControl]="date1"
                 [floatingLabel]="true"
             />
 
@@ -21,7 +21,7 @@
                 type="time"
                 name="date"
                 label="Time"
-                [ngControl]="dateFloating2"
+                [ngControl]="date2"
                 [floatingLabel]="true"
             />
 
@@ -32,7 +32,35 @@
                 min="2018-06-07T00:00"
                 max="2018-06-14T00:00"
                 helper="Min 2018-06-07 00:00, max 2018-06-14 00:00"
-                [ngControl]="dateFloating3"
+                [ngControl]="date3"
+                [floatingLabel]="true"
+            />
+        </div>
+    </section>
+
+    <section>
+
+        <h4>Year input</h4>
+
+        <div class="flexgrid flexgrid--2">
+
+            <app-input
+                type="year"
+                name="year"
+                label="Year"
+                [helper]="'Pick a year between a range: ' + (year1.value ? year1.value : '--')"
+                [ngControl]="year1"
+                [floatingLabel]="true"
+            />
+
+            <app-input
+                type="year"
+                name="year"
+                label="Year"
+                min="2020"
+                max="2030"
+                [helper]="'With a year already selected: ' + (year2.value ? year2.value : '--')"
+                [ngControl]="year2"
                 [floatingLabel]="true"
             />
         </div>
@@ -47,24 +75,24 @@
             <app-monthpicker
                 name="monthpicker"
                 label="Start month"
-                [helper]="'maxDate: ' + (endMonthFloating.value | json)"
-                [maxDate]="endMonthFloating.value"
-                [ngControl]="startMonthFloating"
+                [helper]="'maxDate: ' + (endMonth.value | json)"
+                [maxDate]="endMonth.value"
+                [ngControl]="startMonth"
                 [floatingLabel]="true"
             />
 
             <app-monthpicker
                 name="monthpicker"
                 label="End month"
-                [helper]="'minDate: ' + (startMonthFloating.value | json)"
-                [minDate]="startMonthFloating.value"
-                [ngControl]="endMonthFloating"
+                [helper]="'minDate: ' + (startMonth.value | json)"
+                [minDate]="startMonth.value"
+                [ngControl]="endMonth"
                 [floatingLabel]="true"
             />
         </div>
 
         <div class="my-2 fst-italic text-center">
-            {{ startMonthFloating.value | json }} - {{ endMonthFloating.value | json }}
+            {{ startMonth.value | json }} - {{ endMonth.value | json }}
         </div>
     </section>
 </div>

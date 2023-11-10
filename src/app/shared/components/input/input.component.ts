@@ -7,8 +7,9 @@ import { guid } from 'src/app/utils/uuid';
 import { DUMMY_VALUE_ACCESSOR, defaultFilter, defaultFormatter, defaultLimitTextFactory, supportedTypes } from './constants';
 
 export interface SelectOption {
-    value: any,
-    text: string
+    value: any;
+    text: string;
+    disabled?: boolean;
 }
 
 @Component({
@@ -27,6 +28,10 @@ export class InputComponent implements OnInit, OnDestroy {
     guid!: string;
     _name!: string;
 
+    currYear = new Date().getFullYear();
+    yearPlusMinus = 6; // Example: 2017 ... 2023 ... 2029
+    yearOptions: SelectOption[] = this.getYearOptions();
+
     @Input("floatingLabel") floatingLabel = false;
     @Input("feedback") feedback = true;
     @Input("disabled") disabled = false;
@@ -35,8 +40,21 @@ export class InputComponent implements OnInit, OnDestroy {
     @Input("onlyCustomErrors") onlyCustomErrors = false;
 
     @Input("step") step?: any;
-    @Input("min") min?: any;
-    @Input("max") max?: any;
+
+    min?: any;
+    @Input("min")
+    set _min(val: any) {
+        this.min = val;
+        this.yearOptions = this.getYearOptions(true);
+    }
+
+    max?: any;
+    @Input("max") 
+    set _max(val: any) {
+        this.max = val;
+        this.yearOptions = this.getYearOptions(true);
+    }
+
     @Input("minlength") minLength?: any;
     @Input("maxlength") maxLength?: any;
 
@@ -182,6 +200,26 @@ export class InputComponent implements OnInit, OnDestroy {
 
     isInvalid() {
         return this.ngControl.touched && this.ngControl.errors;
+    }
+
+    getYearOptions(fromSetter = false) {
+
+        if (fromSetter && this.type !== "year") {
+            return [];
+        }
+
+        // Dynamically create the list of years
+        const min = this.min ? parseInt(this.min) : this.currYear - this.yearPlusMinus;
+        const max = this.max ? parseInt(this.max) : this.currYear + this.yearPlusMinus;
+
+        if (max < min) {
+            throw new Error('"max" cannot be less than "min"');
+        }
+
+        return Array(max - min)
+            .fill(0)
+            .map((_, index) => min + index)
+            .map((year) => ({ text: year + "", value: year }));
     }
 
     //  █████╗ ██╗   ██╗████████╗ ██████╗  ██████╗ ██████╗ ███╗   ███╗██████╗ ██╗     ███████╗████████╗███████╗

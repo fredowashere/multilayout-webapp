@@ -172,6 +172,29 @@
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
+    <div *ngIf="type === 'year'" class="form-floating">
+
+        <select
+            [class.pseudo-disabled]="disabled"
+            [tabindex]="disabled ? -1 : 0"
+            [class.is-invalid]="isInvalid()"
+            [formControl]="ngControl"
+            class="form-select"
+            [id]="_name"
+        >
+            <option
+                *ngFor="let opt of yearOptions"
+                [ngValue]="opt.value"
+            >
+                {{ opt.text }}
+            </option>
+        </select>
+
+        <label [for]="disabled ? 'nowhere' : _name">{{ label }}</label>
+
+        <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
+    </div>
+
     <div *ngIf="type === 'date'" class="form-floating">
 
         <input
@@ -454,6 +477,29 @@
                 *ngFor="let opt of options"
                 [ngValue]="opt.value"
                 [disabled]="opt.disabled"
+            >
+                {{ opt.text }}
+            </option>
+        </select>
+
+        <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
+    </div>
+
+    <div *ngIf="type === 'year'" >
+
+        <label *ngIf="label" [for]="disabled ? 'nowhere' : _name" class="form-label">{{ label }}</label>
+
+        <select
+            [class.pseudo-disabled]="disabled"
+            [tabindex]="disabled ? -1 : 0"
+            [class.is-invalid]="isInvalid()"
+            [formControl]="ngControl"
+            class="form-select"
+            [id]="_name"
+        >
+            <option
+                *ngFor="let opt of yearOptions"
+                [ngValue]="opt.value"
             >
                 {{ opt.text }}
             </option>
