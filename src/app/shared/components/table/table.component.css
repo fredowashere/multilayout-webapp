@@ -2,6 +2,14 @@
     display: block;
 }
 
+:host ::ng-deep .ngb-highlight {
+    background-color: #ff0;
+}
+
+:host ::ng-deep th {
+    white-space: nowrap;
+}
+
 .table {
     margin-bottom: 0;
     vertical-align: middle;
@@ -131,5 +139,18 @@ tfoot {
     :host ::ng-deep td::before {
         content: attr(data-label);
         font-weight: bold;
+    }
+}
+
+@media (min-width: 650px) {
+
+    :host ::ng-deep .table > thead > tr > th:first-child,
+    :host ::ng-deep .table > tbody > tr > td:not(.row-expand):first-child {
+        padding-left: 1.5rem !important;
+    }
+
+    :host ::ng-deep .table > thead > tr > th:last-child,
+    :host ::ng-deep .table > tbody > tr > td:not(.row-expand):last-child {
+        padding-right: 1.5rem !important;
     }
 }
