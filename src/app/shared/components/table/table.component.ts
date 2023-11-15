@@ -98,17 +98,17 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        if ("items" in changes) {
 
-        // As soon as items is setted and everytime its reference changes
-        if (changes.items.currentValue !== changes.items.previousValue) {
-            if (this.items && Array.isArray(this.items)) {
+            const previousItems = changes.items.previousValue;
+            const items = changes.items.currentValue;
 
-                // If not paginated then pageSize is the entire collection length
-                if (!this.paginated) {
-                    this.pageSize = this.items.length;
-                }
-
-                this.collectionSize = this.items.length;
+            if (!items || !Array.isArray(items)) {
+                console.warn("Items must have a value and be an array.");
+            }
+            else if (previousItems !== items) {
+                if (!this.paginated) this.pageSize = items.length;
+                this.collectionSize = items.length;
                 this.search();
             }
         }
