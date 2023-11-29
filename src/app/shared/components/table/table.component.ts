@@ -33,7 +33,7 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     @Input("searchable") searchable: string[] | boolean = false;
     @Input("paginated") paginated = false;
     @Input("pageSize") pageSize = 5;
-    @Input("pageSizes") pageSizes = [5, 10, 25, 50];
+    @Input("pageSizes") pageSizes = [ 5, 10, 25, 50 ];
     @Input("duplicateControls") duplicateControls = false;
 
     paginatedItems$ = new BehaviorSubject<any[]>([]);
@@ -128,9 +128,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
 
     filter() {
 
-        this.filteredItems = this.items.filter(item => {
+        const term = (this.lastTerm$.getValue() || "").toLowerCase();
 
-            const term = (this.lastTerm$.getValue() || "").toLowerCase();
+        this.filteredItems = this.items.filter(item => {
 
             // Targeted search by fields provided in searchable array
             if (this.searchable && Array.isArray(this.searchable) && this.searchable.length) {
