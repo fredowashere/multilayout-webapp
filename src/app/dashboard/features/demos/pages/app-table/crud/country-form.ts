@@ -7,11 +7,11 @@ import { Country } from '../mock';
 import { AppdAreYouSure } from './are-you-sure';
 
 @Component({
-	selector: 'appd-country-form',
-	standalone: true,
+    selector: 'appd-country-form',
+    standalone: true,
     imports: [SharedModule, NgIf, NgFor],
-	template: `
-		<div class="modal-header">
+    template: `
+        <div class="modal-header">
 
             <h4 class="modal-title" id="modal-title">
                 {{ country ? 'Edit ' + country.name : 'Create new country' }}
@@ -79,7 +79,7 @@ import { AppdAreYouSure } from './are-you-sure';
                 Save
             </button>
         </div>
-	`,
+    `,
 })
 export class AppdCountryForm {
 
@@ -90,7 +90,7 @@ export class AppdCountryForm {
     population!: FormControl;
     form!: FormGroup;
 
-	constructor(
+    constructor(
         private modalService: NgbModal,
         public activeModal: NgbActiveModal
     ) {}
@@ -110,12 +110,12 @@ export class AppdCountryForm {
 
     async confirmDelete() {
 
-		const modalRef = this.modalService.open(AppdAreYouSure);
-		modalRef.componentInstance.name = this.country.name;
+        const modalRef = this.modalService.open(AppdAreYouSure);
+        modalRef.componentInstance.name = this.country.name;
 
-		const result = await modalRef.result;
-		console.log("Deleting", this.country.name);
+        const result = await modalRef.result;
+        console.log("Deleting", this.country.name);
 
         this.activeModal.close('Deleted')
-	}
+    }
 }
