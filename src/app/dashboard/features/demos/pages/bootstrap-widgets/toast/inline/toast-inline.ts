@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'ngbd-toast-inline',
     standalone: true,
-    imports: [NgbToastModule, NgIf],
+    imports: [ NgbToastModule, CommonModule ],
     templateUrl: './toast-inline.html',
 })
 export class NgbdToastInline {

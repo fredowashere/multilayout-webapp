@@ -1,4 +1,4 @@
-import { JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MonthpickerStruct } from 'src/app/shared/components/monthpicker/monthpicker.component';
@@ -7,7 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 @Component({
     selector: 'appd-date',
     standalone: true,
-    imports: [SharedModule, JsonPipe],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './date.html',
 })
 export class AppdDate {

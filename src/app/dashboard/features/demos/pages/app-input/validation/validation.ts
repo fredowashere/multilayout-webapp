@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -38,7 +38,7 @@ const customMaxLength = (control: AbstractControl) => {
 @Component({
     selector: 'appd-validation',
     standalone: true,
-    imports: [SharedModule, NgIf],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './validation.html',
 })
 export class AppdValidation {

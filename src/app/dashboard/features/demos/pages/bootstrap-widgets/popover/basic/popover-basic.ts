@@ -4,7 +4,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-popover-basic',
     standalone: true,
-    imports: [NgbPopoverModule],
+    imports: [ NgbPopoverModule ],
     templateUrl: './popover-basic.html',
     host: { class: 'd-block' },
 })

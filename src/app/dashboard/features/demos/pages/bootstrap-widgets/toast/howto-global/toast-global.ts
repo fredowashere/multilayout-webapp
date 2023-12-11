@@ -5,7 +5,7 @@ import { ToastService } from 'src/app/services/toast.service';
 @Component({
     selector: 'ngbd-toast-global',
     standalone: true,
-    imports: [NgbTooltipModule],
+    imports: [ NgbTooltipModule ],
     templateUrl: './toast-global.html',
 })
 export class NgbdToastGlobal implements OnDestroy {

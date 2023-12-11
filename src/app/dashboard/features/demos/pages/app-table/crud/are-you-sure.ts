@@ -1,11 +1,11 @@
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'appd-are-you-sure',
     standalone: true,
-    imports: [NgIf, NgFor],
+    imports: [ CommonModule ],
     template: `
         <div class="modal-header">
 

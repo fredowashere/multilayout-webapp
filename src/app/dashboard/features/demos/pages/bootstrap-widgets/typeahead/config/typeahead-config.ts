@@ -69,7 +69,7 @@ const states = [
 @Component({
     selector: 'ngbd-typeahead-config',
     standalone: true,
-    imports: [NgbTypeaheadModule, FormsModule],
+    imports: [ NgbTypeaheadModule, FormsModule ],
     templateUrl: './typeahead-config.html',
     styles: [
         `

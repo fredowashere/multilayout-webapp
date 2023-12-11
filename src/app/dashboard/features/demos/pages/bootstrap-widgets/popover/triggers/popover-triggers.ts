@@ -4,7 +4,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-popover-triggers',
     standalone: true,
-    imports: [NgbPopoverModule],
+    imports: [ NgbPopoverModule ],
     templateUrl: './popover-triggers.html',
 })
 export class NgbdPopoverTriggers {}

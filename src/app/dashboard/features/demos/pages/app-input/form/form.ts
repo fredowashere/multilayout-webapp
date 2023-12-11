@@ -1,4 +1,4 @@
-import { JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -8,7 +8,7 @@ import { flavorList } from '../tagger/mock';
 @Component({
     selector: 'appd-form',
     standalone: true,
-    imports: [ SharedModule, JsonPipe ],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './form.html',
 })
 export class AppdForm {

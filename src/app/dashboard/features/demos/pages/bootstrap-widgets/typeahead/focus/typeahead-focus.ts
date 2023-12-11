@@ -3,7 +3,7 @@ import { NgbTypeahead, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject, merge, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 
 const states = [
     'Alabama',
@@ -70,7 +70,7 @@ const states = [
 @Component({
     selector: 'ngbd-typeahead-focus',
     standalone: true,
-    imports: [NgbTypeaheadModule, FormsModule, JsonPipe],
+    imports: [ NgbTypeaheadModule, FormsModule, CommonModule ],
     templateUrl: './typeahead-focus.html',
     styles: [
         `

@@ -4,9 +4,9 @@ import { NgbTooltipConfig, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-tooltip-config',
     standalone: true,
-    imports: [NgbTooltipModule],
+    imports: [ NgbTooltipModule ],
     templateUrl: './tooltip-config.html',
-    providers: [NgbTooltipConfig], // add NgbTooltipConfig to the component providers
+    providers: [ NgbTooltipConfig ], // add NgbTooltipConfig to the component providers
 })
 export class NgbdTooltipConfig {
     constructor(config: NgbTooltipConfig) {

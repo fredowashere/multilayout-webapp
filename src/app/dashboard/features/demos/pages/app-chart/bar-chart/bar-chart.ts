@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { noop } from 'chartist';
 import { BarChartConfiguration } from 'src/app/shared/components/chart.component';
@@ -7,7 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 @Component({
     selector: 'appd-bar-chart',
     standalone: true,
-    imports: [SharedModule, NgIf],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './bar-chart.html',
     styles: [`
         app-chart {

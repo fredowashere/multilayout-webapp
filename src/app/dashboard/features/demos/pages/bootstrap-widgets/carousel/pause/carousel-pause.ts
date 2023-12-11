@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
-import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'ngbd-carousel-pause',
     standalone: true,
-    imports: [NgbCarouselModule, NgFor, FormsModule],
+    imports: [ CommonModule, FormsModule, NgbCarouselModule ],
     templateUrl: './carousel-pause.html',
 })
 export class NgbdCarouselPause {

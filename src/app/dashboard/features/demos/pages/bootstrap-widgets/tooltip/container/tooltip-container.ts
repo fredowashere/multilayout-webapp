@@ -4,7 +4,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-tooltip-container',
     standalone: true,
-    imports: [NgbTooltipModule],
+    imports: [ NgbTooltipModule ],
     templateUrl: './tooltip-container.html',
     styles: ['.card { overflow:hidden }'],
 })

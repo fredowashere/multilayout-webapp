@@ -4,7 +4,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-tooltip-tplcontent',
     standalone: true,
-    imports: [NgbTooltipModule],
+    imports: [ NgbTooltipModule ],
     templateUrl: './tooltip-tplcontent.html',
 })
 export class NgbdTooltipTplcontent {

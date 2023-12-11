@@ -1,12 +1,12 @@
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { AbstractControl, FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
     selector: 'appd-text',
     standalone: true,
-    imports: [SharedModule, NgIf],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './text.html',
 })
 export class AppdText {
@@ -15,6 +15,7 @@ export class AppdText {
     number = new FormControl();
     password = new FormControl();
     textarea = new FormControl();
+
 }
 
 

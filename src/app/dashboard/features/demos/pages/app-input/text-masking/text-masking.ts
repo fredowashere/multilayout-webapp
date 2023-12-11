@@ -3,11 +3,12 @@ import { FormControl } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NumberMask } from 'src/app/utils/mask';
 import { emailMask } from 'src/app/shared/directives/dependencies/text2mask/textMaskAddons';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'appd-text-masking',
     standalone: true,
-    imports: [SharedModule],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './text-masking.html',
 })
 export class AppdTextMasking {

@@ -1,4 +1,4 @@
-import { JsonPipe, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { delay, Observable, of, OperatorFunction, switchMap, tap } from 'rxjs';
@@ -8,7 +8,7 @@ import { states, bestBooks } from './mock';
 @Component({
     selector: 'appd-autocomplete',
     standalone: true,
-    imports: [SharedModule, JsonPipe, NgIf],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './autocomplete.html',
 })
 export class AppdAutocomplete {
@@ -29,10 +29,16 @@ export class AppdAutocomplete {
         return debouncedText$
             .pipe(
                 tap(() => this.searching = true),
-                switchMap(term => {
-                    const filteredBooks = bestBooks.filter(b => b.title.toLocaleLowerCase().includes(term.toLocaleLowerCase()));
-                    return of(filteredBooks).pipe(delay(100 + Math.random() * 1000)); // Simulate HTTP request with delay
-                }),
+                switchMap(term =>
+                    of(
+                        bestBooks.filter(b => // Filter books
+                            b.title.toLocaleLowerCase().includes(term.toLocaleLowerCase())
+                        )
+                    )
+                    .pipe(
+                        delay(100 + Math.random() * 1000) // Simulate HTTP request with delay
+                    )
+                ),
                 tap(() => this.searching = false),
             );
     }

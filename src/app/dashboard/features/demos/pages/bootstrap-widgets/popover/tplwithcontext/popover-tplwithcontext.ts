@@ -4,7 +4,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-popover-tplwithcontext',
     standalone: true,
-    imports: [NgbPopoverModule],
+    imports: [ NgbPopoverModule ],
     templateUrl: './popover-tplwithcontext.html',
 })
 export class NgbdPopoverTplwithcontext {

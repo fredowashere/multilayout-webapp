@@ -1,10 +1,10 @@
-import { NgClass, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
     selector: 'appd-layout',
     standalone: true,
-    imports: [NgFor, NgClass],
+    imports: [ CommonModule ],
     templateUrl: './layout.html',
     styles: [`
 

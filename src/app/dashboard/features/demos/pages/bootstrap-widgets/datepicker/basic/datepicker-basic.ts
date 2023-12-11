@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { NgbDateStruct, NgbCalendar, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'ngbd-datepicker-basic',
     standalone: true,
-    imports: [NgbDatepickerModule, FormsModule, JsonPipe],
+    imports: [ CommonModule, FormsModule, NgbDatepickerModule],
     templateUrl: './datepicker-basic.html',
 })
 export class NgbdDatepickerBasic {

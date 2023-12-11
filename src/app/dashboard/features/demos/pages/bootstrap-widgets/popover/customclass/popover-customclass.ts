@@ -4,7 +4,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-popover-customclass',
     standalone: true,
-    imports: [NgbPopoverModule],
+    imports: [ NgbPopoverModule ],
     templateUrl: './popover-customclass.html',
     encapsulation: ViewEncapsulation.None,
     styles: [

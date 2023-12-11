@@ -4,7 +4,7 @@ import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-progressbar-labels',
     standalone: true,
-    imports: [NgbProgressbarModule],
+    imports: [ NgbProgressbarModule ],
     templateUrl: './progressbar-labels.html',
 })
 export class NgbdProgressbarLabels {}

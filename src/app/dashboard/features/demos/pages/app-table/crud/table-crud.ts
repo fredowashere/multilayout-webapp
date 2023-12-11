@@ -1,4 +1,4 @@
-import { DecimalPipe, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from 'src/app/shared/components/table/table.component';
@@ -11,7 +11,7 @@ import { AppdCountryForm } from './country-form';
 @Component({
     selector: 'appd-table-crud',
     standalone: true,
-    imports: [SharedModule, DecimalPipe, NgFor],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './table-crud.html',
 })
 export class AppdTableCrud {

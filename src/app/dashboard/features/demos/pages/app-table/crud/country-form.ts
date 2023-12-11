@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -9,7 +9,7 @@ import { AppdAreYouSure } from './are-you-sure';
 @Component({
     selector: 'appd-country-form',
     standalone: true,
-    imports: [SharedModule, NgIf, NgFor],
+    imports: [ CommonModule, SharedModule ],
     template: `
         <div class="modal-header">
 

@@ -14,7 +14,7 @@ import {
     getLocaleMonthNames,
     formatDate,
     registerLocaleData,
-    JsonPipe,
+    CommonModule,
 } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -54,7 +54,7 @@ export class NgbDatepickerI18nBuddhist extends NgbDatepickerI18n {
         return formatDate(jsDate, 'fullDate', this._locale);
     }
 
-    getYearNumerals(year: number): string {
+    override getYearNumerals(year: number): string {
         return String(year);
     }
 }
@@ -62,7 +62,7 @@ export class NgbDatepickerI18nBuddhist extends NgbDatepickerI18n {
 @Component({
     selector: 'ngbd-datepicker-buddhist',
     standalone: true,
-    imports: [NgbDatepickerModule, FormsModule, JsonPipe],
+    imports: [ CommonModule, FormsModule, NgbDatepickerModule],
     templateUrl: './datepicker-buddhist.html',
     providers: [
         { provide: NgbCalendar, useClass: NgbCalendarBuddhist },
@@ -70,8 +70,8 @@ export class NgbDatepickerI18nBuddhist extends NgbDatepickerI18n {
     ],
 })
 export class NgbdDatepickerBuddhist {
-    model: NgbDateStruct;
-    date: { year: number; month: number };
+    model!: NgbDateStruct;
+    date!: { year: number; month: number };
 
     constructor(private calendar: NgbCalendar) {}
 

@@ -1,4 +1,4 @@
-import { AsyncPipe, DecimalPipe, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from 'src/app/services/toast.service';
@@ -12,7 +12,7 @@ import { countries, Country } from '../mock';
 @Component({
     selector: 'appd-table-complete',
     standalone: true,
-    imports: [SharedModule, DecimalPipe, AsyncPipe, NgFor],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './table-complete.html',
 })
 export class AppdTableComplete {

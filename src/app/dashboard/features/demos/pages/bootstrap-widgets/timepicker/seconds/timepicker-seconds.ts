@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { NgbTimepickerModule, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'ngbd-timepicker-seconds',
     standalone: true,
-    imports: [NgbTimepickerModule, FormsModule, JsonPipe],
+    imports: [ NgbTimepickerModule, FormsModule, CommonModule ],
     templateUrl: './timepicker-seconds.html',
 })
 export class NgbdTimepickerSeconds {

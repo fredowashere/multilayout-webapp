@@ -12,9 +12,6 @@
     "hexeditor.showDecodedText": true,
     "hexeditor.defaultEndianness": "little",
     "hexeditor.inspectorType": "aside",
-    "window.zoomLevel": 1,
-    "editor.wordWrap": "wordWrapColumn",
-    "editor.wordWrapColumn": 120,
     "html.format.wrapAttributes": "force-expand-multiline",
     "workbench.colorCustomizations": {
         "activityBar.background": "#691883",

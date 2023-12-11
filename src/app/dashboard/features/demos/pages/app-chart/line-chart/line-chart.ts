@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FixedScaleAxis, Interpolation } from 'chartist';
 import { format } from 'date-fns';
@@ -8,7 +8,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 @Component({
     selector: 'appd-line-chart',
     standalone: true,
-    imports: [SharedModule, NgIf],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './line-chart.html',
     styles: [`
         app-chart {

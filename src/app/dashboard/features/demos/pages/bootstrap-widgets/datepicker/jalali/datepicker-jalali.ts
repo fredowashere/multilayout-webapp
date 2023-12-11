@@ -7,7 +7,7 @@ import {
     NgbDatepickerModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 const WEEKDAYS_SHORT = ['د', 'س', 'چ', 'پ', 'ج', 'ش', 'ی'];
 const MONTHS = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
@@ -31,7 +31,7 @@ export class NgbDatepickerI18nPersian extends NgbDatepickerI18n {
 @Component({
     selector: 'ngbd-datepicker-jalali',
     standalone: true,
-    imports: [NgbDatepickerModule, FormsModule, JsonPipe],
+    imports: [ NgbDatepickerModule, FormsModule, CommonModule ],
     templateUrl: './datepicker-jalali.html',
     providers: [
         { provide: NgbCalendar, useClass: NgbCalendarPersian },
@@ -39,8 +39,8 @@ export class NgbDatepickerI18nPersian extends NgbDatepickerI18n {
     ],
 })
 export class NgbdDatepickerJalali {
-    model: NgbDateStruct;
-    date: { year: number; month: number };
+    model!: NgbDateStruct;
+    date!: { year: number; month: number };
 
     constructor(private calendar: NgbCalendar) {}
 

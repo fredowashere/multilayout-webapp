@@ -7,7 +7,7 @@ import {
     NgbDatepickerModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 
 const WEEKDAYS = ['ن', 'ث', 'ر', 'خ', 'ج', 'س', 'ح'];
 const MONTHS = [
@@ -47,7 +47,7 @@ export class IslamicI18n extends NgbDatepickerI18n {
 @Component({
     selector: 'ngbd-datepicker-islamiccivil',
     standalone: true,
-    imports: [NgbDatepickerModule, FormsModule, JsonPipe],
+    imports: [ NgbDatepickerModule, FormsModule, CommonModule ],
     templateUrl: './datepicker-islamiccivil.html',
     providers: [
         { provide: NgbCalendar, useClass: NgbCalendarIslamicCivil },
@@ -55,7 +55,7 @@ export class IslamicI18n extends NgbDatepickerI18n {
     ],
 })
 export class NgbdDatepickerIslamiccivil {
-    model: NgbDateStruct;
+    model!: NgbDateStruct;
 
     constructor(private calendar: NgbCalendar) {}
 

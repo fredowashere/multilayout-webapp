@@ -3,7 +3,7 @@ import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 const statesWithFlags: { name: string; flag: string }[] = [
     { name: 'Alabama', flag: '5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png' },
@@ -64,7 +64,7 @@ const statesWithFlags: { name: string; flag: string }[] = [
 @Component({
     selector: 'ngbd-typeahead-template',
     standalone: true,
-    imports: [NgbTypeaheadModule, FormsModule, JsonPipe],
+    imports: [ NgbTypeaheadModule, FormsModule, CommonModule ],
     templateUrl: './typeahead-template.html',
     styles: [
         `

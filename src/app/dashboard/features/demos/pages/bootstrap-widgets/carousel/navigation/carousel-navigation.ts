@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { NgbCarouselConfig, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'ngbd-carousel-navigation',
     standalone: true,
-    imports: [NgbCarouselModule, NgIf, NgFor],
+    imports: [ CommonModule, NgbCarouselModule ],
     templateUrl: './carousel-navigation.html',
-    providers: [NgbCarouselConfig], // add NgbCarouselConfig to the component providers
+    providers: [ NgbCarouselConfig ], // add NgbCarouselConfig to the component providers
 })
 export class NgbdCarouselNavigation {
     showNavigationArrows = false;

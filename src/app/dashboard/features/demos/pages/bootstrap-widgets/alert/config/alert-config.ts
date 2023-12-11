@@ -4,10 +4,10 @@ import { NgbAlertConfig, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-alert-config',
     standalone: true,
-    imports: [NgbAlertModule],
+    imports: [ NgbAlertModule ],
     templateUrl: './alert-config.html',
     // add NgbAlertConfig  to the component providers
-    providers: [NgbAlertConfig],
+    providers: [ NgbAlertConfig ],
 })
 export class NgbdAlertConfig {
     @Input() public alerts: Array<string> = [];

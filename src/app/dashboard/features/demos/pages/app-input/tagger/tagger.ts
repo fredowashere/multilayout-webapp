@@ -1,14 +1,13 @@
-import { JsonPipe, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { delay, Observable, of, OperatorFunction, switchMap, tap } from 'rxjs';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { flavorList } from './mock';
 
 @Component({
     selector: 'appd-tagger',
     standalone: true,
-    imports: [SharedModule, JsonPipe, NgIf],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './tagger.html',
 })
 export class AppdTagger {

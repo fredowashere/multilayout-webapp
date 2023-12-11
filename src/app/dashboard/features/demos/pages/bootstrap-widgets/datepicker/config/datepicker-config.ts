@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {
     NgbCalendar,
-    NgbDate,
     NgbDatepickerModule,
     NgbDateStruct,
     NgbInputDatepickerConfig,
@@ -11,9 +10,9 @@ import { FormsModule } from '@angular/forms';
 @Component({
     selector: 'ngbd-datepicker-config',
     standalone: true,
-    imports: [NgbDatepickerModule, FormsModule],
+    imports: [ FormsModule, NgbDatepickerModule ],
     templateUrl: './datepicker-config.html',
-    providers: [NgbInputDatepickerConfig], // add config to the component providers
+    providers: [ NgbInputDatepickerConfig ], // add config to the component providers
 })
 export class NgbdDatepickerConfig {
     model!: NgbDateStruct;

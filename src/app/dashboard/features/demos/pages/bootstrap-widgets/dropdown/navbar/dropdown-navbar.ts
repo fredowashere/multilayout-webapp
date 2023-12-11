@@ -4,7 +4,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-dropdown-navbar',
     standalone: true,
-    imports: [NgbDropdownModule],
+    imports: [ NgbDropdownModule ],
     templateUrl: './dropdown-navbar.html',
 })
 export class NgbdDropdownNavbar {

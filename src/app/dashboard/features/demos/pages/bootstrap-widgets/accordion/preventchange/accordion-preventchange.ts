@@ -4,7 +4,7 @@ import { NgbAccordionModule, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootst
 @Component({
     selector: 'ngbd-accordion-preventchange',
     standalone: true,
-    imports: [NgbAccordionModule],
+    imports: [ NgbAccordionModule ],
     templateUrl: './accordion-preventchange.html',
 })
 export class NgbdAccordionPreventchange {

@@ -7,7 +7,7 @@ import {
     NgbDateStruct,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -60,7 +60,7 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 @Component({
     selector: 'ngbd-datepicker-adapter',
     standalone: true,
-    imports: [NgbDatepickerModule, FormsModule, JsonPipe],
+    imports: [ CommonModule, FormsModule, NgbDatepickerModule ],
     templateUrl: './datepicker-adapter.html',
 
     // NOTE: For this example we are only providing current component, but probably

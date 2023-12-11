@@ -1,11 +1,11 @@
-import { DecimalPipe, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
     selector: 'appd-wizard-basic',
     standalone: true,
-    imports: [SharedModule, DecimalPipe, NgFor],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './wizard-basic.html',
 })
 export class AppdWizardBasic {

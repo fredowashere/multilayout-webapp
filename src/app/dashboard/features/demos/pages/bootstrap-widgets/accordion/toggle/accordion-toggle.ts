@@ -4,7 +4,7 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-accordion-toggle',
     standalone: true,
-    imports: [NgbAccordionModule],
+    imports: [ NgbAccordionModule ],
     templateUrl: './accordion-toggle.html',
 })
 export class NgbdAccordionToggle {}

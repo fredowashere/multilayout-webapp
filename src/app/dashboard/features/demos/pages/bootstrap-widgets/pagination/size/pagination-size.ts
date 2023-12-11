@@ -4,7 +4,7 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-pagination-size',
     standalone: true,
-    imports: [NgbPaginationModule],
+    imports: [ NgbPaginationModule ],
     templateUrl: './pagination-size.html',
 })
 export class NgbdPaginationSize {

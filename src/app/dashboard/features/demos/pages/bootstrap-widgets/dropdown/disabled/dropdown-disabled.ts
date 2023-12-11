@@ -4,7 +4,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-dropdown-disabled',
     standalone: true,
-    imports: [NgbDropdownModule],
+    imports: [ NgbDropdownModule ],
     templateUrl: './dropdown-disabled.html',
 })
 export class NgbdDropdownDisabled {}

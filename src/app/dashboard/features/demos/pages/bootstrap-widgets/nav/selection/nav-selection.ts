@@ -4,7 +4,7 @@ import { NgbNavChangeEvent, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-nav-selection',
     standalone: true,
-    imports: [NgbNavModule],
+    imports: [ NgbNavModule ],
     templateUrl: './nav-selection.html',
 })
 export class NgbdNavSelection {

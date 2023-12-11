@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
     selector: 'ngbd-datepicker-customday',
     standalone: true,
-    imports: [NgbDatepickerModule, FormsModule],
+    imports: [ FormsModule, NgbDatepickerModule ],
     templateUrl: './datepicker-customday.html',
     styles: [
         `

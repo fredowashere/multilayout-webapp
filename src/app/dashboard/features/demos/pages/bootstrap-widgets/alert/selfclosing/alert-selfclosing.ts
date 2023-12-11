@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { NgbAlert, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'ngbd-alert-selfclosing',
     standalone: true,
-    imports: [NgIf, NgbAlertModule],
+    imports: [ CommonModule, NgbAlertModule ],
     templateUrl: './alert-selfclosing.html',
 })
 export class NgbdAlertSelfclosing implements OnInit {

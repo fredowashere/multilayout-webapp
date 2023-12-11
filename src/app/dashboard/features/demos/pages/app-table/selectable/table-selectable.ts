@@ -1,4 +1,4 @@
-import { DecimalPipe, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ToastService } from 'src/app/services/toast.service';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -7,7 +7,7 @@ import { countries } from '../mock';
 @Component({
     selector: 'appd-table-selectable',
     standalone: true,
-    imports: [SharedModule, DecimalPipe, NgFor],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './table-selectable.html',
 })
 export class AppdTableSelectable {

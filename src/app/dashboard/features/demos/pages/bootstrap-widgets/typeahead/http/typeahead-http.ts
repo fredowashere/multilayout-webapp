@@ -1,41 +1,16 @@
-import { Component, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { Observable, of, OperatorFunction } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, tap, switchMap, delay } from 'rxjs/operators';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe, NgIf } from '@angular/common';
-
-const WIKI_URL = 'https://en.wikipedia.org/w/api.php';
-const PARAMS = new HttpParams({
-    fromObject: {
-        action: 'opensearch',
-        format: 'json',
-        origin: '*',
-    },
-});
-
-@Injectable()
-export class WikipediaService {
-    constructor(private http: HttpClient) {}
-
-    search(term: string) {
-        if (term === '') {
-            return of([]);
-        }
-
-        return this.http
-            .get<[any, string[]]>(WIKI_URL, { params: PARAMS.set('search', term) })
-            .pipe(map((response) => response[1]));
-    }
-}
+import { CommonModule } from '@angular/common';
+import { bestBooks } from '../../../app-input/autocomplete/mock';
 
 @Component({
     selector: 'ngbd-typeahead-http',
     standalone: true,
-    imports: [NgbTypeaheadModule, FormsModule, NgIf, JsonPipe],
+    imports: [ NgbTypeaheadModule, FormsModule, CommonModule ],
     templateUrl: './typeahead-http.html',
-    providers: [WikipediaService],
     styles: [
         `
             .form-control {
@@ -49,21 +24,23 @@ export class NgbdTypeaheadHttp {
     searching = false;
     searchFailed = false;
 
-    constructor(private _service: WikipediaService) {}
+    constructor() {}
 
     search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
         text$.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             tap(() => (this.searching = true)),
-            switchMap((term) =>
-                this._service.search(term).pipe(
-                    tap(() => (this.searchFailed = false)),
-                    catchError(() => {
-                        this.searchFailed = true;
-                        return of([]);
-                    }),
-                ),
+            switchMap(term => 
+                of(
+                    bestBooks.filter(b => // Filter books
+                        b.title.toLocaleLowerCase().includes(term.toLocaleLowerCase())
+                    )
+                )
+                .pipe(
+                    map(books => books.map(b => b.title)), // Extract only titles
+                    delay(100 + Math.random() * 1000) // Simulate HTTP request with delay
+                )
             ),
             tap(() => (this.searching = false)),
         );

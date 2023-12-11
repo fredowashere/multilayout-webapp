@@ -1,4 +1,4 @@
-import { DecimalPipe, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { countries } from '../mock';
@@ -6,7 +6,7 @@ import { countries } from '../mock';
 @Component({
     selector: 'appd-table-row-expand',
     standalone: true,
-    imports: [SharedModule, DecimalPipe, NgFor],
+    imports: [ CommonModule, SharedModule ],
     templateUrl: './table-row-expand.html',
 })
 export class AppdTableRowExpand {

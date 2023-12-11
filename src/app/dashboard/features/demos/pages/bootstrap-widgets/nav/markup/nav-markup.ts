@@ -4,7 +4,7 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-nav-markup',
     standalone: true,
-    imports: [NgbNavModule],
+    imports: [ NgbNavModule ],
     templateUrl: './nav-markup.html',
 })
 export class NgbdNavMarkup {}

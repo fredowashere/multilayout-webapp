@@ -4,7 +4,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'ngbd-tooltip-autoclose',
     standalone: true,
-    imports: [NgbTooltipModule],
+    imports: [ NgbTooltipModule ],
     templateUrl: './tooltip-autoclose.html',
 })
 export class NgbdTooltipAutoclose {}
