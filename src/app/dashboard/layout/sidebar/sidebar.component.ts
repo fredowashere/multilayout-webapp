@@ -7,7 +7,9 @@ import { intersection } from 'src/app/utils/array';
 
 interface SidebarSubitem {
   title: string;
-  path: string;
+  path?: string;
+  externalLink?: string;
+  executable?: Function;
   icon?: string;
   roles?: string[];
 }
@@ -16,6 +18,8 @@ interface SidebarItem {
   isActive: boolean; // Make the collapse work
   title: string;
   path?: string;
+  externalLink?: string;
+  executable?: Function;
   icon?: string;
   children?: SidebarSubitem[];
   roles?: string[];
