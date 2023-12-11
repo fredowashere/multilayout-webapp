@@ -84,17 +84,5 @@ export const countries: Country[] = [
         flag: "f/fa/Flag_of_the_People%27s_Republic_of_China.svg",
         area: 9596960,
         population: 1409517397,
-    },
-    {
-        name: "Fredo's Island",
-        flag: null,
-        area: null,
-        population: null,
-    },
-    {
-        name: "Marco's Island",
-        flag: null,
-        area: null,
-        population: null,
-    },
+    }
 ];
