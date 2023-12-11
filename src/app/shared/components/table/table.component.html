@@ -46,7 +46,7 @@
 </div>
 
 <div class="table-responsive" [ngStyle]="{ 'max-height': maxHeight }">
-	<table class="table table-striped">
+	<table class="table table-striped" [style.table-layout]="tableFixed ? 'fixed' : null">
 	
 		<thead [class.sticky-head]="stickyHead">
 			<tr>
@@ -116,7 +116,7 @@
 					</tr>
 	
 					<tr *ngIf="rowExpand">
-						<td class="row-expand" colspan="99">
+						<td class="row-expand" [attr.colspan]="colspan + (rowExpand ? 1 : 0)">
 							<div #collapse="ngbCollapse" [(ngbCollapse)]="_row.collapsed">
 								<ng-container
 									*ngTemplateOutlet="
@@ -136,7 +136,7 @@
 				</ng-container>
 			</ng-container>
 
-			<td *ngIf="!(paginatedItems$ | async)?.length" colspan="99">
+			<td *ngIf="!(paginatedItems$ | async)?.length" [attr.colspan]="colspan + (rowExpand ? 1 : 0)">
 				<ng-container *ngIf="emptyTemplate; else showEmptyMessage">
 					<ng-container *ngTemplateOutlet="emptyTemplate"></ng-container>
 				</ng-container>

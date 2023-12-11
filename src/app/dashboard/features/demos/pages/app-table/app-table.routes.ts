@@ -12,6 +12,7 @@ import { AppdTableSelectable } from './selectable/table-selectable';
 import { AppdTableSorted } from './sorted/table-sorted';
 import { AppdTableStickyHead } from './sticky-head/table-sticky-head';
 import { AppdTableDuplicatedControls } from './duplicated-controls/table-duplicated-controls';
+import { AppdTableLayoutFixed } from './layout-fixed/table-layout-fixed';
 
 declare var require: any;
 
@@ -33,6 +34,18 @@ const demos = {
         code: require('!raw-loader!./sticky-head/table-sticky-head').default,
         markup: require('!raw-loader!./sticky-head/table-sticky-head.html').default,
         type: AppdTableStickyHead,
+    },
+    rowExpand: {
+        title: 'Row expand',
+        code: require('!raw-loader!./row-expand/table-row-expand').default,
+        markup: require('!raw-loader!./row-expand/table-row-expand.html').default,
+        type: AppdTableRowExpand,
+    },
+    layoutFixed: {
+        title: 'Layout fixed (nested table scrolls)',
+        code: require('!raw-loader!./layout-fixed/table-layout-fixed').default,
+        markup: require('!raw-loader!./layout-fixed/table-layout-fixed.html').default,
+        type: AppdTableLayoutFixed,
     },
     searchable: {
         title: 'Searchable',
@@ -63,12 +76,6 @@ const demos = {
         code: require('!raw-loader!./selectable/table-selectable').default,
         markup: require('!raw-loader!./selectable/table-selectable.html').default,
         type: AppdTableSelectable,
-    },
-    rowExpand: {
-        title: 'Row expand',
-        code: require('!raw-loader!./row-expand/table-row-expand').default,
-        markup: require('!raw-loader!./row-expand/table-row-expand.html').default,
-        type: AppdTableRowExpand,
     },
     crud: {
         title: 'CRUD',

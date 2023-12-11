@@ -29,6 +29,9 @@ export class TableComponent implements OnInit, OnChanges, OnDestroy {
     @Input("stickyHead") stickyHead = false;
     @Input("maxHeight") maxHeight: string | boolean = false;
 
+    @Input("tableFixed") tableFixed = false;
+    @Input("colspan") colspan = 99;
+
     // Search and pagination fields
     @Input("searchable") searchable: string[] | boolean = false;
     @Input("paginated") paginated = false;
