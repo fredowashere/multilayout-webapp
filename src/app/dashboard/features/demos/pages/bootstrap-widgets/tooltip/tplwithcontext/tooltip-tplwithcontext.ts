@@ -2,19 +2,19 @@ import { Component } from '@angular/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-	selector: 'ngbd-tooltip-tplwithcontext',
-	standalone: true,
-	imports: [NgbTooltipModule],
-	templateUrl: './tooltip-tplwithcontext.html',
+    selector: 'ngbd-tooltip-tplwithcontext',
+    standalone: true,
+    imports: [NgbTooltipModule],
+    templateUrl: './tooltip-tplwithcontext.html',
 })
 export class NgbdTooltipTplwithcontext {
-	name = 'World';
+    name = 'World';
 
-	toggleWithGreeting(tooltip: any, greeting: string) {
-		if (tooltip.isOpen()) {
-			tooltip.close();
-		} else {
-			tooltip.open({ greeting });
-		}
-	}
+    toggleWithGreeting(tooltip: any, greeting: string) {
+        if (tooltip.isOpen()) {
+            tooltip.close();
+        } else {
+            tooltip.open({ greeting });
+        }
+    }
 }

@@ -4,10 +4,10 @@ import { SelectOption } from 'src/app/shared/components/input/input.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
-	selector: 'appd-checkbox',
-	standalone: true,
+    selector: 'appd-checkbox',
+    standalone: true,
     imports: [SharedModule],
-	templateUrl: './checkbox.html',
+    templateUrl: './checkbox.html',
 })
 export class AppdCheckbox {
 

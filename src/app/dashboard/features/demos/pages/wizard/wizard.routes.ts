@@ -7,25 +7,25 @@ import { AppdWizardBasic } from './basic/wizard-basic';
 declare var require: any;
 
 const demos = {
-	basic: {
-		title: 'Basic',
-		code: require('!raw-loader!./basic/wizard-basic').default,
-		markup: require('!raw-loader!./basic/wizard-basic.html').default,
-		type: AppdWizardBasic,
-	},
+    basic: {
+        title: 'Basic',
+        code: require('!raw-loader!./basic/wizard-basic').default,
+        markup: require('!raw-loader!./basic/wizard-basic.html').default,
+        type: AppdWizardBasic,
+    },
 };
 
 export const routes: Routes = [
-	{
-		path: '',
-		component: DemosComponent,
-		providers: [
-			{
-				provide: ENVIRONMENT_INITIALIZER,
-				multi: true,
-				useValue: () =>
-					inject(NgbdDemoListService).register('wizard', demos),
-			},
-		],
-	},
+    {
+        path: '',
+        component: DemosComponent,
+        providers: [
+            {
+                provide: ENVIRONMENT_INITIALIZER,
+                multi: true,
+                useValue: () =>
+                    inject(NgbdDemoListService).register('wizard', demos),
+            },
+        ],
+    },
 ];

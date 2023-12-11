@@ -6,10 +6,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { flavorList } from './mock';
 
 @Component({
-	selector: 'appd-tagger',
-	standalone: true,
+    selector: 'appd-tagger',
+    standalone: true,
     imports: [SharedModule, JsonPipe, NgIf],
-	templateUrl: './tagger.html',
+    templateUrl: './tagger.html',
 })
 export class AppdTagger {
 

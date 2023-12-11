@@ -36,10 +36,10 @@ const customMaxLength = (control: AbstractControl) => {
 };
 
 @Component({
-	selector: 'appd-validation',
-	standalone: true,
+    selector: 'appd-validation',
+    standalone: true,
     imports: [SharedModule, NgIf],
-	templateUrl: './validation.html',
+    templateUrl: './validation.html',
 })
 export class AppdValidation {
 

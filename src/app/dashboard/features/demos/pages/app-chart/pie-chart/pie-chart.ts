@@ -6,10 +6,10 @@ import { LineChartConfiguration, PieChartConfiguration } from 'src/app/shared/co
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
-	selector: 'appd-pie-chart',
-	standalone: true,
+    selector: 'appd-pie-chart',
+    standalone: true,
     imports: [SharedModule, NgIf],
-	templateUrl: './pie-chart.html',
+    templateUrl: './pie-chart.html',
     styles: [`
         app-chart {
             height: 50vh;

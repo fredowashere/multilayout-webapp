@@ -6,10 +6,10 @@ import { LineChartConfiguration } from 'src/app/shared/components/chart.componen
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
-	selector: 'appd-line-chart',
-	standalone: true,
+    selector: 'appd-line-chart',
+    standalone: true,
     imports: [SharedModule, NgIf],
-	templateUrl: './line-chart.html',
+    templateUrl: './line-chart.html',
     styles: [`
         app-chart {
             height: 50vh;

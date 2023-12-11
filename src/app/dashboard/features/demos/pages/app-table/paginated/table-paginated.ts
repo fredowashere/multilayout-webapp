@@ -4,13 +4,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { countries } from '../mock';
 
 @Component({
-	selector: 'appd-table-paginated',
-	standalone: true,
-	imports: [SharedModule, DecimalPipe, NgFor],
-	templateUrl: './table-paginated.html',
+    selector: 'appd-table-paginated',
+    standalone: true,
+    imports: [SharedModule, DecimalPipe, NgFor],
+    templateUrl: './table-paginated.html',
 })
 export class AppdTablePaginated {
 
-	countries = countries;
-	
+    countries = countries;
+    
 }

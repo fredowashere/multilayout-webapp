@@ -9,51 +9,51 @@ import { AppdAreYouSure } from './are-you-sure';
 import { AppdCountryForm } from './country-form';
 
 @Component({
-	selector: 'appd-table-crud',
-	standalone: true,
-	imports: [SharedModule, DecimalPipe, NgFor],
-	templateUrl: './table-crud.html',
+    selector: 'appd-table-crud',
+    standalone: true,
+    imports: [SharedModule, DecimalPipe, NgFor],
+    templateUrl: './table-crud.html',
 })
 export class AppdTableCrud {
 
-	@ViewChild("dt") dt!: TableComponent;
+    @ViewChild("dt") dt!: TableComponent;
 
-	countries: any[] = jsonCopy(countries);
+    countries: any[] = jsonCopy(countries);
 
-	constructor(
-		private modalService: NgbModal
-	) { }
+    constructor(
+        private modalService: NgbModal
+    ) { }
 
-	async confirmDeleteSingle(country: Country) {
+    async confirmDeleteSingle(country: Country) {
 
-		const modalRef = this.modalService.open(AppdAreYouSure);
-		modalRef.componentInstance.name = country.name;
+        const modalRef = this.modalService.open(AppdAreYouSure);
+        modalRef.componentInstance.name = country.name;
 
-		const result = await modalRef.result;
-		console.log("Deleting single?", result, country.name);
-	}
+        const result = await modalRef.result;
+        console.log("Deleting single?", result, country.name);
+    }
 
-	async confirmDeleteMultiple() {
+    async confirmDeleteMultiple() {
 
-		const modalRef = this.modalService.open(AppdAreYouSure);
-		modalRef.componentInstance.rows = this.dt.selectedRows;
+        const modalRef = this.modalService.open(AppdAreYouSure);
+        modalRef.componentInstance.rows = this.dt.selectedRows;
 
-		const result = await modalRef.result;
-		console.log("Deleting multiple?", result, this.dt.selectedRows);
-	}
+        const result = await modalRef.result;
+        console.log("Deleting multiple?", result, this.dt.selectedRows);
+    }
 
-	async create() {
-		const modalRef = this.modalService.open(AppdCountryForm);
-		const result = await modalRef.result;
-		console.log("Create?", result);
-	}
+    async create() {
+        const modalRef = this.modalService.open(AppdCountryForm);
+        const result = await modalRef.result;
+        console.log("Create?", result);
+    }
 
-	async edit(country: Country) {
+    async edit(country: Country) {
 
-		const modalRef = this.modalService.open(AppdCountryForm);
-		modalRef.componentInstance.country = country;
+        const modalRef = this.modalService.open(AppdCountryForm);
+        modalRef.componentInstance.country = country;
 
-		const result = await modalRef.result;
-		console.log("Edit?", result);
-	}
+        const result = await modalRef.result;
+        console.log("Edit?", result);
+    }
 }

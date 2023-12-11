@@ -5,20 +5,20 @@ import { MonthpickerStruct } from 'src/app/shared/components/monthpicker/monthpi
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
-	selector: 'appd-date',
-	standalone: true,
+    selector: 'appd-date',
+    standalone: true,
     imports: [SharedModule, JsonPipe],
-	templateUrl: './date.html',
+    templateUrl: './date.html',
 })
 export class AppdDate {
 
-	date1 = new FormControl();
-	date2 = new FormControl();
-	date3 = new FormControl();
+    date1 = new FormControl();
+    date2 = new FormControl();
+    date3 = new FormControl();
 
-	year1 = new FormControl();
-	year2 = new FormControl(2023);
+    year1 = new FormControl();
+    year2 = new FormControl(2023);
 
-	startMonth = new FormControl<MonthpickerStruct | null>(null, [Validators.required]);
-	endMonth = new FormControl<MonthpickerStruct | null>(null, [Validators.required]);
+    startMonth = new FormControl<MonthpickerStruct | null>(null, [Validators.required]);
+    endMonth = new FormControl<MonthpickerStruct | null>(null, [Validators.required]);
 }

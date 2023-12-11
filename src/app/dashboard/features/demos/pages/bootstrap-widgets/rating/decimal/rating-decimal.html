@@ -3,17 +3,17 @@
 <p>We use <code>bootstrap-icons</code> to display hearts</p>
 
 <ng-template #t let-fill="fill">
-	<i class="bi-heart-fill">
-		<i *ngIf="fill > 0" class="bi-heart-fill filled" [style.width.%]="fill"></i>
-	</i>
+    <i class="bi-heart-fill">
+        <i *ngIf="fill > 0" class="bi-heart-fill filled" [style.width.%]="fill"></i>
+    </i>
 </ng-template>
 
 <ngb-rating
-	[(rate)]="currentRate"
-	[starTemplate]="t"
-	[readonly]="true"
-	[max]="5"
-	[ariaValueText]="ariaValueText"
+    [(rate)]="currentRate"
+    [starTemplate]="t"
+    [readonly]="true"
+    [max]="5"
+    [ariaValueText]="ariaValueText"
 ></ngb-rating>
 
 <hr />

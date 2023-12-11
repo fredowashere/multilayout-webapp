@@ -4,13 +4,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { countries } from '../mock';
 
 @Component({
-	selector: 'appd-table-basic',
-	standalone: true,
-	imports: [SharedModule, DecimalPipe, NgFor],
-	templateUrl: './table-basic.html',
+    selector: 'appd-table-basic',
+    standalone: true,
+    imports: [SharedModule, DecimalPipe, NgFor],
+    templateUrl: './table-basic.html',
 })
 export class AppdTableBasic {
 
-	countries: any[] = countries;
-	
+    countries: any[] = countries;
+    
 }

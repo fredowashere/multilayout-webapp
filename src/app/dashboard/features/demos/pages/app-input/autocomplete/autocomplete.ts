@@ -6,10 +6,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { states, bestBooks } from './mock';
 
 @Component({
-	selector: 'appd-autocomplete',
-	standalone: true,
+    selector: 'appd-autocomplete',
+    standalone: true,
     imports: [SharedModule, JsonPipe, NgIf],
-	templateUrl: './autocomplete.html',
+    templateUrl: './autocomplete.html',
 })
 export class AppdAutocomplete {
     

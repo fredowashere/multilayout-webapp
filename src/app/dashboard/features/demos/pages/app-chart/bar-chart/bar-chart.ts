@@ -5,10 +5,10 @@ import { BarChartConfiguration } from 'src/app/shared/components/chart.component
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
-	selector: 'appd-bar-chart',
-	standalone: true,
+    selector: 'appd-bar-chart',
+    standalone: true,
     imports: [SharedModule, NgIf],
-	templateUrl: './bar-chart.html',
+    templateUrl: './bar-chart.html',
     styles: [`
         app-chart {
             height: 50vh;

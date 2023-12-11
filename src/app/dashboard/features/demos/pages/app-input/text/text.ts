@@ -4,10 +4,10 @@ import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
-	selector: 'appd-text',
-	standalone: true,
+    selector: 'appd-text',
+    standalone: true,
     imports: [SharedModule, NgIf],
-	templateUrl: './text.html',
+    templateUrl: './text.html',
 })
 export class AppdText {
 

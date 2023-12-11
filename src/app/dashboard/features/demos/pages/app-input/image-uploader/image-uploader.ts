@@ -5,10 +5,10 @@ import { delay, Observable, of, OperatorFunction, switchMap, tap } from 'rxjs';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
-	selector: 'appd-image-uploader',
-	standalone: true,
+    selector: 'appd-image-uploader',
+    standalone: true,
     imports: [SharedModule, JsonPipe, NgIf],
-	templateUrl: './image-uploader.html',
+    templateUrl: './image-uploader.html',
 })
 export class AppdImageUploader {
 

@@ -3,11 +3,11 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-	selector: 'appd-are-you-sure',
-	standalone: true,
+    selector: 'appd-are-you-sure',
+    standalone: true,
     imports: [NgIf, NgFor],
-	template: `
-		<div class="modal-header">
+    template: `
+        <div class="modal-header">
 
             <h4 class="modal-title" id="modal-title">
                 {{ name ? name : 'Records' }} deletion
@@ -54,14 +54,14 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
                 Ok
             </button>
         </div>
-	`,
+    `,
 })
 export class AppdAreYouSure {
 
     @Input("name") name!: string;
     @Input("rows") rows!: any[];
 
-	constructor(
+    constructor(
         public activeModal: NgbActiveModal
     ) {}
 }

@@ -5,33 +5,33 @@ import { NgbAlert, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf } from '@angular/common';
 
 @Component({
-	selector: 'ngbd-alert-selfclosing',
-	standalone: true,
-	imports: [NgIf, NgbAlertModule],
-	templateUrl: './alert-selfclosing.html',
+    selector: 'ngbd-alert-selfclosing',
+    standalone: true,
+    imports: [NgIf, NgbAlertModule],
+    templateUrl: './alert-selfclosing.html',
 })
 export class NgbdAlertSelfclosing implements OnInit {
 
-	private _success = new Subject<string>();
+    private _success = new Subject<string>();
 
-	staticAlertClosed = false;
-	successMessage = '';
+    staticAlertClosed = false;
+    successMessage = '';
 
-	@ViewChild('staticAlert', { static: false }) staticAlert!: NgbAlert;
-	@ViewChild('selfClosingAlert', { static: false }) selfClosingAlert!: NgbAlert;
+    @ViewChild('staticAlert', { static: false }) staticAlert!: NgbAlert;
+    @ViewChild('selfClosingAlert', { static: false }) selfClosingAlert!: NgbAlert;
 
-	ngOnInit(): void {
-		setTimeout(() => this.staticAlert.close(), 20000);
+    ngOnInit(): void {
+        setTimeout(() => this.staticAlert.close(), 20000);
 
-		this._success.subscribe((message) => (this.successMessage = message));
-		this._success.pipe(debounceTime(5000)).subscribe(() => {
-			if (this.selfClosingAlert) {
-				this.selfClosingAlert.close();
-			}
-		});
-	}
+        this._success.subscribe((message) => (this.successMessage = message));
+        this._success.pipe(debounceTime(5000)).subscribe(() => {
+            if (this.selfClosingAlert) {
+                this.selfClosingAlert.close();
+            }
+        });
+    }
 
-	public changeSuccessMessage() {
-		this._success.next(`${new Date()} - Message successfully changed.`);
-	}
+    public changeSuccessMessage() {
+        this._success.next(`${new Date()} - Message successfully changed.`);
+    }
 }

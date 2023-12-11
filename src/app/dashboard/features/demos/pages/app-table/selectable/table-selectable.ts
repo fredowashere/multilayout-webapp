@@ -5,30 +5,30 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { countries } from '../mock';
 
 @Component({
-	selector: 'appd-table-selectable',
-	standalone: true,
-	imports: [SharedModule, DecimalPipe, NgFor],
-	templateUrl: './table-selectable.html',
+    selector: 'appd-table-selectable',
+    standalone: true,
+    imports: [SharedModule, DecimalPipe, NgFor],
+    templateUrl: './table-selectable.html',
 })
 export class AppdTableSelectable {
 
-	countries = countries;
+    countries = countries;
 
-	constructor(
-		private toastService: ToastService
-	) {}
+    constructor(
+        private toastService: ToastService
+    ) {}
 
-	selectedToast(row: any) {
-		this.toastService.show(
-			"Selected " + row.name,
-			{ classname: 'bg-success text-light', delay: 4000 }
-		);
-	}
+    selectedToast(row: any) {
+        this.toastService.show(
+            "Selected " + row.name,
+            { classname: 'bg-success text-light', delay: 4000 }
+        );
+    }
 
-	deselectedToast(row: any) {
-		this.toastService.show(
-			"Deselected " + row.name,
-			{ classname: 'bg-danger text-light', delay: 6000 }
-		);
-	}
+    deselectedToast(row: any) {
+        this.toastService.show(
+            "Deselected " + row.name,
+            { classname: 'bg-danger text-light', delay: 6000 }
+        );
+    }
 }
