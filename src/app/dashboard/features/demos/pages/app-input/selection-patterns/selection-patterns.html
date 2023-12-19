@@ -21,7 +21,7 @@
                 name="choice"
                 label="Choice (disabled)"
                 placeholder="Choose something"
-                [ngControl]="choice"
+                [ngControl]="choiceDisabled"
                 [options]="choices"
                 [floatingLabel]="true"
                 [disabled]="true"
@@ -48,7 +48,7 @@
                 name="choice"
                 label="Select your genre"
                 helper="Disabled radio selector"
-                [ngControl]="radio"
+                [ngControl]="radioDisabled"
                 [options]="choices"
                 [disabled]="true"
             />
@@ -73,7 +73,7 @@
                 name="acceptTerms"
                 label="Accept terms & conditions"
                 helper="Disabled checkbox"
-                [ngControl]="checkbox"
+                [ngControl]="checkboxDisabled"
                 [disabled]="true"
             />
         </div>

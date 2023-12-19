@@ -20,8 +20,13 @@ export class AppdSelectionPatterns {
     ];
 
     choice = new FormControl();
+    choiceDisabled = new FormControl();
+
     radio = new FormControl();
+    radioDisabled = new FormControl();
+
     checkbox = new FormControl();
+    checkboxDisabled = new FormControl();
 }
 
 
