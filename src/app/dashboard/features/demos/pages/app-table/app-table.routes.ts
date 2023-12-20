@@ -66,7 +66,7 @@ const demos = {
         type: AppdTableDuplicatedControls,
     },
     sorted: {
-        title: 'Sorted',
+        title: 'Sortable',
         code: require('!raw-loader!./sorted/table-sorted').default,
         markup: require('!raw-loader!./sorted/table-sorted.html').default,
         type: AppdTableSorted,

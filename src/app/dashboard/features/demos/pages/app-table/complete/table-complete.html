@@ -1,4 +1,4 @@
-<p><code>AppdAreYouSure</code> and <code>AppdCountryForm</code> components are taken from the CRUD example.</p>
+<p>An example that showcases various features, including sorting, filtering, pagination, and data highlighting.<br><code>AppdAreYouSure</code> and <code>AppdCountryForm</code> components are taken from the CRUD example.</p>
 
 <div class="d-flex gap-2 p-2">
 
@@ -35,9 +35,9 @@
 >
 
     <ng-template #thead>
-        <th sortable="name" (sort)="dt.sort($any($event))">Country</th>
-        <th sortable="area" (sort)="dt.sort($any($event))">Area</th>
-        <th sortable="population" (sort)="dt.sort($any($event))">Population</th>
+        <th sortable="name" (sort)="dt.sort($event)">Country</th>
+        <th sortable="area" (sort)="dt.sort($event)">Area</th>
+        <th sortable="population" (sort)="dt.sort($event)">Population</th>
         <th style="width: 10rem"></th>
     </ng-template>
 

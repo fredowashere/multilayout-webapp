@@ -1,3 +1,5 @@
+<p>Apply the <code>sortable</code> attribute to the heading columns set to a specific path (can be a nested path as "user.info.firstName") to enable sorting.</p>
+
 <app-table
     [thead]="thead"
     [tbody]="tbody"
@@ -6,9 +8,9 @@
 >
 
     <ng-template #thead>
-        <th sortable="name" (sort)="at.sort($any($event))">Country</th>
-        <th sortable="area" (sort)="at.sort($any($event))">Area</th>
-        <th sortable="population" (sort)="at.sort($any($event))">Population</th>
+        <th sortable="name" (sort)="at.sort($event)">Country</th>
+        <th sortable="area" (sort)="at.sort($event)">Area</th>
+        <th sortable="population" (sort)="at.sort($event)">Population</th>
     </ng-template>
 
     <ng-template #tbody let-country>
