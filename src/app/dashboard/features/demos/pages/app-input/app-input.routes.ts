@@ -17,7 +17,7 @@ declare var require: any;
 
 const demos = {
     form: {
-        title: 'Complete form example',
+        title: 'Complete form',
         code: require('!raw-loader!./form/form').default,
         markup: require('!raw-loader!./form/form.html').default,
         type: AppdForm,

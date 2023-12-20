@@ -13,20 +13,24 @@ import { CommonModule } from '@angular/common';
 })
 export class AppdTextMasking {
 
-    euroMask = new NumberMask({
+    numMask = new NumberMask({
         suffix: " €",
         allowDecimal: true,
         allowNegative: true,
         thousandsSeparatorSymbol: ".",
         decimalSymbol: ","
     });
-    euro = new FormControl(this.euroMask.numberToMask(1234.56));
-
-    emailMask = emailMask;
-    email = new FormControl();
+    euro = new FormControl(this.numMask.numberToMask(1234.56));
 
     phoneMask = [ "+", /\d/, /\d/, " ", /[1-9]/, /\d/, /\d/, " ", /\d/, /\d/, " ", /\d/, /\d/, " ", /\d/, /\d/, /\d/ ];
-    phone = new FormControl();
+    phone = new FormControl("+39 347 00 00 000");
+
+    emailMask = emailMask;
+    email = new FormControl("fredocorleone@email.com");
+
+    unmaskPhone(maskedPhone?: string | null) {
+        return (maskedPhone || "").replaceAll(/[^+0-9]/g, "");
+    }
 }
 
 

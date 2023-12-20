@@ -44,6 +44,9 @@ export class MonthpickerComponent {
     @Input("floatingLabel") floatingLabel = false;
     @Input("lookahead") lookahead = 10;
     @Input("lookbehind") lookbehind = 10;
+    @Input("removeYear") removeYear = false;
+
+    monthNames: string[] = [];
 
     minDate?: MonthpickerStruct | null;
     @Input("minDate")
@@ -78,6 +81,14 @@ export class MonthpickerComponent {
     @Output("monthSelect") monthSelectEmitter = new EventEmitter<MonthpickerStruct | null>();
 
     ngOnInit() {
+
+        // Construct monthNames
+        for (let month = 0; month < 12; month++) {
+            const date = new Date(this.year, month, 1);
+            const monthName = date.toLocaleString("default", { month: "long" });
+            this.monthNames.push(monthName);
+        }
+
         this.handleErrors();
         this.updateMonthpickerModel();
     }
@@ -101,7 +112,10 @@ export class MonthpickerComponent {
         }
 
         const { year, month } = value;
-        this.monthpicker.nativeElement.value = year + "-" + month;
+        const inputText = (this.removeYear)
+            ? this.monthNames[month - 1]
+            : year + "-" + month;
+        this.monthpicker.nativeElement.value = inputText;
     }
 
     ngOnDestroy() {
@@ -143,8 +157,7 @@ export class MonthpickerComponent {
 
         for (let month = 0; month < 12; month++) {
 
-            const date = new Date(this.year, month, 1);
-            const monthName = date.toLocaleString("default", { month: "short" });
+            const monthName = (this.monthNames[month] || "NA").slice(0, 3);
 
             const aboveMax = this.maxDate && (this.maxDate.year < this.year || this.maxDate.year === this.year && this.maxDate.month < month + 1) || false;
             const belowMin = this.minDate && (this.minDate.year > this.year || this.minDate.year === this.year && this.minDate.month > month + 1) || false;
@@ -166,7 +179,10 @@ export class MonthpickerComponent {
 
     onMonthSelected(monthNumber: number) {
         this.touched = true;
-        const selection = { year: this.year, month: monthNumber };
+        const selection = {
+            year: (this.removeYear) ? 0 : this.year,
+            month: monthNumber
+        };
         this.monthSelectEmitter.emit(selection);
         this.ngControl.setValue(selection);
         this.dropdown.close();

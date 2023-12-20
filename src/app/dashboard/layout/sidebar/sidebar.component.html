@@ -30,7 +30,7 @@
 
                         <i [ngClass]="item.icon" class="pe-3"></i> 
 
-                        <span class="me-auto">{{ item.title }}</span>
+                        <span class="me-auto"><span [innerHTML]="item.title"></span></span>
 
                         <i *ngIf="!item.isActive" class="bi bi-caret-up-fill"></i>
                         <i *ngIf="item.isActive" class="bi bi-caret-down-fill"></i>
@@ -48,7 +48,7 @@
                                         (click)="subitem.executable()"
                                     >
                                         <i *ngIf="subitem.icon" [ngClass]="subitem.icon" class="pe-3 bi"></i> 
-                                        {{ subitem.title }}
+                                        <span [innerHTML]="subitem.title"></span>
                                     </a>
                                 </ng-container>
                                 <ng-template #childLinks>
@@ -58,7 +58,7 @@
                                             [href]="subitem.externalLink"
                                         >
                                             <i *ngIf="subitem.icon" [ngClass]="subitem.icon" class="pe-3 bi"></i> 
-                                            {{ subitem.title }}
+                                            <span [innerHTML]="subitem.title"></span>
                                         </a>
                                     </ng-container>
                                     <ng-template #childPath>
@@ -68,7 +68,7 @@
                                             [routerLink]="subitem.path"
                                         >
                                             <i *ngIf="subitem.icon" [ngClass]="subitem.icon" class="pe-3 bi"></i> 
-                                            {{ subitem.title }}
+                                            <span [innerHTML]="subitem.title"></span>
                                         </a>
                                     </ng-template>
                                 </ng-template>
@@ -89,7 +89,7 @@
                             (click)="item.executable()"
                         >
                             <i *ngIf="item.icon" [ngClass]="item.icon" class="pe-3 bi"></i> 
-                            {{ item.title }}
+                            <span [innerHTML]="item.title"></span>
                         </a>
                     </ng-container>
                     <ng-template #links>
@@ -99,7 +99,7 @@
                                 [href]="item.externalLink"
                             >
                                 <i *ngIf="item.icon" [ngClass]="item.icon" class="pe-3 bi"></i> 
-                                {{ item.title }}
+                                <span [innerHTML]="item.title"></span>
                             </a>
                         </ng-container>
                         <ng-template #path>
@@ -110,7 +110,7 @@
                                 [routerLink]="item.path"
                             >
                                 <i *ngIf="item.icon" [ngClass]="item.icon" class="pe-3 bi"></i> 
-                                {{ item.title }}
+                                <span [innerHTML]="item.title"></span>
                             </a>
                         </ng-template>
                     </ng-template>

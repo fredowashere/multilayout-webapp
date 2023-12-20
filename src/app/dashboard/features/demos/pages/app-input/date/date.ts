@@ -21,4 +21,6 @@ export class AppdDate {
 
     startMonth = new FormControl<MonthpickerStruct | null>(null, [Validators.required]);
     endMonth = new FormControl<MonthpickerStruct | null>(null, [Validators.required]);
+
+    monthWithoutYear = new FormControl<MonthpickerStruct | null>(null, [Validators.required]);
 }

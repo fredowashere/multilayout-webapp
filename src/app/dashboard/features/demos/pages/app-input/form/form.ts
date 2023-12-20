@@ -5,6 +5,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { states } from '../autocomplete/mock';
 import { flavorList } from '../tagger/mock';
 
+const defaultState = { name: "Hawaii", flag: "e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png" };
+const defaultFlavor = { id: 0, name: "Banana" };
+
 @Component({
     selector: 'appd-form',
     standalone: true,
@@ -26,17 +29,14 @@ export class AppdForm {
     }
 
     form = new FormGroup({
-        firstName: new FormControl("Fredo"),
-        lastName: new FormControl("Corleone"),
-        email: new FormControl(undefined, [ Validators.required, Validators.email ]),
-        city: new FormControl(undefined, [ Validators.required ]),
-        state: new FormControl(
-            { name: "Hawaii", flag: "e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png" },
-            [ Validators.required ]
-        ),
-        zip: new FormControl(undefined, [ Validators.required ]),
-        flavors: new FormControl([ { id: 0, name: "Banana" } ]),
-        agree: new FormControl(undefined, [ Validators.requiredTrue ])
+        firstName: new FormControl<string | null>(null),
+        lastName: new FormControl<string | null>(null),
+        email: new FormControl<string | null>(null, [ Validators.required, Validators.email ]),
+        city: new FormControl<string | null>(null, [ Validators.required ]),
+        state: new FormControl(defaultState, [ Validators.required ]),
+        zip: new FormControl<number | null>(null, [ Validators.required ]),
+        flavors: new FormControl([ defaultFlavor ]),
+        agree: new FormControl(false, [ Validators.requiredTrue ])
     });
 
     disableForm = new FormControl(false);

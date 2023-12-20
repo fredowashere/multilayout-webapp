@@ -56,13 +56,13 @@
 
     <div class="invalid-feedback" [class.d-block]="touched && ngControl.errors">
         <div *ngIf="ngControl.errors?.required">
-            Richiesto
+            Required
         </div>
     </div>
 
     <div class="dropdown-menu p-3" ngbDropdownMenu>
 
-        <div class="d-grid" style="justify-items: center;">
+        <div *ngIf="!removeYear" class="d-grid mb-3" style="justify-items: center;">
             <select class="form-select" style="max-width: 7.5rem;" (change)="onYearSelected($event)">
                 <option
                     *ngFor="let y of years"
@@ -74,7 +74,7 @@
             </select>
         </div>
 
-        <div class="d-grid gap-2 mt-3" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="d-grid gap-2" style="grid-template-columns: repeat(3, 1fr);">
             <button
                 *ngFor="let m of months"
                 class="btn btn-outline-primary text-uppercase"
