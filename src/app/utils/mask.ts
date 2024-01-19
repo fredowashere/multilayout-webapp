@@ -63,9 +63,8 @@ export class NumberMask {
         ];
 
         unmasked = unmasked || ""; // Guard against falsy values
-
-        const isNegative = unmasked.indexOf("-") > -1;
-        return (isNegative ? "-" : "") + prefix + unmasked.replace(thousandsSeparator, decimal) + suffix;
+        
+        return prefix + unmasked.replace(thousandsSeparator, decimal) + suffix;
     }
 
     maskToNumber(numStr?: string | null) {
