@@ -8,6 +8,7 @@
 * [Styleguide](#styleguide)
 * [How to add your own styles](#how-to-add-your-own-styles)
 * [Reporting Issues](#reporting-issues)
+* [License](#license)
 
 ## Description
 
