@@ -156,10 +156,10 @@ export class InputComponent implements OnInit, OnDestroy {
         // Sync ngControl status with this.disabled value
         if (changes.disabled && this.ngControl) {
             if (changes.disabled.currentValue) {
-                this.ngControl.disable();
+                this.ngControl.disable({ onlySelf: true, emitEvent: false });
             }
             else {
-                this.ngControl.enable();
+                this.ngControl.enable({ onlySelf: true, emitEvent: false });
             }
         }
     }
