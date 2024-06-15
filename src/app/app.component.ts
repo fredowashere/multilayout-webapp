@@ -12,12 +12,10 @@ export class AppComponent {
   constructor() {
     const cwarn = console.warn;
     window.console.warn = (message: any) => {
-      if (typeof message === "string") {
-        if (message.includes("It looks like you're using the disabled attribute")) {
-          return;
-        }
-        cwarn(message);
+      if (typeof message === "string" && message.includes("It looks like you're using the disabled attribute")) {
+        return;
       }
+      cwarn(message);
     }
   }
 }
