@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FAKE_TOKEN } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -19,6 +19,7 @@ export class LoginComponent {
 
     constructor(
         private authService: AuthService,
+        private route: ActivatedRoute,
         private router: Router
     ) { }
 
@@ -36,7 +37,8 @@ export class LoginComponent {
     login() {
         this.authService.setSession(FAKE_TOKEN)
             .subscribe(() => {
-                this.router.navigateByUrl('/docs');
+                const returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/docs";
+                this.router.navigateByUrl(returnUrl);
             });
     }
 

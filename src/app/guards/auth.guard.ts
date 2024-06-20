@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
                 map(user => intersection(this.allowedRoles, user?.roles || []).length > 0),
                 tap(allowed => {
                     if (!allowed) {
-                        this.router.navigateByUrl('/login');
+                        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
                     }
                 })
             );
