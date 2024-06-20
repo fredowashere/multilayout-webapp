@@ -1,4 +1,4 @@
-import createNumberMask from "../shared/directives/dependencies/text2mask/createNumberMask";
+import createNumberMask from "../shared/directives/deps/text2mask/createNumberMask";
 
 export interface NumberMaskOptions {
     prefix?: string;

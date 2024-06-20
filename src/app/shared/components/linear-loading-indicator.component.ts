@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-
-import { CommonModule } from '@angular/common';
 import { delay } from 'src/app/utils/promise';
 
 const size = 32;
@@ -8,8 +6,6 @@ const spacing = 8;
 
 @Component({
 	selector: 'app-linear-loading-indicator',
-	standalone: true,
-	imports: [ CommonModule ],
 	template: `
         <div class="lli-list">
             <div
@@ -54,7 +50,7 @@ const spacing = 8;
         }
     `]
 })
-export class LinearLoadingIndicator {
+export class LinearLoadingIndicatorComponent {
 
     _text = "loading";
     @Input("text")

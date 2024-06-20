@@ -35,18 +35,14 @@
               "src/assets/css/multilayout-webapp/layout/flexgrid.css",
               "src/assets/css/multilayout-webapp/layout/wizard.css",
               "src/assets/css/multilayout-webapp/module/brand.css",
+              "src/assets/css/multilayout-webapp/module/button.css",
               "src/assets/css/multilayout-webapp/module/cdk-drag.css",
               "src/assets/css/multilayout-webapp/module/navbar.css",
-              "src/assets/css/multilayout-webapp/module/round-btn.css",
               "src/assets/css/multilayout-webapp/module/scrollbar.css",
               "src/assets/css/multilayout-webapp/module/table.css",
               "src/assets/css/multilayout-webapp/util/generic.css",
               "src/assets/css/demos.css",
-              "src/styles/base/variables.css",
-              "src/styles/base/reset.css",
-              "src/styles/layout/generic.css",
-              "src/styles/module/generic.css",
-              "src/styles/util/generic.css"
+              "src/styles.css"
             ],
             "scripts": [
               "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
@@ -66,7 +62,27 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ]
+            },
+            "uat": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.uat.ts"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -84,6 +100,9 @@
           "configurations": {
             "production": {
               "browserTarget": "multi-layout:build:production"
+            },
+            "uat": {
+              "browserTarget": "multi-layout:build:uat"
             },
             "development": {
               "browserTarget": "multi-layout:build:development"

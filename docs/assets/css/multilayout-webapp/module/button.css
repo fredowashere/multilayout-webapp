@@ -1,0 +1,11 @@
+.btn-circle {
+    width: 42px;
+    height: 42px;
+    line-height: 1;
+    border-radius: 50%;
+}
+
+.btn-circle.btn-lg {
+    width: 54px;
+    height: 54px;
+}

@@ -9,25 +9,38 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
 import { ToastsContainer } from './shared/components/toasts-container.component';
+import { EnumRoles } from './models/user';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ToastsContainer
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    {
-      provide: 'adminsOnlyGuard',
-      useFactory: (authService: AuthService, router: Router) =>
-        new AuthGuard(['ADMIN'], authService, router),
-      deps: [ AuthService, Router ]
-    }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ToastsContainer
+    ],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        {
+            provide: 'guardGuest',
+            useFactory: (authService: AuthService, router: Router) =>
+                new AuthGuard([EnumRoles.Guest, EnumRoles.Premium, EnumRoles.Admin], authService, router),
+            deps: [AuthService, Router]
+        },
+        {
+            provide: 'guardPremium',
+            useFactory: (authService: AuthService, router: Router) =>
+                new AuthGuard([EnumRoles.Premium, EnumRoles.Admin], authService, router),
+            deps: [AuthService, Router]
+        },
+        {
+            provide: 'guardAdmin',
+            useFactory: (authService: AuthService, router: Router) =>
+                new AuthGuard([EnumRoles.Admin], authService, router),
+            deps: [AuthService, Router]
+        }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

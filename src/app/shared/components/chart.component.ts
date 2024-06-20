@@ -63,20 +63,13 @@ export interface ChartEvent {
 export class AppChartComponent implements OnInit, OnChanges, OnDestroy {
     @Input() configuration!: Configuration;
 
-    /**
-     * Events object where keys are Chartist event names and values are event handler functions.
-     *
-     * Supported events are: draw, optionsChanged, data, animationBegin, animationEnd, created.
-     *
-     * Event handler function will receive a data argument which contains event data.
-     */
+    // Events object where keys are Chartist event names and values are event handler functions.
+    // Supported events are: draw, optionsChanged, data, animationBegin, animationEnd, created.
+    // Event handler function will receive a data argument which contains event data.
     @Input() events!: ChartEvent;
 
-    /**
-     * Event emitted after Chartist chart has been initialized.
-     *
-     * Event handler function will receive chart instance argument.
-     */
+    // Event emitted after Chartist chart has been initialized.
+    // Event handler function will receive chart instance argument.
     @Output() initialized = new EventEmitter<ChartTypes>();
 
     chart!: ChartTypes | null;

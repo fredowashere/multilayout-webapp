@@ -1,7 +1,7 @@
 import { Directive, ElementRef, forwardRef, Input, Inject, NgModule, OnChanges, Optional, Provider, Renderer2, SimpleChanges } from '@angular/core'
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, COMPOSITION_BUFFER_MODE } from '@angular/forms'
 import { ɵgetDOM as getDOM } from '@angular/platform-browser'
-import { createTextMaskInputElement } from './dependencies/text2mask/textMaskCore'
+import { createTextMaskInputElement } from './deps/text2mask/textMaskCore'
 
 export class TextMaskConfig {
   mask!: Array<string | RegExp> | ((raw: string) => Array<string | RegExp>) | false
@@ -134,10 +134,4 @@ export class MaskedInputDirective implements ControlValueAccessor, OnChanges {
   }
 }
 
-@NgModule({
-  declarations: [MaskedInputDirective],
-  exports: [MaskedInputDirective]
-})
-export class TextMaskModule {}
-
-export { conformToMask } from './dependencies/text2mask/textMaskCore'
+export { conformToMask } from './deps/text2mask/textMaskCore'

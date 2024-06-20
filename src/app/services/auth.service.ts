@@ -1,94 +1,66 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, map, Observable, tap, timer } from "rxjs";
-import { User } from '../models/user';
+import { BehaviorSubject, Observable } from "rxjs";
+import { ANONYMOUS_USER, User } from '../models/user';
 import { parseJwt } from '../utils/json';
 
-interface AuthResult {
-  expiresAt: number;
-  idToken: string;
-}
-
-const DUMMY_AUTH_RES: AuthResult = {
-  expiresAt: new Date().getTime() + 24 * 60 * 60 * 1000, // expires tomorrow
-  idToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlciI6eyJpZCI6MSwidXNlcm5hbWUiOiJKb2huIERvZSIsInJvbGVzIjpbIkFETUlOIl19LCJpYXQiOjE1MTYyMzkwMjJ9.bMPK5XGVG55i3ME8EiHfF_mGweuKqtf6PDH3XhqPOwk"
-}
-
-const ANONYMOUS_USER: User = {
-  id: undefined,
-  username: undefined,
-  roles: []
-}
-
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
 
-  private _user$ = new BehaviorSubject<User>(ANONYMOUS_USER);
-  user$: Observable<User> = this._user$.asObservable();
+    private _user$ = new BehaviorSubject<User | null>(ANONYMOUS_USER);
+    user$: Observable<User | null> = this._user$.asObservable();
 
-  constructor() {
-    this.autoLogin();
-  }
+    private set user(user: User | null) {
+        this._user$.next(user);
+    }
 
-  login(username: string, password: string) {
+    get user() {
+        return this._user$.getValue();
+    }
 
-    return timer(200)
-      .pipe(
-        tap(() => {
+    constructor() {
+        this.autoLogin();
+    }
 
-          // Simulate backend error
-          if (username !== 'admin' && password !== 'admin')
-            throw Error('Username or password do not match');
-        }),
-        map(() => DUMMY_AUTH_RES),
-        tap((authRes) => this.setSession(authRes)),
-        tap(({ idToken }) => this.emitUser(idToken))
-      );
-  }
+    setSession(authToken: string) {
+        const user = parseJwt(authToken);
+        localStorage.setItem("auth_token", authToken);
+        localStorage.setItem("expires_at", JSON.stringify(user.exp * 1000));
+        if (authToken && this.isLoggedIn()) {
+            const parsed = parseJwt(authToken);
+            console.log("authToken", authToken);
+            console.log("parsed", parsed);
+            this.user = parsed;
+        }
+        return this.user$;
+    }
 
-  autoLogin() {
+    autoLogin() {
+        const authToken = localStorage.getItem("auth_token");
+        if (authToken && this.isLoggedIn()) {
+            const parsed = parseJwt(authToken);
+            console.log("authToken", authToken);
+            console.log("parsed", parsed);
+            this.user = parsed;
+        }
+        // ToDo: Where is the logic for redirecting the user to the login on token expire?
+        return this.user$;
+    }
 
-    const idToken = localStorage.getItem('id_token');
+    logout() {
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("expires_at");
+        this.user = null;
+    }
 
-    if (idToken && this.isLoggedIn())
-      this.emitUser(idToken);
-    
-    return this.user$;
-  }
-        
-  private setSession(authRes: AuthResult) {
-    localStorage.setItem('id_token', authRes.idToken);
-    localStorage.setItem("expires_at", JSON.stringify(authRes.expiresAt));
-  }
-  
-  private emitUser(idToken: string) {
-    const user = parseJwt(idToken).user;
-    this._user$.next(user);
-  }
+    isLoggedIn() {
+        const expiration = localStorage.getItem("expires_at");
+        const expiresAt = parseInt(JSON.parse(expiration || "0"));
+        return new Date().getTime() < expiresAt;
+    }
 
-  logout() {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
-    this._user$.next(ANONYMOUS_USER);
-  }
-
-  isLoggedIn() {
-    return new Date().getTime() < this.getExpiration();
-  }
-
-  isLoggedOut() {
-    return !this.isLoggedIn();
-  }
-
-  getExpiration() {
-
-    const expiration = localStorage.getItem("expires_at");
-
-    let expiresAt = 0;
-    if (expiration)
-      expiresAt = JSON.parse(expiration);
-
-    return expiresAt;
-  }
+    isLoggedOut() {
+        return !this.isLoggedIn();
+    }
 }

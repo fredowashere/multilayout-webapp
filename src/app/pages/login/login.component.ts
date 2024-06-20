@@ -1,49 +1,49 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FAKE_TOKEN } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
 
-  email!: FormControl;
-  username!: FormControl;
-  password!: FormControl;
+    email!: FormControl;
+    username!: FormControl;
+    password!: FormControl;
 
-  loginForm!: FormGroup;
+    loginForm!: FormGroup;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) { }
+    constructor(
+        private authService: AuthService,
+        private router: Router
+    ) { }
 
-  ngOnInit() {
+    ngOnInit() {
+        this.email = new FormControl();
+        this.username = new FormControl("admin");
+        this.password = new FormControl("admin");
 
-    this.email = new FormControl();
-    this.username = new FormControl("admin");
-    this.password = new FormControl("admin");
+        this.loginForm = new FormGroup({
+            username: this.username,
+            password: this.password
+        });
+    }
 
-    this.loginForm = new FormGroup({
-      username: this.username,
-      password: this.password
-    });
-  }
+    login() {
+        const val = this.loginForm.value;
 
-  login() {
+        if (!val.username || !val.password) {
+            return;
+        }
 
-    const val = this.loginForm.value;
-
-    if (!val.username || !val.password)
-      return;
-
-    this.authService.login(val.username, val.password)
-      .subscribe(() => {
-        this.router.navigateByUrl('/dashboard');
-      });
-  }
+        this.authService.setSession(FAKE_TOKEN)
+            .subscribe(() => {
+                this.router.navigateByUrl('/docs');
+            });
+    }
 
 }
