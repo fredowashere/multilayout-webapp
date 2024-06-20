@@ -34,12 +34,6 @@ export class LoginComponent {
     }
 
     login() {
-        const val = this.loginForm.value;
-
-        if (!val.username || !val.password) {
-            return;
-        }
-
         this.authService.setSession(FAKE_TOKEN)
             .subscribe(() => {
                 this.router.navigateByUrl('/docs');
