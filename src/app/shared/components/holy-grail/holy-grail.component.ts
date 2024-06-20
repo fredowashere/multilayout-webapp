@@ -12,8 +12,6 @@ export class HolyGrailComponent {
 
     @Input("hasSidebarLeft") hasSidebarLeft = true;
     @Input("hasSidebarRight") hasSidebarRight = true;
-    @Input("sidebarLeftCtrlIcon") sidebarLeftCtrlIcon = "bi-layout-sidebar-inset-reverse";
-    @Input("sidebarRightCtrlIcon") sidebarRightCtrlIcon = "bi-layout-sidebar-inset";
 
     constructor(
         public sidebarService: HolySidebarService,
