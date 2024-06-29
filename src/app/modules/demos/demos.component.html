@@ -42,9 +42,7 @@
                                     <a ngbNavLink>{{ file.name }}</a>
                                     <ng-template ngbNavContent>
                                         <app-copy-paster [value]="file.source"/>
-                                        <pre>
-                                            <code [innerHtml]="file.source | highlight"></code>
-                                        </pre>
+                                        <pre><code [innerHtml]="file.source | highlight"></code></pre>
                                     </ng-template>
                                 </ng-container>
                             </nav>

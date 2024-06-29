@@ -1,0 +1,5 @@
+:root {
+    --bordrad_sm: calc(var(--bordrad_md) * 0.2 / 0.25);
+    --bordrad_md: 0.75rem;
+    --bordrad_lg: calc(var(--bordrad_md) * 0.3 / 0.25);
+}
