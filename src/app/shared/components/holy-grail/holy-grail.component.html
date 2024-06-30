@@ -16,16 +16,16 @@
         <nav class="app-navbar navbar navbar-light bg-white border-0">
             <div class="container-fluid">
                 <div class="d-flex gap-3 align-items-center">
-                    <button *ngIf="hasSidebarLeft" class="btn btn-circle" (click)="sidebarService.toggleLeft()">
+                    <button *ngIf="hasSidebarLeft" class="btn" (click)="sidebarService.toggleLeft()">
                         <i class="bi bi-layout-sidebar-inset"></i>
                     </button>
                     <ng-content select="[navbarContent]"></ng-content>
                 </div>
                 <div class="d-flex gap-3 align-items-center">
-                    <button class="btn btn-circle" (click)="logout()">
+                    <button class="btn" (click)="logout()">
                         <i class="fa fa-power-off"></i>
                     </button>
-                    <button *ngIf="hasSidebarRight" class="btn btn-circle" (click)="sidebarService.toggleRight()">
+                    <button *ngIf="hasSidebarRight" class="btn" (click)="sidebarService.toggleRight()">
                         <i class="bi bi-layout-sidebar-inset-reverse"></i>
                     </button>
                 </div>

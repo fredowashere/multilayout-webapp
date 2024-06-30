@@ -71,7 +71,7 @@ ngb-carousel .picsum-img-wrapper>img {
     content: '';
     background: rgba(var(--app-gray_50), 1);
     border: 1px solid #bbb;
-    border-radius: var(--bordrad_md);
+    border-radius: var(--border-radius_md);
     display: block;
     height: 38px;
 }

@@ -1,16 +1,16 @@
 /* Start of VARIABLES */
 :root {
-    --bordrad_sm: calc(var(--bordrad_md) * 0.2 / 0.25);
-    --bordrad_md: 1.1rem;
-    --bordrad_lg: calc(var(--bordrad_md) * 0.3 / 0.25);
+    --border-radius_sm: calc(var(--border-radius_md) * 0.2 / 0.25);
+    --border-radius_md: 1.1rem;
+    --border-radius_lg: calc(var(--border-radius_md) * 0.3 / 0.25);
 }
 /* End of VARIABLES */
 
 
 /* Start of SCROLLBAR */
 ::-webkit-scrollbar {
-    width: var(--bordrad_md);
-    height: var(--bordrad_md);
+    width: var(--border-radius_md);
+    height: var(--border-radius_md);
 }
 
 ::-webkit-scrollbar-track {
