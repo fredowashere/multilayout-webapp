@@ -17,7 +17,7 @@
             <div class="container-fluid">
                 <div class="d-flex gap-3 align-items-center">
                     <button *ngIf="hasSidebarLeft" class="btn" (click)="sidebarService.toggleLeft()">
-                        <i class="bi bi-layout-sidebar-inset"></i>
+                        <i class="fa fa-bars"></i>
                     </button>
                     <ng-content select="[navbarContent]"></ng-content>
                 </div>
@@ -26,7 +26,7 @@
                         <i class="fa fa-power-off"></i>
                     </button>
                     <button *ngIf="hasSidebarRight" class="btn" (click)="sidebarService.toggleRight()">
-                        <i class="bi bi-layout-sidebar-inset-reverse"></i>
+                        <i class="fa fa-bars"></i>
                     </button>
                 </div>
             </div>

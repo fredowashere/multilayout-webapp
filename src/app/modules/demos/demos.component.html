@@ -2,18 +2,18 @@
 
 <div class="components-container container">
 
-    <div class="d-flex flex-column gap-5">
+    <div class="d-flex flex-column gap-4 gap-md-5">
         <div
             *ngFor="let demo of demos"
             [id]="demo.id"
             class="card shadow"
             style="background: #f7f7f7;"
         >
-            <div class="card-body p-4">
+            <div class="card-body p-md-4">
 
-                <div class="d-flex">
+                <div class="d-flex align-items-center gap-2 mb-3">
         
-                    <h2 class="lh-1 mb-3 fw-bold me-auto">{{ demo.title }}</h2>
+                    <div class="fs-2 fw-bold me-auto">{{ demo.title }}</div>
         
                     <div>
                         <input
@@ -24,11 +24,10 @@
                             (click)="toggle(demo.id)"
                         >
                         <label
-                            class="btn btn-secondary"
+                            class="btn btn-secondary text-nowrap"
                             [for]="'btn-check' + demo.id"
                         >
-                            <i class="bi bi-code-slash"></i>
-                            Code
+                            <i class="bi bi-code-slash"></i> Code
                         </label>
                     </div>
                 </div>

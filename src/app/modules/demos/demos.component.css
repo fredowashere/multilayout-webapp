@@ -31,6 +31,7 @@ app-copy-paster {
 
     .components-container {
         grid-template-columns: 100%;
+        padding: 0.5rem;
     }
 
     .ctx-nav {

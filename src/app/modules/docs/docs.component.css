@@ -14,7 +14,6 @@
 }
 
 .sb-link {
-    border: 1px solid #eee4;
     border-radius: var(--border-radius_md);
     display: flex;
     padding: 0.65rem 0.75rem;
@@ -25,7 +24,6 @@
 
 .sb-link:hover {
     background-color: rgba(var(--app-primary_500), 0.2);
-    border-color: rgba(var(--app-primary_500), 1);
 }
 
 .sb-link.is-active {

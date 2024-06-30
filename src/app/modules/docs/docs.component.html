@@ -20,6 +20,7 @@
                             class="sb-link text-reset text-decoration-none"
                             routerLinkActive="is-active"
                             [routerLink]="subitem.path"
+                            (click)="closeSidebar()"
                         >
                             <i *ngIf="subitem.icon" [ngClass]="subitem.icon" class="pe-3 bi"></i> 
                             <span [innerHTML]="subitem.title"></span>
@@ -33,6 +34,7 @@
                         #rla="routerLinkActive"
                         routerLinkActive="is-active"
                         [routerLink]="item.path"
+                        (click)="closeSidebar()"
                     >
                         <i *ngIf="item.icon" [ngClass]="item.icon" class="pe-3 bi"></i> 
                         <span [innerHTML]="item.title"></span>
@@ -42,7 +44,7 @@
         </div>
     </div>
 
-    <h5 navbarContent class="mb-0">Welcome to the MultiLayout Docs</h5>
+    <h5 navbarContent class="mb-0">Welcome to the Docs</h5>
     <div mainContent id="main-stuff">
         <router-outlet></router-outlet>
     </div>

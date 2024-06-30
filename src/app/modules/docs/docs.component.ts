@@ -1,7 +1,9 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { NavigationEnd, Router, RouterLinkActive } from '@angular/router';
 import { filter, Subject, takeUntil, tap } from 'rxjs';
+import { HolySidebarService } from 'src/app/shared/components/holy-grail/holy-sidebar.service';
 import { intersection } from 'src/app/utils/array';
+import { delay } from 'src/app/utils/promise';
 
 interface SidebarSubitem {
     title: string;
@@ -145,6 +147,7 @@ export class DocsComponent {
     ];
 
     constructor(
+        private sidebarService: HolySidebarService,
         private router: Router
     ) { }
 
@@ -161,5 +164,12 @@ export class DocsComponent {
 
     ngOnDestroy() {
         this.destroy$.next();
+    }
+
+    async closeSidebar() {
+        if (window.innerWidth <= 700) {
+            await delay(200);
+            this.sidebarService.toggleLeft();
+        }
     }
 }
