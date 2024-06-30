@@ -1,5 +1,27 @@
+/* Start of VARIABLES */
 :root {
     --bordrad_sm: calc(var(--bordrad_md) * 0.2 / 0.25);
-    --bordrad_md: 0.75rem;
+    --bordrad_md: 1.1rem;
     --bordrad_lg: calc(var(--bordrad_md) * 0.3 / 0.25);
 }
+/* End of VARIABLES */
+
+
+/* Start of SCROLLBAR */
+::-webkit-scrollbar {
+    width: var(--bordrad_md);
+    height: var(--bordrad_md);
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(var(--app-gray_200), 1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(var(--app-gray_300), 1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--app-gray_400), 1);
+}
+/* End of SCROLLBAR */
