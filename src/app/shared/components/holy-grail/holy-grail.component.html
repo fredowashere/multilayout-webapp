@@ -5,7 +5,7 @@
             <div>
                 <ng-content select="[sidebarLeftHeader]"></ng-content>
             </div>
-            <label class="menu-toggle" (click)="sidebarService.toggleLeft()">✕</label>
+            <button class="btn" (click)="sidebarService.toggleLeft()">✕</button>
         </div>
         <div class="sb-content">
             <ng-content select="[sidebarLeftContent]"></ng-content>
@@ -15,13 +15,13 @@
     <div class="sb-layout__nav">
         <nav class="app-navbar navbar navbar-light bg-white border-0">
             <div class="container-fluid">
-                <div class="d-flex gap-3 align-items-center">
+                <div class="d-flex align-items-center">
                     <button *ngIf="hasSidebarLeft" class="btn" (click)="sidebarService.toggleLeft()">
                         <i class="fa fa-bars"></i>
                     </button>
                     <ng-content select="[navbarContent]"></ng-content>
                 </div>
-                <div class="d-flex gap-3 align-items-center">
+                <div class="d-flex align-items-center">
                     <button class="btn" (click)="logout()">
                         <i class="fa fa-power-off"></i>
                     </button>
@@ -43,7 +43,7 @@
     <!-- RIGHT SIDEBAR-->
     <aside class="sb-layout__side sb-layout__side--r" [class.is-open]="sidebarService.isRightOpen">
         <div class="sb-header">
-            <label class="menu-toggle" (click)="sidebarService.toggleRight()">✕</label>
+            <button class="btn" (click)="sidebarService.toggleRight()">✕</button>
             <div>
                 <ng-content select="[sidebarRightHeader]"></ng-content>
             </div>
