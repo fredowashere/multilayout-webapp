@@ -59,7 +59,7 @@ export class DemosComponent {
         }
     }
 
-    ngOnInit() {
+    async ngOnInit() {
 
         this.route.fragment
             .pipe(

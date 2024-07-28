@@ -125,6 +125,9 @@
     --button-padding-x_sm: 0.5rem;
     --button-padding-x_md: 0.75rem;
     --button-padding-x_lg: 1rem;
+
+    --form-check-input-width: 1em;
+    --form-check-input-height: 1em;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -2653,21 +2656,18 @@ textarea.form-control-lg {
 }
 
 .form-check {
-    display: block;
+    display: flex;
     min-height: 1.5rem;
-    padding-left: 1.5em;
+    padding-left: calc(var(--form-check-input-width)* 0.5);
+    gap: calc(var(--form-check-input-width)* 0.5);
     margin-bottom: 0.125rem;
-}
-
-.form-check .form-check-input {
-    float: left;
-    margin-left: -1.5em;
+    align-items: center;
 }
 
 .form-check-input {
-    width: 1em;
-    height: 1em;
-    margin-top: 0.25em;
+    width: var(--form-check-input-width);
+    height: var(--form-check-input-height);
+    margin-top: 0;
     vertical-align: top;
     background-color: rgba(var(--app-gray_0), 1);
     background-repeat: no-repeat;

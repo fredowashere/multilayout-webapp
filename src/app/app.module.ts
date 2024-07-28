@@ -8,8 +8,8 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
-import { ToastsContainer } from './shared/components/toasts-container.component';
 import { EnumRoles } from './models/user';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -18,7 +18,7 @@ import { EnumRoles } from './models/user';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        ToastsContainer
+        SharedModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -23,6 +23,7 @@ import { RBACDirective } from './directives/role-based-access-control';
 import { AppSortableHeader } from './directives/sortable-header';
 import { HackCasePipe } from './pipes/hack-case.pipe';
 import { HighlightPipe } from './pipes/highlight.pipe';
+import { ToastsContainer } from './components/toasts-container/toasts-container.component';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import { HighlightPipe } from './pipes/highlight.pipe';
         ImageUploaderPreviewComponent,
         HolyGrailComponent,
         LinearLoadingIndicatorComponent,
+        ToastsContainer,
         // Directives
         LetDirective,
         MaskedInputDirective,
@@ -79,6 +81,7 @@ import { HighlightPipe } from './pipes/highlight.pipe';
         ImageUploaderPreviewComponent,
         HolyGrailComponent,
         LinearLoadingIndicatorComponent,
+        ToastsContainer,
         // Directives
         LetDirective,
         MaskedInputDirective,
