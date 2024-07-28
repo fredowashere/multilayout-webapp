@@ -24,7 +24,7 @@ export class NgbdToastGlobal implements OnDestroy {
     }
 
     positioned(position: "top-left" | "top-right" | "bottom-left" | "bottom-right") {
-        this.toastService.show('I am a success toast', { classname: 'bg-success text-light', position, delay: 10000 });
+        this.toastService.show('Position: ' + position, { classname: 'bg-success text-light', position, delay: 10000 });
     }
 
     ngOnDestroy(): void {
