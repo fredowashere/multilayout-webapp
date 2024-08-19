@@ -38,6 +38,18 @@
                     [ngControl]="password"
                 />
             </div>
+
+            <div class="mb-3">
+                <app-input
+                    type="range"
+                    label="Number"
+                    step="0.1"
+                    min="0"
+                    max="10"
+                    helper="Minimum 0, maximum 10"
+                    [ngControl]="range"
+                />
+            </div>
     
             <app-input
                 type="textarea"

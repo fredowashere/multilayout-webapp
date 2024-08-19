@@ -14,6 +14,7 @@ export class AppdText {
     text = new FormControl();
     number = new FormControl();
     password = new FormControl();
+    range = new FormControl(0);
     textarea = new FormControl();
 
     textDisabled = new FormControl();

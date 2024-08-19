@@ -1,37 +1,28 @@
 <ng-template #invalidFeedback let-ngControl>
     <div class="invalid-feedback">
-
         <ng-container *ngIf="!onlyCustomErrors">
-
             <div *ngIf="ngControl.errors?.min">
                 Minimum {{ ngControl.errors?.min.min }}
             </div>
-    
             <div *ngIf="ngControl.errors?.max">
                 Maximum {{ ngControl.errors?.max.max }}
             </div>
-    
             <div *ngIf="ngControl.errors?.required">
                 Required
             </div>
-    
             <div *ngIf="ngControl.errors?.email">
                 Invalid email
             </div>
-    
             <div *ngIf="ngControl.errors?.minlength">
                 Minimum length {{ ngControl.errors?.minlength.requiredLength }}
             </div>
-    
             <div *ngIf="ngControl.errors?.maxlength">
                 Maximum length {{ ngControl.errors?.maxlength.requiredLength }}
             </div>
-    
             <div *ngIf="ngControl.errors?.pattern">
                 Invalid format
             </div>
         </ng-container>
-
         <ng-content select="[customErrors]"></ng-content>
     </div>
 </ng-template>
@@ -39,7 +30,6 @@
 <ng-container *ngIf="floatingLabel; else fixedLabel">
 
     <div *ngIf="type === 'text'" class="form-floating">
-
         <ng-container *ngIf="mask; else withoutMask">
             <input
                 [class.pseudo-disabled]="disabled"
@@ -69,11 +59,8 @@
                 [maxlength]="maxLength"
             >
         </ng-template>
-
         <label [for]="_name">{{ label }}</label>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
-
         <i
             *ngIf="ngControl.value && ngControl.status !== 'DISABLED' && !disabled"
             class="reset-field reset-field--floating bi bi-x-lg"
@@ -82,7 +69,6 @@
     </div>
 
     <div *ngIf="type === 'password'" class="form-floating">
-
         <input
             [class.pseudo-disabled]="disabled"
             [tabindex]="disabled ? -1 : 0"
@@ -95,11 +81,8 @@
             [minlength]="minLength"
             [maxlength]="maxLength"
         >
-
         <label [for]="_name">{{ label }}</label>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
-
         <i
             *ngIf="ngControl.value && ngControl.status !== 'DISABLED' && !disabled"
             class="reset-field reset-field--floating bi bi-x-lg"
@@ -108,7 +91,6 @@
     </div>
 
     <div *ngIf="type === 'number'" class="form-floating">
-
         <input
             [class.pseudo-disabled]="disabled"
             [tabindex]="disabled ? -1 : 0"
@@ -122,14 +104,11 @@
             [min]="min"
             [max]="max"
         >
-
         <label [for]="_name">{{ label }}</label>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
     <div *ngIf="type === 'textarea'" class="form-floating">
-
         <textarea
             [class.pseudo-disabled]="disabled"
             [tabindex]="disabled ? -1 : 0"
@@ -142,14 +121,11 @@
             [maxlength]="maxLength"
             style="height: 100px"
         ></textarea>
-
         <label [for]="_name">{{ label }}</label>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
     <div *ngIf="type === 'select'" class="form-floating">
-
         <select
             [class.pseudo-disabled]="disabled"
             [tabindex]="disabled ? -1 : 0"
@@ -166,14 +142,11 @@
                 {{ opt.text }}
             </option>
         </select>
-
         <label [for]="disabled ? 'nowhere' : _name">{{ label }}</label>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
     <div *ngIf="type === 'year'" class="form-floating">
-
         <select
             [class.pseudo-disabled]="disabled"
             [tabindex]="disabled ? -1 : 0"
@@ -189,14 +162,11 @@
                 {{ opt.text }}
             </option>
         </select>
-
         <label [for]="disabled ? 'nowhere' : _name">{{ label }}</label>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
     <div *ngIf="type === 'date'" class="form-floating">
-
         <input
             type="date"
             class="form-control"
@@ -210,14 +180,11 @@
             [min]="min"
             [max]="max"
         />
-
         <label [for]="_name">{{ label }}</label>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
     
     <div *ngIf="type === 'time'" class="form-floating">
-
         <input
             type="time"
             class="form-control"
@@ -229,14 +196,11 @@
             [name]="name"
             [formControl]="ngControl"
         />
-
         <label [for]="_name">{{ label }}</label>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
     
     <div *ngIf="type === 'datetime'" class="form-floating">
-
         <input
             type="datetime-local"
             class="form-control"
@@ -250,14 +214,11 @@
             [min]="min"
             [max]="max"
         />
-
         <label [for]="_name">{{ label }}</label>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
     <div *ngIf="type === 'autocomplete'" class="form-floating position-relative">
-
         <input
             type="text"
             class="form-control"
@@ -279,11 +240,8 @@
             (blur)="markAsTouched()"
             (selectItem)="selectItem($event)"
         />
-
         <label [for]="_name">{{ label }}</label>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
-
         <i
             *ngIf="ngControl.value && ngControl.status !== 'DISABLED' && !disabled"
             class="reset-field reset-field--floating bi bi-x-lg"
@@ -292,7 +250,6 @@
     </div>
 
     <div *ngIf="type === 'tagger'">
-
         <div class="tagger-array">
             <span
                 *ngFor="let tag of tags; let i = index"
@@ -310,9 +267,7 @@
                 </button>
             </span>
         </div>
-    
         <div class="form-floating position-relative">
-    
             <input
                 type="text"
                 class="form-control"
@@ -335,9 +290,7 @@
                 (selectItem)="taggerChoiceSelected($event)"
                 (keyup.enter)="freeTagOnEnter($event)"
             />
-    
             <label [for]="_name">{{ label }}</label>
-        
             <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
         </div>
     </div>
@@ -346,11 +299,8 @@
 <ng-template #fixedLabel>
 
     <div *ngIf="type === 'text'">
-
         <label *ngIf="label" [for]="disabled ? 'nowhere' : _name" class="form-label">{{ label }}</label>
-
         <div class="position-relative">
-
             <ng-container *ngIf="mask; else withoutMask">
                 <input
                     [class.pseudo-disabled]="disabled"
@@ -380,9 +330,7 @@
                     [maxlength]="maxLength"
                 >
             </ng-template>
-
             <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
-
             <i
                 *ngIf="ngControl.value && ngControl.status !== 'DISABLED' && !disabled"
                 class="reset-field reset-field--fixed bi bi-x-lg"
@@ -392,11 +340,8 @@
     </div>
 
     <div *ngIf="type === 'password'">
-
         <label *ngIf="label" [for]="disabled ? 'nowhere' : _name" class="form-label">{{ label }}</label>
-
         <div class="position-relative">
-
             <input
                 [class.pseudo-disabled]="disabled"
                 [tabindex]="disabled ? -1 : 0"
@@ -409,9 +354,7 @@
                 [minlength]="minLength"
                 [maxlength]="maxLength"
             >
-
             <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
-
             <i
                 *ngIf="ngControl.value && ngControl.status !== 'DISABLED' && !disabled"
                 class="reset-field reset-field--fixed bi bi-x-lg"
@@ -421,9 +364,7 @@
     </div>
 
     <div *ngIf="type === 'number'">
-
         <label *ngIf="label" [for]="disabled ? 'nowhere' : _name" class="form-label">{{ label }}</label>
-
         <input
             [class.pseudo-disabled]="disabled"
             [tabindex]="disabled ? -1 : 0"
@@ -437,14 +378,11 @@
             [min]="min"
             [max]="max"
         >
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
     <div *ngIf="type === 'textarea'">
-
         <label *ngIf="label" [for]="disabled ? 'nowhere' : _name" class="form-label">{{ label }}</label>
-
         <textarea
             [class.pseudo-disabled]="disabled"
             [tabindex]="disabled ? -1 : 0"
@@ -457,14 +395,11 @@
             [maxlength]="maxLength"
             rows="3"
         ></textarea>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
     <div *ngIf="type === 'select'">
-
         <label *ngIf="label" [for]="disabled ? 'nowhere' : _name" class="form-label">{{ label }}</label>
-
         <select
             [class.pseudo-disabled]="disabled"
             [tabindex]="disabled ? -1 : 0"
@@ -481,14 +416,11 @@
                 {{ opt.text }}
             </option>
         </select>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
     <div *ngIf="type === 'year'" >
-
         <label *ngIf="label" [for]="disabled ? 'nowhere' : _name" class="form-label">{{ label }}</label>
-
         <select
             [class.pseudo-disabled]="disabled"
             [tabindex]="disabled ? -1 : 0"
@@ -504,14 +436,11 @@
                 {{ opt.text }}
             </option>
         </select>
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
     <div *ngIf="type === 'date'" >
-
         <label *ngIf="label" class="form-label" [for]="disabled ? 'nowhere' : _name">{{ label }}</label>
-
         <input
             type="date"
             class="form-control"
@@ -525,14 +454,11 @@
             [min]="min"
             [max]="max"
         />
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
     
     <div *ngIf="type === 'time'" >
-
         <label *ngIf="label" class="form-label" [for]="disabled ? 'nowhere' : _name">{{ label }}</label>
-
         <input
             type="time"
             class="form-control"
@@ -544,14 +470,11 @@
             [name]="name"
             [formControl]="ngControl"
         />
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
     
     <div *ngIf="type === 'datetime'" >
-
         <label *ngIf="label" class="form-label" [for]="disabled ? 'nowhere' : _name">{{ label }}</label>
-
         <input
             type="datetime-local"
             class="form-control"
@@ -565,16 +488,12 @@
             [min]="min"
             [max]="max"
         />
-
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 
     <div *ngIf="type === 'autocomplete'">
-
         <label *ngIf="label" class="form-label" [for]="_name">{{ label }}</label>
-
         <div class="position-relative">
-
             <input
                 type="text"
                 class="form-control"
@@ -596,9 +515,7 @@
                 (blur)="markAsTouched()"
                 (selectItem)="selectItem($event)"
             />
-
             <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
-
             <i
                 *ngIf="ngControl.value && ngControl.status !== 'DISABLED' && !disabled"
                 class="reset-field reset-field--fixed bi bi-x-lg"
@@ -608,9 +525,7 @@
     </div>
 
     <div *ngIf="type === 'tagger'">
-
         <label class="form-label" *ngIf="label" [for]="_name">{{ label }}</label>
-    
         <div class="tagger-array">
             <span
                 *ngFor="let tag of tags; let i = index"
@@ -628,7 +543,6 @@
                 </button>
             </span>
         </div>
-    
         <input
             type="text"
             class="form-control"
@@ -651,13 +565,11 @@
             (selectItem)="taggerChoiceSelected($event)"
             (keyup.enter)="freeTagOnEnter($event)"
         />
-    
         <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
     </div>
 </ng-template>
 
 <div *ngIf="type === 'checkbox'" class="form-check">
-
     <input
         [class.pseudo-disabled]="disabled"
         [tabindex]="disabled ? -1 : 0"
@@ -667,7 +579,6 @@
         type="checkbox"
         [id]="_name"
     >
-
     <label
         *ngIf="label"
         class="form-check-label"
@@ -675,13 +586,11 @@
     >
       {{ label }}
     </label>
-
     <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
 </div>
 
 <div *ngIf="type === 'radio'">
     <div *ngFor="let opt of options" class="form-check">
-
         <input
             [class.pseudo-disabled]="disabled"
             [tabindex]="disabled ? -1 : 0"
@@ -691,7 +600,6 @@
             [name]="name"
             [id]="opt._id"
         >
-
         <label
             class="form-check-label"
             [for]="disabled ? 'nowhere' : opt._id"
@@ -699,6 +607,23 @@
           {{ opt.text }}
         </label>
     </div>
+</div>
+
+<div *ngIf="type === 'range'">
+    <label *ngIf="label" [for]="disabled ? 'nowhere' : _name" class="form-label">{{ label }} {{ (ngControl.value !== undefined && ngControl.value !== null && ngControl.value !== "") ? "(" + ngControl.value + ")" : "" }}</label>
+    <input
+        [class.pseudo-disabled]="disabled"
+        [tabindex]="disabled ? -1 : 0"
+        [class.is-invalid]="isInvalid()"
+        [formControl]="ngControl"
+        type="range"
+        class="form-range"
+        [id]="_name"
+        [step]="step"
+        [min]="min"
+        [max]="max"
+    >
+    <ng-container *ngTemplateOutlet="invalidFeedback; context: { $implicit: ngControl }"></ng-container>
 </div>
 
 <div *ngIf="helper" class="form-text">{{ helper }}</div>
