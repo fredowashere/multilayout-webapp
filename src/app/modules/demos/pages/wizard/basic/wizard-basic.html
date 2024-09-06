@@ -1,9 +1,8 @@
 <nav ngbNav #nav="ngbNav" [destroyOnHide]="false" class="wiz">
 
     <ng-container ngbNavItem>
-        <a ngbNavLink class="wiz__step">
+        <a ngbNavLink class="wiz__step" ngbTooltip="Step 1 tooltip">
             <div class="wiz__title">Step 1</div>
-            <div class="wiz__descr">Some random text here</div>
         </a>
         <ng-template ngbNavContent>
             <p>
@@ -16,9 +15,8 @@
     </ng-container>
 
     <ng-container ngbNavItem>
-        <a ngbNavLink class="wiz__step">
+        <a ngbNavLink class="wiz__step" ngbTooltip="Step 2 tooltip">
             <div class="wiz__title">Step 2</div>
-            <div class="wiz__descr">Some random text here</div>
         </a>
         <ng-template ngbNavContent>
             <p>
@@ -34,9 +32,8 @@
     </ng-container>
 
     <ng-container ngbNavItem [disabled]="disabled">
-        <a ngbNavLink class="wiz__step">
+        <a ngbNavLink class="wiz__step" ngbTooltip="Step 3 tooltip">
             <div class="wiz__title">Step 3</div>
-            <div class="wiz__descr">I am disabled</div>
         </a>
         <ng-template ngbNavContent>
             <p>
