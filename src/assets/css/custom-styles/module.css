@@ -69,12 +69,16 @@
 
 
 /* Start of TABLE */
-th[sortable] {
+app-table tr:not(.hidden, .has-row-expand) {
+    height: 55px; /* Works like min-height */
+}
+
+app-table th[sortable] {
     cursor: pointer;
     user-select: none;
 }
 
-th[sortable]::before {
+app-table th[sortable]::before {
     content: '\F3CA';
     display: inline-block;
     font-family: bootstrap-icons !important;
@@ -87,12 +91,12 @@ th[sortable]::before {
     vertical-align: -0.125em;
 }
 
-th[sortable].desc::before,
-th[sortable].asc::before {
+app-table th[sortable].desc::before,
+app-table th[sortable].asc::before {
     content: '\F57B';
 }
 
-th[sortable].desc::before {
+app-table th[sortable].desc::before {
     content: '\F575';
 }
 /* End of TABLE */
