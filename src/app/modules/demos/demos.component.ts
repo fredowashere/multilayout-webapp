@@ -35,7 +35,6 @@ export class DemosComponent {
         private route: ActivatedRoute,
         private router: Router
     ) {
-
         const bootstrapUrl = this.route.snapshot.data["bootstrap"];
         if (bootstrapUrl) {
             this.bootstrapUrl = bootstrapUrl.replace("%version%", environment.bootstrap);
@@ -49,7 +48,6 @@ export class DemosComponent {
         this.componentName = route.parent?.snapshot.url[0].path;
 
         if (this.componentName) {
-
             const demos = demoList.getDemos(this.componentName);
 
             if (demos) {

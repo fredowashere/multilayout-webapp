@@ -15,7 +15,6 @@ import { AppdCountryForm } from './country-form';
     templateUrl: './table-crud.html',
 })
 export class AppdTableCrud {
-
     @ViewChild("dt") dt!: TableComponent;
 
     countries: any[] = jsonCopy(countries);

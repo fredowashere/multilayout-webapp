@@ -9,7 +9,6 @@
     (rowSelected)="selectedToast($event)"
     (rowDeselected)="deselectedToast($event)"
 >
-
     <ng-template #thead>
         <th>Country</th>
         <th>Area</th>
@@ -17,7 +16,6 @@
     </ng-template>
 
     <ng-template #tbody let-country>
-
         <td data-label="Flag">
             <img
                 [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
@@ -26,9 +24,7 @@
             />
             {{ country.name }}
         </td>
-
         <td data-label="Area">{{ country.area | number }}</td>
-        
         <td data-label="Population">{{ country.population | number }}</td>
     </ng-template>
 </app-table>

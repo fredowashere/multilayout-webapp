@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
     templateUrl: './text-masking.html',
 })
 export class AppdTextMasking {
-
     numMask = new NumberMask({
         suffix: " €",
         allowDecimal: true,

@@ -9,7 +9,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     templateUrl: './table-layout-fixed.html',
 })
 export class AppdTableLayoutFixed {
-
     hierarchicalData = [
         {
             "title": "This is just a test",
@@ -39,5 +38,4 @@ export class AppdTableLayoutFixed {
             ]
         }
     ];
-    
 }

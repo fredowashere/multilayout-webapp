@@ -11,7 +11,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     templateUrl: './date.html',
 })
 export class AppdDate {
-
     date1 = new FormControl();
     date2 = new FormControl();
     date3 = new FormControl();

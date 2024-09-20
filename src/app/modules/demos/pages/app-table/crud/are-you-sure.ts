@@ -8,7 +8,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     imports: [ CommonModule ],
     template: `
         <div class="modal-header">
-
             <h4 class="modal-title" id="modal-title">
                 {{ name ? name : 'Records' }} deletion
             </h4>
@@ -21,10 +20,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
         </div>
 
         <div class="modal-body">
-
-            <p *ngIf="name"><strong>Are you sure you want to delete {{ name }}?</strong></p>
-
-            <p *ngIf="!name"><strong>Are you sure you want to delete the selected records?</strong></p>
+            <p *ngIf="name; else noName"><strong>Are you sure you want to delete {{ name }}?</strong></p>
+            <ng-template #noName>
+                <p><strong>Are you sure you want to delete the selected records?</strong></p>
+            </ng-template>
 
             <ul *ngIf="rows">
                 <li *ngFor="let row of rows">{{ row.name }}</li>
@@ -37,7 +36,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
         </div>
         
         <div class="modal-footer">
-
             <button
                 type="button"
                 class="btn btn-outline-secondary"
@@ -57,7 +55,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     `,
 })
 export class AppdAreYouSure {
-
     @Input("name") name!: string;
     @Input("rows") rows!: any[];
 

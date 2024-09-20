@@ -16,9 +16,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     `]
 })
 export class AppdBarChart {
-
-
-
     bipolarChart: BarChartConfiguration = {
         type: "Bar",
         data: {
@@ -37,8 +34,6 @@ export class AppdBarChart {
             }
         }
     };
-
-
 
     overlappingBars: BarChartConfiguration = {
         type: "Bar",
@@ -63,8 +58,6 @@ export class AppdBarChart {
             }]
         ]
     };
-
-
 
     multilineLabels: BarChartConfiguration = {
         type: "Bar",
@@ -91,8 +84,6 @@ export class AppdBarChart {
         }
     };
 
-
-
     horizontalBars: BarChartConfiguration = {
         type: "Bar",
         data: {
@@ -111,8 +102,6 @@ export class AppdBarChart {
             }
         }
     };
-
-
 
     extremeResponsiveConfiguration: BarChartConfiguration = {
         type: "Bar",
@@ -166,8 +155,6 @@ export class AppdBarChart {
         ]
     };
 
-
-
     distributedSeries: BarChartConfiguration = {
         type: "Bar",
         data: {
@@ -178,8 +165,6 @@ export class AppdBarChart {
             distributeSeries: true
         }
     };
-
-
 
     labelPlacement: BarChartConfiguration = {
         type: "Bar",
@@ -202,5 +187,3 @@ export class AppdBarChart {
         }
     };
 }
-
-

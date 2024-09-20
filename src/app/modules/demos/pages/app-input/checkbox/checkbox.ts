@@ -11,7 +11,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     templateUrl: './checkbox.html',
 })
 export class AppdCheckbox {
-
     choices: SelectOption[] = [
         { text: 'Female', value: 1 },
         { text: 'Male', value: 2 },

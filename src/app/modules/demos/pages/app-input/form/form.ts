@@ -15,7 +15,6 @@ const defaultFlavor = { id: 0, name: "Banana" };
     templateUrl: './form.html',
 })
 export class AppdForm {
-
     states = states; // imported from autocomplete/mock
     statesFormatter = (state: any) => state.name;
     statesFilter = (term: string, state: any) => {

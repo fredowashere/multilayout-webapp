@@ -22,8 +22,9 @@ import { MaskedInputDirective } from './directives/text2mask';
 import { RBACDirective } from './directives/role-based-access-control';
 import { AppSortableHeader } from './directives/sortable-header';
 import { HackCasePipe } from './pipes/hack-case.pipe';
-import { HighlightPipe } from './pipes/highlight.pipe';
+import { HighlightDirective } from './directives/highlight';
 import { ToastsContainer } from './components/toasts-container/toasts-container.component';
+import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 
 @NgModule({
     declarations: [
@@ -40,14 +41,15 @@ import { ToastsContainer } from './components/toasts-container/toasts-container.
         HolyGrailComponent,
         LinearLoadingIndicatorComponent,
         ToastsContainer,
+        DynamicFormComponent,
         // Directives
         LetDirective,
         MaskedInputDirective,
         RBACDirective,
         AppSortableHeader,
+        HighlightDirective,
         // Pipes
         HackCasePipe,
-        HighlightPipe,
     ],
     imports: [
         CommonModule,
@@ -82,14 +84,15 @@ import { ToastsContainer } from './components/toasts-container/toasts-container.
         HolyGrailComponent,
         LinearLoadingIndicatorComponent,
         ToastsContainer,
+        DynamicFormComponent,
         // Directives
         LetDirective,
         MaskedInputDirective,
         RBACDirective,
         AppSortableHeader,
+        HighlightDirective,
         // Pipes
         HackCasePipe,
-        HighlightPipe,
     ]
 })
 export class SharedModule { }

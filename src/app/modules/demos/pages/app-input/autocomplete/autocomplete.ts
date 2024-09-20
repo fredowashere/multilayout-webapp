@@ -12,7 +12,6 @@ import { states, bestBooks } from './mock';
     templateUrl: './autocomplete.html',
 })
 export class AppdAutocomplete {
-    
     states = states;
     statesFormatter = (state: any) => state.name;
     statesFilter = (term: string, state: any) => {

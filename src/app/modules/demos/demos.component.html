@@ -41,7 +41,7 @@
                                     <a ngbNavLink>{{ file.name }}</a>
                                     <ng-template ngbNavContent>
                                         <app-copy-paster [value]="file.source"/>
-                                        <pre><code [innerHtml]="file.source | highlight"></code></pre>
+                                        <pre><code [hl]="file.source"></code></pre>
                                     </ng-template>
                                 </ng-container>
                             </nav>
@@ -57,14 +57,14 @@
                                     <a ngbNavLink>Markup</a>
                                     <ng-template ngbNavContent>
                                         <app-copy-paster [value]="demo.markup"></app-copy-paster>
-                                        <pre class="language-html"><code [innerHtml]="demo.markup | highlight"></code></pre>
+                                        <pre class="language-html"><code [hl]="demo.markup"></code></pre>
                                     </ng-template>
                                 </ng-container>
                                 <ng-container ngbNavItem>
                                     <a ngbNavLink>Code</a>
                                     <ng-template ngbNavContent>
                                         <app-copy-paster [value]="demo.code"></app-copy-paster>
-                                        <pre class="language-js"><code [innerHtml]="demo.code | highlight"></code></pre>
+                                        <pre class="language-js"><code [hl]="demo.code"></code></pre>
                                     </ng-template>
                                 </ng-container>
                             </nav>

@@ -11,7 +11,6 @@ import { countries } from '../mock';
     templateUrl: './table-selectable.html',
 })
 export class AppdTableSelectable {
-
     countries = countries;
 
     constructor(

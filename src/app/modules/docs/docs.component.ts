@@ -44,8 +44,14 @@ export class DocsComponent {
         {
             isActive: false,
             title: 'App input',
-            icon: 'bi-ui-radios',
+            icon: 'bi-check-square',
             path: '/docs/demos/app-input',
+        },
+        {
+            isActive: false,
+            title: 'Dynamic form',
+            icon: 'bi-ui-radios',
+            path: '/docs/demos/app-dynamic-form',
         },
         {
             isActive: false,

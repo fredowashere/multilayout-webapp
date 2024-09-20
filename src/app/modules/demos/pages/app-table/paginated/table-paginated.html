@@ -8,7 +8,6 @@
     [pageSize]="5"
     [pageSizes]="[ 5, 10, 15, 30, 55 ]"
 >
-
     <ng-template #thead>
         <th>Country</th>
         <th>Area</th>
@@ -16,7 +15,6 @@
     </ng-template>
 
     <ng-template #tbody let-country let-st$="searchTerm$">
-
         <td data-label="Flag">
             <img
                 [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
@@ -25,9 +23,7 @@
             />
             {{ country.name }}
         </td>
-
         <td data-label="Area">{{ country.area | number }}</td>
-        
         <td data-label="Population">{{ country.population | number }}</td>
     </ng-template>
 </app-table>

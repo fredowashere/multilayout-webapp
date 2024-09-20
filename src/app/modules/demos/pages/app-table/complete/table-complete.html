@@ -1,13 +1,11 @@
 <p>An example that showcases various features, including sorting, filtering, pagination, and data highlighting.<br><code>AppdAreYouSure</code> and <code>AppdCountryForm</code> components are taken from the CRUD example.</p>
 
 <div class="d-flex gap-2 p-2">
-
     <button
         class="btn btn-primary"
         (click)="create()"
     >
-        <i class="bi bi-plus"></i>
-        Add
+        <i class="bi bi-plus"></i> Add
     </button>
 
     <button
@@ -33,7 +31,6 @@
     (rowSelected)="selectedToast($event)"
     (rowDeselected)="deselectedToast($event)"
 >
-
     <ng-template #thead>
         <th sortable="name" (sort)="dt.sort($event)">Country</th>
         <th sortable="area" (sort)="dt.sort($event)">Area</th>
@@ -42,7 +39,6 @@
     </ng-template>
 
     <ng-template #tbody let-country let-term$="term$">
-
         <td data-label="Flag">
             <img
                 [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
@@ -51,14 +47,10 @@
             />
             <ngb-highlight [result]="country.name" [term]="(term$ | async) || ''"/>
         </td>
-
         <td data-label="Area">{{ country.area | number }}</td>
-
         <td data-label="Population">{{ country.population | number }}</td>
-        
         <td>
             <div class="d-flex gap-2 justify-content-center">
-
                 <button type="button" class="btn btn-primary" (click)="edit(country)">
                     <i class="bi bi-pencil"></i>
                 </button>

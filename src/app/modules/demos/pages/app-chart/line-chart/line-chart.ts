@@ -17,9 +17,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     `]
 })
 export class AppdLineChart {
-
-
-
     simpleLineChart: LineChartConfiguration = {
         type: "Line",
         data: {
@@ -37,8 +34,6 @@ export class AppdLineChart {
             }
         }
     };
-
-
 
     holesInData: LineChartConfiguration = {
         type: "Line",
@@ -59,8 +54,6 @@ export class AppdLineChart {
             low: 0
         }
     };
-
-
 
     filledHolesInData: LineChartConfiguration = {
         type: "Line",
@@ -85,8 +78,6 @@ export class AppdLineChart {
         }
     };
 
-
-
     onlyWholeNumbers: LineChartConfiguration = {
         type: "Line",
         data: {
@@ -109,8 +100,6 @@ export class AppdLineChart {
             }
         }
     };
-
-
 
     times(n: number) { return Array.apply(null, new Array(n)); };
     lineScatterDiagram: LineChartConfiguration = {
@@ -139,8 +128,6 @@ export class AppdLineChart {
         }
     };
 
-
-
     lineChartWithArea: LineChartConfiguration = {
         type: "Line",
         data: {
@@ -154,8 +141,6 @@ export class AppdLineChart {
             showArea: true
         }
     };
-
-
 
     bipolarLineChart: LineChartConfiguration = {
         type: "Line",
@@ -182,8 +167,6 @@ export class AppdLineChart {
         }
     };
 
-
-
     lineSmoothing: LineChartConfiguration = {
         type: "Line",
         data: {
@@ -206,8 +189,6 @@ export class AppdLineChart {
             low: 0
         }
     };
-
-
 
     seriesOverrides: LineChartConfiguration = {
         type: "Line",
@@ -264,8 +245,6 @@ export class AppdLineChart {
         ]
     };
 
-
-
     timeSeriesWithDateFns: LineChartConfiguration = {
         type: "Line",
         data: {
@@ -306,5 +285,3 @@ export class AppdLineChart {
         }
     };
 }
-
-

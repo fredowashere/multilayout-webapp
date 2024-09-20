@@ -11,7 +11,6 @@ import { flavorList } from './mock';
     templateUrl: './tagger.html',
 })
 export class AppdTagger {
-
     flavorList = flavorList;
     flavorsFormatter = (flavor: any) => flavor.name;
     flavorsFilter = (term: string, flavor: any) => {

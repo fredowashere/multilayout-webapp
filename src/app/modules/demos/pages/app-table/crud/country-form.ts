@@ -12,7 +12,6 @@ import { AppdAreYouSure } from './are-you-sure';
     imports: [ CommonModule, SharedModule ],
     template: `
         <div class="modal-header">
-
             <h4 class="modal-title" id="modal-title">
                 {{ country ? 'Edit ' + country.name : 'Create new country' }}
             </h4>
@@ -26,7 +25,6 @@ import { AppdAreYouSure } from './are-you-sure';
 
         <div class="modal-body">
             <form [formGroup]="form" class="d-grid gap-2">
-
                 <app-input
                     [ngControl]="name"
                     [floatingLabel]="true"
@@ -53,7 +51,6 @@ import { AppdAreYouSure } from './are-you-sure';
         </div>
         
         <div class="modal-footer">
-
             <button
                 *ngIf="country"
                 type="button"
@@ -82,7 +79,6 @@ import { AppdAreYouSure } from './are-you-sure';
     `,
 })
 export class AppdCountryForm {
-
     @Input("country") country!: Country;
 
     name!: FormControl;

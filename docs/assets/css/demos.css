@@ -6,8 +6,7 @@ pre code {
     background-color: rgba(var(--app-gray_100), 1);
     border: 0;
     display: block;
-    padding: 20px;
-    line-height: 1.3;
+    padding: 1rem 1.5rem;
     text-align: left;
     white-space: break-spaces;
 }

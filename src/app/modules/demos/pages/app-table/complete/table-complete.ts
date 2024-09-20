@@ -16,7 +16,6 @@ import { countries, Country } from '../mock';
     templateUrl: './table-complete.html',
 })
 export class AppdTableComplete {
-
     @ViewChild("dt") dt!: TableComponent;
 
     countries: Country[] = jsonCopy(countries);

@@ -6,7 +6,6 @@
     [items]="countries"
     #at
 >
-
     <ng-template #thead>
         <th sortable="name" (sort)="at.sort($event)">Country</th>
         <th sortable="area" (sort)="at.sort($event)">Area</th>
@@ -14,7 +13,6 @@
     </ng-template>
 
     <ng-template #tbody let-country>
-
         <td data-label="Flag">
             <img
                 [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
@@ -23,9 +21,7 @@
             />
             {{ country.name }}
         </td>
-
         <td data-label="Area">{{ country.area | number}}</td>
-        
         <td data-label="Population">{{ country.population | number }}</td>
     </ng-template>
 </app-table>

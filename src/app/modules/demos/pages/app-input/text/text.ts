@@ -10,7 +10,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     templateUrl: './text.html',
 })
 export class AppdText {
-
     text = new FormControl();
     number = new FormControl();
     password = new FormControl();

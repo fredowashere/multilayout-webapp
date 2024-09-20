@@ -26,6 +26,7 @@ import { routes as appInputRoutes } from './pages/app-input/app-input.routes';
 import { routes as appTableRoutes } from './pages/app-table/app-table.routes';
 import { routes as wizardRoutes } from './pages/wizard/wizard.routes';
 import { routes as appChartRoutes } from './pages/app-chart/app-chart.routes';
+import { routes as appDynamicForm } from './pages/app-dynamic-form/app-dynamic-form.routes';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'accordion', pathMatch: 'full' },
@@ -51,6 +52,7 @@ export const routes: Routes = [
   { path: 'app-table', children: appTableRoutes },
   { path: 'wizard', children: wizardRoutes },
   { path: 'app-chart', children: appChartRoutes },
+  { path: 'app-dynamic-form', children: appDynamicForm },
 ];
 
 @NgModule({

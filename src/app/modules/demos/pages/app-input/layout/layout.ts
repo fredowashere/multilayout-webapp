@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
     imports: [ CommonModule ],
     templateUrl: './layout.html',
     styles: [`
-
         .resizeable {
             position: relative;
             resize: horizontal;

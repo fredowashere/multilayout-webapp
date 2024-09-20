@@ -15,8 +15,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     `]
 })
 export class AppdPieChart {
-
-
     data = { series: [5, 3, 4] };
     sum(a: number, b: number) { return a + b };
     simplePieChart: PieChartConfiguration = {
@@ -28,8 +26,6 @@ export class AppdPieChart {
             }
         }
     };
-
-
 
     customLabels: PieChartConfiguration = {
         type: "Pie",
@@ -58,8 +54,6 @@ export class AppdPieChart {
         ]
     };
 
-
-
     gauge: PieChartConfiguration = {
         type: "Pie",
         data: {
@@ -74,5 +68,3 @@ export class AppdPieChart {
         }
     };
 }
-
-
