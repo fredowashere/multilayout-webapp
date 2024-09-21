@@ -1,5 +1,4 @@
 import { Component, Input } from "@angular/core";
-import { AuthService } from "../../../services/auth.service";
 import { Router } from "@angular/router";
 import { HolySidebarService } from "./holy-sidebar.service";
 
@@ -15,7 +14,6 @@ export class HolyGrailComponent {
 
     constructor(
         public sidebarService: HolySidebarService,
-        private authService: AuthService,
         private router: Router
     ) {}
 
@@ -24,10 +22,5 @@ export class HolyGrailComponent {
             this.sidebarService.isLeftOpen = this.hasSidebarLeft;
             this.sidebarService.isRightOpen = this.hasSidebarRight;
         }
-    }
-    
-    logout() {
-        this.authService.logout();
-        this.router.navigateByUrl('/login');
     }
 }

@@ -11,7 +11,6 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
             :host .alert-custom {
                 color: #99004d;
                 background-color: #f169b4;
-                border-color: #800040;
             }
         `,
     ],

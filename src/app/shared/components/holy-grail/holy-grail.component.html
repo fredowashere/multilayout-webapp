@@ -19,12 +19,13 @@
                     <button *ngIf="hasSidebarLeft" class="btn" (click)="sidebarService.toggleLeft()">
                         <i class="fa fa-bars"></i>
                     </button>
+                </div>
+
+                <div style="flex-grow: 1;">
                     <ng-content select="[navbarContent]"></ng-content>
                 </div>
+
                 <div class="d-flex align-items-center">
-                    <button class="btn" (click)="logout()">
-                        <i class="fa fa-power-off"></i>
-                    </button>
                     <button *ngIf="hasSidebarRight" class="btn" (click)="sidebarService.toggleRight()">
                         <i class="fa fa-bars"></i>
                     </button>

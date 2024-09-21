@@ -1,6 +1,7 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { NavigationEnd, Router, RouterLinkActive } from '@angular/router';
 import { filter, Subject, takeUntil, tap } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 import { HolySidebarService } from 'src/app/shared/components/holy-grail/holy-sidebar.service';
 import { intersection } from 'src/app/utils/array';
 import { delay } from 'src/app/utils/promise';
@@ -27,6 +28,7 @@ interface SidebarItem {
 export class DocsComponent {
 
     destroy$ = new Subject<void>();
+    hasDarkMode = document.documentElement.hasAttribute("dark-mode");
 
     // Get all view children with #rla applied
     @ViewChildren('rla')
@@ -154,7 +156,8 @@ export class DocsComponent {
 
     constructor(
         private sidebarService: HolySidebarService,
-        private router: Router
+        private router: Router,
+        private authService: AuthService,
     ) { }
 
     ngOnInit() {
@@ -177,5 +180,20 @@ export class DocsComponent {
             await delay(200);
             this.sidebarService.toggleLeft();
         }
+    }
+
+    toggleDarkMode() {
+        const hasDarkMode = document.documentElement.hasAttribute("dark-mode");
+        if (hasDarkMode) {
+            document.documentElement.removeAttribute("dark-mode");
+        } else {
+            document.documentElement.setAttribute("dark-mode", "");
+        }
+        this.hasDarkMode = !hasDarkMode;
+    }
+
+    logout() {
+        this.authService.logout();
+        this.router.navigateByUrl('/login');
     }
 }

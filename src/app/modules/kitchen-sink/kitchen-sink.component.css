@@ -27,31 +27,31 @@
     padding: .1875rem .5rem;
     margin-top: .125rem;
     margin-left: .3125rem;
-    color: rgba(0, 0, 0, .65);
+    color: rgba(var(--app-gray_1000), .65);
     text-decoration: none;
 }
 
 .bd-aside a:hover,
 .bd-aside a:focus {
-    color: rgba(0, 0, 0, .85);
+    color: rgba(var(--app-gray_1000), .85);
     background-color: rgba(121, 82, 179, .1);
 }
 
 .bd-aside .active {
     font-weight: 600;
-    color: rgba(0, 0, 0, .85);
+    color: rgba(var(--app-gray_1000), .85);
 }
 
 .bd-aside .btn {
     padding: .25rem .5rem;
     font-weight: 600;
-    color: rgba(0, 0, 0, .65);
+    color: rgba(var(--app-gray_1000), .65);
     border: 0;
 }
 
 .bd-aside .btn:hover,
 .bd-aside .btn:focus {
-    color: rgba(0, 0, 0, .85);
+    color: rgba(var(--app-gray_1000), .85);
     background-color: rgba(121, 82, 179, .1);
 }
 
@@ -136,7 +136,7 @@
     }
 
     .bd-cheatsheet section>h2 {
-        background: linear-gradient(180deg, #fff, #fff 50%, #0000);
+        background: linear-gradient(180deg, rgba(var(--app-gray_0), 1), rgba(var(--app-gray_0), 1) 50%, #0000);
     }
 
     .bd-cheatsheet section>h2::before {

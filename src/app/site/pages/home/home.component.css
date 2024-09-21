@@ -117,7 +117,7 @@
 }
 
 .slanted-section {
-    background: #fff;
+    background: rgba(var(--app-primary_0), 1);
     padding: 10rem 0;
     clip-path: polygon(0 10rem, 100% 0, 100% calc(100% - 10rem), 0 100%)
 }
