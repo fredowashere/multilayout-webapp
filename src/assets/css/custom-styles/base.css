@@ -18,6 +18,11 @@ ngb-typeahead-window {
     overflow: auto;
 }
 
+ngb-typeahead-window.dropdown-menu {
+    box-shadow: none;
+    border-radius: 0;
+}
+
 ngb-typeahead-window .dropdown-item {
     white-space: initial;
 }
