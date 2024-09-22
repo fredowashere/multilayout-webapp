@@ -17,7 +17,7 @@
 
 /* NAVBAR */
 .app-navbar {
-    min-height: 64px;
+    min-height: 66px;
     border-bottom: 1px solid rgba(var(--app-gray_900), 1);
 }
 
