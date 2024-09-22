@@ -12,6 +12,10 @@ body {
     font-family: var(--bs-font-sans-serif);
 }
 
+.ngb-dp-arrow-btn {
+    border: 1px solid rgba(var(--app-gray_900), 1) !important;
+}
+
 ngb-typeahead-window {
     width: 100%;
     max-height: 450px;

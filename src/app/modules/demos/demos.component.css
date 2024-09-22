@@ -17,7 +17,7 @@
 
 .nav .nav-link.active {
     background-color: rgba(var(--app-gray_100), 1);
-    border: 1px solid rgba(var(--app-gray_200), 1);
+    border: 1px solid rgba(var(--app-gray_900), 1);
     border-bottom: none;
 }
 
