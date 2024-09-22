@@ -1,5 +1,4 @@
 <app-holy-grail [hasSidebarRight]="false">
-    
     <h5 sidebarLeftHeader class="mb-0">Hello Dev!</h5>
     <div sidebarLeftContent>
         <div class="sb-links">
@@ -46,9 +45,13 @@
     </div>
 
     <div navbarContent class="d-flex align-items-center justify-content-between">
-        <div class="fs-5">Welcome to the Docs</div>
+        <div class="fs-5 ms-2">Welcome to the Docs</div>
 
-        <div>
+        <div class="d-flex gap-2">
+            <button class="btn" (click)="togglePlayful()">
+                Playful {{ playful ? "ON" : "OFF" }}
+            </button>
+
             <button class="btn" (click)="toggleDarkMode()">
                 <i *ngIf="hasDarkMode; else setDarkModeIcon" class="bi bi-sun-fill"></i>
                 <ng-template #setDarkModeIcon>
