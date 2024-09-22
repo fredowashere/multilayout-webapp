@@ -107,12 +107,12 @@
     --app-warning_600: var(--app-yellow_600);
     --app-warning_700: var(--app-yellow_700);
     --app-warning_800: var(--app-yellow_800);
-    --app-info_100: var(--app-info_100);
-    --app-info_200: var(--app-info_200);
-    --app-info_500: var(--app-info_500);
-    --app-info_600: var(--app-info_600);
-    --app-info_700: var(--app-info_700);
-    --app-info_800: var(--app-info_800);
+    --app-info_100: var(--app-cyan_100);
+    --app-info_200: var(--app-cyan_200);
+    --app-info_500: var(--app-cyan_500);
+    --app-info_600: var(--app-cyan_600);
+    --app-info_700: var(--app-cyan_700);
+    --app-info_800: var(--app-cyan_800);
 
     --border-radius_sm: 0.2rem;
     --border-radius_md: 0.25rem;
