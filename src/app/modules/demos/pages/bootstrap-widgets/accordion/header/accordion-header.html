@@ -3,7 +3,7 @@
         <ng-template ngbPanelHeader let-opened="opened">
             <div class="accordion-button custom-header justify-content-between" [class.collapsed]="!opened">
                 <p class="m-0">First panel - {{ opened ? 'opened' : 'collapsed' }}</p>
-                <button ngbPanelToggle class="btn btn-link p-0">Toggle first</button>
+                <button ngbPanelToggle class="btn btn-link">Toggle first</button>
             </div>
         </ng-template>
         <ng-template ngbPanelContent>
@@ -42,7 +42,7 @@
     <ngb-panel [disabled]="disabled" [cardClass]="disabled ? 'disabled' : ''">
         <ng-template ngbPanelHeader let-opened="opened">
             <div class="accordion-button custom-header" [class.collapsed]="!opened">
-                <button ngbPanelToggle class="p-0 btn btn-link container-fluid text-start ps-0">Third panel</button>
+                <button ngbPanelToggle class="btn btn-link container-fluid text-start">Third panel</button>
                 <p *ngIf="disabled" class="text-muted m-0 small">[I'm&nbsp;disabled]</p>
             </div>
         </ng-template>

@@ -3298,6 +3298,8 @@ textarea.form-control.is-invalid {
     box-shadow: var(--shadow-sm);
     margin: 0 var(--shadow-size-sm) var(--shadow-size-sm) 0;
     text-transform: uppercase;
+    transform: translate(0, 0);
+    z-index: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3594,6 +3596,10 @@ fieldset:disabled .btn {
 .btn-dark.disabled {
     color: rgba(var(--app-gray_0), 1);
     background-color: rgba(var(--app-gray_900), 1);
+}
+
+.btn[class*="btn-outline"] {
+    background: rgba(var(--app-gray_0), 1);
 }
 
 .btn-outline-primary {
@@ -4016,6 +4022,8 @@ fieldset:disabled .btn {
     background-clip: padding-box;
     border: 1px solid rgba(var(--app-gray_1000), 0.15);
     border-radius: var(--border-radius_md);
+    box-shadow: var(--shadow-sm);
+    margin: 0 var(--shadow-size-sm) var(--shadow-size-sm) 0;
 }
 
 .dropdown-menu[data-bs-popper] {
@@ -4374,6 +4382,7 @@ fieldset:disabled .btn {
 .btn-group>.btn-group:not(:last-child)>.btn {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    margin-right: 0;
 }
 
 .btn-group>.btn:nth-child(n+3),
@@ -4946,6 +4955,7 @@ fieldset:disabled .btn {
     border: 1px solid rgba(var(--app-gray_200), 1);
     border-radius: var(--border-radius_md);
     box-shadow: var(--shadow-md);
+    margin: 0 var(--shadow-size-md) var(--shadow-size-md) 0;
 }
 
 .card>hr {
@@ -5184,6 +5194,7 @@ fieldset:disabled .btn {
     background-color: rgba(var(--app-gray_0), 1);
     border: 1px solid rgba(var(--app-gray_200), 1);
     box-shadow: var(--shadow-md);
+    margin: 0 var(--shadow-size-md) 0 0;
 }
 
 .accordion-item:first-of-type {
@@ -5377,8 +5388,8 @@ fieldset:disabled .btn {
     vertical-align: baseline;
     border-radius: var(--border-radius_md);
     box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(var(--app-gray_1000), 0.1);
     margin: 0 var(--shadow-size-sm) var(--shadow-size-sm) 0;
+    border: 1px solid rgba(var(--app-gray_1000), 0.1);
 }
 
 .badge.bg-primary {
@@ -5417,10 +5428,10 @@ fieldset:disabled .btn {
 .alert {
     position: relative;
     padding: 1rem 1rem;
-    margin-bottom: 1rem;
     border-radius: var(--border-radius_md);
     box-shadow: var(--shadow-md);
-    border: 1px solid rgba(var(--app-gray_1000), 0.1)
+    margin: 0 var(--shadow-size-md) 1rem 0;
+    border: 1px solid rgba(var(--app-gray_1000), 0.1);
 }
 
 .alert-heading {
@@ -6144,6 +6155,7 @@ fieldset:disabled .btn {
     border-radius: var(--border-radius_lg);
     outline: 0;
     box-shadow: var(--shadow-md);
+    margin: 0 var(--shadow-size-md) var(--shadow-size-md) 0;
 }
 
 .modal-backdrop {
@@ -6684,6 +6696,7 @@ fieldset:disabled .btn {
     position: relative;
     border-radius: var(--border-radius_md);
     box-shadow: var(--shadow-md);
+    margin: 0 var(--shadow-size-md) var(--shadow-size-md) 0;
     overflow: hidden;
 }
 
