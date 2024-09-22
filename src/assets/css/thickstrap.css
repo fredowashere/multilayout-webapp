@@ -4945,7 +4945,7 @@ fieldset:disabled .btn {
     background-clip: border-box;
     border: 1px solid rgba(var(--app-gray_200), 1);
     border-radius: var(--border-radius_md);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .card>hr {
@@ -5183,7 +5183,7 @@ fieldset:disabled .btn {
 .accordion-item {
     background-color: rgba(var(--app-gray_0), 1);
     border: 1px solid rgba(var(--app-gray_200), 1);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .accordion-item:first-of-type {
@@ -6143,7 +6143,7 @@ fieldset:disabled .btn {
     border: 1px solid rgba(var(--app-gray_1000), 0.2);
     border-radius: var(--border-radius_lg);
     outline: 0;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .modal-backdrop {
@@ -6683,7 +6683,7 @@ fieldset:disabled .btn {
 .carousel {
     position: relative;
     border-radius: var(--border-radius_md);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
     overflow: hidden;
 }
 
