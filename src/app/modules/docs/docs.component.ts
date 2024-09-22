@@ -26,8 +26,8 @@ interface SidebarItem {
     styleUrls: ['./docs.component.css']
 })
 export class DocsComponent {
-
     destroy$ = new Subject<void>();
+    playful = false;
     hasDarkMode = document.documentElement.hasAttribute("dark-mode");
 
     // Get all view children with #rla applied
@@ -180,6 +180,15 @@ export class DocsComponent {
             await delay(200);
             this.sidebarService.toggleLeft();
         }
+    }
+
+    togglePlayful() {
+        if (this.playful) {
+            document.querySelector("#css-theme")?.setAttribute("href", "assets/css/bootstrap-with-vars.css");
+        } else {
+            document.querySelector("#css-theme")?.setAttribute("href", "assets/css/thickstrap.css");
+        }
+        this.playful = !this.playful;
     }
 
     toggleDarkMode() {
