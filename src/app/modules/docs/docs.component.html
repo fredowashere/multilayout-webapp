@@ -17,8 +17,8 @@
                     <div #collapse="ngbCollapse" [ngbCollapse]="!item.isActive" class="sb-sublinks">
                         <a
                             *ngFor="let subitem of item.children"
-                            class="sb-link text-reset text-decoration-none"
-                            routerLinkActive="is-active"
+                            class="sb-link text-decoration-none"
+                            routerLinkActive="active btn btn-primary"
                             [routerLink]="subitem.path"
                             (click)="closeSidebar()"
                         >
@@ -30,9 +30,9 @@
 
                 <ng-container *ngIf="!item.children">
                     <a
-                        class="sb-link text-reset text-decoration-none"
+                        class="sb-link text-decoration-none"
                         #rla="routerLinkActive"
-                        routerLinkActive="is-active"
+                        routerLinkActive="active btn btn-primary"
                         [routerLink]="item.path"
                         (click)="closeSidebar()"
                     >
