@@ -33,7 +33,7 @@
 .ssc-input,
 .ssc-short-rounded-rect {
   display: block;
-  background-color: rgba(0, 0, 0, 0.17);
+  background-color: rgba(var(--app-gray_1000), 0.17);
   position: relative;
   overflow: hidden;
 }
@@ -210,8 +210,8 @@
   width: 100%;
   height: 100%;
   border-radius: 5px;
-  box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.17);
-  background-color: #ffffff;
+  box-shadow: 0 2px 4px 1px rgba(var(--app-gray_1000), 0.17);
+  background-color: rgba(var(--app-gray_0), 1);
 }
 
 .ssc-circle {
