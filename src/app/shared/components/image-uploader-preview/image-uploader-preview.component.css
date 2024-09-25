@@ -14,7 +14,7 @@
     text-align: center;
     background: rgba(var(--app-primary_0), 1);
     border-radius: var(--border-radius_md);
-    border: 3px solid #eee;
+    border: 3px solid rgba(var(--app-gray_100), 1);
     transition: all 0.2s ease;
     user-select: none;
 }
