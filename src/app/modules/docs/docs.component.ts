@@ -75,6 +75,12 @@ export class DocsComponent {
         },
         {
             isActive: false,
+            title: 'Skeleton',
+            icon: 'bi-square-half',
+            path: '/docs/demos/skeleton'
+        },
+        {
+            isActive: false,
             title: 'Bootstrap widgets',
             icon: 'bi-grid',
             children: [

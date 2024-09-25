@@ -15,12 +15,6 @@
     padding: 0.25rem 1rem;
 }
 
-.nav .nav-link.active {
-    background-color: rgba(var(--app-gray_100), 1);
-    border: 1px solid rgba(var(--app-gray_900), 1);
-    border-bottom: none;
-}
-
 app-copy-paster {
     margin-top: -2.85rem;
     position: absolute;
@@ -28,7 +22,6 @@ app-copy-paster {
 }
 
 @media (max-width: 800px) {
-
     .components-container {
         grid-template-columns: 100%;
         padding: 0.5rem;

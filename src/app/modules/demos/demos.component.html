@@ -1,7 +1,6 @@
 <app-breadcrumb-router></app-breadcrumb-router>
 
 <div class="components-container container">
-
     <div class="d-flex flex-column gap-4 gap-md-5">
         <div
             *ngFor="let demo of demos"
@@ -10,9 +9,7 @@
             style="background: rgba(var(--app-gray_50), 1);"
         >
             <div class="card-body p-md-4">
-
                 <div class="d-flex align-items-center gap-2 mb-3">
-        
                     <div class="fs-2 fw-bold me-auto">{{ demo.title }}</div>
         
                     <div>
@@ -33,7 +30,6 @@
                 </div>
                 
                 <div *ngIf="checks[demo.id]" class="card overflow-hidden mb-3 bg-light">
-
                     <ng-container *ngIf="demo.files; else codeAndMarkup">
                         <div class="card-header border-bottom-0" style="padding: 0.75rem 0 0;">
                             <nav ngbNav #nav="ngbNav" class="nav-tabs nav px-3">
@@ -80,7 +76,6 @@
     </div>
 
     <div class="ctx-nav">
-
         <div>
             <app-search-router class="d-block p-3" [searchRoutes]="searchRoutes"></app-search-router>
     

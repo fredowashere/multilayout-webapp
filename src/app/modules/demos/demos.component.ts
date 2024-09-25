@@ -51,8 +51,7 @@ export class DemosComponent {
             const demos = demoList.getDemos(this.componentName);
 
             if (demos) {
-                this.demos = Object.keys(demos)
-                    .map((id) => ({ id, ...demos[id] }));
+                this.demos = Object.keys(demos).map((id) => ({ id, ...demos[id] }));
             }
         }
     }
