@@ -13,6 +13,7 @@ import { AppdTableSorted } from './sorted/table-sorted';
 import { AppdTableStickyHead } from './sticky-head/table-sticky-head';
 import { AppdTableDuplicatedControls } from './duplicated-controls/table-duplicated-controls';
 import { AppdTableLayoutFixed } from './layout-fixed/table-layout-fixed';
+import { AppdTableDynamic } from './dynamic/table-dynamic';
 
 declare var require: any;
 
@@ -98,6 +99,12 @@ const demos = {
             }
         ],
         type: AppdTableCrud,
+    },
+    dynamic: {
+        title: 'Dynamic',
+        code: require('!raw-loader!./dynamic/table-dynamic').default,
+        markup: require('!raw-loader!./dynamic/table-dynamic.html').default,
+        type: AppdTableDynamic,
     },
 };
 

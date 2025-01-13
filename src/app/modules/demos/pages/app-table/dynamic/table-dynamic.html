@@ -1,0 +1,33 @@
+<p>An example that shows a dynamic table based on a JSON object.</p>
+
+<app-input
+    type="textarea"
+    class="mb-4"
+    name="jsonInput"
+    label="Insert a valid JSON"
+    [ngControl]="jsonInput"
+></app-input>
+
+<app-table
+    #dt
+    [thead]="thead"
+    [tbody]="tbody"
+    [items]="json"
+    [searchable]="true"
+    [paginated]="true"
+    [pageSize]="5"
+>
+    <ng-template #thead>
+        <th
+            *ngFor="let key of schema"
+            [attr.sortable]="key"
+            [sortable]="key"
+            (sort)="dt.sort($event)"
+        >{{ key }}</th>
+    </ng-template>
+    <ng-template #tbody let-row let-term$="term$">
+        <td *ngFor="let key of schema" [attr.data-label]="key">
+            <ngb-highlight [result]="row[key]" [term]="(term$ | async) || ''"/>
+        </td>
+    </ng-template>
+</app-table>
