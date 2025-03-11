@@ -1,0 +1,15 @@
+<app-nav></app-nav>
+
+<div class="griddy">
+    <div class="card card-body shadow">
+        <app-dynamic-form
+            [fields]="formConf"
+            [emitInitial]="true"
+            (formValueChanged)="out = $event"
+        />
+    </div>
+    
+    <div class="card card-body shadow">
+        <pre>{{ out | json }}</pre>
+    </div>
+</div>

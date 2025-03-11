@@ -1,0 +1,16 @@
+nav ul {
+    margin-block: 1rem;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+nav ul li {
+    margin-right: 15px;
+}
+
+.active {
+    font-weight: bold;
+    color: #007bff;
+}

@@ -5,7 +5,7 @@ const routes: Routes = [
     {
         path: '',
         loadChildren: () =>
-            import('./site/site.module').then(m => m.SiteModule)
+            import('./modules/superdynamic/superdynamic.module').then(m => m.SuperdynamicModule)
     },
     {
         path: 'login',
