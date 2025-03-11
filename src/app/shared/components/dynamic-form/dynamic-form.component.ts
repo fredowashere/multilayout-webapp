@@ -27,6 +27,8 @@ interface IDynamicFieldControl extends IDynamicField {
     styleUrls: ["./dynamic-form.component.css"]
 })
 export class DynamicFormComponent implements OnChanges, OnDestroy {
+    Array = Array;
+
     @Input("fields") fields: IDynamicField[] = [];
     @Input("emitInitial") emitInitial = false
     @Output("formValueChanged") formValueChanged = new EventEmitter();
@@ -45,20 +47,30 @@ export class DynamicFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    elaborateFields(fields: IDynamicFieldControl[], formGroup?: Record<string, FormControl>): Record<string, FormControl> {
+        formGroup = formGroup ?? {} as Record<string, FormControl>;
+        for (const f of fields) {
+            if (Array.isArray(f)) {
+                formGroup = { ...formGroup, ...this.elaborateFields(f, formGroup) };
+                continue;
+            }
+
+            const formControl = new FormControl(f.value);
+            f.ngControl = formControl;
+            formGroup[f.field] = formControl;
+        }
+        return formGroup;
+    }
+
     ngOnChanges() {
         if (!this.fields.length) {
             return;
         }
 
-        this._fields = jsonCopy(this.fields);
         this.destroy$.next();
 
-        const formGroup: Record<string, FormControl> = {};
-        for (const f of this._fields) {
-            const formControl = new FormControl(f.value);
-            f.ngControl = formControl;
-            formGroup[f.field] = formControl;
-        }
+        this._fields = jsonCopy(this.fields) as IDynamicFieldControl[];
+        const formGroup = this.elaborateFields(this._fields);
         
         this.form = new FormGroup(formGroup);
         this.form.valueChanges

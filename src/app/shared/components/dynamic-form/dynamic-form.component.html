@@ -1,16 +1,30 @@
+<ng-template #fieldsTemplate let-fields="fields">
+    <ng-container *ngFor="let f of fields">
+        
+        <ng-container *ngIf="Array.isArray(f); else field">
+            <div class="d-flex gap-3">
+                <ng-container *ngTemplateOutlet="fieldsTemplate; context: { fields: f }"></ng-container>
+            </div>
+        </ng-container>
+
+        <ng-template #field>
+            <app-input
+                [label]="f.label"
+                [name]="f.field"
+                [helper]="f.helper || ''"
+                [type]="f.type!"
+                [minlength]="f.minlength"
+                [maxlength]="f.maxlength"
+                [min]="f.min"
+                [max]="f.max"
+                [step]="f.step"
+                [options]="f.options || []"
+                [ngControl]="f.ngControl!"
+            />
+        </ng-template>
+    </ng-container>
+</ng-template>
+
 <div class="d-grid gap-3">
-    <app-input
-        *ngFor="let f of _fields"
-        [label]="f.label"
-        [name]="f.field"
-        [helper]="f.helper || ''"
-        [type]="f.type!"
-        [minlength]="f.minlength"
-        [maxlength]="f.maxlength"
-        [min]="f.min"
-        [max]="f.max"
-        [step]="f.step"
-        [options]="f.options || []"
-        [ngControl]="f.ngControl!"
-    />
+    <ng-container *ngTemplateOutlet="fieldsTemplate; context: { fields: _fields }"></ng-container>
 </div>
