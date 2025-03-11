@@ -1,0 +1,7 @@
+.griddy {
+    max-width: 1024px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 1rem;
+}

@@ -5,11 +5,19 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { DataResolver } from './guards/data-resolver.guard';
 import { NavComponent } from './components/nav/nav.component';
+import { CustomShellComponent } from './components/custom-shell/custom-shell.component';
 
 const routes: Routes = [
     {
         path: '',
         component: ShellComponent
+    },
+    {
+        path: 'form/form1',
+        component: CustomShellComponent,
+        resolve: {
+            formConf: DataResolver
+        }
     },
     {
         path: 'form/:id',
@@ -23,7 +31,8 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         ShellComponent,
-        NavComponent
+        NavComponent,
+        CustomShellComponent
     ],
     imports: [
         RouterModule.forChild(routes),

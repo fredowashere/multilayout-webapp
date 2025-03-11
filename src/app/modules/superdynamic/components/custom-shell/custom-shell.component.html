@@ -1,0 +1,17 @@
+<app-nav></app-nav>
+
+<h1 class="text-center">Hello World</h1>
+
+<div class="griddy">
+    <div class="card card-body shadow">
+        <app-dynamic-form
+            [fields]="formConf"
+            [emitInitial]="true"
+            (formValueChanged)="out = $event"
+        />
+    </div>
+    
+    <div class="card card-body shadow">
+        <pre>{{ out | json }}</pre>
+    </div>
+</div>

@@ -9,7 +9,8 @@ export class DataResolver implements Resolve<any> {
   constructor() {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
-    const id = route.paramMap.get("id")!;
+    const lastSegment = route.routeConfig?.path?.split("/").pop()!;
+    const id = route.paramMap.get("id")! || lastSegment;
     console.log({ id, form: forms[id] });
     return forms[id];
   }
