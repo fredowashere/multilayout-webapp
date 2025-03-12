@@ -2,6 +2,7 @@
   "name": "multi-layout",
   "version": "0.0.0",
   "scripts": {
+    "gen-forms": "npx ts-node ./src/app/modules/superdynamic/gen-forms/gen-forms.ts",
     "ng": "ng",
     "dev": "ng serve",
     "uat": "ng serve --configuration=uat",

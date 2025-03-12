@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DataResolver } from './guards/data-resolver.guard';
 import { NavComponent } from './components/nav/nav.component';
 import { CustomShellComponent } from './components/custom-shell/custom-shell.component';
+import { genFormRoutes } from './gen-forms/gen-form-routing';
 
 const routes: Routes = [
     {
@@ -25,7 +26,8 @@ const routes: Routes = [
         resolve: {
             formConf: DataResolver
         }
-    }
+    },
+    ...genFormRoutes
 ];
 
 @NgModule({

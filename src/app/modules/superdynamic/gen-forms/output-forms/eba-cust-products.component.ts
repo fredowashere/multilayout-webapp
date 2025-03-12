@@ -1,0 +1,155 @@
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
+
+@Component({
+    selector: `gen-form-eba-cust-products`,
+    standalone: true,
+    imports: [ CommonModule, SharedModule ],
+    template: `
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="m-0">Form for table EBA_CUST_PRODUCTS</h4>
+        </div>
+        
+        <div class="card-body">
+            <div class="d-grid gap-3 mb-4">
+                
+                <app-input
+                    name="id"
+                    label="Id"
+                    data-column-name="ID"
+                    [ngControl]="form.controls.id"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="row-version-number"
+                    label="Row Version Number"
+                    data-column-name="ROW_VERSION_NUMBER"
+                    [ngControl]="form.controls.rowVersionNumber"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="product-family-id"
+                    label="Product Family Id"
+                    data-column-name="PRODUCT_FAMILY_ID"
+                    [ngControl]="form.controls.productFamilyId"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="product-name"
+                    label="Product Name"
+                    data-column-name="PRODUCT_NAME"
+                    [ngControl]="form.controls.productName"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="description"
+                    label="Description"
+                    data-column-name="DESCRIPTION"
+                    [ngControl]="form.controls.description"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="tags"
+                    label="Tags"
+                    data-column-name="TAGS"
+                    [ngControl]="form.controls.tags"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="is-active"
+                    label="Is Active"
+                    data-column-name="IS_ACTIVE"
+                    [ngControl]="form.controls.isActive"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="price-list-part-number"
+                    label="Price List Part Number"
+                    data-column-name="PRICE_LIST_PART_NUMBER"
+                    [ngControl]="form.controls.priceListPartNumber"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="created"
+                    label="Created"
+                    data-column-name="CREATED"
+                    [ngControl]="form.controls.created"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="created-by"
+                    label="Created By"
+                    data-column-name="CREATED_BY"
+                    [ngControl]="form.controls.createdBy"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="updated"
+                    label="Updated"
+                    data-column-name="UPDATED"
+                    [ngControl]="form.controls.updated"
+                    [floatingLabel]="true"
+                />
+    
+                <app-input
+                    name="updated-by"
+                    label="Updated By"
+                    data-column-name="UPDATED_BY"
+                    [ngControl]="form.controls.updatedBy"
+                    [floatingLabel]="true"
+                />
+    
+            </div>
+
+            <div class="text-center">
+                <button
+                    class="btn btn-primary"
+                    [disabled]="form.disabled ? true : form.invalid"
+                    (click)="submit()"
+                >
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+`,
+})
+export class GenFormEbaCustProducts {
+
+    form = new FormGroup({
+        id: new FormControl<string | null>(null),
+        rowVersionNumber: new FormControl<string | null>(null),
+        productFamilyId: new FormControl<string | null>(null),
+        productName: new FormControl<string | null>(null),
+        description: new FormControl<string | null>(null),
+        tags: new FormControl<string | null>(null),
+        isActive: new FormControl<string | null>(null),
+        priceListPartNumber: new FormControl<string | null>(null),
+        created: new FormControl<string | null>(null),
+        createdBy: new FormControl<string | null>(null),
+        updated: new FormControl<string | null>(null),
+        updatedBy: new FormControl<string | null>(null),
+
+    });
+
+    ngOnInit() {}
+
+    submit() {
+        alert("Submitted!");
+    }
+}

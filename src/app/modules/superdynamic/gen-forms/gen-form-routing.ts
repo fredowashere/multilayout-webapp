@@ -1,0 +1,105 @@
+import { GenFormEbaCustAccessLevels } from "./output-forms/eba-cust-access-levels.component";
+import { GenFormEbaCustAclFeatures } from "./output-forms/eba-cust-acl-features.component";
+import { GenFormEbaCustActivities } from "./output-forms/eba-cust-activities.component";
+import { GenFormEbaCustActivityFiles } from "./output-forms/eba-cust-activity-files.component";
+import { GenFormEbaCustActivityRef } from "./output-forms/eba-cust-activity-ref.component";
+import { GenFormEbaCustActivityTypes } from "./output-forms/eba-cust-activity-types.component";
+import { GenFormEbaCustAdministrators } from "./output-forms/eba-cust-administrators.component";
+import { GenFormEbaCustCategories } from "./output-forms/eba-cust-categories.component";
+import { GenFormEbaCustClicks } from "./output-forms/eba-cust-clicks.component";
+import { GenFormEbaCustCompetitors } from "./output-forms/eba-cust-competitors.component";
+import { GenFormEbaCustContacts } from "./output-forms/eba-cust-contacts.component";
+import { GenFormEbaCustContactTypes } from "./output-forms/eba-cust-contact-types.component";
+import { GenFormEbaCustCountries } from "./output-forms/eba-cust-countries.component";
+import { GenFormEbaCustCustomers } from "./output-forms/eba-cust-customers.component";
+import { GenFormEbaCustCustomerReftypeRef } from "./output-forms/eba-cust-customer-reftype-ref.component";
+import { GenFormEbaCustCustCompetitorRef } from "./output-forms/eba-cust-cust-competitor-ref.component";
+import { GenFormEbaCustCustPartnerRef } from "./output-forms/eba-cust-cust-partner-ref.component";
+import { GenFormEbaCustEmailLog } from "./output-forms/eba-cust-email-log.component";
+import { GenFormEbaCustErrors } from "./output-forms/eba-cust-errors.component";
+import { GenFormEbaCustErrorLookup } from "./output-forms/eba-cust-error-lookup.component";
+import { GenFormEbaCustFeedback } from "./output-forms/eba-cust-feedback.component";
+import { GenFormEbaCustFeedbackTypes } from "./output-forms/eba-cust-feedback-types.component";
+import { GenFormEbaCustFiles } from "./output-forms/eba-cust-files.component";
+import { GenFormEbaCustGeographies } from "./output-forms/eba-cust-geographies.component";
+import { GenFormEbaCustHistory } from "./output-forms/eba-cust-history.component";
+import { GenFormEbaCustImplPartners } from "./output-forms/eba-cust-impl-partners.component";
+import { GenFormEbaCustIndustries } from "./output-forms/eba-cust-industries.component";
+import { GenFormEbaCustIssues } from "./output-forms/eba-cust-issues.component";
+import { GenFormEbaCustIssueStatuses } from "./output-forms/eba-cust-issue-statuses.component";
+import { GenFormEbaCustLinks } from "./output-forms/eba-cust-links.component";
+import { GenFormEbaCustNotes } from "./output-forms/eba-cust-notes.component";
+import { GenFormEbaCustNotifications } from "./output-forms/eba-cust-notifications.component";
+import { GenFormEbaCustPreferences } from "./output-forms/eba-cust-preferences.component";
+import { GenFormEbaCustProducts } from "./output-forms/eba-cust-products.component";
+import { GenFormEbaCustProductFamilies } from "./output-forms/eba-cust-product-families.component";
+import { GenFormEbaCustProductStatuses } from "./output-forms/eba-cust-product-statuses.component";
+import { GenFormEbaCustProductUses } from "./output-forms/eba-cust-product-uses.component";
+import { GenFormEbaCustReferenceTypes } from "./output-forms/eba-cust-reference-types.component";
+import { GenFormEbaCustRefPhase } from "./output-forms/eba-cust-ref-phase.component";
+import { GenFormEbaCustSalesChannel } from "./output-forms/eba-cust-sales-channel.component";
+import { GenFormEbaCustStatus } from "./output-forms/eba-cust-status.component";
+import { GenFormEbaCustTags } from "./output-forms/eba-cust-tags.component";
+import { GenFormEbaCustTagsSum } from "./output-forms/eba-cust-tags-sum.component";
+import { GenFormEbaCustTagsTypeSum } from "./output-forms/eba-cust-tags-type-sum.component";
+import { GenFormEbaCustType } from "./output-forms/eba-cust-type.component";
+import { GenFormEbaCustTzPref } from "./output-forms/eba-cust-tz-pref.component";
+import { GenFormEbaCustUsers } from "./output-forms/eba-cust-users.component";
+import { GenFormEbaCustUseCase } from "./output-forms/eba-cust-use-case.component";
+import { GenFormEbaCustVerifications } from "./output-forms/eba-cust-verifications.component";
+import { GenFormEbaCustViewsLog } from "./output-forms/eba-cust-views-log.component";
+
+    
+export const genFormRoutes = [
+    { path: 'gen-forms/eba-cust-access-levels', component: GenFormEbaCustAccessLevels },
+    { path: 'gen-forms/eba-cust-acl-features', component: GenFormEbaCustAclFeatures },
+    { path: 'gen-forms/eba-cust-activities', component: GenFormEbaCustActivities },
+    { path: 'gen-forms/eba-cust-activity-files', component: GenFormEbaCustActivityFiles },
+    { path: 'gen-forms/eba-cust-activity-ref', component: GenFormEbaCustActivityRef },
+    { path: 'gen-forms/eba-cust-activity-types', component: GenFormEbaCustActivityTypes },
+    { path: 'gen-forms/eba-cust-administrators', component: GenFormEbaCustAdministrators },
+    { path: 'gen-forms/eba-cust-categories', component: GenFormEbaCustCategories },
+    { path: 'gen-forms/eba-cust-clicks', component: GenFormEbaCustClicks },
+    { path: 'gen-forms/eba-cust-competitors', component: GenFormEbaCustCompetitors },
+    { path: 'gen-forms/eba-cust-contacts', component: GenFormEbaCustContacts },
+    { path: 'gen-forms/eba-cust-contact-types', component: GenFormEbaCustContactTypes },
+    { path: 'gen-forms/eba-cust-countries', component: GenFormEbaCustCountries },
+    { path: 'gen-forms/eba-cust-customers', component: GenFormEbaCustCustomers },
+    { path: 'gen-forms/eba-cust-customer-reftype-ref', component: GenFormEbaCustCustomerReftypeRef },
+    { path: 'gen-forms/eba-cust-cust-competitor-ref', component: GenFormEbaCustCustCompetitorRef },
+    { path: 'gen-forms/eba-cust-cust-partner-ref', component: GenFormEbaCustCustPartnerRef },
+    { path: 'gen-forms/eba-cust-email-log', component: GenFormEbaCustEmailLog },
+    { path: 'gen-forms/eba-cust-errors', component: GenFormEbaCustErrors },
+    { path: 'gen-forms/eba-cust-error-lookup', component: GenFormEbaCustErrorLookup },
+    { path: 'gen-forms/eba-cust-feedback', component: GenFormEbaCustFeedback },
+    { path: 'gen-forms/eba-cust-feedback-types', component: GenFormEbaCustFeedbackTypes },
+    { path: 'gen-forms/eba-cust-files', component: GenFormEbaCustFiles },
+    { path: 'gen-forms/eba-cust-geographies', component: GenFormEbaCustGeographies },
+    { path: 'gen-forms/eba-cust-history', component: GenFormEbaCustHistory },
+    { path: 'gen-forms/eba-cust-impl-partners', component: GenFormEbaCustImplPartners },
+    { path: 'gen-forms/eba-cust-industries', component: GenFormEbaCustIndustries },
+    { path: 'gen-forms/eba-cust-issues', component: GenFormEbaCustIssues },
+    { path: 'gen-forms/eba-cust-issue-statuses', component: GenFormEbaCustIssueStatuses },
+    { path: 'gen-forms/eba-cust-links', component: GenFormEbaCustLinks },
+    { path: 'gen-forms/eba-cust-notes', component: GenFormEbaCustNotes },
+    { path: 'gen-forms/eba-cust-notifications', component: GenFormEbaCustNotifications },
+    { path: 'gen-forms/eba-cust-preferences', component: GenFormEbaCustPreferences },
+    { path: 'gen-forms/eba-cust-products', component: GenFormEbaCustProducts },
+    { path: 'gen-forms/eba-cust-product-families', component: GenFormEbaCustProductFamilies },
+    { path: 'gen-forms/eba-cust-product-statuses', component: GenFormEbaCustProductStatuses },
+    { path: 'gen-forms/eba-cust-product-uses', component: GenFormEbaCustProductUses },
+    { path: 'gen-forms/eba-cust-reference-types', component: GenFormEbaCustReferenceTypes },
+    { path: 'gen-forms/eba-cust-ref-phase', component: GenFormEbaCustRefPhase },
+    { path: 'gen-forms/eba-cust-sales-channel', component: GenFormEbaCustSalesChannel },
+    { path: 'gen-forms/eba-cust-status', component: GenFormEbaCustStatus },
+    { path: 'gen-forms/eba-cust-tags', component: GenFormEbaCustTags },
+    { path: 'gen-forms/eba-cust-tags-sum', component: GenFormEbaCustTagsSum },
+    { path: 'gen-forms/eba-cust-tags-type-sum', component: GenFormEbaCustTagsTypeSum },
+    { path: 'gen-forms/eba-cust-type', component: GenFormEbaCustType },
+    { path: 'gen-forms/eba-cust-tz-pref', component: GenFormEbaCustTzPref },
+    { path: 'gen-forms/eba-cust-users', component: GenFormEbaCustUsers },
+    { path: 'gen-forms/eba-cust-use-case', component: GenFormEbaCustUseCase },
+    { path: 'gen-forms/eba-cust-verifications', component: GenFormEbaCustVerifications },
+    { path: 'gen-forms/eba-cust-views-log', component: GenFormEbaCustViewsLog },
+
+];

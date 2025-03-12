@@ -1,0 +1,3276 @@
+[
+    {
+        "name": "EBA_CUST_ACCESS_LEVELS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ACCESS_LEVEL",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_ACL_FEATURES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "AUTHORIZATION_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "ACCESS_LEVEL_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "FEATURE",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_ACTIVITIES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "TYPE_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "ACTIVITY_DATE",
+                "data_type": "DATE",
+                "data_length": 7,
+                "nullable": true
+            },
+            {
+                "column_name": "OWNER",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "LOCATION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_ACTIVITY_FILES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ACTIVITY_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "FILE_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "FILE_MIMETYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "FILE_CHARSET",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "FILE_LAST_UPDATE",
+                "data_type": "DATE",
+                "data_length": 7,
+                "nullable": true
+            },
+            {
+                "column_name": "FILE_BLOB",
+                "data_type": "BLOB",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "FILE_COMMENTS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_ACTIVITY_REF",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ACTIVITY_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CONTACT_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "ACTIVITY_DATE",
+                "data_type": "DATE",
+                "data_length": 7,
+                "nullable": true
+            },
+            {
+                "column_name": "OWNER",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "LOCATION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "NOTES",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_ACTIVITY_TYPES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_ADMINISTRATORS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "APP_USER",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_CATEGORIES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CATEGORY",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "IS_ACTIVE",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_CLICKS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CUST_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "APP_USERNAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "VIEW_TIMESTAMP",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "APP_SESSION",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_COMPETITORS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 250,
+                "nullable": false
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "WEBSITE",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_CONTACTS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "TITLE",
+                "data_type": "VARCHAR2",
+                "data_length": 100,
+                "nullable": true
+            },
+            {
+                "column_name": "COMPANY",
+                "data_type": "VARCHAR2",
+                "data_length": 100,
+                "nullable": true
+            },
+            {
+                "column_name": "ADDRESS_LINE1",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "ADDRESS_LINE2",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "CITY",
+                "data_type": "VARCHAR2",
+                "data_length": 100,
+                "nullable": true
+            },
+            {
+                "column_name": "STATE",
+                "data_type": "VARCHAR2",
+                "data_length": 100,
+                "nullable": true
+            },
+            {
+                "column_name": "COUNTRY",
+                "data_type": "VARCHAR2",
+                "data_length": 100,
+                "nullable": true
+            },
+            {
+                "column_name": "ZIP",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": true
+            },
+            {
+                "column_name": "EMAIL",
+                "data_type": "VARCHAR2",
+                "data_length": 250,
+                "nullable": true
+            },
+            {
+                "column_name": "PHONE",
+                "data_type": "VARCHAR2",
+                "data_length": 100,
+                "nullable": true
+            },
+            {
+                "column_name": "CELL_PHONE",
+                "data_type": "VARCHAR2",
+                "data_length": 100,
+                "nullable": true
+            },
+            {
+                "column_name": "FAX",
+                "data_type": "VARCHAR2",
+                "data_length": 100,
+                "nullable": true
+            },
+            {
+                "column_name": "CONTACT_TYPE_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "NOTES",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "FACEBOOK",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "LINKEDIN",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "TWITTER",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "TAGS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_CONTACT_TYPES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CONTACT_TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "IS_ACTIVE",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_COUNTRIES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "COUNTRY_CODE",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": false
+            },
+            {
+                "column_name": "COUNTRY_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "REGION_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "DISPLAY_YN",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_CUSTOMERS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "PARENT_CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_KEY",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_NAME_UPPER",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_ACCOUNT_NUMBER",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "INDUSTRY_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CATEGORY_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "STATUS_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "TYPE_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "USE_CASE_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "GEOGRAPHY_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "COUNTRY_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "DEFAULT_TIMEZONE",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "REFERENCABLE",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": true
+            },
+            {
+                "column_name": "MARQUEE_CUSTOMER_YN",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "REFERENCE_PHASE_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "REF_RECRUITMENT_OWNER",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "STRATEGIC_CUSTOMER_PROGRAM_YN",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "TAGS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "SALES_CHANNEL_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CUSTOMER_PRODUCTS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "NUMBER_OF_USERS",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": true
+            },
+            {
+                "column_name": "SUMMARY",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CUSTOMER_PROFILE",
+                "data_type": "CLOB",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "APPLICATIONS",
+                "data_type": "CLOB",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "LOGO_BLOB",
+                "data_type": "BLOB",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "LOGO_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "LOGO_MIMETYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "LOGO_CHARSET",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "LOGO_LASTUPD",
+                "data_type": "DATE",
+                "data_length": 7,
+                "nullable": true
+            },
+            {
+                "column_name": "WEB_SITE",
+                "data_type": "VARCHAR2",
+                "data_length": 1000,
+                "nullable": true
+            },
+            {
+                "column_name": "LINKEDIN",
+                "data_type": "VARCHAR2",
+                "data_length": 1000,
+                "nullable": true
+            },
+            {
+                "column_name": "FACEBOOK",
+                "data_type": "VARCHAR2",
+                "data_length": 1000,
+                "nullable": true
+            },
+            {
+                "column_name": "TWITTER",
+                "data_type": "VARCHAR2",
+                "data_length": 1000,
+                "nullable": true
+            },
+            {
+                "column_name": "STOCK_SYMBOL",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": true
+            },
+            {
+                "column_name": "TOTAL_CONTRACT_VALUE",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "ANNUAL_RECURRING_REVENUE",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CURRENCY",
+                "data_type": "VARCHAR2",
+                "data_length": 20,
+                "nullable": true
+            },
+            {
+                "column_name": "DISCOUNT_LEVEL",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "SIC",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": true
+            },
+            {
+                "column_name": "DUNS",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": true
+            },
+            {
+                "column_name": "SUPPORT_ID",
+                "data_type": "VARCHAR2",
+                "data_length": 50,
+                "nullable": true
+            },
+            {
+                "column_name": "PARTY_ID",
+                "data_type": "VARCHAR2",
+                "data_length": 50,
+                "nullable": true
+            },
+            {
+                "column_name": "PARENT_PARTY_ID",
+                "data_type": "VARCHAR2",
+                "data_length": 50,
+                "nullable": true
+            },
+            {
+                "column_name": "PARTY_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "PARTENT_PARTY_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_CUSTOMER_REFTYPE_REF",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "REFERENCE_TYPE_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_CUST_COMPETITOR_REF",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "COMPETITOR_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_CUST_PARTNER_REF",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "PARTNER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_EMAIL_LOG",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "EMAIL_FIRST_TO",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "EMAIL_TO",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "EMAIL_FROM",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "BODY_SIZE",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "EMAIL_TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_ERRORS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ERR_TIME",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "APP_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "APP_PAGE_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "APP_USER",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "USER_AGENT",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "IP_ADDRESS",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "IP_ADDRESS2",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "MESSAGE",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "PAGE_ITEM_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "REGION_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "COLUMN_ALIAS",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "ROW_NUM",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "APEX_ERROR_CODE",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "ORA_SQLCODE",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "ORA_SQLERRM",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "ERROR_BACKTRACE",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_ERROR_LOOKUP",
+        "columns": [
+            {
+                "column_name": "CONSTRAINT_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": false
+            },
+            {
+                "column_name": "MESSAGE",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": false
+            },
+            {
+                "column_name": "LANGUAGE_CODE",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": false
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_FEEDBACK",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "APPLICATION_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "PAGE_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "FEEDBACK",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "RESPONSE",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "TYPE_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "STATUS",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_FEEDBACK_TYPES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_FILES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "FILE_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "FILE_MIMETYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "FILE_CHARSET",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "FILE_LASTUPD",
+                "data_type": "DATE",
+                "data_length": 7,
+                "nullable": true
+            },
+            {
+                "column_name": "FILE_BLOB",
+                "data_type": "BLOB",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "FILE_COMMENTS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "TAGS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_GEOGRAPHIES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "GEOGRAPHY_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_HISTORY",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "TABLE_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "COMPONENT_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "COMPONENT_ROWKEY",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": true
+            },
+            {
+                "column_name": "COLUMN_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "OLD_VALUE",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "NEW_VALUE",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CHANGE_DATE",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CHANGED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_IMPL_PARTNERS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 250,
+                "nullable": false
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "WEBSITE",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_INDUSTRIES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "INDUSTRY_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_ISSUES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "ISSUE_TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 10,
+                "nullable": false
+            },
+            {
+                "column_name": "STATUS_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "PRODUCT_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "DETAILS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "RESOLUTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_ISSUE_STATUSES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "DETAILS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "OPEN_YN",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_LINKS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CONTACT_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "LINK",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": false
+            },
+            {
+                "column_name": "LINK_DESC",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "LINK_TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 10,
+                "nullable": true
+            },
+            {
+                "column_name": "LINK_COMMENTS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "TAGS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_NOTES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CONTACT_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "NOTE_DATE",
+                "data_type": "DATE",
+                "data_length": 7,
+                "nullable": true
+            },
+            {
+                "column_name": "NOTE",
+                "data_type": "CLOB",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "TAGS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_NOTIFICATIONS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "NOTIFICATION_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "NOTIFICATION_DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "NOTIFICATION_TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": false
+            },
+            {
+                "column_name": "DISPLAY_SEQUENCE",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "DISPLAY_FROM",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "DISPLAY_UNTIL",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_PREFERENCES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "PREFERENCE_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "PREFERENCE_VALUE",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_ON",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_ON",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_PRODUCTS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "PRODUCT_FAMILY_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "PRODUCT_NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "TAGS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "IS_ACTIVE",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "PRICE_LIST_PART_NUMBER",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_PRODUCT_FAMILIES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "NAME",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_PRODUCT_STATUSES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "STATUS",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 512,
+                "nullable": true
+            },
+            {
+                "column_name": "IS_CURRENT_YN",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_PRODUCT_USES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CUSTOMER_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "PRODUCT_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "REFERENCE_TYPE_IDS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "INTERNAL_CONTACT",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "CUSTOMER_CONTACT_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "REFERENCE_STATUS_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "VALID_FROM",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "VALID_TO",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "COMMENTS",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_REFERENCE_TYPES",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "REFERENCE_TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "IS_ACTIVE",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_REF_PHASE",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "STATUS",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "IS_AN_ACTIVE_REFERENCE",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": false
+            },
+            {
+                "column_name": "DISPLAY_SEQUENCE",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_SALES_CHANNEL",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CHANNEL",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_STATUS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "STATUS",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "IS_ACTIVE",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_TAGS",
+        "columns": [
+            {
+                "column_name": "TAG_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "TAG",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "CONTENT_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CONTENT_TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_TAGS_SUM",
+        "columns": [
+            {
+                "column_name": "TAG",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "TAG_COUNT",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_TAGS_TYPE_SUM",
+        "columns": [
+            {
+                "column_name": "TAG",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "CONTENT_TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 30,
+                "nullable": false
+            },
+            {
+                "column_name": "TAG_COUNT",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_TYPE",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "IS_ACTIVE",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_TZ_PREF",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "USERID",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "TIMEZONE_PREFERENCE",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_USERS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "USERNAME",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "ACCESS_LEVEL_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ACCOUNT_LOCKED",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_USE_CASE",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "USE_CASE",
+                "data_type": "VARCHAR2",
+                "data_length": 60,
+                "nullable": false
+            },
+            {
+                "column_name": "DESCRIPTION",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "IS_ACTIVE",
+                "data_type": "VARCHAR2",
+                "data_length": 1,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_VERIFICATIONS",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "CUST_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "VERIFIED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "VERIFICATION_COMMENT",
+                "data_type": "VARCHAR2",
+                "data_length": 4000,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    },
+    {
+        "name": "EBA_CUST_VIEWS_LOG",
+        "columns": [
+            {
+                "column_name": "ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": false
+            },
+            {
+                "column_name": "ROW_VERSION_NUMBER",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "TABLE_PRIMARY_ID",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "VIEW_TYPE",
+                "data_type": "VARCHAR2",
+                "data_length": 10,
+                "nullable": true
+            },
+            {
+                "column_name": "VIEW_COUNT",
+                "data_type": "NUMBER",
+                "data_length": 22,
+                "nullable": true
+            },
+            {
+                "column_name": "CREATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": false
+            },
+            {
+                "column_name": "CREATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": false
+            },
+            {
+                "column_name": "UPDATED",
+                "data_type": "TIMESTAMP(6) WITH TIME ZONE",
+                "data_length": 13,
+                "nullable": true
+            },
+            {
+                "column_name": "UPDATED_BY",
+                "data_type": "VARCHAR2",
+                "data_length": 255,
+                "nullable": true
+            }
+        ]
+    }
+]
